@@ -10,4 +10,11 @@
 	<listener>
 		<listener-class>org.jboss.seam.resteasy.configuration.ConfigurationListener</listener-class>
 	</listener>
+	
+	<!-- Process the configuration listener after RESTEasy listener -->
+	<ordering>
+		<after>
+			<others/>
+		</after>
+	</ordering>
 </web-fragment>

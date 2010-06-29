@@ -4,6 +4,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.jboss.seam.resteasy.test.Student;
+
 @Path("foo")
 @Produces("text/plain")
 public class TestResource
@@ -22,11 +24,11 @@ public class TestResource
    }
    
    @GET
-   @Path("bar")
+   @Path("student")
    @Produces("foo/bar")
-   public String bar()
+   public Student bar()
    {
-      return "bar";
+      return new Student("Jozef");
    }
    
    @GET

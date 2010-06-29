@@ -16,7 +16,10 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
       StringBuilder str = new StringBuilder();
       for (ConstraintViolation<Object> violation : exception.getViolations())
       {
+//         str.append(violation.getPropertyPath().toString());
+//         str.append(" ");
          str.append(violation.getMessage());
+         str.append("\n");
       }
       return response.entity(str.toString()).build();
    }

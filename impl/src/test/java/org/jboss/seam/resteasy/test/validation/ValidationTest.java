@@ -81,7 +81,7 @@ public class ValidationTest extends Arquillian
       catch (ValidationException e)
       {
          Response response = mapper.toResponse(e);
-         assertEquals(response.getEntity().toString(), "must be false");
+         assertEquals(response.getEntity().toString().trim(), "must be false");
       }
    }
    

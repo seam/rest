@@ -11,8 +11,9 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
    public CustomSeamResteasyConfiguration()
    {
       getResources().add(TestResource.class);
+      getExcludedResources().add(ExcludedResource.class);
       getProviders().add(TestProvider.class);
-      getExceptionMappings().put(EntityNotFoundException.class, 404);
+      getExceptionMappings().put(EntityNotFoundException.class, 410);
       getMediaTypeMappings().put("xml", "application/xml");
    }
 }

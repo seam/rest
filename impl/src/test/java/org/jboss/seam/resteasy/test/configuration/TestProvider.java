@@ -6,16 +6,20 @@ import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.jboss.seam.resteasy.test.Student;
+
 @Provider
-public class TestProvider implements MessageBodyWriter<String>
+@Produces("foo/bar")
+public class TestProvider implements MessageBodyWriter<Student>
 {
-   public long getSize(String t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
+   public long getSize(Student t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
    {
       return -1;
    }
@@ -25,10 +29,10 @@ public class TestProvider implements MessageBodyWriter<String>
       return mediaType.equals(MediaType.valueOf("foo/bar"));
    }
 
-   public void writeTo(String t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException
+   public void writeTo(Student t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException
    {
       OutputStreamWriter writer = new OutputStreamWriter(entityStream); 
-      writer.write("foo"+t);
+      writer.write(t.getName() + " Hartinger");
       writer.flush();
    }
 }

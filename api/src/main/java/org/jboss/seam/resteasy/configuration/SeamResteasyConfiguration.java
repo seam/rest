@@ -23,6 +23,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class SeamResteasyConfiguration
 {
    private Set<Class<?>> resources = new HashSet<Class<?>>();
+   private Set<Class<?>> excludedResources = new HashSet<Class<?>>();
    private Set<Class<?>> providers = new HashSet<Class<?>>();
 
    private Map<String, String> mediaTypeMappings = new HashMap<String, String>();
@@ -43,6 +44,19 @@ public class SeamResteasyConfiguration
    public void setResources(Set<Class<?>> resources)
    {
       this.resources = resources;
+   }
+   
+   /**
+    * Returns a set of resource classes that will be excluded from deployment. 
+    */
+   public Set<Class<?>> getExcludedResources()
+   {
+      return excludedResources;
+   }
+
+   public void setExcludedResources(Set<Class<?>> excludedResources)
+   {
+      this.excludedResources = excludedResources;
    }
 
    /**

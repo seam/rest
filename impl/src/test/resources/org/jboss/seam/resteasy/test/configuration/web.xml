@@ -5,23 +5,9 @@
       http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+	<!-- Disable auto-scanning -->
      <context-param>
-        <param-name>resteasy.scan</param-name>
-        <param-value>false</param-value>
+        <param-name>resteasy.scan.resources</param-name>
+        <param-value></param-value>
     </context-param>
-
-    <listener>
-        <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-    </listener>
-
-	<servlet>
-		<servlet-name>Resteasy</servlet-name>
-		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Resteasy</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-
 </web-app>
