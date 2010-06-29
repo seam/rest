@@ -33,7 +33,7 @@ public class ConfigurationListener implements ServletContextListener
    {
       if (sce.getServletContext().getAttribute(Dispatcher.class.getName()) == null)
       {
-         // RESTEasy has not been initialized
+         // RESTEasy has not been started yet, let's start it
          bootstrapResteasy(sce.getServletContext());
       }
 
@@ -45,16 +45,19 @@ public class ConfigurationListener implements ServletContextListener
 
       registerProviders();
       registerResources();
-      unregisterResources(); // remove excluded resources
+      unregisterResources();
       dispatcher.setLanguageMappings(configuration.getLanguageMappings());
       registerMediaTypeMappings();
       registerExceptionMappings();
    }
 
+   /**
+    * Bootstrap RESTEasy
+    */
    protected void bootstrapResteasy(ServletContext servletContext)
    {
       log.info("Starting RESTEasy.");
-      SeamResteasyListenerBootstrap bootstrap = new SeamResteasyListenerBootstrap(servletContext);
+      SeamResteasyBootstrap bootstrap = new SeamResteasyBootstrap(servletContext);
       ResteasyDeployment deployment = bootstrap.createDeployment();
       deployment.start();
 
@@ -63,7 +66,10 @@ public class ConfigurationListener implements ServletContextListener
       servletContext.setAttribute(Registry.class.getName(), deployment.getRegistry());
    }
 
-   private void registerResources()
+   /**
+    * Register resources specified in {@link SeamResteasyConfiguration}.
+    */
+   protected void registerResources()
    {
       for (Class<?> clazz : configuration.getResources())
       {
@@ -72,7 +78,12 @@ public class ConfigurationListener implements ServletContextListener
       }
    }
    
-   private void unregisterResources()
+   /**
+    * Unregister resources specified in {@link SeamResteasyConfiguration}.
+    * This method is used for explicit exclusion of resources that would be
+    * registered by auto-scanning.
+    */
+   protected void unregisterResources()
    {
       for (Class<?> clazz : configuration.getExcludedResources())
       {
@@ -81,7 +92,10 @@ public class ConfigurationListener implements ServletContextListener
       }
    }
 
-   private void registerProviders()
+   /**
+    * Register providers specified in {@link SeamResteasyConfiguration}.
+    */
+   protected void registerProviders()
    {
       for (Class<?> clazz : configuration.getProviders())
       {
@@ -90,7 +104,10 @@ public class ConfigurationListener implements ServletContextListener
       }
    }
 
-   private void registerExceptionMappings()
+   /**
+    * Register exception mappers based on {@link SeamResteasyConfiguration}.
+    */
+   protected void registerExceptionMappings()
    {
       for (Entry<Class<? extends Throwable>, Integer> item : configuration.getExceptionMappings().entrySet())
       {
@@ -122,7 +139,10 @@ public class ConfigurationListener implements ServletContextListener
       }
    }
 
-   private void registerMediaTypeMappings()
+   /**
+    * Register media mappings based on {@link SeamResteasyConfiguration}.
+    */
+   protected void registerMediaTypeMappings()
    {
       Map<String, MediaType> mediaTypeMappings = new HashMap<String, MediaType>();
       for (Entry<String, String> entry : configuration.getMediaTypeMappings().entrySet())

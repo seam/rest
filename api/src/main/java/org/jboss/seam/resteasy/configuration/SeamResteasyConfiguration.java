@@ -10,10 +10,10 @@ import javax.enterprise.context.ApplicationScoped;
 /**
  * Holds configuration options for seam-resteasy extension. It can be used to configure the extension via XML descriptor
  * using seam-xml extension. Alternatively, you can configure the extension programatically by providing an 
- * @{link @Alternative} subclass of SeamResteasyConfiguration.
+ * {@link @Alternative} subclass of SeamResteasyConfiguration.
  * 
  * This class allows declarative exception mapping to be used. The way exceptions are treated in the application is based on
- * what @{link {@link #getExceptionMappings()} returns. Override this method or use seam-xml module to set up exception mapping
+ * what {@link #getExceptionMappings()} returns. Override this method or use seam-xml module to set up exception mapping
  * declaratively.
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
