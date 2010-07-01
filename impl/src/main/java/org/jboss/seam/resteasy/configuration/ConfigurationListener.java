@@ -109,14 +109,15 @@ public class ConfigurationListener implements ServletContextListener
     */
    protected void registerExceptionMappings()
    {
-      for (Entry<Class<? extends Throwable>, Integer> item : configuration.getExceptionMappings().entrySet())
+      // basic exception mapping (exception -> status code)
+      for (Entry<Class<? extends Throwable>, Integer> item : configuration.getBasicExceptionMappings().entrySet())
       {
          if (Throwable.class.isAssignableFrom(item.getKey()))
          {
             Class<? extends Throwable> exceptionType = item.getKey();
             int status = item.getValue();
-            ExceptionMapper<? extends Throwable> provider = new GenericExceptionMapper<Throwable>(status);
-            log.info("Adding exception mapping {} -> {}", exceptionType, status);
+            ExceptionMapper<? extends Throwable> provider = new BasicExceptionMapper<Throwable>(status);
+            log.info("Adding basic exception mapping {} -> {}", exceptionType, status);
             try
             {
                factory.addExceptionMapper(provider, exceptionType);
@@ -131,6 +132,22 @@ public class ConfigurationListener implements ServletContextListener
             log.warn("{} is not an exception. Skipping mapping of the exception to {} status code.", item.getKey(), item.getValue());
          }
       }
+      
+      // exception mapping (exception -> status code, http body, mime type)
+      for (ExceptionMapping mapping : configuration.getExceptionMappings())
+      {
+         SeamExceptionMapper provider = new SeamExceptionMapper(mapping);
+         log.info("Adding exception mapping {} -> {}", mapping.getExceptionType(), mapping.getStatusCode());
+         try
+         {
+            factory.addExceptionMapper(provider, mapping.getExceptionType());
+         }
+         catch (NoSuchMethodError e)
+         {
+            log.warn("You are using old version of RESTEasy. Exception mapper for {} will not be registered.", mapping.getExceptionType());
+         }
+      }
+      
 
       // register ExceptionMapper for Bean Validation integration
       if (configuration.isRegisterValidationExceptionMapper())

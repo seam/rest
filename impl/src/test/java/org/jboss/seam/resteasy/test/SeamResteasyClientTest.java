@@ -8,17 +8,13 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.api.Run;
 import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.seam.resteasy.configuration.ConfigurationListener;
-import org.jboss.seam.resteasy.configuration.GenericExceptionMapper;
 import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
-import org.jboss.seam.resteasy.configuration.SeamResteasyBootstrap;
 import org.jboss.seam.resteasy.test.configuration.CustomSeamResteasyConfiguration;
 import org.jboss.seam.resteasy.test.configuration.EntityNotFoundException;
 import org.jboss.seam.resteasy.test.configuration.ExcludedResource;
 import org.jboss.seam.resteasy.test.configuration.TestProvider;
 import org.jboss.seam.resteasy.test.configuration.TestResource;
-import org.jboss.seam.resteasy.validation.ValidationException;
-import org.jboss.seam.resteasy.validation.ValidationExceptionMapper;
+import org.jboss.seam.resteasy.validation.ValidateRequest;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -43,13 +39,9 @@ public abstract class SeamResteasyClientTest extends Arquillian
       JavaArchive jar = ShrinkWrap.create("seam-resteasy.jar", JavaArchive.class);
       jar.addManifestResource("META-INF/web-fragment.xml", "web-fragment.xml");
       jar.addManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
-      jar.addClass(SeamResteasyConfiguration.class);
-      jar.addClass(SeamResteasyBootstrap.class);
-      jar.addClass(ConfigurationListener.class);
-      jar.addClass(GenericExceptionMapper.class);
-      jar.addClass(ValidationExceptionMapper.class);
-      jar.addClass(ValidationException.class);
-      jar.addClass(SeamResteasyClientTest.class); // ARQ-165
+      jar.addPackage(SeamResteasyConfiguration.class.getPackage());
+      jar.addPackage(ValidateRequest.class.getPackage());
+      jar.addPackage(SeamResteasyClientTest.class.getPackage());
       return jar;
    }
    

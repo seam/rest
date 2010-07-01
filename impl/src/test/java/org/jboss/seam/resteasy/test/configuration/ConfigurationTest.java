@@ -27,9 +27,21 @@ public class ConfigurationTest extends SeamResteasyClientTest
    }
 
    @Test
-   public void testExceptionMapping() throws Exception
+   public void testExceptionMapping1() throws Exception
    {
-      test("http://localhost:8080/test/foo/notFound", 410, null);
+      test("http://localhost:8080/test/foo/exception1", 410, null);
+   }
+   
+   @Test
+   public void testExceptionMapping2() throws Exception
+   {
+      test("http://localhost:8080/test/foo/exception2", 410, "You should not call methods on a null reference.");
+   }
+   
+   @Test
+   public void testBasicExceptionMapping() throws Exception
+   {
+      test("http://localhost:8080/test/foo/exception3", 410, null);
    }
 
    @Test

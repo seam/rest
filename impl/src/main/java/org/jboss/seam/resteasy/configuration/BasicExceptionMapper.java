@@ -9,11 +9,11 @@ import javax.ws.rs.ext.ExceptionMapper;
  *
  * @param <T> exception
  */
-public class GenericExceptionMapper<T extends Throwable> implements ExceptionMapper<T>
+public class BasicExceptionMapper<T extends Throwable> implements ExceptionMapper<T>
 {
    private int status;
    
-   public GenericExceptionMapper(int status)
+   public BasicExceptionMapper(int status)
    {
       this.status = status;
    }

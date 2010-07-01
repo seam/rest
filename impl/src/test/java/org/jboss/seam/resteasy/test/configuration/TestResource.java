@@ -32,9 +32,21 @@ public class TestResource
    }
    
    @GET
-   @Path("notFound")
-   public void notFound()
+   @Path("exception1")
+   public void exception1()
    {
-      throw new EntityNotFoundException();
+      throw new EntityNotFoundException("Entity is gone.");
+   }
+   @GET
+   @Path("exception2")
+   public void exception2()
+   {
+      throw new NullPointerException("null");
+   }
+   @GET
+   @Path("exception3")
+   public void exception3()
+   {
+      throw new IllegalArgumentException();
    }
 }
