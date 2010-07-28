@@ -36,18 +36,17 @@ public abstract class SeamResteasyClientTest extends Arquillian
    
    public static JavaArchive createSeamResteasyLibrary()
    {
-      JavaArchive jar = ShrinkWrap.create("seam-resteasy.jar", JavaArchive.class);
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-resteasy.jar");
       jar.addManifestResource("META-INF/web-fragment.xml", "web-fragment.xml");
       jar.addManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(SeamResteasyConfiguration.class.getPackage());
       jar.addPackage(ValidateRequest.class.getPackage());
-      jar.addPackage(SeamResteasyClientTest.class.getPackage());
       return jar;
    }
    
    public static WebArchive createTestApplication()
    {
-      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class);
+      WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
       war.addClass(CustomSeamResteasyConfiguration.class);
       war.addClass(EntityNotFoundException.class);
       war.addClass(TestProvider.class);

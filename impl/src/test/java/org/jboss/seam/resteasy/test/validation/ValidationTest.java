@@ -23,7 +23,7 @@ public class ValidationTest extends Arquillian
    @Deployment
    public static JavaArchive createDeployment()
    {
-      JavaArchive jar = ShrinkWrap.create("test.jar", JavaArchive.class);
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addManifestResource("org/jboss/seam/resteasy/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addPackage(ValidationTest.class.getPackage());
