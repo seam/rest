@@ -12,15 +12,12 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
    public Response toResponse(ValidationException exception)
    {
       ResponseBuilder response = Response.status(BAD_REQUEST);
-      
-      StringBuilder str = new StringBuilder();
+      ValidationErrorMessageWrapper error = new ValidationErrorMessageWrapper();
+
       for (ConstraintViolation<Object> violation : exception.getViolations())
       {
-//         str.append(violation.getPropertyPath().toString());
-//         str.append(" ");
-         str.append(violation.getMessage());
-         str.append("\n");
+         error.addMessage(violation.getMessage());
       }
-      return response.entity(str.toString()).build();
+      return response.entity(error).build();
    }
 }

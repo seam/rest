@@ -7,18 +7,23 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.seam.resteasy.configuration.ErrorMessageWrapper;
+import org.jboss.seam.resteasy.util.Interpolator;
 import org.jboss.seam.resteasy.validation.ValidateRequest;
 import org.jboss.seam.resteasy.validation.ValidationException;
 import org.jboss.seam.resteasy.validation.ValidationExceptionMapper;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.weld.extensions.el.Expressions;
 import org.testng.annotations.Test;
 
 public class ValidationTest extends Arquillian
 {
    @Inject
    private Resource testResource;
+   @Inject
+   private ResourceChild resourceChild;
    
    @Deployment
    public static JavaArchive createDeployment()
@@ -27,6 +32,9 @@ public class ValidationTest extends Arquillian
       jar.addManifestResource("org/jboss/seam/resteasy/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addPackage(ValidationTest.class.getPackage());
+      jar.addPackage(Interpolator.class.getPackage());
+      jar.addPackage(Expressions.class.getPackage());
+      jar.addClass(ErrorMessageWrapper.class);
       return jar;
    }
    
@@ -97,6 +105,20 @@ public class ValidationTest extends Arquillian
       try
       {
          testResource.completelyValidatedOperation(partiallyValidPerson);
+         throw new RuntimeException("Expected exception not thrown.");
+      }
+      catch (ValidationException e)
+      {
+         // expected
+      }
+   }
+   
+   @Test
+   public void testResourceHierarchy()
+   {
+      try
+      {
+         resourceChild.ping(new Person());
          throw new RuntimeException("Expected exception not thrown.");
       }
       catch (ValidationException e)

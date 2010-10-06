@@ -8,6 +8,12 @@
 	<!-- Disable auto-scanning -->
      <context-param>
         <param-name>resteasy.scan.resources</param-name>
-        <param-value></param-value>
+        <param-value>false</param-value>
     </context-param>
+    
+    <context-param>
+		<param-name>resteasy.unwrapped.exceptions</param-name>
+		<param-value>javax.ejb.EJBException,org.jboss.weld.exceptions.WeldException</param-value>
+	</context-param>
+    
 </web-app>

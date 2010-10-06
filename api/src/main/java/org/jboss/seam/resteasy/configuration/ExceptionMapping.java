@@ -1,7 +1,5 @@
 package org.jboss.seam.resteasy.configuration;
 
-import javax.ws.rs.core.MediaType;
-
 /**
  * Represents a mapping of an exception to an HTTP status code and response body.
  * 
@@ -12,8 +10,8 @@ public class ExceptionMapping
 {
    private Class<? extends Throwable> exceptionType;
    private int statusCode;
-   private String messageBody;
-   private MediaType mediaType = MediaType.TEXT_PLAIN_TYPE;
+   private String message;
+   private boolean interpolateMessageBody = true;
 
    public ExceptionMapping()
    {
@@ -25,16 +23,16 @@ public class ExceptionMapping
       this.statusCode = statusCode;
    }
 
-   public ExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String messageBody, MediaType mediaType)
+   public ExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message)
    {
       this(exceptionType, statusCode);
-      this.messageBody = messageBody;
-      this.mediaType = mediaType;
+      this.message = message;
    }
    
-   public ExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String messageBody, String mediaType)
+   public ExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean interpolateMessageBody)
    {
-      this(exceptionType, statusCode, messageBody, MediaType.valueOf(mediaType));
+      this(exceptionType, statusCode, message);
+      this.interpolateMessageBody = interpolateMessageBody;
    }
 
    public Class<? extends Throwable> getExceptionType()
@@ -57,23 +55,23 @@ public class ExceptionMapping
       this.statusCode = statusCode;
    }
 
-   public String getMessageBody()
+   public String getMessage()
    {
-      return messageBody;
+      return message;
    }
 
-   public void setMessageBody(String messageBody)
+   public void setMessage(String message)
    {
-      this.messageBody = messageBody;
+      this.message = message;
    }
 
-   public MediaType getMediaType()
+   public boolean isInterpolateMessageBody()
    {
-      return mediaType;
+      return interpolateMessageBody;
    }
 
-   public void setMediaType(MediaType mediaType)
+   public void setInterpolateMessageBody(boolean interpolateMessageBody)
    {
-      this.mediaType = mediaType;
+      this.interpolateMessageBody = interpolateMessageBody;
    }
 }

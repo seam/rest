@@ -14,6 +14,7 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 
 import org.jboss.resteasy.annotations.Form;
+import org.jboss.seam.resteasy.util.Annotations;
 
 @Interceptor
 @ValidateRequest
@@ -69,7 +70,7 @@ public class ValidationInterceptor implements Serializable
 
    private ValidateRequest getInterceptorBinding(InvocationContext ctx)
    {
-      ValidateRequest interceptorBinding = ctx.getMethod().getAnnotation(ValidateRequest.class);
+      ValidateRequest interceptorBinding = Annotations.getAnnotation(ctx.getMethod(), ValidateRequest.class);
       if (interceptorBinding == null)
       {
          // There is no @Validate on the method

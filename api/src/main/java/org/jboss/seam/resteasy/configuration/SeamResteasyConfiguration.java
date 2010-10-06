@@ -36,6 +36,7 @@ public class SeamResteasyConfiguration
 
    private boolean registerValidationExceptionMapper = true;
 
+
    /**
     * Returns a set of resource classes to be registered.
     */

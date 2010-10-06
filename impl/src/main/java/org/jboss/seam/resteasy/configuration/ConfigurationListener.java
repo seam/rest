@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.ExceptionMapper;
 
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.spi.Registry;
@@ -23,6 +23,8 @@ public class ConfigurationListener implements ServletContextListener
 {
    @Inject
    private SeamResteasyConfiguration configuration;
+   @Inject 
+   private Instance<SeamExceptionMapper> seamExceptionMapperInstance;
    private Dispatcher dispatcher;
    private ResteasyProviderFactory factory;
    private Registry registry;
@@ -116,11 +118,12 @@ public class ConfigurationListener implements ServletContextListener
          {
             Class<? extends Throwable> exceptionType = item.getKey();
             int status = item.getValue();
-            ExceptionMapper<? extends Throwable> provider = new BasicExceptionMapper<Throwable>(status);
+            SeamExceptionMapper exceptionMapper = seamExceptionMapperInstance.get();
+            exceptionMapper.initialize(status);
             log.info("Adding basic exception mapping {} -> {}", exceptionType, status);
             try
             {
-               factory.addExceptionMapper(provider, exceptionType);
+               factory.addExceptionMapper(exceptionMapper, exceptionType);
             }
             catch (NoSuchMethodError e)
             {
@@ -136,7 +139,8 @@ public class ConfigurationListener implements ServletContextListener
       // exception mapping (exception -> status code, http body, mime type)
       for (ExceptionMapping mapping : configuration.getExceptionMappings())
       {
-         SeamExceptionMapper provider = new SeamExceptionMapper(mapping);
+         SeamExceptionMapper provider = seamExceptionMapperInstance.get();
+         provider.initialize(mapping);
          log.info("Adding exception mapping {} -> {}", mapping.getExceptionType(), mapping.getStatusCode());
          try
          {

@@ -39,6 +39,36 @@ public class ConfigurationTest extends SeamResteasyClientTest
    }
    
    @Test
+   public void testEjbExceptionMapping() throws Exception
+   {
+      test("http://localhost:8080/test/ejb/ping", 410, "You should not call methods on a null reference.");
+   }
+   
+   @Test
+   public void testEjbWithWeldInterceptorExceptionMapping() throws Exception
+   {
+      test("http://localhost:8080/test/ejb/pong", 410, "You should not call methods on a null reference.");
+   }
+   
+   @Test
+   public void testExceptionMessageInterpolation() throws Exception
+   {
+      test("http://localhost:8080/test/foo/interpolatedException", 405, "The quick brown fox jumps over the lazy dog");
+   }
+   
+   @Test
+   public void testExceptionMessageInterpolationSwitch() throws Exception
+   {
+      test("http://localhost:8080/test/foo/interpolatedExceptionSwitch", 405, "#{fox.color}");
+   }
+   
+   @Test
+   public void testExceptionMessageInterpolationXml() throws Exception
+   {
+      test("http://localhost:8080/test/foo/interpolatedException", 405, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><error><message>The quick brown fox jumps over the lazy dog</message></error>", "application/xml");
+   }
+   
+   @Test
    public void testBasicExceptionMapping() throws Exception
    {
       test("http://localhost:8080/test/foo/exception3", 410, null);

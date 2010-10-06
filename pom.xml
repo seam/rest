@@ -16,10 +16,10 @@
 	<packaging>pom</packaging>
 
 	<properties>
-      <seam.version>3.0.0.b01</seam.version>
-      <arquillian.version>1.0.0.Alpha3</arquillian.version>
-      <jbossas.version>6.0.0.20100721-M4</jbossas.version>
-      <jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
+		<seam.version>3.0.0.b01</seam.version>
+		<arquillian.version>1.0.0.Alpha3</arquillian.version>
+		<jbossas.version>6.0.0.20100721-M4</jbossas.version>
+		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -53,14 +53,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- 
-		We will need this once we implement ValidationInterceptor check.
-		Will be implemented once packing maven dependencies with ShrinkWrap gets easier
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-extensions</artifactId>
-		</dependency> -->
-		<!-- Provided dependencies -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
@@ -76,188 +68,7 @@
 			<artifactId>jboss-interceptors-api_1.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>2.0-beta-4</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Required until the Servlet 3.0 API can be resolved in Central -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Test dependencies -->
-		<dependency>
-			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-testng</artifactId>
-			<version>${arquillian.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.jbossas</groupId>
-			<artifactId>jboss-as-client</artifactId>
-<!--			<version>6.0.0-SNAPSHOT</version>-->
-<!--			<version>6.0.0.20100429-M3</version>-->
-			<version>6.0.0.20100721-M4</version>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>5.12.1</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<!-- We need test dependencies on server's classpath until ARQ-165 is resolved -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<configuration>
-					<includeArtifactIds>arquillian-testng,arquillian-api,arquillian-spi,commons-httpclient,testng,shrinkwrap-api,shrinkwrap-impl-base</includeArtifactIds>
-					<outputDirectory>${basedir}/test-dependencies</outputDirectory>
-				</configuration>
-			</plugin>
-			<!-- Remove test-dependencies -->
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${basedir}/test-dependencies</directory>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<profiles>
-	   <profile>
-         <id>code-coverage</id>
-         <build>
-            <pluginManagement>
-               <plugins>
-                  <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
-                     <artifactId>maven-antrun-plugin</artifactId>
-                     <executions>
-                        <execution>
-                           <id>deploy-emma-jar</id>
-                           <phase>process-test-sources</phase>
-                           <goals>
-                              <goal>run</goal>
-                           </goals>
-                           <configuration>
-                              <tasks>
-                                 <echo message="Deploying emma jar to server lib directory" />
-                                 <copy file="${emma.jar.file}"
-                                    todir="${env.JBOSS_HOME}/server/default/lib"
-                                    overwrite="true" />
-                              </tasks>
-                           </configuration>
-                        </execution>
-                        <execution>
-                           <id>retrieve-coverage-file</id>
-                           <phase>test</phase>
-                           <goals>
-                              <goal>run</goal>
-                           </goals>
-                           <configuration>
-                              <tasks>
-                                 <move file="${env.JBOSS_HOME}/bin/coverage.ec"
-                                    todir="${basedir}" failonerror="false" />
-                                 <delete file="${basedir}/transaction.log"
-                                    failonerror="false" />
-                              </tasks>
-                           </configuration>
-                        </execution>
-                     </executions>
-                  </plugin>
-               </plugins>
-            </pluginManagement>
-         </build>
-      </profile>
-      
-      <profile>
-         <id>jbossas-managed-6</id>
-         <properties>
-            <bindAddress>localhost</bindAddress>
-            <httpPort>8080</httpPort>
-         </properties>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-managed-6</artifactId>
-               <version>${arquillian.version}</version>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.jbossas</groupId>
-               <artifactId>jboss-server-manager</artifactId>
-               <version>${jboss.server.manager.version}</version>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.jbossas</groupId>
-               <artifactId>jboss-as-client</artifactId>
-               <version>${jbossas.version}</version>
-               <type>pom</type>
-            </dependency>
-         </dependencies>
-         <build>
-            <testResources>
-               <testResource>
-                  <directory>src/test/resources</directory>
-               </testResource>
-               <testResource>
-                  <directory>src/test/resources-jbossas</directory>
-               </testResource>
-            </testResources>
-         </build>
-      </profile>
-      
-      <profile>
-         <id>jbossas-remote-6</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-remote-6</artifactId>
-               <version>${arquillian.version}</version>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.jbossas</groupId>
-               <artifactId>jboss-as-client</artifactId>
-               <version>${jbossas.version}</version>
-               <type>pom</type>
-            </dependency>
-        </dependencies>
-        <build>
-            <testResources>
-               <testResource>
-                  <directory>src/test/resources</directory>
-               </testResource>
-               <testResource>
-                  <directory>src/test/resources-jbossas</directory>
-               </testResource>
-            </testResources>
-         </build>
-      </profile>
-	</profiles>
 
 	<scm>
 		<connection>scm:svn:http://anonsvn.jboss.org/repos/seam/modules/resteasy/trunk</connection>
