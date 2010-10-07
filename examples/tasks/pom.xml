@@ -20,7 +20,7 @@
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
 		<ftest.version.discriminator />
-		<selenium.browser>*firefoxproxy /usr/lib64/firefox-3.5/firefox</selenium.browser>
+		<selenium.browser>*firefoxproxy</selenium.browser>
 		<selenium.browser.url>http://localhost:8080</selenium.browser.url>
 		<selenium.server.port>14444</selenium.server.port>
 		<selenium.server.host>localhost</selenium.server.host>
