@@ -20,7 +20,7 @@
 		<arquillian.version>1.0.0.Alpha3</arquillian.version>
 		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
-		<weld.extensions.version>1.0.3.GA</weld.extensions.version>
+		<weld.extensions.version>1.0.0-SNAPSHOT</weld.extensions.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
