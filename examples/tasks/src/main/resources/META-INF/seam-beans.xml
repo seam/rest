@@ -1,0 +1,26 @@
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:s="urn:java:ee" xmlns:resteasy="urn:java:org.jboss.seam.resteasy.configuration">
+	xsi:schemaLocation="
+	http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+	<resteasy:SeamResteasyConfiguration registerValidationExceptionMapper="true">
+		<s:replaces/>
+		<resteasy:exceptionMappings>
+			<s:value>
+				<resteasy:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+					<resteasy:message>Entity does not exist.</resteasy:message>
+				</resteasy:ExceptionMapping>
+			</s:value>
+			<s:value>
+				<resteasy:ExceptionMapping exceptionType="org.hibernate.exception.ConstraintViolationException" statusCode="409">
+					<resteasy:message>Constraint violation.</resteasy:message>
+				</resteasy:ExceptionMapping>
+			</s:value>
+			<s:value>
+				<resteasy:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
+					<resteasy:message>Illegal parameter value.</resteasy:message>
+				</resteasy:ExceptionMapping>
+			</s:value>
+		</resteasy:exceptionMappings>
+	</resteasy:SeamResteasyConfiguration>
+</beans>
