@@ -18,8 +18,9 @@
 	<properties>
 		<seam.version>3.0.0.b01</seam.version>
 		<arquillian.version>1.0.0.Alpha3</arquillian.version>
-		<jbossas.version>6.0.0.20100721-M4</jbossas.version>
+		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
+		<weld.extensions.version>1.0.3.GA</weld.extensions.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -48,6 +49,11 @@
 				<version>${seam.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-extensions</artifactId>
+				<version>${weld.extensions.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
