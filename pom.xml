@@ -77,8 +77,8 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:svn:http://anonsvn.jboss.org/repos/seam/modules/resteasy/trunk</connection>
-		<developerConnection>scm:svn:https://svn.jboss.org/repos/seam/modules/resteasy/trunk</developerConnection>
-		<url>http://fisheye.jboss.org/browse/Seam/modules/resteasy/trunk</url>
+		<connection>scm:git:git://github.com/seam/resteasy.git</connection>
+		<developerConnection>scm:git:git@github.com:seam/resteasy.git</developerConnection>
+		<url>http://github.com/seam/resteasy</url>
 	</scm>
 </project>
