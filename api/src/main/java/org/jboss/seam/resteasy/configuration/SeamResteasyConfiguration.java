@@ -52,7 +52,6 @@ public class SeamResteasyConfiguration
    private Map<String, String> mediaTypeMappings = new HashMap<String, String>();
    private Map<String, String> languageMappings = new HashMap<String, String>();
 
-   private Map<Class<? extends Throwable>, Integer> basicExceptionMappings = new HashMap<Class<? extends Throwable>, Integer>();
    private Set<ExceptionMapping> exceptionMappings = new HashSet<ExceptionMapping>();
 
    private boolean registerValidationExceptionMapper = true;
@@ -146,21 +145,6 @@ public class SeamResteasyConfiguration
    public void addLanguageMapping(String key, String value)
    {
       this.languageMappings.put(key, value);
-   }
-
-   public Map<Class<? extends Throwable>, Integer> getBasicExceptionMappings()
-   {
-      return basicExceptionMappings;
-   }
-
-   public void setBasicExceptionMappings(Map<Class<? extends Throwable>, Integer> basicExceptionMappings)
-   {
-      this.basicExceptionMappings = basicExceptionMappings;
-   }
-   
-   public void addBasicExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode)
-   {
-      this.basicExceptionMappings.put(exceptionType, statusCode);
    }
 
    public Set<ExceptionMapping> getExceptionMappings()

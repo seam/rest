@@ -132,32 +132,7 @@ public class ConfigurationListener implements ServletContextListener
     */
    protected void registerExceptionMappings()
    {
-      // basic exception mapping (exception -> status code)
-      for (Entry<Class<? extends Throwable>, Integer> item : configuration.getBasicExceptionMappings().entrySet())
-      {
-         if (Throwable.class.isAssignableFrom(item.getKey()))
-         {
-            Class<? extends Throwable> exceptionType = item.getKey();
-            int status = item.getValue();
-            SeamExceptionMapper exceptionMapper = seamExceptionMapperInstance.get();
-            exceptionMapper.initialize(status);
-            log.info("Adding basic exception mapping {} -> {}", exceptionType, status);
-            try
-            {
-               factory.addExceptionMapper(exceptionMapper, exceptionType);
-            }
-            catch (NoSuchMethodError e)
-            {
-               log.warn("You are using old version of RESTEasy. Exception mapper for {} will not be registered.", exceptionType);
-            }
-         }
-         else
-         {
-            log.warn("{} is not an exception. Skipping mapping of the exception to {} status code.", item.getKey(), item.getValue());
-         }
-      }
-      
-      // exception mapping (exception -> status code, http body, mime type)
+      // exception mapping (exception -> status code, http body)
       for (ExceptionMapping mapping : configuration.getExceptionMappings())
       {
          SeamExceptionMapper provider = seamExceptionMapperInstance.get();

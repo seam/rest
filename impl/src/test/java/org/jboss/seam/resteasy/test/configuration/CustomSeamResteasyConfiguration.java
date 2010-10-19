@@ -37,7 +37,7 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
       addResource(EjbResource.class);
       addExcludedResource(ExcludedResource.class);
       addProvider(TestProvider.class);
-      addBasicExceptionMapping(IllegalArgumentException.class, 410);
+      addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 410));
       addExceptionMapping(new ExceptionMapping(EntityNotFoundException.class, 410));
       addExceptionMapping(new ExceptionMapping(NullPointerException.class, 410, "You should not call methods on a null reference."));
       addExceptionMapping(new ExceptionMapping(UnsupportedOperationException.class, 405, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog"));
