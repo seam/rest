@@ -46,7 +46,7 @@ function printTasks() {
 function addTask(task) {
 	var parent = $('#tasks tbody');
 	var nameCell = $('<td/>').addClass('name').text(task.name);
-	var updatedCell = $('<td/>').addClass('updated').text(task.updated);
+	var updatedCell = $('<td/>').addClass('updated').text($.format.date(task.updated, "dd/MM/yyyy hh:mm:ss"));
 	var undoButton = $('<img/>').attr('src', 'img/task-undo.png').attr('title', 'Undo this task').click(function(event) {
 		event.preventDefault();
 		task.resolved = false;
