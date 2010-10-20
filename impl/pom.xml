@@ -15,11 +15,6 @@
 	<packaging>jar</packaging>
 	<name>Seam RESTEasy Module Implementation</name>
 
-	<properties>
-		<arquillian.version>1.0.0.Alpha3</arquillian.version>
-		<resteasy.version>2.0.1.GA</resteasy.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
@@ -34,50 +29,31 @@
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-extensions</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.transaction</groupId>
-					<artifactId>jta</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.javassist</groupId>
-					<artifactId>javassist</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.persistence</groupId>
-					<artifactId>persistence-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- Provided dependencies -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+  			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.jboss.arquillian</groupId>
 			<artifactId>arquillian-testng</artifactId>
-			<version>${arquillian.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.jbossas</groupId>
 			<artifactId>jboss-as-client</artifactId>
-			<version>${jbossas.version}</version>
 			<type>pom</type>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -88,8 +64,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>5.12.1</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

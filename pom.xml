@@ -20,7 +20,9 @@
 		<arquillian.version>1.0.0.Alpha3</arquillian.version>
 		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
+<!--		<weld.extensions.version>1.0.0.Beta1</weld.extensions.version>-->
 		<weld.extensions.version>1.0.0-SNAPSHOT</weld.extensions.version>
+		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -54,6 +56,79 @@
 				<groupId>org.jboss.weld</groupId>
 				<artifactId>weld-extensions</artifactId>
 				<version>${weld.extensions.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.transaction</groupId>
+						<artifactId>jta</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.javassist</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.persistence</groupId>
+						<artifactId>persistence-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxb-provider</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-atom-provider</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jackson-provider</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jettison-provider</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-testng</artifactId>
+				<version>${arquillian.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.jbossas</groupId>
+				<artifactId>jboss-as-client</artifactId>
+				<version>${jbossas.version}</version>
+				<type>pom</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+  				<artifactId>slf4j-api</artifactId>
+  				<version>1.6.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.12.1</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
