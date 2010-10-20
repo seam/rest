@@ -4,8 +4,7 @@
 <chapter id="resteasy.configuration">
 	<title>Configuration</title>
 	<para>
-		RESTEasy provides various configuration options used to adjust its behaviour. When using plain RESTEasy, these
-		options can be set using servlet context parameters.
+		The RESTEasy framework provides various configuration options used to adjust its behavior. When using plain RESTEasy, these options can be set using servlet context parameters.
 	</para>
 	
 	<para>
@@ -20,41 +19,42 @@
 		The following configuration options are supported:
 	</para>
 
-	<table>
+	<table id="resteasy.configuration.conf-options-table">
+	  <title>Seam RESTEasy Configuration Options</title>
 		<tgroup cols='2'>
 			<thead>
 				<row>
-					<entry>Configuration options</entry>
+					<entry>Configuration option</entry>
 					<entry>Description</entry>
 				</row>
 			</thead>
 			<tbody>
 				<row>
 					<entry>resources</entry>
-					<entry>JAX-RS resources that will be registered with RESTEasy
+					<entry>JAX-RS resources that are registered with RESTEasy
 					</entry>
 				</row>
 				<row>
 					<entry>excludedResources</entry>
 					<entry>JAX-RS resources which are registered by default, (i.e. by
-						automated classpath scanning) but their installation will be
-						prevented</entry>
+						automated classpath scanning) but are excluded from the installation
+					</entry>
 				</row>
 				<row>
 					<entry>mediaTypeMappings</entry>
-					<entry>Used to override value of the <literal>Accept</literal> HTTP header using value from URI suffixes (i.e. <literal>.xml</literal>).</entry>
+					<entry>Used to override value of the <literal>Accept</literal> HTTP header using value from URI suffixes (e.g. <literal>.xml</literal>)</entry>
 				</row>
 				<row>
 					<entry>languageMappings</entry>
-					<entry>Used to override value of the <literal>Accept-Language</literal> HTTP header using value from URI suffixes (i.e. <literal>.de</literal>).</entry>
+					<entry>Used to override value of the <literal>Accept-Language</literal> HTTP header using value from URI suffixes (e.g. <literal>.de</literal>)</entry>
 				</row>
 				<row>
 					<entry>exceptionMappings</entry>
-					<entry>Exception type to HTTP response bindings. See chapter <xref linkend="resteasy.exception.mapping"/> for details</entry>
+					<entry>Exception type to HTTP response bindings. For more information about exception mapping, refer to <xref linkend="resteasy.exception.mapping"/></entry>
 				</row>
 				<row>
 					<entry>registerValidationExceptionMapper</entry>
-					<entry>Enables/disables Bean Validation exception mapper. See <xref linkend="resteasy.validation"/> for details</entry>
+					<entry>Enables/Disables the Bean Validation exception mapper. For more information about Bean Validation integration, refer to <xref linkend="resteasy.validation"/></entry>
 				</row>
 			</tbody>
 		</tgroup>
@@ -65,7 +65,7 @@
 		<para>
 			The first possible approach is to configure the application in
 			Java. This can be done by specializing the default
-			SeamResteasyConfiguration bean as shown in the following example:
+			<literal>SeamResteasyConfiguration</literal> bean as shown in the following example:
 		</para>
 
 		<example>
@@ -87,13 +87,13 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
 	<sect1>
 		<title>XML configuration</title>
 		<para>
-			An alternative and more interesting way is to use the seam-xml
+			An alternative and more practical way of configuration is to use the seam-xml
 			module
 			and configure
-			the application via XML descriptor. 
+			the application using an XML descriptor. 
 		</para>
 		<para>
-			The seam-xml module needs to be added to the application. If
+			Firstly, the seam-xml module needs to be added to the application. If
 			using maven,
 			this can be done by specifying the following dependency:
 		</para>
@@ -108,9 +108,9 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
 		</example>
 
 		<para>
-			For more details about the seam-xml module, consult the 
+			For more information on the seam-xml module, refer to the
 			<ulink url="http://docs.jboss.org/seam/3/xml-config/latest/reference/en-US/html_single/">seam-xml reference documentation</ulink>
-			Once the seam-xml module is added, specify the configuration in the seam-beans.xml file, located in the
+			Once the seam-xml module is added, specify the configuration in the <literal>seam-beans.xml</literal> file, located in the
 			<literal>WEB-INF</literal>
 			or
 			<literal>META-INF</literal>
@@ -119,7 +119,7 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
 		</para>
 
 		<example>
-			<title>Seam RESTEasy configuration in the seam-beans.xml file.</title>
+			<title>Seam RESTEasy configuration in the seam-beans.xml configuration file.</title>
 			<programlistingco>
 				<areaspec>
 					<area id="resteasy-configuration-resource" coords="5" />
@@ -151,7 +151,7 @@ public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration
 				<calloutlist>
 					<callout arearefs="resteasy-configuration-resource">
 						<para>
-							The <literal>TestResource</literal> is excluded from the deployment (i.e. for the production environment).
+							The <literal>TestResource</literal> is excluded from the deployment (e.g. the production environment).
             			</para>
 					</callout>
 					<callout arearefs="resteasy-media-type-mapping">

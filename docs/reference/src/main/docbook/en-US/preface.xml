@@ -5,7 +5,7 @@
 	<title>Introduction</title>
 	<para>
 		Seam RESTEasy is a lightweight module that aims to provide
-		additional features for developing JAX-RS web services in Java EE
+		additional features for developing JAX-RS web services in the Java EE
 		environment.
 	</para>
 	
@@ -14,7 +14,7 @@
 		However, since the JAX-RS
 		specification does not provide a full-scale
 		SPI, the Seam RESTEasy module is
-		tied to RESTEasy (one of JAX-RS
+		works with RESTEasy only (one of JAX-RS
 		implementations).
 	</para>
 </preface>

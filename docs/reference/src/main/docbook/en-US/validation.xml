@@ -10,11 +10,11 @@
 		of Java EE 6. It aims to provide a standardized way of
 		validating
 		the
-		domain model across all the application layers. 
+		domain model across all application layers. 
 	</para>
 
 	<para>
-		The Seam RESTEasy module integrates with Bean Validation. This
+		The Seam RESTEasy module integrates with the Bean Validation specification. This
 		allows message bodies of HTTP requests to be validated using this
 		standardized
 		mechanism.
@@ -27,7 +27,7 @@
 			Firstly, enable the
 			<literal>ValidationInterceptor</literal>
 			in the
-			<literal>beans.xml</literal>
+			<literal>beans.xml</literal> configuration
 			file.
 		</para>
 
@@ -52,31 +52,30 @@ public void updateTask(Task incommingTask)
 
 		<para>
 			By default, the message body (the parameter with no annotations) is
-			be validated. If the object is valid, the web service method is
+			validated. If the object is valid, the web service method is
 			executed.
-			Otherwise,
-			<literal>ValidationException</literal>
+			Otherwise, the
+			<literal>ValidationException</literal> exception
 			is thrown.
 		</para>
 
 		<para>
-			<literal>ValidationException</literal>
-			is a simple carrier of constraint violations discovered by the Bean
+			The <literal>ValidationException</literal> exception
+			is a simple carrier of constraint violations found by the Bean
 			Validation provider. The exception can be handled by an
 			<literal>ExceptionMapper</literal>
 			.
 		</para>
 		<para>
-			Seam RESTEasy comes with a builtin
+			Seam RESTEasy comes with a built-in
 			<literal>ValidationExceptionMapper</literal>
-			which is registered by default (see <xref linkend="resteasy.configuration"/>
+			which is registered by default (see <xref linkend="resteasy.configuration.conf-options-table"/>
 			for how to disable
 			it). The exception mapper converts the
 			<literal>ValidationException</literal>
 			to an HTTP response with 400 (Bad request) status code. Furthermore,
 			messages relevant to the violated constraints are sent within the
-			entity
-			body of a response.
+			message body of the HTTP response.
 		</para>
 
 		<example>
@@ -100,13 +99,13 @@ Content-Length:	129
 			These
 			parameters are usually HTTP form parameters, query parameters,
 			path
-			parameters, headers, etc. In order to prevent bloated method
-			signature when the number of parametes is large, RESTEasy provides an
+			parameters, headers, etc. In order to prevent an oversized method
+			signature when the number of parameters is too large, RESTEasy provides an
 			implementation of the <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink> 
-			named <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">Form Object</ulink>
-			A form object is annotated with
+			named <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">Form Object</ulink>.
+			In a method signature, a Form Object is annotated with the
 			<literal>@Form</literal>
-			annotation in a method signature.
+			annotation.
 		</para>
 
 		<example>
@@ -149,13 +148,13 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 				<tbody>
 					<row>
 						<entry>validateMessageBody</entry>
-						<entry>Enables/disables validation of message body parameters.
+						<entry>Enables/Disables validation of message body parameters.
 						</entry>
 						<entry>true</entry>
 					</row>
 					<row>
 						<entry>validateFormParameters</entry>
-						<entry>Enables/disables validation of form objects.</entry>
+						<entry>Enables/Disables validation of Form Objects.</entry>
 						<entry>true</entry>
 					</row>
 					<row>
@@ -181,7 +180,9 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 			Take partial
 			updates as an example.
 		</para>
-
+		<para>
+		  Consider the following example:
+		</para>
 		<example>
 			<title>Employee.java</title>
 			<programlisting role="JAVA"><![CDATA[public class Employee {
@@ -197,11 +198,8 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 	// getters and setters
 }]]></programlisting>
 		</example>
-
 		<para>
-			Consider this resource. The domain model does not allow any of
-			its fields
-			to be null.
+			The Employee resource in the example above is not allowed to have the null value specified in any of its fields.
 			Thus, the entire representation of a
 			resource (including the
 			department and related object graph) must be
@@ -211,19 +209,19 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 		<para>
 			When using partial updates, only the values of modified fields
 			are required to be
-			sent within the update request. Only the not-null
+			sent within the update request. Only the non-null
 			values of the
 			received object are updated. Therefore, two groups of
 			constraints are
-			needed. Firstly the one for partial updates
+			needed: one for partial updates
 			(including
 			@Size and
-			@Email, excluding @NotNull). Secondly, the
+			@Email, excluding @NotNull) and the
 			default one
 			(@NotNull).
 		</para>
 		<para>
-			A validation groups is a simple Java interface:
+			A validation group is a simple Java interface:
 		</para>
 
 		<example>
@@ -272,7 +270,7 @@ public class Employee {
 							The
 							<literal>@GroupsSequence</literal>
 							annotation indicates that both validation groups will be used by
-							default. (i.e. when persisting the entity)
+							default (e.g. when persisting the entity).
 						</para>
 					</callout>
 				</calloutlist>
@@ -282,8 +280,8 @@ public class Employee {
 		<para>
 			Finally, the
 			<literal>ValidationInterceptor</literal>
-			is configured to use validate
-			<literal>PartialUpdateGroup</literal>
+			is configured to validate the
+			<literal>PartialUpdateGroup</literal> group
 			only.
 		</para>
 
@@ -319,7 +317,7 @@ public class Employee {
 					</callout>
 					<callout arearefs="employee-partial-update">
 						<para>
-							Partial update. Only the not-null fields of the transferred
+							Partial update — only the not-null fields of the transferred
 							representation are used for update. The null fields are not updated.
             			</para>
 					</callout>

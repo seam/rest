@@ -5,16 +5,15 @@
 	<title>Declarative Exception Mapping</title>
 	<para>
 		The JAX-RS specification comes with Exception Mapping Providers as
-		standard a mechanism for treating Java exceptions. This approach works
+		a standard mechanism for treating Java exceptions. This approach works
 		fine for complex cases, however, the exception handling logic is often
-		trivial and implementing Exception Mapper Providers is an overkill. In
-		these situations, declarative approach is more appropriate. Seam
-		RESTEasy allows exception types to be bound to HTTP responses
+		trivial and not worth implementing Exception Mapper Providers for each exception type. In
+		these situations, declarative approach is more appropriate. The Seam
+		RESTEasy module allows exception types to be bound to HTTP responses
 		declaratively.
 	</para>
 	<para>
-		For each exception type, it is possible to specify the status code of
-		the HTTP response and an error message. 
+		For each exception type, it is possible to specify the status code and the error message of the HTTP response. 
 	</para>
 	
 	<example>
@@ -53,8 +52,8 @@ Content-Length: 123
 		result, the
 		error message is available in multiple media formats. The
 		most commonly used formats are XML and JSON. RESTEasy provides media
-		providers for both these formats. In addition, the error message is
-		also available as a plain text.
+		providers for both of these formats. In addition, the error message is
+		also available in plain text.
 	</para>
 </chapter>
 

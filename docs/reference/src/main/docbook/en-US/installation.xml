@@ -4,16 +4,16 @@
 <chapter id="resteasy.installation">
 	<title>Installation</title>
 	<para>
-		Seam RESTEasy requires a CDI compliant server such as <ulink url="http://www.jboss.org/jbossas">JBoss
-		Application Server</ulink>. In addition, Seam RESTEasy depends on
-		<ulink url="http://www.jboss.org/resteasy">RESTEasy</ulink>. RESTEasy can either be a part of the server or
+		The Seam RESTEasy module requires a CDI compliant server such as <ulink url="http://www.jboss.org/jbossas">JBoss
+		Application Server</ulink> to run on. In addition, Seam RESTEasy depends on the
+		<ulink url="http://www.jboss.org/resteasy">RESTEasy</ulink> framework. RESTEasy can either be a part of the server or
 		bundled with the web application.
 	</para>
 
 	<para>
 		To use the Seam RESTEasy module, add <literal>seam-resteasy</literal> and <literal>seam-resteasy-api</literal> jars into the web application.
-		If using Maven, this can be easily achieved by adding the following dependency
-		into the application <literal>pom.xml</literal> file.
+		If using Maven, add the following dependency
+		into the web application's <literal>pom.xml</literal> configuration file.
 	</para>
 
 	<example>
@@ -23,5 +23,6 @@
 	<artifactId>seam-resteasy</artifactId> 
 	<version>${seam.resteasy.version}</version> 
 </dependency>]]></programlisting>
+
 	</example>
 </chapter>

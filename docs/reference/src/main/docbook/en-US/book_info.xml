@@ -9,7 +9,4 @@
 
    <xi:include href="author_group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
-TODO portable among CDI implementations, however RESTEasy specific (JAX-RS no spi for crutial features)
-
-
 </bookinfo>
