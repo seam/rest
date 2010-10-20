@@ -3,3 +3,4 @@ target
 .project
 .settings
 *.sw?
+impl/transaction.log
