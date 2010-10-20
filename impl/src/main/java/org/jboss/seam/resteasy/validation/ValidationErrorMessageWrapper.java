@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
@@ -40,7 +41,8 @@ public class ValidationErrorMessageWrapper
    {
    }
 
-   @XmlElement(name = "messages")
+   @XmlElementWrapper(name="messages")
+   @XmlElement(name = "message")
    public List<String> getMessages()
    {
       return messages;
