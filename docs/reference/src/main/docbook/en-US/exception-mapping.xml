@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="resteasy.exception.mapping">
+	<title>Declarative Exception Mapping</title>
+	<para>
+		The JAX-RS specification comes with Exception Mapping Providers as
+		a standard mechanism for treating Java exceptions. This approach works
+		fine for complex cases, however, the exception handling logic is often
+		trivial and not worth implementing Exception Mapper Providers for each exception type. In
+		these situations, declarative approach is more appropriate. The Seam
+		RESTEasy module allows exception types to be bound to HTTP responses
+		declaratively.
+	</para>
+	<para>
+		For each exception type, it is possible to specify the status code and the error message of the HTTP response. 
+	</para>
+	
+	<example>
+		<title>Exception mapping configuration in seam-beans.xml</title>
+		<programlisting role="XML"><![CDATA[<resteasy:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+	<resteasy:message>Requested resource does not exist.</resteasy:message>
+</resteasy:ExceptionMapping>]]></programlisting>
+	</example>
+
+	<example>
+		<title>HTTP response</title>
+		<programlisting role="XML"><![CDATA[HTTP/1.1 404 Not Found
+Content-Type: application/xml
+Content-Length: 123
+		
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<error>
+	<message>Requested resource does not exist.</message>
+</error>]]></programlisting>
+	</example>
+
+	<para>
+		Furthermore, EL expressions can be used in message templates to
+		provide dynamic and more descriptive error messages.
+	</para>
+	
+	<example>
+		<title>Exception mapping configuration in seam-beans.xml</title>
+		<programlisting role="XML"><![CDATA[<resteasy:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+	<resteasy:message>Requested resource with id #{pathParameters['id']} does not exist.</resteasy:message>
+</resteasy:ExceptionMapping>]]></programlisting>
+	</example>
+
+	<para>
+		The error message is marshalled within a JAXB object. As a
+		result, the
+		error message is available in multiple media formats. The
+		most commonly used formats are XML and JSON. RESTEasy provides media
+		providers for both of these formats. In addition, the error message is
+		also available in plain text.
+	</para>
+</chapter>
+
