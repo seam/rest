@@ -41,6 +41,6 @@ public abstract class AbstractEntityResource
     */
    protected Category loadCategory(String name)
    {
-      return em.createNamedQuery("categoryByName", Category.class).setParameter("category", name).getSingleResult();
+      return (Category) em.createNamedQuery("categoryByName").setParameter("category", name).getSingleResult();
    }
 }

@@ -37,8 +37,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
-
 /**
  * 
  * @author Jozef Hartinger
@@ -50,7 +48,6 @@ import org.jboss.resteasy.annotations.providers.NoJackson;
    @NamedQuery(name = "categoryByName", query = "select category from Category category where category.name = :category"),
    @NamedQuery(name = "categories", query = "select category from Category category")
 })
-@NoJackson
 public class Category
 {
    private Long id;

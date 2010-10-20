@@ -26,14 +26,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
+//import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.seam.resteasy.example.tasks.entity.Category;
 
 /**
@@ -49,11 +49,12 @@ public class CategoryCollectionResource extends AbstractCollectionResource
    @PersistenceContext
    private EntityManager em;
    
+   @SuppressWarnings("unchecked")
    @GET
-   @NoJackson
+//   @NoJackson
    public List<Category> getCategories(@QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
    {
-      TypedQuery<Category> query = em.createNamedQuery("categories", Category.class);
+      Query query = em.createNamedQuery("categories");
       applyPaginationParameters(query, start, limit);
       return query.getResultList();
    }

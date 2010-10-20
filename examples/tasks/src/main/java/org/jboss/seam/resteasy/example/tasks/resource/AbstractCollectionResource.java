@@ -21,7 +21,7 @@
  */
 package org.jboss.seam.resteasy.example.tasks.resource;
 
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 /**
  * Common methods for collection resources
@@ -33,7 +33,7 @@ public abstract class AbstractCollectionResource
    /**
     * Modifies query passed as a parameter to filter out tasks based on their status (resolved/unresolved/all) 
     */
-   protected <T> TypedQuery<T> applyResolutionParameter(TypedQuery<T> query, String status)
+   protected Query applyResolutionParameter(Query query, String status)
    {
       if ("resolved".equals(status))
       {
@@ -57,7 +57,7 @@ public abstract class AbstractCollectionResource
     * @param limit how many items to return (use 0 for unlimited result)
     * @throws IllegalArgumentException if any of the integer parameters is lesser than 0 
     */
-   protected <T> void applyPaginationParameters(TypedQuery<T> query, int start, int limit)
+   protected void applyPaginationParameters(Query query, int start, int limit)
    {
       if (start < 0)
       {

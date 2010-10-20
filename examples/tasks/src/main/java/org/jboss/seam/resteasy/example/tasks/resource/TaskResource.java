@@ -38,7 +38,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.seam.resteasy.example.tasks.entity.Category;
 import org.jboss.seam.resteasy.example.tasks.entity.Task;
 import org.jboss.seam.resteasy.example.tasks.entity.TaskValidationGroup;
@@ -59,7 +58,6 @@ public class TaskResource extends AbstractEntityResource
    private EntityManager em;
 
    @GET
-   @NoJackson
    public Task getTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo)
    {
       return loadTask(taskId, uriInfo);
@@ -80,7 +78,6 @@ public class TaskResource extends AbstractEntityResource
    }
    
    @PUT
-   @NoJackson
    public void updateTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo, Task incommingTask)
    {
       Task task = loadTask(taskId, uriInfo);
@@ -107,11 +104,11 @@ public class TaskResource extends AbstractEntityResource
       String categoryName = uriInfo.getPathParameters().getFirst("category");
       if (categoryName == null)
       {
-         return em.createNamedQuery("taskById", Task.class).setParameter("tid", taskId).getSingleResult();
+         return (Task) em.createNamedQuery("taskById").setParameter("tid", taskId).getSingleResult();
       }
       else
       {
-         return em.createNamedQuery("taskByCategoryAndId", Task.class).setParameter("tid", taskId).setParameter("category", categoryName).getSingleResult();
+         return (Task) em.createNamedQuery("taskByCategoryAndId").setParameter("tid", taskId).setParameter("category", categoryName).getSingleResult();
       }
    }
 }

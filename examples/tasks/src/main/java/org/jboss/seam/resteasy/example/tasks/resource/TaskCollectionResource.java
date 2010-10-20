@@ -27,7 +27,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,7 +36,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
+//import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.seam.resteasy.example.tasks.entity.Task;
 
 /**
@@ -54,11 +54,12 @@ public class TaskCollectionResource extends AbstractCollectionResource
    @Inject
    private TaskResource taskSubresource;
 
+   @SuppressWarnings("unchecked")
    @GET
-   @NoJackson
+//   @NoJackson
    public List<Task> getTasks(@Context UriInfo uriInfo, @QueryParam("status") @DefaultValue("unresolved") String status, @QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
    {
-      TypedQuery<Task> query = createQuery(uriInfo);
+      Query query = createQuery(uriInfo);
       query = applyResolutionParameter(query, status);
       applyPaginationParameters(query, start, limit);
       return query.getResultList();
@@ -70,16 +71,16 @@ public class TaskCollectionResource extends AbstractCollectionResource
       return taskSubresource;
    }
 
-   protected TypedQuery<Task> createQuery(UriInfo uriInfo)
+   protected Query createQuery(UriInfo uriInfo)
    {
       String categoryName = uriInfo.getPathParameters().getFirst("category");
       if (categoryName == null)
       {
-         return em.createNamedQuery("tasks", Task.class);
+         return em.createNamedQuery("tasks");
       }
       else
       {
-         return em.createNamedQuery("tasksByCategory", Task.class).setParameter("category", categoryName);
+         return em.createNamedQuery("tasksByCategory").setParameter("category", categoryName);
       }
    }
 }

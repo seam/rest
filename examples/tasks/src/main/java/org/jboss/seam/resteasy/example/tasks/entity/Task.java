@@ -39,8 +39,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
-
 /**
  * 
  * @author Jozef Hartinger
@@ -55,7 +53,6 @@ import org.jboss.resteasy.annotations.providers.NoJackson;
    @NamedQuery(name = "tasks", query = "select task from Task task where task.resolved in (:r1, :r2)"),
    @NamedQuery(name = "tasksByCategory", query = "select task from Task task where task.category.name = :category and task.resolved in (:r1, :r2)")
 })
-@NoJackson
 public class Task
 {
    @Id
