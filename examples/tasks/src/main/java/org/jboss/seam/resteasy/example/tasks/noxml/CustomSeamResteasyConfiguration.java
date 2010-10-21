@@ -1,4 +1,4 @@
-package org.jboss.seam.resteasy.example.tasks.m4;
+package org.jboss.seam.resteasy.example.tasks.noxml;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Specializes;
