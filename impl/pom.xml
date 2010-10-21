@@ -24,8 +24,8 @@
 		<dependency>
 			<artifactId>seam-resteasy-api</artifactId>
 			<groupId>org.jboss.seam.resteasy</groupId>
-			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-extensions</artifactId>

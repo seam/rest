@@ -21,8 +21,11 @@
 		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
 		<weld.extensions.version>1.0.0.Beta1</weld.extensions.version>
-<!--		<weld.extensions.version>1.0.0-SNAPSHOT</weld.extensions.version>-->
+		<!-- <weld.extensions.version>1.0.0-SNAPSHOT</weld.extensions.version> -->
 		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
+		<seam.xml.version>3.0.0.Alpha3</seam.xml.version>
+		<javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
+		<jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -52,6 +55,23 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.spec.javax.ejb</groupId>
+				<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+				<version>${javax.ejb.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.resteasy</groupId>
+				<artifactId>seam-resteasy-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.resteasy</groupId>
+				<artifactId>seam-resteasy</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.jboss.weld</groupId>
 				<artifactId>weld-extensions</artifactId>
@@ -80,6 +100,24 @@
 				<artifactId>resteasy-jaxrs</artifactId>
 				<version>${resteasy.version}</version>
 				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-httpclient</groupId>
+						<artifactId>commons-httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
@@ -120,8 +158,8 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-  				<artifactId>slf4j-api</artifactId>
-  				<version>1.6.1</version>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.6.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -129,6 +167,22 @@
 				<artifactId>testng</artifactId>
 				<version>5.12.1</version>
 				<scope>test</scope>
+			</dependency>
+			<!-- Seam Tasks dependencies -->
+			<dependency>
+				<groupId>org.jboss.seam.xml</groupId>
+				<artifactId>seam-xml-config</artifactId>
+				<version>${seam.xml.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-cdi</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${jboss.logging.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -153,7 +207,8 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/seam/resteasy.git</connection>
-		<developerConnection>scm:git:git@github.com:seam/resteasy.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:seam/resteasy.git
+		</developerConnection>
 		<url>http://github.com/seam/resteasy</url>
 	</scm>
 </project>

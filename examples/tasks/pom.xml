@@ -10,7 +10,7 @@
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.jboss.seam.security</groupId>
+	<groupId>org.jboss.seam.resteasy</groupId>
 	<artifactId>seam-tasks-example</artifactId>
 	<packaging>war</packaging>
 	<version>3.0.0-SNAPSHOT</version>
@@ -70,62 +70,44 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>org.jboss.seam.xml</groupId> -->
-		<!-- <artifactId>seam-xml-config</artifactId> -->
-		<!-- <version>3.0.0-SNAPSHOT</version> -->
-		<!-- </dependency> -->
-
 		<dependency>
-			<groupId>org.jboss.seam.resteasy</groupId>
-			<artifactId>seam-resteasy-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.resteasy</groupId>
-			<artifactId>seam-resteasy</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.jboss.seam.xml</groupId>
+			<artifactId>seam-xml-config</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-extensions</artifactId>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.transaction</groupId>
-					<artifactId>jta</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.javassist</groupId>
-					<artifactId>javassist</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.persistence</groupId>
-					<artifactId>persistence-api</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.resteasy</groupId>
+			<artifactId>seam-resteasy-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.resteasy</groupId>
+			<artifactId>seam-resteasy</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-atom-provider</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jettison-provider</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<version>1.0.0.Beta2</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -151,7 +133,8 @@
 		<finalName>seam-tasks</finalName>
 		<plugins>
 			<plugin>
-				<!-- no unit tests, surefire would instead run functional tests in incorrect phase -->
+				<!-- no unit tests, surefire would instead run functional tests in incorrect 
+					phase -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -207,35 +190,35 @@
 					</plugin>
 
 					<!-- Deploy/undeploy -->
-					<!-- <plugin> -->
-					<!-- <groupId>org.codehaus.cargo</groupId> -->
-					<!-- <artifactId>cargo-maven2-plugin</artifactId> -->
-					<!-- <configuration> -->
-					<!-- <container> -->
-					<!-- <containerId>jboss5x</containerId> -->
-					<!-- <type>remote</type> -->
-					<!-- </container> -->
-					<!-- <configuration> -->
-					<!-- <type>runtime</type> -->
-					<!-- </configuration> -->
-					<!-- </configuration> -->
-					<!-- <executions> -->
-					<!-- <execution> -->
-					<!-- <id>deploy</id> -->
-					<!-- <phase>pre-integration-test</phase> -->
-					<!-- <goals> -->
-					<!-- <goal>deploy</goal> -->
-					<!-- </goals> -->
-					<!-- </execution> -->
-					<!-- <execution> -->
-					<!-- <id>undeploy</id> -->
-					<!-- <phase>post-integration-test</phase> -->
-					<!-- <goals> -->
-					<!-- <goal>undeploy</goal> -->
-					<!-- </goals> -->
-					<!-- </execution> -->
-					<!-- </executions> -->
-					<!-- </plugin> -->
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<configuration>
+							<container>
+								<containerId>jboss5x</containerId>
+								<type>remote</type>
+							</container>
+							<configuration>
+								<type>runtime</type>
+							</configuration>
+						</configuration>
+						<executions>
+							<execution>
+								<id>deploy</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>undeploy</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
 					<!-- run functional tests -->
 					<plugin>
@@ -369,13 +352,11 @@
 				<dependency>
 					<groupId>org.jboss.seam.resteasy</groupId>
 					<artifactId>seam-resteasy-api</artifactId>
-					<version>${project.version}</version>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.seam.resteasy</groupId>
 					<artifactId>seam-resteasy</artifactId>
-					<version>${project.version}</version>
 				</dependency>
 
 				<dependency>
@@ -406,30 +387,11 @@
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxrs</artifactId>
 					<scope>compile</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>commons-httpclient</groupId>
-							<artifactId>commons-httpclient</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>commons-logging</groupId>
-							<artifactId>commons-logging</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.apache.httpcomponents</groupId>
-							<artifactId>httpclient</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>javax.activation</groupId>
-							<artifactId>activation</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-cdi</artifactId>
-					<version>${resteasy.version}</version>
 					<scope>compile</scope>
 				</dependency>
 
@@ -437,24 +399,12 @@
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-extensions</artifactId>
 					<scope>compile</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>javax.transaction</groupId>
-							<artifactId>jta</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>javax.persistence</groupId>
-							<artifactId>persistence-api</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 
 				<!-- WELDX depends on this -->
 				<dependency>
 					<groupId>org.jboss.logging</groupId>
 					<artifactId>jboss-logging</artifactId>
-					<scope>compile</scope>
-					<version>3.0.0.Beta4</version>
 				</dependency>
 
 			</dependencies>
