@@ -19,24 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.example.tasks.noxml;
+package org.jboss.seam.resteasy.test.exceptions;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
-import javax.persistence.NoResultException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
-import org.jboss.seam.resteasy.configuration.ExceptionMapping;
-import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
+@Provider
+public class MoreSpecificExceptionMapper implements ExceptionMapper<ArrayIndexOutOfBoundsException> {
 
-@Specializes
-public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration {
-
-	@PostConstruct
-	public void setup()
-	{
-//		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-//		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addMediaTypeMapping("xml", "application/xml");
-		addMediaTypeMapping("json", "application/json");
+	public Response toResponse(ArrayIndexOutOfBoundsException exception) {
+		return Response.status(421).build();
 	}
 }

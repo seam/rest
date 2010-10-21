@@ -19,24 +19,68 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.example.tasks.noxml;
+package org.jboss.seam.resteasy.test.exceptions;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
-import javax.persistence.NoResultException;
+import javax.ejb.EJBException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
-import org.jboss.seam.resteasy.configuration.ExceptionMapping;
-import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
+@Path("/exceptions")
+public class TestResource {
 
-@Specializes
-public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration {
-
-	@PostConstruct
-	public void setup()
+	@GET
+	@Path("/iae")
+	public void throwIae() throws Exception
 	{
-//		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-//		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addMediaTypeMapping("xml", "application/xml");
-		addMediaTypeMapping("json", "application/json");
+		throw new IllegalAccessException();
+	}
+	
+	@GET
+	@Path("/aioobe")
+	public void throwAioobe()
+	{
+		throw new ArrayIndexOutOfBoundsException();
+	}
+	
+	@GET
+	@Path("/npe")
+	public void throwNpe()
+	{
+		throw new NullPointerException();
+	}
+	
+	@GET
+	@Path("/e1")
+	public void e1()
+	{
+		throw new Exception1(new Exception2());
+	}
+	
+	@GET
+	@Path("/e3")
+	public void e3()
+	{
+		throw new Exception3();
+	}
+	
+	@GET
+	@Path("/ejb")
+	public void ejb()
+	{
+		throw new EJBException(new Exception2());
+	}
+	
+	@GET
+	@Path("/uoe")
+	public void throwUoe()
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	@GET
+	@Path("/nsme")
+	public void throwNsme()
+	{
+		throw new NoSuchMethodError();
 	}
 }

@@ -19,24 +19,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.example.tasks.noxml;
+package org.jboss.seam.resteasy.test.exceptions;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Specializes;
-import javax.persistence.NoResultException;
 
-import org.jboss.seam.resteasy.configuration.ExceptionMapping;
-import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
+import org.jboss.seam.resteasy.exceptions.ExceptionMapping;
+import org.jboss.seam.resteasy.exceptions.ExceptionMappingConfiguration;
 
 @Specializes
-public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration {
+public class CustomExceptionMappings extends ExceptionMappingConfiguration {
 
 	@PostConstruct
 	public void setup()
 	{
-//		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-//		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addMediaTypeMapping("xml", "application/xml");
-		addMediaTypeMapping("json", "application/json");
+		addExceptionMapping(new ExceptionMapping(IllegalAccessException.class, 410));
+		addExceptionMapping(new ExceptionMapping(ArrayIndexOutOfBoundsException.class, 411));
+		addExceptionMapping(new ExceptionMapping(NullPointerException.class, 412));
+		addExceptionMapping(new ExceptionMapping(UnsupportedOperationException.class, 413, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog"));
+		addExceptionMapping(new ExceptionMapping(NoSuchMethodError.class, 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog", false));
+		addExceptionMapping(new ExceptionMapping(Exception2.class, 400));
+		addUnwrappedException(Exception1.class);
+		
+		addExceptionMapping(new ExceptionMapping(Exception3.class, 415));
+		addUnwrappedException(Exception3.class);
 	}
 }

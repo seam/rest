@@ -19,24 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.example.tasks.noxml;
+package org.jboss.seam.resteasy.test.exceptions;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
-import javax.persistence.NoResultException;
+public class Exception3 extends RuntimeException {
 
-import org.jboss.seam.resteasy.configuration.ExceptionMapping;
-import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
+	private static final long serialVersionUID = 1L;
 
-@Specializes
-public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration {
-
-	@PostConstruct
-	public void setup()
-	{
-//		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-//		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addMediaTypeMapping("xml", "application/xml");
-		addMediaTypeMapping("json", "application/json");
-	}
 }
