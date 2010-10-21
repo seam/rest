@@ -407,6 +407,11 @@
 					<artifactId>jboss-logging</artifactId>
 				</dependency>
 
+				<dependency>
+					<groupId>hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+				</dependency>
+
 			</dependencies>
 
 			<build>

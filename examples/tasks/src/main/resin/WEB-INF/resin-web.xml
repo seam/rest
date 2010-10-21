@@ -16,14 +16,21 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-
 	<database jndi-name='java:/tasksDatasource'>
-		<driver type="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
-			<url>jdbc:mysql://localhost:3306/tasks</url>
-			<user>seam</user>
-			<password>seam</password>
+		<driver type="org.hsqldb.jdbcDriver">
+			<url>jdbc:hsqldb:.</url>
+			<user>sa</user>
+			<password></password>
 		</driver>
 	</database>
+
+<!--	<database jndi-name='java:/tasksDatasource'>-->
+<!--		<driver type="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">-->
+<!--			<url>jdbc:mysql://localhost:3306/tasks</url>-->
+<!--			<user>seam</user>-->
+<!--			<password>seam</password>-->
+<!--		</driver>-->
+<!--	</database>-->
 
 	<!-- <database jndi-name="java:/tasksDatasource"> -->
 	<!-- <driver type="com.caucho.db.jca.ConnectionFactory"> -->
