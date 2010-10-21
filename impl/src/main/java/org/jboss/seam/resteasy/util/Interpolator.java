@@ -25,14 +25,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
-//import javax.inject.Inject;
-
-//import org.jboss.weld.extensions.el.Expressions;
 
 @ApplicationScoped
 public class Interpolator
 {
    public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
+// Disabled for now - breaks deployment since WELDX does not work on JBoss AS/Resin ATM
 //   @Inject
 //   private Expressions el;
 
@@ -44,6 +42,7 @@ public class Interpolator
       while (matcher.find())
       {
 //         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
+         matcher.appendReplacement(buffer, "Interpolator disabled.");
       }
       matcher.appendTail(buffer);
 
