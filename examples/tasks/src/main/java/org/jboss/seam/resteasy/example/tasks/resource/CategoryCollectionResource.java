@@ -33,7 +33,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-//import org.jboss.resteasy.annotations.providers.NoJackson;
+import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.seam.resteasy.example.tasks.entity.Category;
 
 /**
@@ -51,7 +51,7 @@ public class CategoryCollectionResource extends AbstractCollectionResource
    
    @SuppressWarnings("unchecked")
    @GET
-//   @NoJackson
+   @NoJackson
    public List<Category> getCategories(@QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
    {
       Query query = em.createNamedQuery("categories");

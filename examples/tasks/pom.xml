@@ -38,7 +38,8 @@
 		<context.root>http://${context.host}:8080/</context.root>
 		<context.path>/${project.build.finalName}/</context.path>
 		<context.deploy.path>${context.path}</context.deploy.path>
-		<jboss.master.configuration>${env.JBOSS_HOME}/server/all</jboss.master.configuration>
+		<jboss.master.configuration>${env.JBOSS_HOME}/server/all
+		</jboss.master.configuration>
 		<deployable.location />
 		<deployable.type>war</deployable.type>
 		<method>*</method>
@@ -150,6 +151,14 @@
 		<finalName>seam-tasks</finalName>
 		<plugins>
 			<plugin>
+				<!-- no unit tests, surefire would instead run functional tests in incorrect phase -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>selenium-maven-plugin</artifactId>
 				<version>1.0.1</version>
@@ -174,15 +183,6 @@
 			<id>ftest-jboss-remote-6</id>
 			<build>
 				<plugins>
-					<!-- skip unit tests when running functional -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</plugin>
-
 					<!-- Start Selenium -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
@@ -382,6 +382,12 @@
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxb-provider</artifactId>
 					<scope>compile</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>javax.activation</groupId>
+							<artifactId>activation</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 
 				<dependency>
@@ -389,6 +395,13 @@
 					<artifactId>resteasy-jettison-provider</artifactId>
 					<scope>compile</scope>
 				</dependency>
+
+				<dependency>
+					<groupId>org.jboss.resteasy</groupId>
+					<artifactId>resteasy-jackson-provider</artifactId>
+					<scope>compile</scope>
+				</dependency>
+
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxrs</artifactId>
@@ -418,6 +431,30 @@
 					<artifactId>resteasy-cdi</artifactId>
 					<version>${resteasy.version}</version>
 					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.jboss.weld</groupId>
+					<artifactId>weld-extensions</artifactId>
+					<scope>compile</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>javax.transaction</groupId>
+							<artifactId>jta</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>javax.persistence</groupId>
+							<artifactId>persistence-api</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+
+				<!-- WELDX depends on this -->
+				<dependency>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+					<scope>compile</scope>
+					<version>3.0.0.Beta4</version>
 				</dependency>
 
 			</dependencies>
