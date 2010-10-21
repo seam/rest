@@ -4,3 +4,6 @@ target
 .settings
 *.sw?
 impl/transaction.log
+impl/temp-testng-customsuite.xml
+impl/test-output/
+
