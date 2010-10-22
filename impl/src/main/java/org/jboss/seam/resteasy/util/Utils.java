@@ -19,33 +19,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.test.configuration;
+package org.jboss.seam.resteasy.util;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
-import org.jboss.seam.resteasy.test.SeamResteasyClientTest;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.testng.annotations.Test;
+import java.util.HashSet;
+import java.util.Set;
 
-@Run(RunModeType.AS_CLIENT)
-public class ExclusionTest extends SeamResteasyClientTest
+public class Utils
 {
-   @Deployment
-   public static WebArchive createDeployment()
+   private static Set<Class<?>> WRAPPED_CLASSES = new HashSet<Class<?>>(); 
+      
    {
-      JavaArchive jar = createSeamResteasyLibrary();
-      WebArchive war = createTestApplication();
-      war.setWebXML("org/jboss/seam/resteasy/test/configuration/excluded-web.xml");
-      war.addLibrary(jar);
-      return war;
+      WRAPPED_CLASSES.add(Boolean.class);
+      WRAPPED_CLASSES.add(Character.class);
+      WRAPPED_CLASSES.add(Byte.class);
+      WRAPPED_CLASSES.add(Short.class);
+      WRAPPED_CLASSES.add(Integer.class);
+      WRAPPED_CLASSES.add(Long.class);
+      WRAPPED_CLASSES.add(Float.class);
+      WRAPPED_CLASSES.add(Double.class);
+      WRAPPED_CLASSES.add(Void.class);
    }
-   
-   @Test
-   public void testExcludedResourceNotRegistered() throws Exception
+
+   /**
+    * TODO JAVADOC
+    * @param clazz
+    * @return
+    */
+   public static boolean isPrimitiveWrapper(Class<?> clazz)
    {
-      // the resource should be added by auto-scanning and then removed by seam-resteasy configuration 
-      test("http://localhost:8080/test/excluded", 404, null);
+      return WRAPPED_CLASSES.contains(clazz);
    }
 }

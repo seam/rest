@@ -37,6 +37,5 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 	{
 		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
 		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addUnwrappedExceptionName("org.jboss.weld.exceptions.WeldException");
 	}
 }

@@ -26,6 +26,7 @@ import javax.enterprise.inject.Specializes;
 
 import org.jboss.seam.resteasy.exceptions.ExceptionMapping;
 import org.jboss.seam.resteasy.exceptions.ExceptionMappingConfiguration;
+import org.jboss.seam.resteasy.exceptions.PlainTextExceptionMapping;
 
 @Specializes
 public class CustomExceptionMappings extends ExceptionMappingConfiguration {
@@ -35,13 +36,9 @@ public class CustomExceptionMappings extends ExceptionMappingConfiguration {
 	{
 		addExceptionMapping(new ExceptionMapping(IllegalAccessException.class, 410));
 		addExceptionMapping(new ExceptionMapping(ArrayIndexOutOfBoundsException.class, 411));
-		addExceptionMapping(new ExceptionMapping(NullPointerException.class, 412));
-		addExceptionMapping(new ExceptionMapping(UnsupportedOperationException.class, 413, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog"));
-		addExceptionMapping(new ExceptionMapping(NoSuchMethodError.class, 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog", false));
+		addExceptionMapping(new PlainTextExceptionMapping(NullPointerException.class, 412, "Null reference."));
+		addExceptionMapping(new PlainTextExceptionMapping(UnsupportedOperationException.class, 413, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog"));
+		addExceptionMapping(new PlainTextExceptionMapping(NoSuchMethodError.class, 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog", false));
 		addExceptionMapping(new ExceptionMapping(Exception2.class, 400));
-		addUnwrappedException(Exception1.class);
-		
-		addExceptionMapping(new ExceptionMapping(Exception3.class, 415));
-		addUnwrappedException(Exception3.class);
 	}
 }

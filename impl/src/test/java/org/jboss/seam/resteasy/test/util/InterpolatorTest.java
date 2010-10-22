@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.seam.resteasy.test.Fox;
+import org.jboss.seam.resteasy.test.exceptions.MockInterpolator;
 import org.jboss.seam.resteasy.util.Interpolator;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -45,7 +46,7 @@ public class InterpolatorTest extends Arquillian
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
-      jar.addPackage(Interpolator.class.getPackage());
+      jar.addClasses(MockInterpolator.class, Interpolator.class);
       jar.addPackage(Expressions.class.getPackage());
       jar.addClass(Fox.class);
       return jar;

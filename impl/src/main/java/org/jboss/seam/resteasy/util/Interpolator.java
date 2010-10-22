@@ -21,31 +21,7 @@
  */
 package org.jboss.seam.resteasy.util;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
-public class Interpolator
+public interface Interpolator
 {
-   public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
-// Disabled for now - breaks deployment since WELDX does not work on JBoss AS/Resin ATM
-//   @Inject
-//   private Expressions el;
-
-   public String interpolate(String input)
-   {
-      Matcher matcher = elPattern.matcher(input);
-      StringBuffer buffer = new StringBuffer();
-
-      while (matcher.find())
-      {
-//         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
-         matcher.appendReplacement(buffer, "Interpolator disabled.");
-      }
-      matcher.appendTail(buffer);
-
-      return buffer.toString();
-   }
+   String interpolate(String input);
 }

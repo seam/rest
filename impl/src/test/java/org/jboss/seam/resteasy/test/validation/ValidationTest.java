@@ -27,18 +27,20 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.api.Run;
+import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.seam.resteasy.configuration.ErrorMessageWrapper;
-import org.jboss.seam.resteasy.util.Interpolator;
+import org.jboss.seam.resteasy.util.Annotations;
+import org.jboss.seam.resteasy.util.Utils;
 import org.jboss.seam.resteasy.validation.ValidateRequest;
 import org.jboss.seam.resteasy.validation.ValidationException;
 import org.jboss.seam.resteasy.validation.ValidationExceptionMapper;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.weld.extensions.el.Expressions;
 import org.testng.annotations.Test;
 
+@Run(RunModeType.IN_CONTAINER)
 public class ValidationTest extends Arquillian
 {
    @Inject
@@ -49,14 +51,12 @@ public class ValidationTest extends Arquillian
    @Deployment
    public static JavaArchive createDeployment()
    {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addManifestResource("org/jboss/seam/resteasy/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
-      jar.addPackage(ValidateRequest.class.getPackage());
-      jar.addPackage(ValidationTest.class.getPackage());
-      jar.addPackage(Interpolator.class.getPackage());
-      jar.addPackage(Expressions.class.getPackage());
-      jar.addClass(ErrorMessageWrapper.class);
-      return jar;
+      JavaArchive war = ShrinkWrap.create(JavaArchive.class, "test.jar");
+      war.addManifestResource("org/jboss/seam/resteasy/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
+      war.addPackage(ValidateRequest.class.getPackage());
+      war.addPackage(ValidationTest.class.getPackage());
+      war.addClasses(Annotations.class, Utils.class);
+      return war;
    }
    
    @Test

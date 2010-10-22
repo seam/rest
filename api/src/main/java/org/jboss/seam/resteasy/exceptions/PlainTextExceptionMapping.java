@@ -19,25 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.validation;
+package org.jboss.seam.resteasy.exceptions;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
-public class ValidationException extends RuntimeException
+public class PlainTextExceptionMapping extends ExceptionMapping
 {
-   private static final long serialVersionUID = -2779809222298578247L;
-   
-   private Set<ConstraintViolation<Object>> violations;
-
-   public ValidationException(Set<ConstraintViolation<Object>> violations)
+   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean interpolateMessageBody)
    {
-      this.violations = violations;
+      super(exceptionType, statusCode, message, interpolateMessageBody);
    }
 
-   public Set<ConstraintViolation<Object>> getViolations()
+   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message)
    {
-      return violations;
+      super(exceptionType, statusCode, message);
    }
 }

@@ -21,7 +21,6 @@
  */
 package org.jboss.seam.resteasy.test.validation;
 
-import org.jboss.resteasy.annotations.Form;
 import org.jboss.seam.resteasy.validation.ValidateRequest;
 
 public class Resource
@@ -37,7 +36,7 @@ public class Resource
    }
    
    @ValidateRequest
-   public void formOperation(@Form FormBean form1, @Form FormBean form2)
+   public void formOperation(@FormObject FormBean form1, @FormObject FormBean form2)
    {
    }
 }

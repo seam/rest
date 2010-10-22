@@ -27,7 +27,9 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
+@Provider
 public class ValidationExceptionMapper implements ExceptionMapper<ValidationException>
 {
    public Response toResponse(ValidationException exception)

@@ -21,18 +21,18 @@
  */
 package org.jboss.seam.resteasy.test.exceptions;
 
-import javax.inject.Named;
+import javax.enterprise.context.ApplicationScoped;
+import org.jboss.seam.resteasy.util.Interpolator;
 
-@Named
-public class Fox
+@ApplicationScoped
+public class MockInterpolator implements Interpolator
 {
-   public int getCount()
+   public String interpolate(String input)
    {
-      return 1;
-   }
-   
-   public String getColor()
-   {
-      return "brown";
+      if ("The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog".equals(input))
+      {
+         return "The quick brown fox jumps over the lazy dog";
+      }
+      return input;
    }
 }

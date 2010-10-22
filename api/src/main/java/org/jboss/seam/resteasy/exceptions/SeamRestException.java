@@ -19,19 +19,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.test.configuration;
+package org.jboss.seam.resteasy.exceptions;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
-
-@Interceptor
-@TestInterceptorBinding
-public class TestInterceptor
+public class SeamRestException extends RuntimeException
 {
-   @AroundInvoke
-   public Object intercept(InvocationContext ctx) throws Exception
+   private static final long serialVersionUID = 2094785191554517720L;
+
+   public SeamRestException()
    {
-      return ctx.proceed();
    }
+
+   public SeamRestException(String message, Throwable cause)
+   {
+      super(message, cause);
+   }
+
+   public SeamRestException(String message)
+   {
+      super(message);
+   }
+
+   public SeamRestException(Throwable cause)
+   {
+      super(cause);
+   }
+
 }

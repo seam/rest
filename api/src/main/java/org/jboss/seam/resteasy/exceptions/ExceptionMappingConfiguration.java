@@ -37,8 +37,6 @@ import org.jboss.seam.resteasy.exceptions.ExceptionMapping;
 @ApplicationScoped
 public class ExceptionMappingConfiguration {
 	private Set<ExceptionMapping> exceptionMappings = new HashSet<ExceptionMapping>();
-	private Set<Class<? extends Throwable>> unwrappedExceptions = new HashSet<Class<? extends Throwable>>();
-	private Set<String> unwrappedExceptionsNames = new HashSet<String>();
 	
 	public Set<ExceptionMapping> getExceptionMappings() {
 		return exceptionMappings;
@@ -51,31 +49,5 @@ public class ExceptionMappingConfiguration {
 	public void addExceptionMapping(ExceptionMapping exceptionMapping)
 	{
 		this.exceptionMappings.add(exceptionMapping);
-	}
-
-	public Set<Class<? extends Throwable>> getUnwrappedExceptions() {
-		return unwrappedExceptions;
-	}
-
-	public void setUnwrappedExceptions(Set<Class<? extends Throwable>> unwrappedExceptions) {
-		this.unwrappedExceptions = unwrappedExceptions;
-	}
-	
-	public void addUnwrappedException(Class<? extends Throwable> unwrappedException)
-	{
-		unwrappedExceptions.add(unwrappedException);
-	}
-	
-	public Set<String> getUnwrappedExceptionsNames() {
-		return unwrappedExceptionsNames;
-	}
-
-	public void setUnwrappedExceptionsNames(Set<String> unwrappedExceptionsNames) {
-		this.unwrappedExceptionsNames = unwrappedExceptionsNames;
-	}
-
-	public void addUnwrappedExceptionName(String unwrappedException)
-	{
-		this.unwrappedExceptionsNames.add(unwrappedException);
 	}
 }

@@ -28,11 +28,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
-
 @XmlRootElement(name = "error")
-@IgnoreMediaTypes("text/plain")
-// TODO
 public class ValidationErrorMessageWrapper
 {
    private List<String> messages = new ArrayList<String>();

@@ -65,11 +65,10 @@ public @interface ValidateRequest
    boolean validateMessageBody() default true;
 
    /**
-    * If set to false, {@link org.jboss.resteasy.annotations.Form} parameters will not be validated. 
-    * @return
+    * If set to false, form objects will not be validated. 
     */
    @Nonbinding
-   boolean validateFormParameters() default true;
+   boolean validateFormObjects() default true;
 
    /**
     * Annotation literal for {@link ValidateRequest} interceptor binding.
@@ -79,13 +78,13 @@ public @interface ValidateRequest
       private static final long serialVersionUID = 6404662043744038090L;
       
       private final Class<?>[] groups;
-      private final boolean validateFormParameters;
+      private final boolean validateFormObjects;
       private final boolean validateMessageBody;
       
-      public ValidateLiteral(Class<?>[] groups, boolean validateFormParameters, boolean validateMessageBody)
+      public ValidateLiteral(Class<?>[] groups, boolean validateFormObjects, boolean validateMessageBody)
       {
          this.groups = groups;
-         this.validateFormParameters = validateFormParameters;
+         this.validateFormObjects = validateFormObjects;
          this.validateMessageBody = validateMessageBody;
       }
 
@@ -94,9 +93,9 @@ public @interface ValidateRequest
          return groups;
       }
 
-      public boolean validateFormParameters()
+      public boolean validateFormObjects()
       {
-         return validateFormParameters;
+         return validateFormObjects;
       }
 
       public boolean validateMessageBody()

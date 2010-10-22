@@ -57,13 +57,6 @@ public class TestResource {
 	}
 	
 	@GET
-	@Path("/e3")
-	public void e3()
-	{
-		throw new Exception3();
-	}
-	
-	@GET
 	@Path("/ejb")
 	public void ejb()
 	{

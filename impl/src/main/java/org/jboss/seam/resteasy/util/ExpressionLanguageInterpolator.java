@@ -19,24 +19,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.resteasy.example.tasks.noxml;
+package org.jboss.seam.resteasy.util;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
-import javax.persistence.NoResultException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.jboss.seam.resteasy.configuration.ExceptionMapping;
-import org.jboss.seam.resteasy.configuration.SeamResteasyConfiguration;
+import javax.enterprise.context.ApplicationScoped;
+//import javax.inject.Inject;
 
-@Specializes
-public class CustomSeamResteasyConfiguration extends SeamResteasyConfiguration {
+//import org.jboss.weld.extensions.el.Expressions;
 
-	@PostConstruct
-	public void setup()
-	{
-//		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-//		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-		addMediaTypeMapping("xml", "application/xml");
-		addMediaTypeMapping("json", "application/json");
-	}
+@ApplicationScoped
+public class ExpressionLanguageInterpolator implements Interpolator
+{
+   public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
+//   @Inject
+//   private Expressions el;
+
+   public String interpolate(String input)
+   {
+      Matcher matcher = elPattern.matcher(input);
+      StringBuffer buffer = new StringBuffer();
+
+      while (matcher.find())
+      {
+//         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
+         matcher.appendReplacement(buffer, "Interpolator disabled.");
+      }
+      matcher.appendTail(buffer);
+
+      return buffer.toString();
+   }
 }

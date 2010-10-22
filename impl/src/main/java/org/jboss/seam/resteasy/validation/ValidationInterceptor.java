@@ -33,16 +33,17 @@ import javax.interceptor.InvocationContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
+import javax.ws.rs.core.Context;
 
-import org.jboss.resteasy.annotations.Form;
 import org.jboss.seam.resteasy.util.Annotations;
+import static org.jboss.seam.resteasy.util.Utils.isPrimitiveWrapper;
 
 @Interceptor
 @ValidateRequest
 public class ValidationInterceptor implements Serializable
 {
    private static final long serialVersionUID = -5804986456381504613L;
-   private static final Class<?>[] DEFAULT_GROUPS = new Class<?>[] {Default.class};
+   private static final Class<?>[] DEFAULT_GROUPS = new Class<?>[] { Default.class };
    private static final ValidateRequest DEFAULT_INTERCEPTOR_BINDING = new ValidateRequest.ValidateLiteral(DEFAULT_GROUPS, true, true);
 
    @Inject
@@ -52,7 +53,7 @@ public class ValidationInterceptor implements Serializable
    public Object intercept(InvocationContext ctx) throws Exception
    {
       Set<ConstraintViolation<Object>> violations = new HashSet<ConstraintViolation<Object>>();
-      
+
       ValidateRequest interceptorBinding = getInterceptorBinding(ctx);
       Class<?>[] groups = interceptorBinding.groups();
 
@@ -65,17 +66,10 @@ public class ValidationInterceptor implements Serializable
             // entity body
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
-         
-         if (parameterAnnotations[i].length > 0 && interceptorBinding.validateFormParameters())
+
+         if (isFormObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
          {
-            // @Form parameters
-            for (Annotation annotation : parameterAnnotations[i])
-            {
-               if (annotation instanceof Form)
-               {
-                  violations.addAll(validator.validate(ctx.getParameters()[i], groups));
-               }
-            }
+            violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
       }
 
@@ -95,12 +89,37 @@ public class ValidationInterceptor implements Serializable
       if (interceptorBinding == null)
       {
          // There is no @Validate on the method
-         // The interceptor is probably bound to the bean by @Interceptors annotation
+         // The interceptor is probably bound to the bean by @Interceptors
+         // annotation
          return DEFAULT_INTERCEPTOR_BINDING;
       }
       else
       {
          return interceptorBinding;
       }
+   }
+
+   private boolean isFormObject(Class<?> parameterType, Annotation[] annotations)
+   {
+      if (annotations.length == 0)
+      {
+         return false; // the not-annotated parameter is the message body and
+                       // thus was validated before
+      }
+
+      if (parameterType.isPrimitive() || isPrimitiveWrapper(parameterType))
+      {
+         return false;
+      }
+
+      for (Annotation annotation : annotations)
+      {
+         if (annotation instanceof Context)
+         {
+            return false;
+         }
+      }
+
+      return true;
    }
 }
