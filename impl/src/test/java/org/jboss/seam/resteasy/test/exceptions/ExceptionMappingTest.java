@@ -28,9 +28,10 @@ import org.jboss.seam.resteasy.exceptions.ExceptionMapping;
 import org.jboss.seam.resteasy.test.Fox;
 import org.jboss.seam.resteasy.test.SeamResteasyClientTest;
 import org.jboss.seam.resteasy.util.Interpolator;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 @Run(RunModeType.AS_CLIENT)
@@ -43,11 +44,14 @@ public class ExceptionMappingTest extends SeamResteasyClientTest
    public static WebArchive createDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
+      war.addWebResource("META-INF/beans.xml", "beans.xml");
+      war.setWebXML("WEB-INF/web.xml");
       war.addPackage(ExceptionMapping.class.getPackage());
-      war.addClasses(CustomExceptionMappings.class, TestResource.class, Fox.class, MoreSpecificExceptionMapper.class);
+      war.addClasses(CustomExceptionMappingConfiguration.class, TestResource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addClasses(Interpolator.class, MockInterpolator.class);
-      war.addManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
+      // SLF4J - needed at GlassFish
+      war.addPackages(true, Logger.class.getPackage());
       return war;
    }
 

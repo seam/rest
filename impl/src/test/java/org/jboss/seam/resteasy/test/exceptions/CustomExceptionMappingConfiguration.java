@@ -29,7 +29,7 @@ import org.jboss.seam.resteasy.exceptions.ExceptionMappingConfiguration;
 import org.jboss.seam.resteasy.exceptions.PlainTextExceptionMapping;
 
 @Specializes
-public class CustomExceptionMappings extends ExceptionMappingConfiguration {
+public class CustomExceptionMappingConfiguration extends ExceptionMappingConfiguration {
 
 	@PostConstruct
 	public void setup()

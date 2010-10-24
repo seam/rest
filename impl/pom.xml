@@ -17,15 +17,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<artifactId>seam-resteasy-api</artifactId>
 			<groupId>org.jboss.seam.resteasy</groupId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-extensions</artifactId>
@@ -33,27 +28,19 @@
 
 		<!-- Provided dependencies -->
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxb-provider</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
-  			<artifactId>slf4j-api</artifactId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.jboss.arquillian</groupId>
 			<artifactId>arquillian-testng</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.jbossas</groupId>
-			<artifactId>jboss-as-client</artifactId>
-			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -64,6 +51,15 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -139,6 +135,11 @@
 			</properties>
 			<dependencies>
 				<dependency>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-client</artifactId>
+					<type>pom</type>
+				</dependency>
+				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-jbossas-managed-6</artifactId>
 					<version>${arquillian.version}</version>
@@ -154,17 +155,62 @@
 		</profile>
 
 		<profile>
+			<!-- <activation> -->
+			<!-- <property> -->
+			<!-- <name>!managed</name> -->
+			<!-- </property> -->
+			<!-- </activation> -->
 			<activation>
-				<property>
-					<name>!managed</name>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<id>jbossas-remote-6</id>
 			<dependencies>
 				<dependency>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-client</artifactId>
+					<type>pom</type>
+				</dependency>
+				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-jbossas-remote-6</artifactId>
 					<version>${arquillian.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>glassfish-embedded-3</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-embedded-3</artifactId>
+					<version>1.0.0.Alpha4</version>
+				</dependency>
+				<dependency>
+					<groupId>org.glassfish.extras</groupId>
+					<artifactId>glassfish-embedded-all</artifactId>
+					<version>3.0.1-b02</version>
+				</dependency>
+				<dependency>
+					<groupId>cglib</groupId>
+					<artifactId>cglib-nodep</artifactId>
+					<version>2.1_3</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>glassfish-remote-3</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-remote-3</artifactId>
+					<version>1.0.0.Alpha4</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.glassfish.deployment</groupId>
+					<artifactId>deployment-client</artifactId>
+					<version>3.0.1-b19</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>

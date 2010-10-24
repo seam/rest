@@ -95,4 +95,10 @@ public class ExceptionMapping
    {
       this.interpolateMessageBody = interpolateMessageBody;
    }
+
+   @Override
+   public String toString()
+   {
+      return "ExceptionMapping: " + exceptionType.getCanonicalName() + " --> (" + statusCode + ", " + message + ")";
+   }
 }

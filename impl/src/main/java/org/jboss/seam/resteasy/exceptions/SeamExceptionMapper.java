@@ -24,6 +24,8 @@ package org.jboss.seam.resteasy.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -45,6 +47,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 @Provider
+@ApplicationScoped
 public class SeamExceptionMapper implements ExceptionMapper<Throwable>
 {
 
