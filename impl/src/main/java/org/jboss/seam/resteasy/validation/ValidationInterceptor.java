@@ -61,13 +61,13 @@ public class ValidationInterceptor implements Serializable
       Annotation[][] parameterAnnotations = ctx.getMethod().getParameterAnnotations();
       for (int i = 0; i < parameterAnnotations.length; i++)
       {
-         if (parameterAnnotations[i].length == 0 && interceptorBinding.validateMessageBody())
+         if (interceptorBinding.validateMessageBody() && parameterAnnotations[i].length == 0)
          {
             // entity body
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
 
-         if (isFormObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
+         if (interceptorBinding.validateParameterObjects() && isParameterObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
          {
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
@@ -99,7 +99,7 @@ public class ValidationInterceptor implements Serializable
       }
    }
 
-   private boolean isFormObject(Class<?> parameterType, Annotation[] annotations)
+   private boolean isParameterObject(Class<?> parameterType, Annotation[] annotations)
    {
       // the not annotated parameter is the message body and thus was validated before
       if (annotations.length == 0)

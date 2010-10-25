@@ -68,23 +68,24 @@ public @interface ValidateRequest
     * If set to false, form objects will not be validated. 
     */
    @Nonbinding
-   boolean validateFormObjects() default true;
+   boolean validateParameterObjects() default true;
 
    /**
     * Annotation literal for {@link ValidateRequest} interceptor binding.
     */
+   @SuppressWarnings("all")
    static class ValidateLiteral extends AnnotationLiteral<ValidateRequest> implements ValidateRequest
    {
       private static final long serialVersionUID = 6404662043744038090L;
       
       private final Class<?>[] groups;
-      private final boolean validateFormObjects;
+      private final boolean validateParameterObjects;
       private final boolean validateMessageBody;
       
       public ValidateLiteral(Class<?>[] groups, boolean validateFormObjects, boolean validateMessageBody)
       {
          this.groups = groups;
-         this.validateFormObjects = validateFormObjects;
+         this.validateParameterObjects = validateFormObjects;
          this.validateMessageBody = validateMessageBody;
       }
 
@@ -93,9 +94,9 @@ public @interface ValidateRequest
          return groups;
       }
 
-      public boolean validateFormObjects()
+      public boolean validateParameterObjects()
       {
-         return validateFormObjects;
+         return validateParameterObjects;
       }
 
       public boolean validateMessageBody()
