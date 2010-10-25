@@ -111,7 +111,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       }
 
       // No ExceptionMapper/ExceptionMapping, rethrow the exception
-      throw new SeamRestException("Unhandled exception", e);
+      throw new UnhandledException(e);
    }
 
    // TODO visibility

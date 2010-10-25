@@ -21,25 +21,25 @@
  */
 package org.jboss.seam.resteasy.exceptions;
 
-public class SeamRestException extends RuntimeException
+public class UnhandledException extends RuntimeException
 {
    private static final long serialVersionUID = 2094785191554517720L;
 
-   public SeamRestException()
+   public UnhandledException()
    {
    }
 
-   public SeamRestException(String message, Throwable cause)
+   public UnhandledException(String message, Throwable cause)
    {
       super(message, cause);
    }
 
-   public SeamRestException(String message)
+   public UnhandledException(String message)
    {
       super(message);
    }
 
-   public SeamRestException(Throwable cause)
+   public UnhandledException(Throwable cause)
    {
       super(cause);
    }
