@@ -21,6 +21,7 @@
  */
 package org.jboss.seam.resteasy.validation;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.validation.ConstraintViolation;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -30,6 +31,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
+@ApplicationScoped
 public class ValidationExceptionMapper implements ExceptionMapper<ValidationException>
 {
    public Response toResponse(ValidationException exception)

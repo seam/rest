@@ -40,17 +40,13 @@
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-testng</artifactId>
+			<artifactId>arquillian-junit</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -60,6 +56,17 @@
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<!-- WELDX depends on this -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
 		</dependency>
 	</dependencies>
 
@@ -189,7 +196,11 @@
 				<dependency>
 					<groupId>org.glassfish.extras</groupId>
 					<artifactId>glassfish-embedded-all</artifactId>
-					<version>3.0.1-b02</version>
+					<version>3.0.1</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
 				</dependency>
 				<dependency>
 					<groupId>cglib</groupId>

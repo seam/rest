@@ -21,15 +21,11 @@
  */
 package org.jboss.seam.resteasy.test.validation;
 
-import static org.testng.Assert.assertEquals;
-
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
-import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.resteasy.util.Annotations;
 import org.jboss.seam.resteasy.util.Utils;
 import org.jboss.seam.resteasy.validation.ValidateRequest;
@@ -38,10 +34,12 @@ import org.jboss.seam.resteasy.validation.ValidationExceptionMapper;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
-@Run(RunModeType.IN_CONTAINER)
-public class ValidationTest extends Arquillian
+@RunWith(Arquillian.class)
+public class ValidationTest
 {
    @Inject
    private Resource testResource;
@@ -77,7 +75,7 @@ public class ValidationTest extends Arquillian
       }
       catch (ValidationException e)
       {
-         assertEquals(e.getViolations().size(), 3);
+         assertEquals(3, e.getViolations().size());
       }
    }
    
@@ -93,7 +91,7 @@ public class ValidationTest extends Arquillian
       }
       catch (ValidationException e)
       {
-         assertEquals(e.getViolations().size(), 3);
+         assertEquals(3, e.getViolations().size());
       }
    }
    
@@ -110,7 +108,7 @@ public class ValidationTest extends Arquillian
       catch (ValidationException e)
       {
          Response response = mapper.toResponse(e);
-         assertEquals(response.getEntity().toString().trim(), "must be false");
+         assertEquals("must be false", response.getEntity().toString().trim());
       }
    }
    

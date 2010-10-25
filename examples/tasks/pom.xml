@@ -52,16 +52,10 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<scope>provided</scope>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -90,19 +84,10 @@
 			<artifactId>seam-resteasy</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-atom-provider</artifactId>
-		</dependency>
-
+		<!-- Needed to suppress Jackson provider on RESTEasy -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jettison-provider</artifactId>
 		</dependency>
 
 		<dependency>

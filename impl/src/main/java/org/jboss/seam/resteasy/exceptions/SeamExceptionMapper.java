@@ -19,7 +19,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.jboss.seam.resteasy.exceptions;
 
 import java.util.HashMap;
@@ -56,6 +55,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
    @Inject
    private Interpolator interpolator;
    private Map<Class<? extends Throwable>, ExceptionMapping> mappings = new HashMap<Class<? extends Throwable>, ExceptionMapping>();
+   private boolean initialized = false;
 
    private static final Logger log = LoggerFactory.getLogger(SeamExceptionMapper.class);
 
@@ -71,12 +71,18 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
          this.mappings.put(mapping.getExceptionType(), mapping);
          log.info("Registered {}", mapping);
       }
+      initialized = true;
    }
 
    public Response toResponse(Throwable e)
    {
-
-      log.info("Handling {}", e.getClass()); // TODO
+      if (!initialized)
+      {
+         log.warn("SeamExceptionMapper has not been initialized properly. You are probably running in non-CDI environment.");
+      }
+      
+      
+      log.debug("Handling {}", e.getClass()); // TODO
 
       Throwable exception = e;
 
@@ -100,7 +106,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
             return delegateException(mapper, exception);
          }
 
-         log.info("Unwrapping {}", exception.getClass()); // TODO
+         log.debug("Unwrapping {}", exception.getClass()); // TODO
          exception = exception.getCause();
       }
 
@@ -112,7 +118,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
    private Response handleException(Throwable exception)
    {
       ExceptionMapping mapping = mappings.get(exception.getClass());
-      log.info("Found exception mapping {} for {}", mapping, exception.getClass()); // TODO
+      log.debug("Found exception mapping {} for {}", mapping, exception.getClass()); // TODO
 
       ResponseBuilder builder = Response.status(mapping.getStatusCode());
       if (mapping.getMessage() != null) 

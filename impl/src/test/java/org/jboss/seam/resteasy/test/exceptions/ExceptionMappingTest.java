@@ -22,19 +22,15 @@
 package org.jboss.seam.resteasy.test.exceptions;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
 import org.jboss.seam.resteasy.exceptions.ExceptionMapping;
 import org.jboss.seam.resteasy.test.Fox;
 import org.jboss.seam.resteasy.test.SeamResteasyClientTest;
 import org.jboss.seam.resteasy.util.Interpolator;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
 
-@Run(RunModeType.AS_CLIENT)
 public class ExceptionMappingTest extends SeamResteasyClientTest
 {
 
@@ -47,7 +43,7 @@ public class ExceptionMappingTest extends SeamResteasyClientTest
       war.addWebResource("META-INF/beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
       war.addPackage(ExceptionMapping.class.getPackage());
-      war.addClasses(CustomExceptionMappingConfiguration.class, TestResource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
+      war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addClasses(Interpolator.class, MockInterpolator.class);
       // SLF4J - needed at GlassFish

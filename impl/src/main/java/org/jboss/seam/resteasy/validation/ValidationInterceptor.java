@@ -101,17 +101,19 @@ public class ValidationInterceptor implements Serializable
 
    private boolean isFormObject(Class<?> parameterType, Annotation[] annotations)
    {
+      // the not annotated parameter is the message body and thus was validated before
       if (annotations.length == 0)
       {
-         return false; // the not-annotated parameter is the message body and
-                       // thus was validated before
+         return false; 
       }
 
+      // primitive type parameters are definitely not form objects
       if (parameterType.isPrimitive() || isPrimitiveWrapper(parameterType))
       {
          return false;
       }
 
+      // @Context parameters are not form objects
       for (Annotation annotation : annotations)
       {
          if (annotation instanceof Context)
@@ -119,7 +121,6 @@ public class ValidationInterceptor implements Serializable
             return false;
          }
       }
-
       return true;
    }
 }

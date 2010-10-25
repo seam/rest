@@ -21,12 +21,10 @@
  */
 package org.jboss.seam.resteasy.test.util;
 
-import static org.testng.Assert.assertEquals;
-
 import javax.inject.Inject;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.resteasy.test.Fox;
 import org.jboss.seam.resteasy.test.exceptions.MockInterpolator;
 import org.jboss.seam.resteasy.util.Interpolator;
@@ -34,9 +32,12 @@ import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.weld.extensions.el.Expressions;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
-public class InterpolatorTest extends Arquillian
+@RunWith(Arquillian.class)
+public class InterpolatorTest
 {
    @Inject
    private Interpolator interpolator;
@@ -57,6 +58,6 @@ public class InterpolatorTest extends Arquillian
    {
       String template = "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog";
       String expected = "The quick brown fox jumps over the lazy dog";
-      assertEquals(interpolator.interpolate(template), expected);
+      assertEquals(expected, interpolator.interpolate(template));
    }
 }

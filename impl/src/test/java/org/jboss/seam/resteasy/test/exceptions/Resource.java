@@ -26,7 +26,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 @Path("/exceptions")
-public class TestResource {
+public class Resource {
 
 	@GET
 	@Path("/iae")

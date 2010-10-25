@@ -21,16 +21,17 @@
  */
 package org.jboss.seam.resteasy.test;
 
-import static org.testng.Assert.assertEquals;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.jboss.arquillian.api.Run;
 import org.jboss.arquillian.api.RunModeType;
-import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
 @Run(RunModeType.AS_CLIENT)
-public abstract class SeamResteasyClientTest extends Arquillian
+@RunWith(Arquillian.class)
+public abstract class SeamResteasyClientTest
 {
    protected HttpClient client = new HttpClient();
    
@@ -38,10 +39,10 @@ public abstract class SeamResteasyClientTest extends Arquillian
    {
       GetMethod get = new GetMethod(url);
       get.setRequestHeader("Accept", accept);
-      assertEquals(client.executeMethod(get), expectedStatus);
+      assertEquals(expectedStatus, client.executeMethod(get));
       if (expectedBody != null)
       {
-         assertEquals(get.getResponseBodyAsString(), expectedBody);
+         assertEquals(expectedBody, get.getResponseBodyAsString());
       }
    }
    
