@@ -21,11 +21,26 @@
  */
 package org.jboss.seam.resteasy.test.exceptions;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+
+import org.jboss.seam.resteasy.exceptions.SeamExceptionMapper;
 
 @ApplicationPath("/*")
 public class MyApplication extends Application
 {
-
+   // According to spec, this method does not need to be overridden - that would trigger scanning
+   // Unfortunatelly, RESTEasy does not implement this properly
+   @Override
+   public Set<Class<?>> getClasses()
+   {
+      Set<Class<?>> classes = new HashSet<Class<?>>();
+      classes.add(Resource.class);
+      classes.add(MoreSpecificExceptionMapper.class);
+      classes.add(SeamExceptionMapper.class);
+      return classes;
+   }
 }
