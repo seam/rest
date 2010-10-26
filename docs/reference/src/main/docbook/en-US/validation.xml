@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
-<chapter id="resteasy.validation">
+<chapter id="rest.validation">
 	<title>Bean Validation Integration</title>
 
 	<para>
@@ -14,7 +14,7 @@
 	</para>
 
 	<para>
-		The Seam RESTEasy module integrates with the Bean Validation specification. This
+		The Seam REST module integrates with the Bean Validation specification. This
 		allows message bodies of HTTP requests to be validated using this
 		standardized
 		mechanism.
@@ -32,7 +32,7 @@
 		</para>
 
 		<programlisting role="XML"><![CDATA[<interceptors>
-	<class>org.jboss.seam.resteasy.validation.ValidationInterceptor</class>
+	<class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
 </interceptors>]]></programlisting>
 
 		<para>
@@ -67,11 +67,9 @@ public void updateTask(Task incommingTask)
 			.
 		</para>
 		<para>
-			Seam RESTEasy comes with a built-in
+			Seam REST comes with a built-in
 			<literal>ValidationExceptionMapper</literal>
-			which is registered by default (see <xref linkend="resteasy.configuration.conf-options-table"/>
-			for how to disable
-			it). The exception mapper converts the
+			which is registered by default. The exception mapper converts the
 			<literal>ValidationException</literal>
 			to an HTTP response with 400 (Bad request) status code. Furthermore,
 			messages relevant to the violated constraints are sent within the
@@ -100,16 +98,15 @@ Content-Length:	129
 			parameters are usually HTTP form parameters, query parameters,
 			path
 			parameters, headers, etc. In order to prevent an oversized method
-			signature when the number of parameters is too large, RESTEasy provides an
-			implementation of the <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink> 
-			named <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">Form Object</ulink>.
-			In a method signature, a Form Object is annotated with the
-			<literal>@Form</literal>
-			annotation.
+			signature when the number of parameters is too large, JAX-RS implementations provide 
+			implementations of the <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>.
+			For example <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink> or
+			<ulink url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>. Seam REST validates these
+			Parameter Objects by default.
 		</para>
 
 		<example>
-			<title>Form object MyForm.java</title>
+			<title>RESTEasy @Form object MyForm.java</title>
 			<programlisting role="JAVA"><![CDATA[public class MyForm {
    @FormParam("stuff")
    private int stuff;
@@ -127,16 +124,8 @@ Content-Length:	129
 public void post(@Form MyForm form) {...}]]></programlisting>
 		</example>
 
-		<para>
-			Besides validating message bodies, Seam RESTEasy also validates
-			Form Objects
-			by default. The following table lists configuration
-			options for the
-			validation interceptor.
-	</para>
-
-
 		<table>
+			<title>@ValidateRequest annotation properties</title>
 			<tgroup cols='3'>
 				<thead>
 					<row>
@@ -153,8 +142,8 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 						<entry>true</entry>
 					</row>
 					<row>
-						<entry>validateFormParameters</entry>
-						<entry>Enables/Disables validation of Form Objects.</entry>
+						<entry>validateParameterObjects</entry>
+						<entry>Enables/Disables validation of parameter objects.</entry>
 						<entry>true</entry>
 					</row>
 					<row>

@@ -3,22 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>seam-resteasy-parent</artifactId>
-		<groupId>org.jboss.seam.resteasy</groupId>
+		<artifactId>seam-rest-parent</artifactId>
+		<groupId>org.jboss.seam.rest</groupId>
 		<version>3.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>seam-resteasy</artifactId>
+	<artifactId>seam-rest</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
-	<name>Seam RESTEasy Module Implementation</name>
+	<name>Seam REST Module Implementation</name>
 
 	<dependencies>
 		<dependency>
-			<artifactId>seam-resteasy-api</artifactId>
-			<groupId>org.jboss.seam.resteasy</groupId>
+			<artifactId>seam-rest-api</artifactId>
+			<groupId>org.jboss.seam.rest</groupId>
 		</dependency>
 
 		<dependency>

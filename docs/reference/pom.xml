@@ -3,15 +3,15 @@
 
    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>org.jboss.seam.resteasy</groupId>
-   <artifactId>seam-resteasy-reference-guide</artifactId>
+   <groupId>org.jboss.seam.rest</groupId>
+   <artifactId>seam-rest-reference-guide</artifactId>
    <version>3.0.0-SNAPSHOT</version>
    <packaging>jdocbook</packaging>
-   <name>Seam RESTEasy Reference Guide</name>
+   <name>Seam REST Reference Guide</name>
 
    <parent>
-      <groupId>org.jboss.seam.resteasy</groupId>
-      <artifactId>seam-resteasy-parent</artifactId>
+      <groupId>org.jboss.seam.rest</groupId>
+      <artifactId>seam-rest-parent</artifactId>
       <version>3.0.0-SNAPSHOT</version>
       <relativePath>../../pom.xml</relativePath>
    </parent>

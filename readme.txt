@@ -1,9 +1,8 @@
-seam-resteasy
+seam-rest
 =============
 
-Seam RESTEasy is a lightweight module that aims to provide additional features 
-for developing JAX-RS web services in Java EE environment.
+Seam REST is a lightweight module that aims to provide additional integration 
+with technologies within the Java EE platform as well as third party technologies.
 
-Seam RESTEasy is portable among CDI implementations. However, since the JAX-RS
-specification does not provide a full-scale	SPI, the Seam RESTEasy module is
-tied to RESTEasy (one of JAX-RS	implementations).
+Seam REST is independent of CDI and JAX-RS implementations and thus fully portable 
+between Java EE 6 environments.

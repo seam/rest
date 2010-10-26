@@ -2,7 +2,7 @@
 <suite name="Seam Tasks example" verbose="2" parallel="false">
 	<test name="Seam Tasks">
 		<packages>
-			<package name="org.jboss.seam.resteasy.example.tasks.ftest" />
+			<package name="org.jboss.seam.rest.example.tasks.ftest" />
 		</packages>
 	</test>
 </suite>

@@ -9,7 +9,6 @@
 
    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="preface.xml" />
    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="installation.xml" />
-   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="configuration.xml" />
    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="exception-mapping.xml" />
    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation.xml" />
 

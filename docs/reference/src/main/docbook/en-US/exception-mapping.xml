@@ -1,31 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
-<chapter id="resteasy.exception.mapping">
+<chapter id="rest.exception.mapping">
 	<title>Declarative Exception Mapping</title>
 	<para>
-		The JAX-RS specification comes with Exception Mapping Providers as
-		a standard mechanism for treating Java exceptions. This approach works
-		fine for complex cases, however, the exception handling logic is often
-		trivial and not worth implementing Exception Mapper Providers for each exception type. In
-		these situations, declarative approach is more appropriate. The Seam
-		RESTEasy module allows exception types to be bound to HTTP responses
+		The JAX-RS specification comes with Exception Mapping Providers
+		as
+		a standard mechanism for treating Java exceptions. This approach
+		works
+		fine for complex cases, however, the exception handling logic is
+		often
+		trivial and not worth implementing Exception Mapper Providers for
+		each exception type. In
+		these situations, declarative approach is more
+		appropriate. The Seam
+		REST module allows exception types to be bound to
+		HTTP responses
 		declaratively.
 	</para>
 	<para>
-		For each exception type, it is possible to specify the status code and the error message of the HTTP response. 
+		For each exception type, it is possible to specify the status
+		code and the error message of the HTTP response.
+		There are two ways of
+		exception mapping configuration in Seam REST. 
 	</para>
-	
-	<example>
-		<title>Exception mapping configuration in seam-beans.xml</title>
-		<programlisting role="XML"><![CDATA[<resteasy:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-	<resteasy:message>Requested resource does not exist.</resteasy:message>
-</resteasy:ExceptionMapping>]]></programlisting>
-	</example>
 
-	<example>
-		<title>HTTP response</title>
-		<programlisting role="XML"><![CDATA[HTTP/1.1 404 Not Found
+	<sect1>
+		<title>Programmatic configuration</title>
+		<para>
+			Seam REST exception mapping can be configured from Java code. Firstly, create an <literal>ExceptionMappingConfiguration</literal>
+			subclass which <literal>@Specializes</literal> the provided one. Then, implement a <literal>@PostConstruct</literal>-annotated
+			method in which the <literal>ExceptionMapping</literal> definitions are added as shown in the following example. 
+		</para>
+
+		<example>
+			<title>Programmatic exception mapping configuration</title>
+			<programlisting role="JAVA"><![CDATA[@Specializes
+public class CustomExceptionMappingConfiguration extends ExceptionMappingConfiguration {
+{
+	@PostConstruct
+	public void setup()
+	{
+    	addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
+		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
+	}
+}]]></programlisting>
+		</example>
+		
+		<para>
+			When the <literal>NoResultException</literal> is thrown at runtime, the client receives the following HTTP response.
+		</para>
+		
+		<table>
+			<title>ExceptionMapping properties</title>
+			<tgroup cols='4'>
+				<thead>
+					<row>
+						<entry>Name</entry>
+						<entry>Required</entry>
+						<entry>Default value</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>exceptionType</entry>
+						<entry>true</entry>
+						<entry>-</entry>
+						<entry>Fully-qualified class name of the exception class</entry>
+					</row>
+					<row>
+						<entry>statusCode</entry>
+						<entry>true</entry>
+						<entry>-</entry>
+						<entry>HTTP status code</entry>
+					</row>
+					<row>
+						<entry>message</entry>
+						<entry>false</entry>
+						<entry>-</entry>
+						<entry>Error message sent within the HTTP response</entry>
+					</row>
+					<row>
+						<entry>interpolateMessageBody</entry>
+						<entry>false</entry>
+						<entry>true</entry>
+						<entry>Enables/Disables EL interpolation of the error message</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</sect1>
+
+	<sect1>
+		<title>XML configuration</title>
+		<para>
+			An alternative and more practical way of configuration is to use
+			the Seam XML module to configure the <literal>ExceptionMappingConfiguration</literal>
+			and <literal>ExceptionMapping</literal> classes in XML.
+		</para>
+		<para>
+			Firstly, the Seam XML module needs to be added to the
+			application. If
+			using maven, this can be done by specifying the
+			following dependency:
+		</para>
+
+		<example>
+			<title>Seam XML dependency added to the pom.xml file.</title>
+			<programlisting role="XML"><![CDATA[<dependency> 
+	<groupId>org.jboss.seam.xml</groupId> 
+	<artifactId>seam-xml-config</artifactId> 
+	<version>${seam.xml.version}</version> 
+</dependency>]]></programlisting>
+		</example>
+
+		<para>
+			For more information on the seam-xml module, refer to the
+			<ulink
+				url="http://docs.jboss.org/seam/3/xml-config/latest/reference/en-US/html_single/">Seam XML reference documentation</ulink>
+			Once the Seam XML module is added, specify the configuration in the
+			<literal>seam-beans.xml</literal>
+			file, located in the
+			<literal>WEB-INF</literal>
+			or
+			<literal>META-INF</literal>
+			folder of the web archive.
+		</para>
+
+		<example>
+			<title>Exception mapping configuration in seam-beans.xml</title>
+			<programlisting role="XML"><![CDATA[<rest:ExceptionMappingConfiguration>
+	<s:replaces/>
+	<rest:exceptionMappings>
+		<s:value>
+			<rest:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+				<rest:message>Entity does not exist.</rest:message>
+			</rest:ExceptionMapping>
+		</s:value>
+		<s:value>
+			<rest:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
+				<rest:message>Illegal parameter value.</rest:message>
+			</rest:ExceptionMapping>
+		</s:value>
+	</rest:exceptionMappings>
+</rest:ExceptionMappingConfiguration>]]></programlisting>
+		</example>
+
+		<para>
+			Furthermore, EL expressions can be used in message templates to
+			provide dynamic and more descriptive error messages.
+		</para>
+		<example>
+			<title>Exception mapping configuration in seam-beans.xml</title>
+			<programlisting role="XML"><![CDATA[<rest:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+	<rest:message>Requested resource with id #{pathParameters['id']} does not exist.</rest:message>
+</rest:ExceptionMapping>]]></programlisting>
+		</example>
+	</sect1>
+
+	<sect1>
+		<title>Exception Mapping</title>
+		<para>
+			When an exception occurs at runtime, the <literal>SeamExceptionMapper</literal> first looks for a matching <literal>ExceptionMapping</literal>.
+			If it finds one, it creates an HTTP response with the specified status code and error message.
+		</para>
+		<para>
+			The error message is marshalled within a JAXB object. As a
+			result, the
+			error message is available in multiple media formats. The
+			most commonly used formats are XML and JSON. Most JAX-RS implementations provide media
+			providers for both of these formats. In addition, the error message
+			is
+			also available in plain text.
+		</para>
+		
+		<example>
+			<title>Sample HTTP response</title>
+			<programlisting role="XML"><![CDATA[HTTP/1.1 404 Not Found
 Content-Type: application/xml
 Content-Length: 123
 		
@@ -33,27 +185,7 @@ Content-Length: 123
 <error>
 	<message>Requested resource does not exist.</message>
 </error>]]></programlisting>
-	</example>
-
-	<para>
-		Furthermore, EL expressions can be used in message templates to
-		provide dynamic and more descriptive error messages.
-	</para>
-	
-	<example>
-		<title>Exception mapping configuration in seam-beans.xml</title>
-		<programlisting role="XML"><![CDATA[<resteasy:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-	<resteasy:message>Requested resource with id #{pathParameters['id']} does not exist.</resteasy:message>
-</resteasy:ExceptionMapping>]]></programlisting>
-	</example>
-
-	<para>
-		The error message is marshalled within a JAXB object. As a
-		result, the
-		error message is available in multiple media formats. The
-		most commonly used formats are XML and JSON. RESTEasy provides media
-		providers for both of these formats. In addition, the error message is
-		also available in plain text.
-	</para>
+		</example>
+	</sect1>
 </chapter>
 
