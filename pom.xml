@@ -280,8 +280,8 @@
 
 
 	<scm>
-		<connection>TODO scm:git:git://github.com/seam/resteasy.git</connection>
-		<developerConnection>TODO scm:git:git@github.com:seam/resteasy.git</developerConnection>
-		<url>TODO http://github.com/seam/resteasy</url>
+		<connection>scm:git:git://github.com/seam/rest.git</connection>
+		<developerConnection>scm:git:git@github.com:seam/rest.git</developerConnection>
+		<url>http://github.com/seam/rest</url>
 	</scm>
 </project>
