@@ -19,28 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.example.tasks.noxml;
+package org.jboss.seam.rest.example.tasks.json;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Alternative;
-import javax.persistence.NoResultException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.jboss.seam.rest.exceptions.ExceptionMapping;
-import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
 
-/**
- * This is a configuration for Seam REST exception mapping. Activate this alternative if the XML
- * configuration cannot be used.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-@Alternative
-public class CustomExceptionMappingConfiguration extends ExceptionMappingConfiguration {
-	
-	@PostConstruct
-	public void setup()
-	{
-		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-	}
+public class JsonDateSerializer extends JsonSerializer<Date>
+{
+
+   private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+   
+   @Override
+   public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException
+   {
+      jgen.writeString(format.format(value));
+   }
 }

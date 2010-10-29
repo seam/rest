@@ -39,7 +39,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.jboss.seam.rest.example.tasks.json.JsonDateSerializer;
+
 
 /**
  * 
@@ -52,10 +55,9 @@ import org.jboss.resteasy.annotations.providers.NoJackson;
 @NamedQueries({
    @NamedQuery(name = "taskById", query = "select task from Task task where task.id = :tid"),
    @NamedQuery(name = "taskByCategoryAndId", query = "select task from Task task where task.id = :tid and task.category.name = :category"),
-   @NamedQuery(name = "tasks", query = "select task from Task task where task.resolved in (:r1, :r2)"),
-   @NamedQuery(name = "tasksByCategory", query = "select task from Task task where task.category.name = :category and task.resolved in (:r1, :r2)")
+   @NamedQuery(name = "tasks", query = "select task from Task task where task.resolved in (:r1, :r2) order by task.id"),
+   @NamedQuery(name = "tasksByCategory", query = "select task from Task task where task.category.name = :category and task.resolved in (:r1, :r2) order by task.id")
 })
-@NoJackson
 public class Task
 {
    @Id
@@ -80,14 +82,19 @@ public class Task
    {
    }
 
-   public Task(Long id, String name, Boolean resolved, Date created, Date updated, Category category)
+   public Task(String name, Boolean resolved, Date created, Date updated, Category category)
    {
-      this.id = id;
       this.name = name;
       this.resolved = resolved;
       this.created = created;
       this.updated = updated;
       this.category = category;
+   }
+
+   public Task(Long id, String name, Boolean resolved, Date created, Date updated, Category category)
+   {
+      this(name, resolved, created, updated, category);
+      this.id = id;
    }
 
    public Long getId()
@@ -121,6 +128,7 @@ public class Task
    }
 
    @XmlElement(name = "created")
+   @JsonSerialize(using = JsonDateSerializer.class)
    public Date getCreated()
    {
       return created;
@@ -131,6 +139,8 @@ public class Task
       this.created = created;
    }
 
+   @XmlElement(name = "updated")
+   @JsonSerialize(using = JsonDateSerializer.class)
    public Date getUpdated()
    {
       return updated;
@@ -154,6 +164,7 @@ public class Task
 
    @Transient
    @XmlElement(name = "category")
+   @JsonProperty("category")
    public String getCategoryName()
    {
       return category.getName();

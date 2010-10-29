@@ -8,17 +8,12 @@
 		<rest:exceptionMappings>
 			<s:value>
 				<rest:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-					<rest:message>Entity does not exist.</rest:message>
-				</rest:ExceptionMapping>
-			</s:value>
-			<s:value>
-				<rest:ExceptionMapping exceptionType="org.hibernate.exception.ConstraintViolationException" statusCode="409">
-					<rest:message>Constraint violation.</rest:message>
+					<rest:message>Requested resource does not exist.</rest:message>
 				</rest:ExceptionMapping>
 			</s:value>
 			<s:value>
 				<rest:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
-					<rest:message>Illegal parameter value.</rest:message>
+					<rest:message>Illegal value.</rest:message>
 				</rest:ExceptionMapping>
 			</s:value>
 		</rest:exceptionMappings>

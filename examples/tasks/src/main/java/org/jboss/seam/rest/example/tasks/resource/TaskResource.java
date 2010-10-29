@@ -68,7 +68,7 @@ public class TaskResource extends AbstractEntityResource
    public void move(@PathParam("taskId") long taskId, @QueryParam("category") String newCategoryName, @Context UriInfo uriInfo)
    {
       Task task = loadTask(taskId, uriInfo);
-      Category newCategory = em.createNamedQuery("categoryByName", Category.class).setParameter("category", newCategoryName).getSingleResult();
+      Category newCategory = (Category) em.createNamedQuery("categoryByName").setParameter("category", newCategoryName).getSingleResult();
       Category oldCategory = task.getCategory();
       
       oldCategory.getTasks().remove(task);

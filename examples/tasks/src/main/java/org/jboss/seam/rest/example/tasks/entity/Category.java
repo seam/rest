@@ -37,8 +37,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
-
 /**
  * 
  * @author Jozef Hartinger
@@ -48,9 +46,8 @@ import org.jboss.resteasy.annotations.providers.NoJackson;
 @XmlRootElement
 @NamedQueries({ 
    @NamedQuery(name = "categoryByName", query = "select category from Category category where category.name = :category"),
-   @NamedQuery(name = "categories", query = "select category from Category category")
+   @NamedQuery(name = "categories", query = "select category from Category category order by category.id")
 })
-@NoJackson
 public class Category
 {
    private Long id;
@@ -92,7 +89,7 @@ public class Category
       this.name = name;
    }
 
-   @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+   @OneToMany(mappedBy = "category", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
    @XmlTransient
    public List<Task> getTasks()
    {

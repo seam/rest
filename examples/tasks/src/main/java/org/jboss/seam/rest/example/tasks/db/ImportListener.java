@@ -19,41 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.example.tasks.resource;
+package org.jboss.seam.rest.example.tasks.db;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
-import org.jboss.seam.rest.example.tasks.entity.Category;
+import javax.inject.Inject;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
- * Collection resource for categories
- * @author Jozef Hartinger
+ * This listener replaces the import.sql script - it feeds the database with sample data
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-@Path("/category")
-@Produces( { "application/xml", "application/json" })
-@Stateless
-public class CategoryCollectionResource extends AbstractCollectionResource
+public class ImportListener implements ServletContextListener
 {
-   @PersistenceContext
-   private EntityManager em;
+   @Inject
+   private ImportBean bean;
    
-   @SuppressWarnings("unchecked")
-   @GET
-   public List<Category> getCategories(@QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
+   public void contextInitialized(ServletContextEvent sce)
    {
-      Query query = em.createNamedQuery("categories");
-      applyPaginationParameters(query, start, limit);
-      return query.getResultList();
+      bean.clearDatabase();
+      bean.feedDatabase();
+   }
+
+   public void contextDestroyed(ServletContextEvent sce)
+   {
+      bean.clearDatabase();
    }
 }

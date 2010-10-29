@@ -2,10 +2,10 @@
 <web-app xmlns="http://caucho.com/ns/resin">
 
 	<context-param>
-		<param-name>resteasy.scan.resources</param-name>
-		<param-value>true</param-value>
+		<param-name>javax.ws.rs.Application</param-name>
+		<param-value>org.jboss.seam.rest.example.tasks.TasksApplication</param-value>
 	</context-param>
-	
+
 	<filter>
 		<filter-name>Resteasy</filter-name>
 		<filter-class>org.jboss.resteasy.plugins.server.servlet.FilterDispatcher</filter-class>
@@ -13,9 +13,14 @@
 
 	<filter-mapping>
 		<filter-name>Resteasy</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</filter-mapping>
-
+	
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/api</param-value>
+	</context-param>
+	
 	<database jndi-name='java:/tasksDatasource'>
 		<driver type="org.hsqldb.jdbcDriver">
 			<url>jdbc:hsqldb:.</url>

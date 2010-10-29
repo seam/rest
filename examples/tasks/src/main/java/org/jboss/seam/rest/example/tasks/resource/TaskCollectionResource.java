@@ -36,7 +36,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.jboss.resteasy.annotations.providers.NoJackson;
 import org.jboss.seam.rest.example.tasks.entity.Task;
 
 /**
@@ -56,7 +55,6 @@ public class TaskCollectionResource extends AbstractCollectionResource
 
    @SuppressWarnings("unchecked")
    @GET
-   @NoJackson
    public List<Task> getTasks(@Context UriInfo uriInfo, @QueryParam("status") @DefaultValue("unresolved") String status, @QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
    {
       Query query = createQuery(uriInfo);

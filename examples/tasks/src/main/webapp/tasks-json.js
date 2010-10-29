@@ -44,7 +44,7 @@ function printCategories() {
 		var category;
 		for (key in data)
 		{
-			category = data[key].category;
+			category = data[key];
 			categories[category.name] = category;
 			category.tasks = new Array();
 			addCategory(category);
@@ -57,7 +57,7 @@ function printTasks() {
 		var task;
 		for (key in data)
 		{
-			task = data[key].task;
+			task = data[key];
 			tasks[task.id] = task;
 			categories[task.category].tasks[task.id] = task;
 			addTask(task);
@@ -123,7 +123,7 @@ function setupNewTaskForm()
 			// reset form value
 			$('#editTaskName').val('');
 			getTask(location, function(data) {
-				addTask(data.task);
+				addTask(data);
 			});
 		});
 	});

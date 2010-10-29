@@ -47,7 +47,7 @@ import org.jboss.seam.rest.validation.ValidateRequest;
  * @author Jozef Hartinger
  *
  */
-@Path("/category")
+@Path("/category/{category}")
 @Produces( { "application/xml", "application/json" })
 @Consumes( { "application/xml", "application/json" })
 @ValidateRequest(groups = TaskValidationGroup.class)
@@ -57,14 +57,13 @@ public class CategoryResource extends AbstractEntityResource
    @Inject
    private TaskCollectionResource taskCollectionSubresource;
 
-   @Path("/{category}")
+   @Path("/") // subresource locator
    public TaskCollectionResource getTasks()
    {
       return taskCollectionSubresource;
    }
 
    @PUT
-   @Path("/{category}")
    public void putCategory(@PathParam("category") String categoryName)
    {
       Category category = new Category(categoryName);
@@ -72,7 +71,6 @@ public class CategoryResource extends AbstractEntityResource
    }
 
    @DELETE
-   @Path("/{category}")
    public void deleteCategory(@PathParam("category") String categoryName)
    {
       em.remove(loadCategory(categoryName));
@@ -84,7 +82,7 @@ public class CategoryResource extends AbstractEntityResource
     * 
     */
    @POST
-   @Path("/{category}/task")
+   @Path("/task")
    public Response createTask(Task incommingTask, @PathParam("category") String categoryName, @Context UriInfo uriInfo)
    {
       Category category = loadCategory(categoryName);

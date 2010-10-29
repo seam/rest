@@ -17,6 +17,13 @@
 	<name>Seam Tasks Example</name>
 
 	<properties>
+		<seam.xml.version>3.0.0.Alpha3</seam.xml.version>
+		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
+		<jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
+		<jackson.version>1.6.1</jackson.version>
+		<hsqldb.version>1.8.0.7</hsqldb.version>
+		<testng.version>5.12.1</testng.version>
+		<!-- test properties -->
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
 		<ftest.version.discriminator />
@@ -52,7 +59,7 @@
 	</properties>
 
 	<dependencies>
-
+		<!-- APIs -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
@@ -65,8 +72,22 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Runtime dependencies -->
+		<dependency>
 			<groupId>org.jboss.seam.xml</groupId>
 			<artifactId>seam-xml-config</artifactId>
+			<version>${seam.xml.version}</version>
 		</dependency>
 
 		<dependency>
@@ -76,23 +97,31 @@
 
 		<dependency>
 			<groupId>org.jboss.seam.rest</groupId>
-			<artifactId>seam-rest-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.rest</groupId>
 			<artifactId>seam-rest</artifactId>
 		</dependency>
 
-		<!-- Needed to suppress Jackson provider on RESTEasy -->
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- WELDX depends on this -->
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${jboss.logging.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -111,6 +140,8 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -335,19 +366,9 @@
 			<id>resin</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.seam.rest</groupId>
-					<artifactId>seam-rest-api</artifactId>
-				</dependency>
-
-				<dependency>
-					<groupId>org.jboss.seam.rest</groupId>
-					<artifactId>seam-rest</artifactId>
-				</dependency>
-
-				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxb-provider</artifactId>
-					<scope>compile</scope>
+					<version>${resteasy.version}</version>
 					<exclusions>
 						<exclusion>
 							<groupId>javax.activation</groupId>
@@ -358,45 +379,29 @@
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
-					<artifactId>resteasy-jettison-provider</artifactId>
-					<scope>compile</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.jboss.resteasy</groupId>
-					<artifactId>resteasy-jackson-provider</artifactId>
-					<scope>compile</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxrs</artifactId>
-					<scope>compile</scope>
+					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-cdi</artifactId>
-					<scope>compile</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-extensions</artifactId>
-					<scope>compile</scope>
-				</dependency>
-
-				<!-- WELDX depends on this -->
-				<dependency>
-					<groupId>org.jboss.logging</groupId>
-					<artifactId>jboss-logging</artifactId>
+					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
 					<groupId>hsqldb</groupId>
 					<artifactId>hsqldb</artifactId>
+					<version>${hsqldb.version}</version>
 				</dependency>
 
+				<!-- Does not work on Resin ATM -->
+				<dependency>
+					<groupId>org.jboss.seam.xml</groupId>
+					<artifactId>seam-xml-config</artifactId>
+					<version>${seam.xml.version}</version>
+					<scope>provided</scope>
+				</dependency>
 			</dependencies>
 
 			<build>
@@ -417,26 +422,56 @@
 		</profile>
 
 		<profile>
-			<!-- Temporary profile that excluded WELDX from JBoss AS until JBAS-8512 
-				gets fixed -->
 			<id>jboss-as</id>
+			<!-- Excluded dependencies -->
 			<dependencies>
 				<dependency>
-					<groupId>org.jboss.seam.xml</groupId>
-					<artifactId>seam-xml-config</artifactId>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+					<version>${jboss.logging.version}</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-jaxrs</artifactId>
+					<version>${jackson.version}</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-xc</artifactId>
+					<version>${jackson.version}</version>
 					<scope>provided</scope>
 				</dependency>
 
-				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-extensions</artifactId>
-					<scope>provided</scope>
-				</dependency>
 			</dependencies>
 
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webResources>
+								<resource>
+									<directory>src/main/jboss</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
-
 	</profiles>
-
 </project>
 

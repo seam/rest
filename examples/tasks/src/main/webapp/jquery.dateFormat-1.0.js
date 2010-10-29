@@ -76,7 +76,7 @@
                         month = value.getMonth() + 1;
                         dayOfMonth = value.getDate();
                         time = parseTime(value.toTimeString());
-                    } else if (value.search(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}\+\d{2}:\d{2}/) != -1) { // 2009-04-19T16:11:05+02:00
+                    } else if (value.search(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}\+\d{2}:?\d{2}/) != -1) { // 2009-04-19T16:11:05+02:00
                     	var values = value.split(/[T\+-]/);
                     	
                     	year = values[0];

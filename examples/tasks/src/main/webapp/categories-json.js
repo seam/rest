@@ -29,7 +29,7 @@ function printCategories()
 	getCategories(0, 0, function(data) {
 		for (key in data)
 		{
-			var category = data[key].category;
+			var category = data[key];
 			categories[category.name] = category;
 			addCategory(category.name);
 		}

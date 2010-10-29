@@ -25,7 +25,7 @@ function printTasks() {
 	getTasks("resolved", firstTask, maxResults, function(data) {
 		for (key in data)
 		{
-			addTask(data[key].task);
+			addTask(data[key]);
 		}
 
 		// pagination handling

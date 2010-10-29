@@ -3,4 +3,9 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+         
+    <!-- This listener replaces the import.sql script - it feeds the database with sample data -->
+	<listener>
+		<listener-class>org.jboss.seam.rest.example.tasks.db.ImportListener</listener-class>
+	</listener>
 </web-app>
