@@ -135,7 +135,7 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 	<rest:exceptionMappings>
 		<s:value>
 			<rest:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-				<rest:message>Entity does not exist.</rest:message>
+				<rest:message>Requested resource does not exist.</rest:message>
 			</rest:ExceptionMapping>
 		</s:value>
 		<s:value>
