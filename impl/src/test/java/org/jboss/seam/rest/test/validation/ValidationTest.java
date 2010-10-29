@@ -36,6 +36,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
@@ -49,12 +50,12 @@ public class ValidationTest
    @Deployment
    public static JavaArchive createDeployment()
    {
-      JavaArchive war = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      war.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
-      war.addPackage(ValidateRequest.class.getPackage());
-      war.addPackage(ValidationTest.class.getPackage());
-      war.addClasses(Annotations.class, Utils.class);
-      return war;
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
+      jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
+      jar.addPackage(ValidateRequest.class.getPackage());
+      jar.addPackage(ValidationTest.class.getPackage());
+      jar.addClasses(Annotations.class, Utils.class);
+      return jar;
    }
    
    @Test

@@ -26,6 +26,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.jboss.arquillian.api.Run;
 import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.logging.Logger;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
@@ -49,5 +52,12 @@ public abstract class SeamRestClientTest
    protected void test(String url, int expectedStatus, String expectedBody) throws Exception
    {
       test(url, expectedStatus, expectedBody, "text/plain");
+   }
+   
+   public static JavaArchive getLoggingJar()
+   {
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "logging.jar");
+      jar.addPackage(Logger.class.getPackage());
+      return jar;
    }
 }

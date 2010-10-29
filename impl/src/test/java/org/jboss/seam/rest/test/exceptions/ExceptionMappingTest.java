@@ -29,7 +29,6 @@ import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 public class ExceptionMappingTest extends SeamRestClientTest
 {
@@ -46,8 +45,7 @@ public class ExceptionMappingTest extends SeamRestClientTest
       war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addClasses(Interpolator.class, MockInterpolator.class);
-      // SLF4J - needed at GlassFish
-      war.addPackages(true, Logger.class.getPackage());
+      war.addLibrary(getLoggingJar());
       return war;
    }
 

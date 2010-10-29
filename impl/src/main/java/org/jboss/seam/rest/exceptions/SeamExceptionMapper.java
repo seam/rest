@@ -33,13 +33,12 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.ext.Providers;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
 import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
 import org.jboss.seam.rest.exceptions.PlainTextExceptionMapping;
 import org.jboss.seam.rest.exceptions.UnhandledException;
 import org.jboss.seam.rest.util.Interpolator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * SeamExceptionMapper allows exceptions to be mapped to HTTP status codes
@@ -60,7 +59,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
    private Map<Class<? extends Throwable>, ExceptionMapping> mappings = new HashMap<Class<? extends Throwable>, ExceptionMapping>();
    private boolean initialized = false;
 
-   private static final Logger log = LoggerFactory.getLogger(SeamExceptionMapper.class);
+   private static final Logger log = Logger.getLogger(SeamExceptionMapper.class);
 
    /**
     * Store mappings in a Map so that we can find them by the exception type
@@ -72,7 +71,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       for (ExceptionMapping mapping : configuration.getExceptionMappings())
       {
          this.mappings.put(mapping.getExceptionType(), mapping);
-         log.info("Registered {}", mapping);
+         log.infov("Registered {0}", mapping);
       }
       initialized = true;
    }
@@ -83,9 +82,8 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       {
          log.warn("SeamExceptionMapper has not been initialized properly. You are probably running in non-CDI environment.");
       }
-      
-      
-      log.debug("Handling {}", e.getClass()); // TODO
+
+      log.debugv("Handling {0}", e.getClass()); // TODO
 
       Throwable exception = e;
 
@@ -103,13 +101,13 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
          // according to spec there should not be since it would be chosen
          // to handle the exception instead of the SeamExceptionMapper
          ExceptionMapper<? extends Throwable> mapper = providers.getExceptionMapper(exceptionType);
-         // do not do recursion 
-         if (mapper != null && !(mapper instanceof SeamExceptionMapper)) 
+         // do not do recursion
+         if (mapper != null && !(mapper instanceof SeamExceptionMapper))
          {
             return delegateException(mapper, exception);
          }
 
-         log.debug("Unwrapping {}", exception.getClass()); // TODO
+         log.debugv("Unwrapping {0}", exception.getClass()); // TODO
          exception = exception.getCause();
       }
 
@@ -117,14 +115,13 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       throw new UnhandledException(e);
    }
 
-   // TODO visibility
-   private Response handleException(Throwable exception)
+   protected Response handleException(Throwable exception)
    {
       ExceptionMapping mapping = mappings.get(exception.getClass());
-      log.debug("Found exception mapping {} for {}", mapping, exception.getClass()); // TODO
+      log.debugv("Found exception mapping {0} for {1}", mapping, exception.getClass());
 
       ResponseBuilder builder = Response.status(mapping.getStatusCode());
-      if (mapping.getMessage() != null) 
+      if (mapping.getMessage() != null)
       {
          builder.entity(createEntityBody(mapping));
       }
@@ -145,7 +142,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
          return new ErrorMessageWrapper(getInterpolatedMessage(mapping));
       }
    }
-   
+
    private String getInterpolatedMessage(ExceptionMapping mapping)
    {
       if (mapping.isInterpolateMessageBody())
@@ -158,9 +155,8 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       }
    }
 
-   // TODO visibility
    @SuppressWarnings({ "rawtypes", "unchecked" })
-   private Response delegateException(ExceptionMapper delegate, Throwable exception)
+   protected Response delegateException(ExceptionMapper delegate, Throwable exception)
    {
       return delegate.toResponse(exception);
    }

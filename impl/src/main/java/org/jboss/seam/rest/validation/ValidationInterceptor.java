@@ -35,6 +35,7 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 import javax.ws.rs.core.Context;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
@@ -48,6 +49,7 @@ public class ValidationInterceptor implements Serializable
    private static final long serialVersionUID = -5804986456381504613L;
    private static final Class<?>[] DEFAULT_GROUPS = new Class<?>[] { Default.class };
    private static final ValidateRequest DEFAULT_INTERCEPTOR_BINDING = new ValidateRequest.ValidateLiteral(DEFAULT_GROUPS, true, true);
+   private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
    @Inject
    private Validator validator;
@@ -55,6 +57,8 @@ public class ValidationInterceptor implements Serializable
    @AroundInvoke
    public Object intercept(InvocationContext ctx) throws Exception
    {
+      log.debugv("Intercepting {0}", ctx.getMethod().toGenericString());
+      
       Set<ConstraintViolation<Object>> violations = new HashSet<ConstraintViolation<Object>>();
 
       ValidateRequest interceptorBinding = getInterceptorBinding(ctx);
@@ -66,22 +70,26 @@ public class ValidationInterceptor implements Serializable
       {
          if (interceptorBinding.validateMessageBody() && parameterAnnotations[i].length == 0)
          {
+            log.debugv("Validating HTTP message body {0}", ctx.getParameters()[i]);
             // entity body
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
 
          if (interceptorBinding.validateParameterObjects() && isParameterObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
          {
+            log.debugv("Validating parameter object {0}", ctx.getParameters()[i]);
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
       }
 
       if (violations.isEmpty())
       {
+         log.debug("Validation completed. No violations found.");
          return ctx.proceed();
       }
       else
       {
+         log.debugv("Validation completed. {0} violations found.", violations.size());
          throw new ValidationException(violations);
       }
    }
@@ -91,6 +99,7 @@ public class ValidationInterceptor implements Serializable
       ValidateRequest interceptorBinding = Annotations.getAnnotation(ctx.getMethod(), ValidateRequest.class);
       if (interceptorBinding == null)
       {
+         log.debugv("Unable to find @ValidateRequest interceptor binding for {0}", ctx.getMethod().toGenericString());
          // There is no @Validate on the method
          // The interceptor is probably bound to the bean by @Interceptors
          // annotation

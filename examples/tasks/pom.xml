@@ -19,7 +19,6 @@
 	<properties>
 		<seam.xml.version>3.0.0.Alpha3</seam.xml.version>
 		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
-		<jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
 		<jackson.version>1.6.1</jackson.version>
 		<hsqldb.version>1.8.0.7</hsqldb.version>
 		<testng.version>5.12.1</testng.version>
@@ -101,19 +100,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- WELDX depends on this -->
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-			<version>${jboss.logging.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>${jackson.version}</version>
@@ -122,6 +108,16 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-xc</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- WELDX depends on this -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -426,19 +422,8 @@
 			<!-- Excluded dependencies -->
 			<dependencies>
 				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
 					<groupId>org.jboss.logging</groupId>
 					<artifactId>jboss-logging</artifactId>
-					<version>${jboss.logging.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
@@ -451,6 +436,16 @@
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-xc</artifactId>
 					<version>${jackson.version}</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
 					<scope>provided</scope>
 				</dependency>
 
