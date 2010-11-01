@@ -83,7 +83,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
          log.warn("SeamExceptionMapper has not been initialized properly. You are probably running in non-CDI environment.");
       }
 
-      log.debugv("Handling {0}", e.getClass()); // TODO
+      log.debugv("Handling {0}", e.getClass());
 
       Throwable exception = e;
 
@@ -107,7 +107,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
             return delegateException(mapper, exception);
          }
 
-         log.debugv("Unwrapping {0}", exception.getClass()); // TODO
+         log.debugv("Unwrapping {0}", exception.getClass());
          exception = exception.getCause();
       }
 
