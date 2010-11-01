@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.jboss.seam</groupId>
 		<artifactId>seam-parent</artifactId>
-		<version>3</version>
+		<version>4</version>
 	</parent>
 
 	<groupId>org.jboss.seam.rest</groupId>
@@ -16,16 +16,17 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<seam.version>3.0.0.b01</seam.version>
-		<arquillian.version>1.0.0.Alpha4</arquillian.version>
+		<seam.version>3.0.0.b03</seam.version>
 		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
-		<weld.extensions.version>1.0.0.Beta1</weld.extensions.version>
 		<javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
 		<javax.ws.rs.version>1.1.1</javax.ws.rs.version>
-		<junit.version>4.8.1</junit.version>
-		<jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
 		<httpclient.version>3.1</httpclient.version>
+		<testng.version>5.12.1</testng.version>
+		<jackson.version>1.6.1</jackson.version>
+		<resteasy.version>2.0.1.GA</resteasy.version>
+		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
+		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -50,17 +51,16 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
-				<artifactId>seam</artifactId>
+				<artifactId>seam-bom</artifactId>
 				<version>${seam.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 
 			<dependency>
-				<groupId>org.jboss.spec.javax.ejb</groupId>
-				<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-				<version>${javax.ejb.version}</version>
-				<scope>provided</scope>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee6-specs-bom</artifactId>
+				<version>${jboss.javaee.version}</version>
 			</dependency>
 
 			<dependency>
@@ -80,58 +80,80 @@
 				<artifactId>seam-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.jboss.weld</groupId>
-				<artifactId>weld-extensions</artifactId>
-				<version>${weld.extensions.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.el</groupId>
-						<artifactId>el-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.transaction</groupId>
-						<artifactId>jta</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.javassist</groupId>
-						<artifactId>javassist</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.persistence</groupId>
-						<artifactId>persistence-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.arquillian</groupId>
-				<artifactId>arquillian-junit</artifactId>
-				<version>${arquillian.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.jbossas</groupId>
-				<artifactId>jboss-as-client</artifactId>
-				<version>${jbossas.version}</version>
-				<type>pom</type>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.logging</groupId>
-				<artifactId>jboss-logging</artifactId>
-				<version>${jboss.logging.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
+			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>${httpclient.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>${testng.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.extras</groupId>
+				<artifactId>glassfish-embedded-all</artifactId>
+				<version>${glassfish.embedded.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.deployment</groupId>
+				<artifactId>deployment-client</artifactId>
+				<version>${glassfish.deployment.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- Seam Tasks dependencies -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-jaxrs</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-xc</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxb-provider</artifactId>
+				<version>${resteasy.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-httpclient</groupId>
+						<artifactId>commons-httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-cdi</artifactId>
+				<version>${resteasy.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -17,11 +17,7 @@
 	<name>Seam Tasks Example</name>
 
 	<properties>
-		<seam.xml.version>3.0.0.Alpha3</seam.xml.version>
-		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
-		<jackson.version>1.6.1</jackson.version>
-		<hsqldb.version>1.8.0.7</hsqldb.version>
-		<testng.version>5.12.1</testng.version>
+		<resteasy.version>2.0.1.GA</resteasy.version>
 		<!-- test properties -->
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
@@ -73,12 +69,12 @@
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
 			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<version>1.0.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -86,7 +82,6 @@
 		<dependency>
 			<groupId>org.jboss.seam.xml</groupId>
 			<artifactId>seam-xml-config</artifactId>
-			<version>${seam.xml.version}</version>
 		</dependency>
 
 		<dependency>
@@ -102,12 +97,10 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-xc</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- WELDX depends on this -->
@@ -136,8 +129,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -364,38 +355,27 @@
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxb-provider</artifactId>
-					<version>${resteasy.version}</version>
-					<exclusions>
-						<exclusion>
-							<groupId>javax.activation</groupId>
-							<artifactId>activation</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxrs</artifactId>
-					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-cdi</artifactId>
-					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
-					<groupId>hsqldb</groupId>
+					<groupId>org.hsqldb</groupId>
 					<artifactId>hsqldb</artifactId>
-					<version>${hsqldb.version}</version>
 				</dependency>
 
 				<!-- Does not work on Resin ATM -->
 				<dependency>
 					<groupId>org.jboss.seam.xml</groupId>
 					<artifactId>seam-xml-config</artifactId>
-					<version>${seam.xml.version}</version>
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
@@ -429,13 +409,11 @@
 				<dependency>
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-jaxrs</artifactId>
-					<version>${jackson.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-xc</artifactId>
-					<version>${jackson.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
