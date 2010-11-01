@@ -55,6 +55,11 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+		</dependency>
+
 		<!-- WELDX depends on this -->
 		<dependency>
 			<groupId>javax.el</groupId>

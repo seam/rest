@@ -23,6 +23,7 @@ package org.jboss.seam.rest.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 public class Annotations
 {
@@ -68,5 +69,34 @@ public class Annotations
       {
          return getAnnotation(method.getDeclaringClass(), annotationClass);
       }
+   }
+   
+   /**
+    * TODO javadoc
+    * TODO tests
+    * TODO refactor getAnnotation()
+    * @param <T>
+    * @param annotations
+    * @param annotationClass
+    * @return
+    */
+   @SuppressWarnings("unchecked")
+   public static <T extends Annotation> T getAnnotation(Set<? extends Annotation> annotations, Class<T> annotationClass)
+   {
+      for (Annotation annotation : annotations)
+      {
+         if (annotation.annotationType().equals(annotationClass))
+         {
+            return (T) annotation;
+         }
+         for (Annotation innerAnnotation : annotation.annotationType().getAnnotations())
+         {
+            if (annotation.annotationType().equals(annotationClass))
+            {
+               return (T) innerAnnotation;
+            }
+         }
+      }
+      return null;
    }
 }

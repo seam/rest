@@ -26,6 +26,7 @@
 		<junit.version>4.8.1</junit.version>
 		<jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
 		<httpclient.version>3.1</httpclient.version>
+		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -132,6 +133,13 @@
 				<artifactId>commons-httpclient</artifactId>
 				<version>${httpclient.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
