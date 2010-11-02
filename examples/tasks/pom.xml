@@ -163,35 +163,46 @@
 
 	<profiles>
 		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<id>ftest-jboss-remote-6</id>
+			<id>jboss-remote-6</id>
 			<build>
 				<plugins>
-					<!-- Start Selenium -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>selenium-maven-plugin</artifactId>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<configuration>
+							<container>
+								<containerId>jboss5x</containerId>
+								<type>remote</type>
+							</container>
+							<configuration>
+								<type>runtime</type>
+							</configuration>
+						</configuration>
 						<executions>
 							<execution>
-								<id>start-selenium</id>
+								<id>deploy</id>
 								<phase>pre-integration-test</phase>
 								<goals>
-									<goal>start-server</goal>
+									<goal>deploy</goal>
 								</goals>
-								<configuration>
-									<background>true</background>
-									<port>${selenium.server.port}</port>
-									<logOutput>true</logOutput>
-									<logFile>${selenium.log.dir}/selenium-server.log</logFile>
-									<browserSideLog>${selenium.debug}</browserSideLog>
-									<debug>${selenium.debug}</debug>
-								</configuration>
+							</execution>
+							<execution>
+								<id>undeploy</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
+		<profile>
+			<id>ftest-jboss-remote-6</id>
+			<build>
+				<plugins>
 					<!-- Deploy/undeploy -->
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
@@ -222,8 +233,36 @@
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-					<!-- run functional tests -->
+		<profile>
+			<id>ftest</id>
+			<build>
+				<plugins>
+					<!-- Start Selenium -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>selenium-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>start-selenium</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start-server</goal>
+								</goals>
+								<configuration>
+									<background>true</background>
+									<port>${selenium.server.port}</port>
+									<logOutput>true</logOutput>
+									<logFile>${selenium.log.dir}/selenium-server.log</logFile>
+									<browserSideLog>${selenium.debug}</browserSideLog>
+									<debug>${selenium.debug}</debug>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>failsafe-maven-plugin</artifactId>
