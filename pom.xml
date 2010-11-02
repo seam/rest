@@ -218,6 +218,19 @@
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
+		<profile>
+			<id>distribution</id>
+			<activation>
+				<property>
+					<name>release</name>
+				</property>
+			</activation>
+			<modules>
+				<module>dist</module>
+				<module>docs/reference</module>
+				<module>examples/tasks</module>
+			</modules>
+		</profile>
 	</profiles>
 
 
