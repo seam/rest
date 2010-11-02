@@ -6,4 +6,4 @@ target
 impl/transaction.log
 impl/temp-testng-customsuite.xml
 impl/test-output/
-
+examples/tasks/test-output/
