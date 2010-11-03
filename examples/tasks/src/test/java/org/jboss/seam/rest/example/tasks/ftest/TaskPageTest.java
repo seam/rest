@@ -64,7 +64,7 @@ public class TaskPageTest extends AbstractTestCase
    @Test
    public void testRenamingTask()
    {
-      int id = 7;
+      int id = 10;
       String task = "Buy yoghurt";
       String category = "Buy";
       page.editTask(id, task, category);
@@ -79,7 +79,7 @@ public class TaskPageTest extends AbstractTestCase
    @Test
    public void testMovingTask()
    {
-      int id = 8;
+      int id = 11;
       String name = "Buy an infinite tape";
       String newCategory = "School";
       assertTrue(page.isTaskPresent(id, name));
@@ -92,11 +92,11 @@ public class TaskPageTest extends AbstractTestCase
    @Test
    public void testRemovingTask()
    {
-      assertTrue(page.isTaskPresent(3, "Learn new vocab for English conversations"));
-      page.removeTask(3);
-      assertFalse(page.isTaskPresent(3));
+      assertTrue(page.isTaskPresent(4, "Learn new vocab for English conversations"));
+      page.removeTask(4);
+      assertFalse(page.isTaskPresent(4));
       page.reload(); // verify changes are stored on the server
-      assertFalse(page.isTaskPresent(3));
+      assertFalse(page.isTaskPresent(4));
    }
 
    @Test
@@ -104,18 +104,18 @@ public class TaskPageTest extends AbstractTestCase
    {
       assertTrue(page.isCategoryPresent("School"));
       assertTrue(page.isCategoryPresent("Buy"));
-      assertTrue(page.isTaskPresent("School", 4, "Prepare a presentation for webdesign seminar"));
-      assertTrue(page.isTaskPresent("School", 2, "Finish the RESTEasy-Seam integration example"));
-      assertTrue(page.isTaskPresent("School", 1, "Build the Turing machine"));
-      assertTrue(page.isTaskPresent(16, "Get a haircut"));
-      assertTrue(page.isTaskPresent(15, "Extend passport"));
-      assertTrue(page.isTaskPresent(14, "Visit grandma"));
+      assertTrue(page.isTaskPresent("School", 5, "Prepare a presentation for webdesign seminar"));
+      assertTrue(page.isTaskPresent("School", 3, "Finish the RESTEasy-Seam integration example"));
+      assertTrue(page.isTaskPresent("School", 2, "Build the Turing machine"));
+      assertTrue(page.isTaskPresent(20, "Get a haircut"));
+      assertTrue(page.isTaskPresent(19, "Extend passport"));
+      assertTrue(page.isTaskPresent(18, "Visit grandma"));
    }
 
    @Test
    public void testResolvingTask()
    {
-      int taskId = 9;
+      int taskId = 12;
       assertTrue(page.isTaskPresent(taskId, "Order books"));
       page.resolveTask(taskId);
       assertFalse(page.isTaskPresent(taskId));

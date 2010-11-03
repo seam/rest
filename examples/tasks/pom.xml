@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -17,11 +16,7 @@
 	<name>Seam Tasks Example</name>
 
 	<properties>
-		<seam.xml.version>3.0.0.Alpha3</seam.xml.version>
-		<resteasy.version>2.1-SNAPSHOT</resteasy.version>
-		<jackson.version>1.6.1</jackson.version>
-		<hsqldb.version>1.8.0.7</hsqldb.version>
-		<testng.version>5.12.1</testng.version>
+		<resteasy.version>2.0.1.GA</resteasy.version>
 		<!-- test properties -->
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
@@ -73,12 +68,12 @@
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
 			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<version>1.0.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -86,7 +81,6 @@
 		<dependency>
 			<groupId>org.jboss.seam.xml</groupId>
 			<artifactId>seam-xml-config</artifactId>
-			<version>${seam.xml.version}</version>
 		</dependency>
 
 		<dependency>
@@ -102,12 +96,10 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-xc</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- WELDX depends on this -->
@@ -136,8 +128,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -172,35 +162,46 @@
 
 	<profiles>
 		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<id>ftest-jboss-remote-6</id>
+			<id>jboss-remote-6</id>
 			<build>
 				<plugins>
-					<!-- Start Selenium -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>selenium-maven-plugin</artifactId>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<configuration>
+							<container>
+								<containerId>jboss5x</containerId>
+								<type>remote</type>
+							</container>
+							<configuration>
+								<type>runtime</type>
+							</configuration>
+						</configuration>
 						<executions>
 							<execution>
-								<id>start-selenium</id>
+								<id>deploy</id>
 								<phase>pre-integration-test</phase>
 								<goals>
-									<goal>start-server</goal>
+									<goal>deploy</goal>
 								</goals>
-								<configuration>
-									<background>true</background>
-									<port>${selenium.server.port}</port>
-									<logOutput>true</logOutput>
-									<logFile>${selenium.log.dir}/selenium-server.log</logFile>
-									<browserSideLog>${selenium.debug}</browserSideLog>
-									<debug>${selenium.debug}</debug>
-								</configuration>
+							</execution>
+							<execution>
+								<id>undeploy</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
+		<profile>
+			<id>ftest-jboss-remote-6</id>
+			<build>
+				<plugins>
 					<!-- Deploy/undeploy -->
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
@@ -231,8 +232,36 @@
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-					<!-- run functional tests -->
+		<profile>
+			<id>ftest</id>
+			<build>
+				<plugins>
+					<!-- Start Selenium -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>selenium-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>start-selenium</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start-server</goal>
+								</goals>
+								<configuration>
+									<background>true</background>
+									<port>${selenium.server.port}</port>
+									<logOutput>true</logOutput>
+									<logFile>${selenium.log.dir}/selenium-server.log</logFile>
+									<browserSideLog>${selenium.debug}</browserSideLog>
+									<debug>${selenium.debug}</debug>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>failsafe-maven-plugin</artifactId>
@@ -343,9 +372,7 @@
 								<configuration>
 									<tasks>
 										<echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
-										<get taskname="selenium-shutdown"
-											src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
-											ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg" />
+										<get taskname="selenium-shutdown" src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer" ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg" />
 									</tasks>
 								</configuration>
 								<goals>
@@ -364,38 +391,27 @@
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxb-provider</artifactId>
-					<version>${resteasy.version}</version>
-					<exclusions>
-						<exclusion>
-							<groupId>javax.activation</groupId>
-							<artifactId>activation</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-jaxrs</artifactId>
-					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
 					<groupId>org.jboss.resteasy</groupId>
 					<artifactId>resteasy-cdi</artifactId>
-					<version>${resteasy.version}</version>
 				</dependency>
 
 				<dependency>
-					<groupId>hsqldb</groupId>
+					<groupId>org.hsqldb</groupId>
 					<artifactId>hsqldb</artifactId>
-					<version>${hsqldb.version}</version>
 				</dependency>
 
 				<!-- Does not work on Resin ATM -->
 				<dependency>
 					<groupId>org.jboss.seam.xml</groupId>
 					<artifactId>seam-xml-config</artifactId>
-					<version>${seam.xml.version}</version>
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
@@ -429,13 +445,11 @@
 				<dependency>
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-jaxrs</artifactId>
-					<version>${jackson.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.codehaus.jackson</groupId>
 					<artifactId>jackson-xc</artifactId>
-					<version>${jackson.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>

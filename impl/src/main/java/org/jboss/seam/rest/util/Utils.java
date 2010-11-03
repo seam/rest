@@ -41,9 +41,8 @@ public class Utils
    }
 
    /**
-    * TODO JAVADOC
-    * @param clazz
-    * @return
+    * Returns true if and only it the clazz parameter is a primitive type wrapper. 
+    * (Boolean, Character, Byte, Short, Integer, Long, Float, Double or Void) 
     */
    public static boolean isPrimitiveWrapper(Class<?> clazz)
    {

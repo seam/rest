@@ -45,10 +45,10 @@ public class ResolvedPageTest extends AbstractTestCase
    @Test
    public void contentTest()
    {
-      assertTrue(page.isTaskPresent(5, "Print study materials"));
-      assertTrue(page.isTaskPresent(10, "Buy a turtle"));
-      assertTrue(page.isTaskPresent(11, "Buy new shoes"));
-      assertTrue(page.isTaskPresent(13, "Learn to fly"));
+      assertTrue(page.isTaskPresent(6, "Print study materials"));
+      assertTrue(page.isTaskPresent(13, "Buy a turtle"));
+      assertTrue(page.isTaskPresent(14, "Buy new shoes"));
+      assertTrue(page.isTaskPresent(17, "Learn to fly"));
    }
 
    @Test
@@ -57,7 +57,7 @@ public class ResolvedPageTest extends AbstractTestCase
       assertTrue(page.isNextAvailable());
       assertFalse(page.isPreviousAvailable());
       page.next();
-      assertTrue(page.isTaskPresent(18, "Tidy up"));
+      assertTrue(page.isTaskPresent(22, "Tidy up"));
       assertFalse(page.isNextAvailable());
       page.previous();
       assertTrue(page.isNextAvailable());
@@ -67,7 +67,7 @@ public class ResolvedPageTest extends AbstractTestCase
    @Test
    public void testUndo()
    {
-      int taskId = 12;
+      int taskId = 15;
 
       assertTrue(page.isTaskPresent(taskId));
       page.undoTask(taskId);
