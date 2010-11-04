@@ -21,32 +21,54 @@
  */
 package org.jboss.seam.rest.test.client;
 
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.seam.rest.client.RestClient;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class InjectedBean
+@XmlRootElement
+public class Task
 {
-   @RestClient(value = "http://localhost:8080/test/task/ping")
-   private ClientRequest request;
+   private int id;
+   private String name;
+   private String description;
 
-   @Localhost
-   private TaskService taskService;
-   
-   @Localhost
-   private TaskService taskService2;
-
-   public ClientRequest getRequest()
+   public Task()
    {
-      return request;
    }
 
-   public int createTask()
+   public Task(int id, String name, String description)
    {
-      return taskService.createTask(new Task(1, "foo", "bar")).getStatus();
+      this.id = id;
+      this.name = name;
+      this.description = description;
    }
-   
-   public Task getTask()
+
+   public int getId()
    {
-      return taskService2.getTask(1, 2, 3);
+      return id;
    }
+
+   public void setId(int id)
+   {
+      this.id = id;
+   }
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
+   public String getDescription()
+   {
+      return description;
+   }
+
+   public void setDescription(String description)
+   {
+      this.description = description;
+   }
+
 }

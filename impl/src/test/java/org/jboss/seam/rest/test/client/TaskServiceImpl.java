@@ -21,32 +21,36 @@
  */
 package org.jboss.seam.rest.test.client;
 
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.seam.rest.client.RestClient;
+import javax.ws.rs.core.Response;
 
-public class InjectedBean
+public class TaskServiceImpl implements TaskService
 {
-   @RestClient(value = "http://localhost:8080/test/task/ping")
-   private ClientRequest request;
-
-   @Localhost
-   private TaskService taskService;
-   
-   @Localhost
-   private TaskService taskService2;
-
-   public ClientRequest getRequest()
+   public String ping()
    {
-      return request;
+      return "pong";
    }
 
-   public int createTask()
+   public Response createTask(Task task)
    {
-      return taskService.createTask(new Task(1, "foo", "bar")).getStatus();
+      if ((task.getId() == 1) && ("foo".equals(task.getName())) && ("bar".equals(task.getDescription())))
+      {
+         return Response.status(200).build();
+      }
+      else
+      {
+         return Response.status(400).build();
+      }
    }
-   
-   public Task getTask()
+
+   public Task getTask(int a, int b, int c)
    {
-      return taskService2.getTask(1, 2, 3);
+      if (a + b + c == 6)
+      {
+         return new Task(2, "alpha", "bravo");
+      }
+      else
+      {
+         return null;
+      }
    }
 }

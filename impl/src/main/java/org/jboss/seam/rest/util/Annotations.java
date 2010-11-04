@@ -72,13 +72,10 @@ public class Annotations
    }
    
    /**
-    * TODO javadoc
-    * TODO tests
-    * TODO refactor getAnnotation()
-    * @param <T>
-    * @param annotations
-    * @param annotationClass
-    * @return
+    * Find an instance of the annotationClass in an annotation arrays including the first
+    * level of meta-annotation.
+    * 
+    *  @return the annotationClass instance if present, null otherwise
     */
    @SuppressWarnings("unchecked")
    public static <T extends Annotation> T getAnnotation(Set<? extends Annotation> annotations, Class<T> annotationClass)
@@ -91,7 +88,7 @@ public class Annotations
          }
          for (Annotation innerAnnotation : annotation.annotationType().getAnnotations())
          {
-            if (annotation.annotationType().equals(annotationClass))
+            if (innerAnnotation.annotationType().equals(annotationClass))
             {
                return (T) innerAnnotation;
             }

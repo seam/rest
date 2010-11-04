@@ -21,32 +21,29 @@
  */
 package org.jboss.seam.rest.test.client;
 
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.seam.rest.client.RestClient;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.MatrixParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
-public class InjectedBean
+@Path("/task")
+public interface TaskService
 {
-   @RestClient(value = "http://localhost:8080/test/task/ping")
-   private ClientRequest request;
-
-   @Localhost
-   private TaskService taskService;
+   @Path("/ping")
+   @GET
+   @Produces("text/plain")
+   String ping();
    
-   @Localhost
-   private TaskService taskService2;
-
-   public ClientRequest getRequest()
-   {
-      return request;
-   }
-
-   public int createTask()
-   {
-      return taskService.createTask(new Task(1, "foo", "bar")).getStatus();
-   }
+   @POST
+   @Consumes("application/xml")
+   Response createTask(Task task);
    
-   public Task getTask()
-   {
-      return taskService2.getTask(1, 2, 3);
-   }
+   @GET
+   @Produces("application/xml")
+   Task getTask(@QueryParam("a") int a, @MatrixParam("b") int b, @CookieParam("c") int c);
 }

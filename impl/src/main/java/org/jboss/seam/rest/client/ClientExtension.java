@@ -21,16 +21,22 @@
  */
 package org.jboss.seam.rest.client;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedField;
-import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.Utils;
 
 public class ClientExtension implements Extension
 {
@@ -40,8 +46,8 @@ public class ClientExtension implements Extension
 
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
-      enabled = isResteasyAvailable();
-      
+      enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME) ;
+         
       if (enabled)
       {
          log.info("Seam REST Client Extension starting...");
@@ -49,44 +55,63 @@ public class ClientExtension implements Extension
       }
    }
 
-   public void enableServiceInjection(@Observes ProcessInjectionTarget<?> event, BeanManager manager)
+   public void enableRestClientInjection(@Observes ProcessInjectionTarget<?> event, BeanManager manager)
    {
-      if (enabled && usesRestClientInjection(event.getAnnotatedType()))
+      if (enabled)
       {
-         log.debugf("@RestClient injection enabled for {}", event.getAnnotatedType().getJavaClass());
-         wrapInjectionTarget(event, manager);
-      }
-   }
-
-   private boolean usesRestClientInjection(AnnotatedType<?> type)
-   {
-      for (AnnotatedField<?> field : type.getFields())
-      {
-         // TODO this scan is duplicated in RestClientInjectionTarget
-         if (Annotations.getAnnotation(field.getAnnotations(), RestClient.class) != null)
+         Map<Field, RestClient> clientRequestFields = new HashMap<Field, RestClient>();
+         Map<Field, RestClient> webServiceFields = new HashMap<Field, RestClient>();
+         
+         // scan injection target's fields
+         for (AnnotatedField<?> field : event.getAnnotatedType().getFields())
          {
-            return true;
+            RestClient annotation = Annotations.getAnnotation(field.getAnnotations(), RestClient.class);
+            if (annotation != null)
+            {
+               Field javaField = field.getJavaMember();
+               
+               if (!Modifier.isPublic(javaField.getModifiers()))
+               {
+                  javaField.setAccessible(true);
+               }
+               
+               /*
+                * @RestClient("http://example.com")
+                * private ClientRequest request
+                */
+               if (ClientRequest.class.equals(field.getBaseType()))
+               {
+                  clientRequestFields.put(javaField, annotation);
+                  log.infov("Found @RestClient injection point {0}", field); // TODO
+                  continue;
+               }
+               /*
+                * @RestClient("http://example.com")
+                * private TaskService service
+                */
+               if (javaField.getType().isInterface())
+               {
+                  webServiceFields.put(javaField, annotation);
+                  log.infov("Found @RestClient injection point {0}", field); // TODO
+                  continue;
+               }
+               
+               // other types are not supported
+               event.addDefinitionError(new RuntimeException("@RestClient injection of " + javaField.getType()+ " is not supported."));
+            }
+         }
+         
+         if (!clientRequestFields.isEmpty() || !webServiceFields.isEmpty())
+         {
+          log.infov("@RestClient injection enabled for {0}", event.getAnnotatedType().getJavaClass()); // TODO
+          wrapInjectionTarget(event, clientRequestFields, webServiceFields, manager);
          }
       }
-      return false;
    }
 
-   private <T> void wrapInjectionTarget(ProcessInjectionTarget<T> event, BeanManager manager)
+   private <T> void wrapInjectionTarget(ProcessInjectionTarget<T> event, Map<Field, RestClient> clientRequestFields,Map<Field, RestClient> webServiceFields, BeanManager manager)
    {
-      RestClientInjectionTarget<T> wrappedInjectionTarget = new RestClientInjectionTarget<T>(event.getAnnotatedType(), event.getInjectionTarget(), manager);
+      RestClientInjectionTarget<T> wrappedInjectionTarget = new RestClientInjectionTarget<T>(event.getAnnotatedType(), clientRequestFields, webServiceFields, event.getInjectionTarget(), manager);
       event.setInjectionTarget(wrappedInjectionTarget);
-   }
-
-   private boolean isResteasyAvailable()
-   {
-      try
-      {
-         Thread.currentThread().getContextClassLoader().loadClass(RESTEASY_PROVIDER_FACTORY_NAME);
-         return true;
-      }
-      catch (ClassNotFoundException e)
-      {
-         return false;
-      }
    }
 }

@@ -21,10 +21,18 @@
  */
 package org.jboss.seam.rest.test.client;
 
-import javax.ws.rs.Path;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@Path("/foo")
-public interface PingService
+import org.jboss.seam.rest.client.RestClient;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Target({ FIELD, ANNOTATION_TYPE })
+@Retention(RUNTIME)
+@RestClient("http://localhost:8080/test")
+public @interface Localhost
 {
-   String ping();
 }

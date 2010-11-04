@@ -19,34 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.client;
+package org.jboss.seam.rest.test.util;
 
-import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.seam.rest.client.RestClient;
 
-public class InjectedBean
+@SuppressWarnings("unused")
+class Resource
 {
-   @RestClient(value = "http://localhost:8080/test/task/ping")
-   private ClientRequest request;
-
-   @Localhost
-   private TaskService taskService;
-   
-   @Localhost
-   private TaskService taskService2;
-
-   public ClientRequest getRequest()
-   {
-      return request;
-   }
-
-   public int createTask()
-   {
-      return taskService.createTask(new Task(1, "foo", "bar")).getStatus();
-   }
-   
-   public Task getTask()
-   {
-      return taskService2.getTask(1, 2, 3);
-   }
+   @Example
+   private Void field1;
+   @RestClient("http://foo.bar")
+   private Void field2;
+   private Void field3;
 }

@@ -28,17 +28,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.AnnotatedField;
+import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionTarget;
-
-import org.jboss.logging.Logger;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.DelegatingInjectionTarget;
 
 public class RestClientInjectionTarget<T> extends DelegatingInjectionTarget<T>
@@ -48,66 +45,38 @@ public class RestClientInjectionTarget<T> extends DelegatingInjectionTarget<T>
 
    private Map<Field, RestClient> clientRequestFields = new HashMap<Field, RestClient>();
    private Map<Field, RestClient> webServiceFields = new HashMap<Field, RestClient>();
-   
-   private static final Logger log = Logger.getLogger(RestClientInjectionTarget.class);
 
-   public RestClientInjectionTarget(AnnotatedType<T> annotatedType, InjectionTarget<T> delegate, BeanManager beanManager)
+   public RestClientInjectionTarget(AnnotatedType<T> annotatedType, Map<Field, RestClient> clientRequestFields, Map<Field, RestClient> webServiceFields, InjectionTarget<T> delegate, BeanManager beanManager)
    {
       super(delegate);
       this.beanManager = beanManager;
 
-      findInjectableFields(annotatedType);
-      
-      if (clientRequestFields.isEmpty() && webServiceFields.isEmpty())
-      {
-         log.warnf("@RestClient injection activated for {} which does not contain any @RestClient fields.", annotatedType.getJavaClass());
-      }
+      this.clientRequestFields = clientRequestFields;
+      this.webServiceFields = webServiceFields;
    }
-   
+
    @Override
    public void inject(T instance, CreationalContext<T> ctx)
    {
       super.inject(instance, ctx);
-      
+
       if (clientExecutor == null)
       {
          clientExecutor = lookupClientExecutor();
       }
-      
+
+      // inject ClientRequest fields
       for (Entry<Field, RestClient> entry : clientRequestFields.entrySet())
       {
          ClientRequest clientRequest = new ClientRequest(entry.getValue().value(), clientExecutor);
          injectField(entry.getKey(), instance, clientRequest);
       }
+      // inject web service fields
       for (Entry<Field, RestClient> entry : webServiceFields.entrySet())
       {
          Field field = entry.getKey();
          Object proxy = ProxyFactory.create(field.getType(), entry.getValue().value(), clientExecutor);
          injectField(field, instance, proxy);
-      }
-   }
-   
-   private void findInjectableFields(AnnotatedType<T> annotatedType)
-   {
-      for (AnnotatedField<?> field : annotatedType.getFields())
-      {
-         RestClient annotation = Annotations.getAnnotation(field.getAnnotations(), RestClient.class);
-         if (annotation != null)
-         {
-            if (ClientRequest.class.equals(field.getBaseType()))
-            {
-               clientRequestFields.put(field.getJavaMember(), annotation);
-               log.infof("Found @RestClient injection point {}", field); // TODO
-               continue;
-            }
-            if (field.getJavaMember().getType().isInterface())
-            {
-               webServiceFields.put(field.getJavaMember(), annotation);
-               log.infof("Found @RestClient injection point {}", field); // TODO
-               continue;
-            }
-            log.warnf("@RestClient injection of {} is not supported.", field.getJavaMember().getType());
-         }
       }
    }
 
@@ -122,12 +91,16 @@ public class RestClientInjectionTarget<T> extends DelegatingInjectionTarget<T>
          throw new RuntimeException("Unable to inject.", e); // TODO
       }
    }
-   
+
    private ClientExecutor lookupClientExecutor()
    {
-      // TODO checks
+      // TODO declare injectionpoint somewhere to have boot time check?
       Set<Bean<?>> beans = beanManager.getBeans(ClientExecutor.class);
       Bean<?> bean = beanManager.resolve(beans);
+      if (bean == null)
+      {
+         throw new UnsatisfiedResolutionException(); // TODO
+      }
       CreationalContext<?> context = beanManager.createCreationalContext(bean);
       return (ClientExecutor) beanManager.getReference(bean, ClientExecutor.class, context);
    }

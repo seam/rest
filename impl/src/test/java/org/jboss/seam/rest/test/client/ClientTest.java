@@ -22,17 +22,22 @@
 package org.jboss.seam.rest.test.client;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.httpclient.methods.RequestEntity;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.seam.rest.client.RestClient;
+import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.seam.rest.client.ClientExtension;
+import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.DelegatingInjectionTarget;
+import org.jboss.seam.rest.util.Utils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ClientTest
@@ -40,22 +45,49 @@ public class ClientTest
 
    @Inject
    private InjectedBean bean;
-   
+
    @Deployment
    public static WebArchive getDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("beans.xml", "beans.xml");
-      war.addPackage(RestClient.class.getPackage());
-      war.addClasses(InjectedBean.class, PingService.class);
+      war.addPackage(ClientTest.class.getPackage()); // test classes
+      war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
+      war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
+      war.addLibrary(getSeamRest());
       return war;
+   }
+
+   public static JavaArchive getSeamRest()
+   {
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
+      jar.addPackage(ClientExtension.class.getPackage());
+      jar.addClasses(Utils.class, Annotations.class, DelegatingInjectionTarget.class);
+      jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
+      return jar;
+   }
+
+   @Test
+   public void testClientRequest() throws Exception
+   {
+      ClientRequest request = bean.getRequest();
+      request.accept(MediaType.TEXT_PLAIN_TYPE);
+      ClientResponse<String> response = request.get(String.class);
+      assertEquals("pong", response.getEntity());
    }
    
    @Test
-   public void test()
+   public void testRestClientPost()
    {
-      assertNotNull(bean.getRequest());
-      assertNotNull(bean.getPingService());
+      assertEquals(200, bean.createTask());
    }
-
+   
+   @Test
+   public void testRestClientGet()
+   {
+      Task task = bean.getTask();
+      
+      assertEquals(2, task.getId());
+      assertEquals("alpha", task.getName());
+      assertEquals("bravo", task.getDescription());
+   }
 }
