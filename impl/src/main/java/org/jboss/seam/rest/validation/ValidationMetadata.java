@@ -19,13 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.validation;
+package org.jboss.seam.rest.validation;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface FormObject
+import javax.enterprise.context.ApplicationScoped;
+
+/**
+ * Container for {@link ValidatedMethodMetadata}.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+@ApplicationScoped
+public class ValidationMetadata
 {
-
+   private Map<Method, ValidatedMethodMetadata> methods = new HashMap<Method, ValidatedMethodMetadata>();
+   
+   public ValidatedMethodMetadata getMethodMetadata(Method method)
+   {
+      return methods.get(method);
+   }
+   
+   void addMethodMetadata(ValidatedMethodMetadata method)
+   {
+      methods.put(method.getMethod(), method);
+   }
+   
+   public boolean containsMethodMetadata(Method method)
+   {
+      return methods.containsKey(method);
+   }
 }

@@ -23,6 +23,7 @@ package org.jboss.seam.rest.validation;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,59 +52,97 @@ public class ValidationInterceptor implements Serializable
 
    @Inject
    private Validator validator;
+   @Inject
+   private ValidationMetadata metadata;
 
    @AroundInvoke
    public Object intercept(InvocationContext ctx) throws Exception
    {
-      log.debugv("Intercepting {0}", ctx.getMethod().toGenericString());
+      log.infov("Validating {0}", ctx.getMethod().toGenericString()); // TODO
+      
+      // do scanning only once
+      if (! metadata.containsMethodMetadata(ctx.getMethod()))
+      {
+         scanMethod(ctx.getMethod());
+      }
       
       Set<ConstraintViolation<Object>> violations = new HashSet<ConstraintViolation<Object>>();
 
-      ValidateRequest interceptorBinding = getInterceptorBinding(ctx);
+      ValidatedMethodMetadata method = metadata.getMethodMetadata(ctx.getMethod());
+      ValidateRequest interceptorBinding = method.getInterceptorBinding();
       Class<?>[] groups = interceptorBinding.groups();
-
+      
       // validate JAX-RS resource fields
       if (interceptorBinding.validateResourceFields())
       {
+         log.infov("Validating JAX-RS resource {0}", ctx.getTarget()); // TODO
          violations.addAll(validator.validate(ctx.getTarget(), groups));
       }
       
-      Annotation[][] parameterAnnotations = ctx.getMethod().getParameterAnnotations();
-      for (int i = 0; i < parameterAnnotations.length; i++)
+      // validate message body
+      if (interceptorBinding.validateMessageBody() && (method.getMessageBody() != null))
       {
-         if (interceptorBinding.validateMessageBody() && parameterAnnotations[i].length == 0)
+         Object parameter = ctx.getParameters()[method.getMessageBody()];
+         log.infov("Validating HTTP message body {0}", parameter); // TODO
+         violations.addAll(validator.validate(parameter, groups));
+      }
+      
+      // validate parameter objects
+      if (interceptorBinding.validateParameterObjects())
+      {
+         for (Integer parameterIndex : method.getParameterObjects())
          {
-            log.debugv("Validating HTTP message body {0}", ctx.getParameters()[i]);
-            // entity body
-            violations.addAll(validator.validate(ctx.getParameters()[i], groups));
-         }
-
-         if (interceptorBinding.validateParameterObjects() && isParameterObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
-         {
-            // parameter objects
-            log.debugv("Validating parameter object {0}", ctx.getParameters()[i]);
-            violations.addAll(validator.validate(ctx.getParameters()[i], groups));
+            Object parameter = ctx.getParameters()[parameterIndex];
+            log.infov("Validating parameter object {0}", parameter); // TODO
+            violations.addAll(validator.validate(parameter, groups));
          }
       }
-
+      
       if (violations.isEmpty())
       {
-         log.debug("Validation completed. No violations found.");
+         log.info("Validation completed. No violations found."); // TODO
          return ctx.proceed();
       }
       else
       {
-         log.debugv("Validation completed. {0} violations found.", violations.size());
+         log.infov("Validation completed. {0} violations found.", violations.size()); // TODO
          throw new ValidationException(violations);
       }
    }
-
-   private ValidateRequest getInterceptorBinding(InvocationContext ctx)
+   
+   private void scanMethod(Method method)
    {
-      ValidateRequest interceptorBinding = Annotations.getAnnotation(ctx.getMethod(), ValidateRequest.class);
+      Integer messageBodyIndex = null;
+      Set<Integer> parameterObjects = new HashSet<Integer>();
+      ValidateRequest interceptorBinding = getInterceptorBinding(method);
+      
+      log.infov("This is the first time {0} is invoked. Scanning.", method); // TODO
+      
+      Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+      for (int i = 0; i < parameterAnnotations.length; i++)
+      {
+         if (parameterAnnotations[i].length == 0)
+         {
+            log.infov("{0} identified as the message body.", method.getParameterTypes()[i]); // TODO
+            messageBodyIndex = i;
+            continue;
+         }
+
+         if (isParameterObject(method.getParameterTypes()[i], method.getParameterAnnotations()[i]))
+         {
+            log.infov("{0} identified as the parameter object.", method.getParameterTypes()[i]);
+            parameterObjects.add(i);
+         }
+      }
+      metadata.addMethodMetadata(new ValidatedMethodMetadata(method, messageBodyIndex, parameterObjects, interceptorBinding));
+   }
+
+   private ValidateRequest getInterceptorBinding(Method method)
+   {
+      ValidateRequest interceptorBinding = Annotations.getAnnotation(method, ValidateRequest.class);
       if (interceptorBinding == null)
       {
-         log.debugv("Unable to find @ValidateRequest interceptor binding for {0}", ctx.getMethod().toGenericString());
+         log.debugv("Unable to find @ValidateRequest interceptor binding for {0}", method.toGenericString());
          // There is no @Validate on the method
          // The interceptor is probably bound to the bean by @Interceptors
          // annotation
@@ -124,7 +163,7 @@ public class ValidationInterceptor implements Serializable
       }
 
       // primitive type parameters are definitely not form objects
-      if (parameterType.isPrimitive() || isPrimitiveWrapper(parameterType))
+      if (parameterType.isPrimitive() || isPrimitiveWrapper(parameterType) || String.class.isAssignableFrom(parameterType))
       {
          return false;
       }
