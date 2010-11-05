@@ -12,7 +12,7 @@
    <!-- Add distribution files -->
    <fileSets>
       <fileSet>
-         <directory>src/main/assembly</directory>
+         <directory>${basedir}/..</directory>
          <outputDirectory>.</outputDirectory>
          <includes>
             <include>readme.txt</include>
