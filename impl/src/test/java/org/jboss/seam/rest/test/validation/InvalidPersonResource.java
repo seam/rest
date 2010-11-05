@@ -21,22 +21,11 @@
  */
 package org.jboss.seam.rest.test.validation;
 
-import org.jboss.seam.rest.validation.ValidateRequest;
-
-public class Resource
+@Invalid
+public class InvalidPersonResource extends PersonResource
 {
-   @ValidateRequest(groups = PartialValidation.class)
-   public void partiallyValidatedOperation(Person person)
+   public InvalidPersonResource()
    {
-   }
-   
-   @ValidateRequest
-   public void completelyValidatedOperation(Person person)
-   {
-   }
-   
-   @ValidateRequest
-   public void formOperation(@FormObject FormBean form1, @FormObject FormBean form2)
-   {
+      super("", -1, 100);
    }
 }

@@ -42,8 +42,10 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class ValidationTest
 {
-   @Inject
-   private Resource testResource;
+   @Inject @Valid
+   private PersonResource validResource;
+   @Inject @Invalid
+   private PersonResource invalidResource;
    @Inject
    private ResourceChild resourceChild;
    
@@ -62,7 +64,7 @@ public class ValidationTest
    public void testCorrectMessageBody()
    {
       Person tester = new Person("Jozef", "Hartinger", 22, false);
-      testResource.partiallyValidatedOperation(tester);
+      validResource.partiallyValidatedOperation(tester);
    }
    
    @Test
@@ -71,7 +73,7 @@ public class ValidationTest
       Person tester = new Person("foo", "b", 5, true);
       try
       {
-         testResource.partiallyValidatedOperation(tester);
+         validResource.partiallyValidatedOperation(tester);
          throw new RuntimeException("Expected exception not thrown.");
       }
       catch (ValidationException e)
@@ -87,7 +89,7 @@ public class ValidationTest
       FormBean form2 = new FormBean(null, "bb");
       try
       {
-         testResource.formOperation(form1, form2);
+         validResource.formOperation(form1, form2);
          throw new RuntimeException("Expected exception not thrown.");
       }
       catch (ValidationException e)
@@ -103,7 +105,7 @@ public class ValidationTest
       ValidationExceptionMapper mapper = new ValidationExceptionMapper();
       try
       {
-         testResource.partiallyValidatedOperation(tester);
+         validResource.partiallyValidatedOperation(tester);
          throw new RuntimeException("Expected exception not thrown.");
       }
       catch (ValidationException e)
@@ -119,12 +121,12 @@ public class ValidationTest
       Person partiallyValidPerson = new Person("foo", "bar", 100, false);
       Person completelyValidPerson = new Person("foo", "bar", 100, false, "foobar");
 
-      testResource.partiallyValidatedOperation(partiallyValidPerson);
-      testResource.completelyValidatedOperation(completelyValidPerson);
+      validResource.partiallyValidatedOperation(partiallyValidPerson);
+      validResource.completelyValidatedOperation(completelyValidPerson);
       
       try
       {
-         testResource.completelyValidatedOperation(partiallyValidPerson);
+         validResource.completelyValidatedOperation(partiallyValidPerson);
          throw new RuntimeException("Expected exception not thrown.");
       }
       catch (ValidationException e)
@@ -144,6 +146,21 @@ public class ValidationTest
       catch (ValidationException e)
       {
          // expected
+      }
+   }
+   
+   @Test
+   public void testResourceValidation()
+   {
+      Person validPerson = new Person("foo", "bar", 100, false, "foobar");
+      try
+      {
+         invalidResource.completelyValidatedOperation(validPerson);
+         throw new RuntimeException("Expected exception not thrown.");
+      }
+      catch (ValidationException e)
+      {
+         assertEquals(3, e.getViolations().size());
       }
    }
 }

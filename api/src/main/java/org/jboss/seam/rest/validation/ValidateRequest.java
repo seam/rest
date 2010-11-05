@@ -38,9 +38,14 @@ import javax.validation.groups.Default;
 
 /**
  * Triggers validation of incomming HTTP requests.
- * The {@link Default} group is validated if not specified otherwise. By default, the message body parameter
- * and {@link org.jboss.resteasy.annotations.Form} parameters are validated. This behaviour can be altered
- * using {@link #validateMessageBody()} and {@link #validateFormParameters()} attributes. 
+ * The {@link Default} group is validated if not specified otherwise. By default, the following
+ * elements are validated:
+ * - message body parameter
+ * - parameter objects
+ * - fields of the JAX-RS resource
+ * 
+ * This behaviour can be altered using {@link #validateMessageBody()}, {@link #validateFormParameters()}
+ * and {@link #validateResourceFields()} attributes. 
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
@@ -69,6 +74,12 @@ public @interface ValidateRequest
     */
    @Nonbinding
    boolean validateParameterObjects() default true;
+   
+   /**
+    * If set to false, the JAX-RS resource fields will not be validated.
+    */
+   @Nonbinding
+   boolean validateResourceFields() default true;
 
    /**
     * Annotation literal for {@link ValidateRequest} interceptor binding.
@@ -81,12 +92,19 @@ public @interface ValidateRequest
       private final Class<?>[] groups;
       private final boolean validateParameterObjects;
       private final boolean validateMessageBody;
+      private final boolean validateResourceFields;
       
-      public ValidateLiteral(Class<?>[] groups, boolean validateFormObjects, boolean validateMessageBody)
+      public ValidateLiteral()
+      {
+         this(new Class<?>[] { Default.class }, true, true, true);
+      }
+      
+      public ValidateLiteral(Class<?>[] groups, boolean validateFormObjects, boolean validateMessageBody, boolean validateResourceFields)
       {
          this.groups = groups;
          this.validateParameterObjects = validateFormObjects;
          this.validateMessageBody = validateMessageBody;
+         this.validateResourceFields = validateResourceFields;
       }
 
       public Class<?>[] groups()
@@ -102,6 +120,11 @@ public @interface ValidateRequest
       public boolean validateMessageBody()
       {
          return validateMessageBody;
+      }
+      
+      public boolean validateResourceFields()
+      {
+         return validateResourceFields;
       }
    }
 }

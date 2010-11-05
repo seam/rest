@@ -32,7 +32,6 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import javax.validation.groups.Default;
 import javax.ws.rs.core.Context;
 
 import org.jboss.logging.Logger;
@@ -47,8 +46,7 @@ import static org.jboss.seam.rest.util.Utils.isPrimitiveWrapper;
 public class ValidationInterceptor implements Serializable
 {
    private static final long serialVersionUID = -5804986456381504613L;
-   private static final Class<?>[] DEFAULT_GROUPS = new Class<?>[] { Default.class };
-   private static final ValidateRequest DEFAULT_INTERCEPTOR_BINDING = new ValidateRequest.ValidateLiteral(DEFAULT_GROUPS, true, true);
+   private static final ValidateRequest DEFAULT_INTERCEPTOR_BINDING = new ValidateRequest.ValidateLiteral();
    private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
    @Inject
@@ -64,7 +62,12 @@ public class ValidationInterceptor implements Serializable
       ValidateRequest interceptorBinding = getInterceptorBinding(ctx);
       Class<?>[] groups = interceptorBinding.groups();
 
-      // perform validation
+      // validate JAX-RS resource fields
+      if (interceptorBinding.validateResourceFields())
+      {
+         violations.addAll(validator.validate(ctx.getTarget(), groups));
+      }
+      
       Annotation[][] parameterAnnotations = ctx.getMethod().getParameterAnnotations();
       for (int i = 0; i < parameterAnnotations.length; i++)
       {
@@ -77,6 +80,7 @@ public class ValidationInterceptor implements Serializable
 
          if (interceptorBinding.validateParameterObjects() && isParameterObject(ctx.getMethod().getParameterTypes()[i], ctx.getMethod().getParameterAnnotations()[i]))
          {
+            // parameter objects
             log.debugv("Validating parameter object {0}", ctx.getParameters()[i]);
             violations.addAll(validator.validate(ctx.getParameters()[i], groups));
          }
