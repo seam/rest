@@ -26,6 +26,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
@@ -34,8 +35,11 @@ import org.jboss.seam.rest.validation.ValidationInterceptor;
 
 public class SeamRestExtension implements Extension
 {
+   private static final Logger log = Logger.getLogger(SeamRestExtension.class);
+   
    void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
+      log.info("Seam REST Extension starting...");
       event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));
       event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
       

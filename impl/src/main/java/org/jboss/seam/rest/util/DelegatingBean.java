@@ -21,55 +21,75 @@
  */
 package org.jboss.seam.rest.util;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.enterprise.inject.spi.InjectionTarget;
 
-/**
- * InjectionTarget implementation that delegates all method invocations to the
- * underlying delegate. Used to wrap an InjectionTarger.
- * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- * 
- */
-public class DelegatingInjectionTarget<T> implements InjectionTarget<T>
+public class DelegatingBean<T> implements Bean<T>
 {
-   private InjectionTarget<T> delegate;
-
-   public DelegatingInjectionTarget(InjectionTarget<T> delegate)
+   private Bean<T> delegate; 
+   
+   public DelegatingBean(Bean<T> delegate)
    {
       this.delegate = delegate;
    }
 
-   public T produce(CreationalContext<T> ctx)
+   public T create(CreationalContext<T> creationalContext)
    {
-      return delegate.produce(ctx);
+      return delegate.create(creationalContext);
    }
 
-   public void dispose(T instance)
+   public void destroy(T instance, CreationalContext<T> creationalContext)
    {
-      delegate.dispose(instance);
+      delegate.destroy(instance, creationalContext);
+   }
+
+   public Set<Type> getTypes()
+   {
+      return delegate.getTypes();
+   }
+
+   public Set<Annotation> getQualifiers()
+   {
+      return delegate.getQualifiers();
+   }
+
+   public Class<? extends Annotation> getScope()
+   {
+      return delegate.getScope();
+   }
+
+   public String getName()
+   {
+      return delegate.getName();
+   }
+
+   public Set<Class<? extends Annotation>> getStereotypes()
+   {
+      return delegate.getStereotypes();
+   }
+
+   public Class<?> getBeanClass()
+   {
+      return delegate.getBeanClass();
+   }
+
+   public boolean isAlternative()
+   {
+      return delegate.isAlternative();
+   }
+
+   public boolean isNullable()
+   {
+      return delegate.isNullable();
    }
 
    public Set<InjectionPoint> getInjectionPoints()
    {
       return delegate.getInjectionPoints();
-   }
-
-   public void inject(T instance, CreationalContext<T> ctx)
-   {
-      delegate.inject(instance, ctx);
-   }
-
-   public void postConstruct(T instance)
-   {
-      delegate.postConstruct(instance);
-   }
-
-   public void preDestroy(T instance)
-   {
-      delegate.preDestroy(instance);
    }
 }

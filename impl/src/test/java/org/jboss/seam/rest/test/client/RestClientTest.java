@@ -28,9 +28,9 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.seam.rest.client.ClientExtension;
+import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.DelegatingInjectionTarget;
+import org.jboss.seam.rest.util.DelegatingBean;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -40,7 +40,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class ClientTest
+public class RestClientTest
 {
 
    @Inject
@@ -50,7 +50,7 @@ public class ClientTest
    public static WebArchive getDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addPackage(ClientTest.class.getPackage()); // test classes
+      war.addPackage(RestClientTest.class.getPackage()); // test classes
       war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
       war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
@@ -60,8 +60,8 @@ public class ClientTest
    public static JavaArchive getSeamRest()
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addPackage(ClientExtension.class.getPackage());
-      jar.addClasses(Utils.class, Annotations.class, DelegatingInjectionTarget.class);
+      jar.addPackage(RestClientExtension.class.getPackage());
+      jar.addClasses(Utils.class, Annotations.class, DelegatingBean.class);
       jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }
@@ -89,5 +89,6 @@ public class ClientTest
       assertEquals(2, task.getId());
       assertEquals("alpha", task.getName());
       assertEquals("bravo", task.getDescription());
+      assertEquals("pong", bean.ping());
    }
 }

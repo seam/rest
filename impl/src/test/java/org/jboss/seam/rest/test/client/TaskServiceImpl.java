@@ -25,11 +25,6 @@ import javax.ws.rs.core.Response;
 
 public class TaskServiceImpl implements TaskService
 {
-   public String ping()
-   {
-      return "pong";
-   }
-
    public Response createTask(Task task)
    {
       if ((task.getId() == 1) && ("foo".equals(task.getName())) && ("bar".equals(task.getDescription())))

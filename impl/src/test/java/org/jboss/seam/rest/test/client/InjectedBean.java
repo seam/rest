@@ -21,19 +21,21 @@
  */
 package org.jboss.seam.rest.test.client;
 
+import javax.inject.Inject;
+
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.seam.rest.client.RestClient;
 
 public class InjectedBean
 {
-   @RestClient(value = "http://localhost:8080/test/task/ping")
+   @Inject @RestClient("http://localhost:8080/test/ping")
    private ClientRequest request;
 
-   @Localhost
+   @Inject @RestClient("http://localhost:8080/test")
    private TaskService taskService;
    
-   @Localhost
-   private TaskService taskService2;
+   @Inject @RestClient("http://localhost:8080/test")
+   private PingService pingService;
 
    public ClientRequest getRequest()
    {
@@ -47,6 +49,11 @@ public class InjectedBean
    
    public Task getTask()
    {
-      return taskService2.getTask(1, 2, 3);
+      return taskService.getTask(1, 2, 3);
+   }
+   
+   public String ping()
+   {
+      return pingService.ping();
    }
 }

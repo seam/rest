@@ -21,42 +21,19 @@
  */
 package org.jboss.seam.rest.client;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
+import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.weld.extensions.bean.defaultbean.DefaultBean;
 
+@ApplicationScoped
 public class DefaultClientExecutorProducer
 {
-
-   // TODO rewrite
    @Produces
-   @Dependent
-   public ApacheHttpClient4Executor createExecutor()
+   @DefaultBean(value = ClientExecutor.class)
+   public ClientExecutor createExecutor()
    {
-      HttpParams params = new BasicHttpParams();
-      ConnManagerParams.setMaxTotalConnections(params, 3);
-      ConnManagerParams.setTimeout(params, 1000);
-
-      // Create and initialize scheme registry
-      SchemeRegistry schemeRegistry = new SchemeRegistry();
-      schemeRegistry.register(
-              new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-
-      
-      ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-      
-      HttpClient httpClient = new DefaultHttpClient(cm, params);
-
-      return new ApacheHttpClient4Executor(httpClient);
+      return new ApacheHttpClient4Executor();
    }
 }

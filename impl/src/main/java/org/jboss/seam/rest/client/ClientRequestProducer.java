@@ -21,33 +21,34 @@
  */
 package org.jboss.seam.rest.client;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.jboss.resteasy.client.ClientExecutor;
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.seam.rest.util.Annotations;
 
 /**
- * Qualifier for injecting REST client and <code>ClientRequest</code> instances.
+ * Produces ClientRequest instances.
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-@Target({ FIELD, ANNOTATION_TYPE, METHOD, PARAMETER })
-@Retention(RUNTIME)
-@Documented
-@Qualifier
-public @interface RestClient
+@ApplicationScoped
+public class ClientRequestProducer
 {
-   /**
-    * URL of the web service
-    */
-   @Nonbinding
-   String value();
+   @Produces @RestClient("")
+   public ClientRequest produce(InjectionPoint ip, ClientExecutor executor)
+   {
+      RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
+      
+      if (qualifier == null)
+      {
+         throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid."); // this should never happen
+      }
+      
+      return new ClientRequest(qualifier.value(), executor);
+   }
+   
+   // TODO disposer?
 }

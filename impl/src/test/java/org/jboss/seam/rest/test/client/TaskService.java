@@ -34,11 +34,6 @@ import javax.ws.rs.core.Response;
 @Path("/task")
 public interface TaskService
 {
-   @Path("/ping")
-   @GET
-   @Produces("text/plain")
-   String ping();
-   
    @POST
    @Consumes("application/xml")
    Response createTask(Task task);
