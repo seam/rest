@@ -14,8 +14,10 @@
 	</para>
 
 	<para>
-		The Seam REST module integrates with the Bean Validation specification. This
-		allows message bodies of HTTP requests to be validated using this
+		The Seam REST module integrates with the Bean Validation
+		specification. This
+		allows incomming HTTP requests to be validated
+		using this
 		standardized
 		mechanism.
 	</para>
@@ -27,7 +29,8 @@
 			Firstly, enable the
 			<literal>ValidationInterceptor</literal>
 			in the
-			<literal>beans.xml</literal> configuration
+			<literal>beans.xml</literal>
+			configuration
 			file.
 		</para>
 
@@ -50,35 +53,44 @@ public void updateTask(Task incommingTask)
 ...
 }]]></programlisting>
 
-		<para>
-			By default, the message body (the parameter with no annotations) is
-			validated. If the object is valid, the web service method is
-			executed.
-			Otherwise, the
-			<literal>ValidationException</literal> exception
-			is thrown.
-		</para>
+		<sect2>
+			<title>Validating entity body</title>
 
-		<para>
-			The <literal>ValidationException</literal> exception
-			is a simple carrier of constraint violations found by the Bean
-			Validation provider. The exception can be handled by an
-			<literal>ExceptionMapper</literal>
-			.
-		</para>
-		<para>
-			Seam REST comes with a built-in
-			<literal>ValidationExceptionMapper</literal>
-			which is registered by default. The exception mapper converts the
-			<literal>ValidationException</literal>
-			to an HTTP response with 400 (Bad request) status code. Furthermore,
-			messages relevant to the violated constraints are sent within the
-			message body of the HTTP response.
-		</para>
+			<para>
+				By default, the entity parameter (the parameter with no annotations
+				that represent the body of the HTTP request) is
+				validated. If the
+				object is valid, the web service method is
+				executed.
+				Otherwise, the
+				<literal>ValidationException</literal>
+				exception
+				is thrown.
+			</para>
 
-		<example>
-			<title>HTTP response</title>
-			<programlisting role="XML"><![CDATA[HTTP/1.1 400 Bad Request
+			<para>
+				The
+				<literal>ValidationException</literal>
+				exception
+				is a simple carrier of constraint violations found by the
+				Bean
+				Validation provider. The exception can be handled by an
+				<literal>ExceptionMapper</literal>
+				.
+			</para>
+			<para>
+				Seam REST comes with a built-in
+				<literal>ValidationExceptionMapper</literal>
+				which is registered by default. The exception mapper converts the
+				<literal>ValidationException</literal>
+				to an HTTP response with 400 (Bad request) status code. Furthermore,
+				messages relevant to the violated constraints are sent within the
+				message body of the HTTP response.
+			</para>
+
+			<example>
+				<title>HTTP response</title>
+				<programlisting role="XML"><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/xml
 Content-Length:	129
 				
@@ -88,27 +100,115 @@ Content-Length:	129
 		<message>Name length must be between 1 and 100.</message>
 	</messages>
 </error>]]></programlisting>
-		</example>
+			</example>
+		</sect2>
 
-		<para>
-			Besides the message body, the JAX-RS specification allows
-			various
-			parts of the HTTP request to be passed as method parameters.
-			These
-			parameters are usually HTTP form parameters, query parameters,
-			path
-			parameters, headers, etc. In order to prevent an oversized method
-			signature when the number of parameters is too large, JAX-RS implementations provide 
-			implementations of the <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>.
-			For example <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink> or
-			<ulink url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>. Seam REST validates these
-			Parameter Objects by default.
-		</para>
+		<sect2 id="rest.resource.validation">
+			<title>Validating resource fields</title>
+			<para>
+				Besides the message body, the JAX-RS specification allows
+				various
+				parts of the HTTP request to be injected into the JAX-RS
+				resource or passed as method parameters.
+				These
+				parameters are usually
+				HTTP form parameters, query parameters,
+				path
+				parameters, headers, etc.
+			</para>
 
-		<example>
-			<title>RESTEasy @Form object MyForm.java</title>
-			<programlisting role="JAVA"><![CDATA[public class MyForm {
+			<example>
+				<title>JAX-RS resource</title>
+				<programlisting role="XML"><![CDATA[public class PersonResource
+{
+	@QueryParam("search")
+	@Size(min = 1, max = 30)
+	private String query;
+	@QueryParam("start")
+	@DefaultValue("0")
+	@Min(0)
+	private int start;
+	@QueryParam("limit")
+	@DefaultValue("20")
+	@Min(0) @Max(50)
+	private int limit;
+...]]></programlisting>
+			</example>
+
+			<para>
+				If a method of a resource is annotated with
+				<literal>@ValidateRequest</literal>
+				annotation, the fields
+				of a resource are validated by default.
+			</para>
+
+			<note>
+				<para>
+					Since the JAX-RS injection occurs at resource creation time only,
+					do
+					not use the
+					JAX-RS field injection for other than
+					<literal>@RequestScoped</literal>
+					resources.
+				</para>
+			</note>
+		</sect2>
+
+		<sect2>
+			<title>Validating other method parameters</title>
+
+			<para>
+				The JAX-RS specification allows path parameters, query
+				parameters, matrix parameters, cookie parameters and headers to
+				be
+				passed as parameters of a resource
+				method.
+			</para>
+
+			<example>
+				<title>JAX-RS method parameters</title>
+				<programlisting role="XML"><![CDATA[@GET
+public List<Person>search(@QueryParam("search") String query,
+	@QueryParam("start") @DefaultValue("0") int start,
+	@QueryParam("limit") @DefaultValue("20") int limit)]]></programlisting>
+			</example>
+
+			<note>
+				<para>
+					Currently, Seam REST does not validate primitive method parameters
+					(including
+					String ones). Therefore, either use resource field
+					validation described
+					in
+					<xref linkend="rest.resource.validation" />
+					or read further and use parameter objects.
+				</para>
+			</note>
+
+			<para>
+				In order to prevent an oversized method
+				signature when the number of
+				parameters is too large, JAX-RS implementations provide
+				implementations of the
+				<ulink
+					url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>
+				. These objects aggregate multiple parameters into a single
+				object.
+				For example
+				<ulink
+					url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink>
+				or
+				<ulink
+					url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>
+				.
+				These parameters can be validated by Seam REST.
+			</para>
+
+			<example>
+				<title>RESTEasy parameter object</title>
+				<programlisting role="JAVA"><![CDATA[public class MyForm {
    @FormParam("stuff")
+   @Size(min = 1, max = 30)
    private int stuff;
 
    @HeaderParam("myHeader")
@@ -122,8 +222,12 @@ Content-Length:	129
 @Path("/myservice")
 @ValidateRequest
 public void post(@Form MyForm form) {...}]]></programlisting>
-		</example>
+			</example>
+		</sect2>
+	</sect1>
 
+	<sect1>
+		<title>Validation configuration</title>
 		<table>
 			<title>@ValidateRequest annotation properties</title>
 			<tgroup cols='3'>
@@ -147,6 +251,13 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 						<entry>true</entry>
 					</row>
 					<row>
+						<entry>validateResourceFields</entry>
+						<entry>Enables/Disables validation of fields fields of a JAX-RS
+							resource.
+						</entry>
+						<entry>true</entry>
+					</row>
+					<row>
 						<entry>groups</entry>
 						<entry>Validation groups to be used for validation.</entry>
 						<entry>javax.validation.groups.Default</entry>
@@ -154,7 +265,6 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 				</tbody>
 			</tgroup>
 		</table>
-
 	</sect1>
 
 	<sect1>
@@ -170,7 +280,7 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 			updates as an example.
 		</para>
 		<para>
-		  Consider the following example:
+			Consider the following example:
 		</para>
 		<example>
 			<title>Employee.java</title>
@@ -188,10 +298,13 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 }]]></programlisting>
 		</example>
 		<para>
-			The Employee resource in the example above is not allowed to have the null value specified in any of its fields.
-			Thus, the entire representation of a
+			The Employee resource in the example above is not allowed to
+			have the null value specified in any of its fields.
+			Thus, the entire
+			representation of a
 			resource (including the
-			department and related object graph) must be
+			department and related
+			object graph) must be
 			sent to update the
 			resource.
 		</para>
@@ -270,7 +383,8 @@ public class Employee {
 			Finally, the
 			<literal>ValidationInterceptor</literal>
 			is configured to validate the
-			<literal>PartialUpdateGroup</literal> group
+			<literal>PartialUpdateGroup</literal>
+			group
 			only.
 		</para>
 
@@ -307,7 +421,8 @@ public class Employee {
 					<callout arearefs="employee-partial-update">
 						<para>
 							Partial update — only the not-null fields of the transferred
-							representation are used for update. The null fields are not updated.
+							representation are used for update. The null fields are not
+							updated.
             			</para>
 					</callout>
 				</calloutlist>
