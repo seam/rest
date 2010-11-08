@@ -19,43 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.client;
+package org.jboss.seam.rest.test.client;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Interpolator;
 
-/**
- * Produces ClientRequest instances.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-@ApplicationScoped
-public class ClientRequestProducer
+public class MockInterpolator implements Interpolator
 {
-   @Inject
-   private Interpolator interpolator;
+   @Inject @Named("service.host")
+   private String host = "example.com";
+   @Inject @Named("service.context.path")
+   private String contextPath = "service";
    
-   @Produces @RestClient("")
-   public ClientRequest produce(InjectionPoint ip, ClientExecutor executor)
+   public String interpolate(String input)
    {
-      RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
-      
-      if (qualifier == null)
-      {
-         throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid."); // this should never happen
-      }
-      
-      String url = interpolator.interpolate(qualifier.value());
-      
-      return new ClientRequest(url, executor);
+      return input.replaceAll("\\#\\{service.host\\}", host).replaceAll("\\#\\{service.context.path\\}", contextPath);
    }
-   
-   // TODO disposer?
+
 }

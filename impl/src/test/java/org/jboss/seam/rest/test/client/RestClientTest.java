@@ -31,6 +31,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.DelegatingBean;
+import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -61,7 +62,7 @@ public class RestClientTest
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addPackage(RestClientExtension.class.getPackage());
-      jar.addClasses(Utils.class, Annotations.class, DelegatingBean.class);
+      jar.addClasses(Utils.class, Annotations.class, DelegatingBean.class, Interpolator.class);
       jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }
@@ -90,5 +91,11 @@ public class RestClientTest
       assertEquals("alpha", task.getName());
       assertEquals("bravo", task.getDescription());
       assertEquals("pong", bean.ping());
+   }
+   
+   @Test
+   public void testUriInterpolation() throws Exception
+   {
+      assertEquals("http://example.com:8080/service/ping", bean.getRequestWithEl().getUri());
    }
 }

@@ -47,7 +47,7 @@ public interface TaskService
 
 		<example>
 			<title>Injecting REST Client</title>
-			<programlisting role="JAVA"><![CDATA[@Inject @RestClient(http://example.com)
+			<programlisting role="JAVA"><![CDATA[@Inject @RestClient("http://example.com")
 private TaskService taskService;
 
 ...
@@ -64,6 +64,13 @@ Task task = taskService.getTask(1);
 			HTTP response is unmarshalled automatically and the response object
 			is returned by the method call.
 		</para>
+		
+		<para>
+			In addition, it is possible to use EL expressions within the URI. 
+		</para>
+		
+		<programlisting role="JAVA"><![CDATA[@Inject @RestClient("#{example.service.uri}")]]></programlisting>
+		
 	</sect1>
 
 	<sect1>

@@ -24,11 +24,13 @@ package org.jboss.seam.rest.client;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
 
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.Interpolator;
 
 /**
  * Produces REST Clients - proxied JAX-RS interfaces.
@@ -42,6 +44,9 @@ import org.jboss.seam.rest.util.Annotations;
 @ApplicationScoped
 public class RestClientProducer
 {
+   @Inject
+   private Interpolator interpolator;
+   
    @Produces @RestClient("")
    public Object produce(InjectionPoint ip, ClientExecutor executor)
    {
@@ -53,7 +58,8 @@ public class RestClientProducer
       }
       
       Class<?> clazz = (Class<?>) ip.getType();
-      return ProxyFactory.create(clazz, qualifier.value(), executor);
+      String url = interpolator.interpolate(qualifier.value());
+      return ProxyFactory.create(clazz, url, executor);
    }
    
    // TODO disposer method?
