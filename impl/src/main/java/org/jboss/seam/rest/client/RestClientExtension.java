@@ -72,7 +72,7 @@ public class RestClientExtension implements Extension
       enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
       if (enabled)
       {
-         log.info("Seam REST Client Extension starting...");
+         log.info("Seam REST Client Extension enabled.");
          // register providers
          event.addAnnotatedType(manager.createAnnotatedType(DefaultClientExecutorProducer.class));
          event.addAnnotatedType(manager.createAnnotatedType(ClientRequestProducer.class));
