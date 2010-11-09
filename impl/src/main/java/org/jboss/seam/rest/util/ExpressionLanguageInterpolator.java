@@ -25,16 +25,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+//import javax.inject.Inject;
 
-import org.jboss.weld.extensions.el.Expressions;
+//import org.jboss.weld.extensions.el.Expressions;
 
 @ApplicationScoped
 public class ExpressionLanguageInterpolator implements Interpolator
 {
    public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
-   @Inject
-   private Expressions el;
+//   @Inject
+//   private Expressions el;
 
    public String interpolate(String input)
    {
@@ -43,7 +43,8 @@ public class ExpressionLanguageInterpolator implements Interpolator
 
       while (matcher.find())
       {
-         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
+//         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
+         matcher.appendReplacement(buffer, "Interpolator disabled.");
       }
       matcher.appendTail(buffer);
 
