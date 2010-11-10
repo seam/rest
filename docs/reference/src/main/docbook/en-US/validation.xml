@@ -141,8 +141,8 @@ Content-Length:	129
 				annotation, the fields
 				of a resource are validated by default.
 			</para>
-
-			<note>
+			
+			<important>
 				<para>
 					Since the JAX-RS injection occurs at resource creation time only,
 					do
@@ -151,7 +151,7 @@ Content-Length:	129
 					<literal>@RequestScoped</literal>
 					resources.
 				</para>
-			</note>
+			</important>
 			
 			<warning>
 				<para>
