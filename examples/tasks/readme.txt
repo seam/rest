@@ -26,7 +26,7 @@ $RESIN_HOME/bin/resin.sh start
 Running functional test from command line
 ======================
 build & deploy the application (using steps above)
-mvn clean verify -Pftest
+mvn -Pftest
 
 Running functional tests from Eclipse
 ======================

@@ -152,6 +152,14 @@ Content-Length:	129
 					resources.
 				</para>
 			</note>
+			
+			<warning>
+				<para>
+					As a consequence of <ulink url="https://jira.jboss.org/browse/CDI-6">CDI-6</ulink>, some containers
+					are not able to perform JAX-RS field injection on an intercepted CDI bean. In this situation,
+					JAX-RS setter injection can be used as a workaround.
+				</para>
+			</warning>
 		</sect2>
 
 		<sect2>

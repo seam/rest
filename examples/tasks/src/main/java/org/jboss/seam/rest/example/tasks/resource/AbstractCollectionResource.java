@@ -21,57 +21,45 @@
  */
 package org.jboss.seam.rest.example.tasks.resource;
 
-import javax.persistence.Query;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 /**
- * Common methods for collection resources
- * @author Jozef Hartinger
+ * Ugly workaround for https://jira.jboss.org/browse/CDI-6
+ * (We must use setter injection instead of field injection which makes things less clear)
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
 public abstract class AbstractCollectionResource
 {
-   /**
-    * Modifies query passed as a parameter to filter out tasks based on their status (resolved/unresolved/all) 
-    */
-   protected Query applyResolutionParameter(Query query, String status)
+   protected UriInfo uriInfo;
+   @Min(value = 0, message = "start must be a non-negative number")
+   protected int start;
+   @Min(value = 0, message = "limit must be a non-negative number")
+   @Max(value = 100, message = "Cannot return more than 100 items")
+   protected int limit;
+   
+   @QueryParam("start")
+   @DefaultValue("0")
+   public void setStart(int start)
    {
-      if ("resolved".equals(status))
-      {
-         // double assignment as a workaround for HHH-4541
-         return query.setParameter("r1", true).setParameter("r2", true);
-      }
-      else if ("unresolved".equals(status))
-      {
-         return query.setParameter("r1", false).setParameter("r2", false);
-      }
-      else
-      {
-         return query.setParameter("r1", true).setParameter("r2", false);
-      }
+      this.start = start;
    }
 
-   /**
-    * Sets paginatation parameters
-    * @param query JPA query
-    * @param start the first item
-    * @param limit how many items to return (use 0 for unlimited result)
-    * @throws IllegalArgumentException if any of the integer parameters is lesser than 0 
-    */
-   protected void applyPaginationParameters(Query query, int start, int limit)
+   @QueryParam("limit")
+   @DefaultValue("5")
+   public void setLimit(int limit)
    {
-      if (start < 0)
-      {
-         throw new IllegalArgumentException("start");
-      }
-      query.setFirstResult(start);
-      
-      if (limit < 0)
-      {
-         throw new IllegalArgumentException("limit");
-      }
-      if (limit > 0)
-      {
-         query.setMaxResults(limit);
-      }
+      this.limit = limit;
+   }
+
+   @Context
+   public void setUriInfo(UriInfo uriInfo)
+   {
+      this.uriInfo = uriInfo;
    }
 }

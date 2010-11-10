@@ -23,20 +23,17 @@ package org.jboss.seam.rest.example.tasks.resource;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.validation.constraints.Pattern;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.rest.example.tasks.entity.Task;
+import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * Collection resource for tasks
@@ -45,22 +42,21 @@ import org.jboss.seam.rest.example.tasks.entity.Task;
  */
 @Path("/task")
 @Produces({ "application/xml", "application/json" })
-@Stateless
+@RequestScoped
 public class TaskCollectionResource extends AbstractCollectionResource
 {
-   @PersistenceContext
-   private EntityManager em;
+   @Inject
+   private CollectionBean bean;
    @Inject
    private TaskResource taskSubresource;
+   @Pattern(regexp = "resolved|unresolved|all", message="Unknown task status. Allowed values: resolved, unresolved, all")
+   private String status;
 
-   @SuppressWarnings("unchecked")
    @GET
-   public List<Task> getTasks(@Context UriInfo uriInfo, @QueryParam("status") @DefaultValue("unresolved") String status, @QueryParam("start") @DefaultValue("0") int start, @QueryParam("limit") @DefaultValue("5") int limit)
+   @ValidateRequest
+   public List<Task> getTasks()
    {
-      Query query = createQuery(uriInfo);
-      query = applyResolutionParameter(query, status);
-      applyPaginationParameters(query, start, limit);
-      return query.getResultList();
+      return bean.getTasks(start, limit, status, uriInfo.getPathParameters().getFirst("category"));
    }
 
    @Path("/{taskId}")
@@ -69,16 +65,13 @@ public class TaskCollectionResource extends AbstractCollectionResource
       return taskSubresource;
    }
 
-   protected Query createQuery(UriInfo uriInfo)
+   /**
+    * Ugly workaround for https://jira.jboss.org/browse/CDI-6
+    * (We must use setter injection instead of field injection which makes things less clear)
+    */
+   @QueryParam("status") @DefaultValue("unresolved")
+   public void setStatus(String status)
    {
-      String categoryName = uriInfo.getPathParameters().getFirst("category");
-      if (categoryName == null)
-      {
-         return em.createNamedQuery("tasks");
-      }
-      else
-      {
-         return em.createNamedQuery("tasksByCategory").setParameter("category", categoryName);
-      }
+      this.status = status;
    }
 }

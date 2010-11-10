@@ -239,6 +239,7 @@
 		<profile>
 			<id>ftest</id>
 			<build>
+				<defaultGoal>verify</defaultGoal>
 				<plugins>
 					<!-- Start Selenium -->
 					<plugin>
