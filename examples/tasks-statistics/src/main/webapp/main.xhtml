@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p><span class="highlight">The Seam Tasks Statistics
+			application</span> demostrates using @RestClient injection. It requires the
+			seam-tasks application to be deployed at the <a
+				href="http://localhost:8080/seam-tasks">standard URL</a>. Follow the
+			instructions in examples/tasks/readme.txt for how to deploy the Seam
+			Tasks application. The Seam Tasks Statistics demo connects to the
+			running application via REST API and analyzes data stored in the
+			application.</p>
+			<h:messages class="message" />
+			<h:commandButton action="#{client.loadStatistics}"
+				value="Calculate statistics" />
+		</h:form>
+	</ui:define>
+</ui:composition>
