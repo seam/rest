@@ -66,7 +66,6 @@ public class RestClientExtension implements Extension
    
    private Set<Type> jaxrsInterfaces = new HashSet<Type>();
    private Bean<Object> restClientProducerDelegate;
-
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
@@ -75,14 +74,16 @@ public class RestClientExtension implements Extension
          log.info("Seam REST Client Extension enabled.");
          // register providers
          event.addAnnotatedType(manager.createAnnotatedType(DefaultClientExecutorProducer.class));
-         event.addAnnotatedType(manager.createAnnotatedType(ClientRequestProducer.class));
          event.addAnnotatedType(manager.createAnnotatedType(RestClientProducer.class));
       }
    }
    
    public void getRestClientProducerDelegate(@Observes ProcessProducerMethod<RestClientProducer, Object> event)
    {
-      this.restClientProducerDelegate = event.getBean();
+      if (event.getBean().getTypes().size() == 1) // make sure it is the produceRestClient() method
+      {
+         this.restClientProducerDelegate = event.getBean();
+      }
    }
    
    public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event)
@@ -118,6 +119,11 @@ public class RestClientExtension implements Extension
    {
       if (enabled && !jaxrsInterfaces.isEmpty())
       {
+         if (restClientProducerDelegate == null)
+         {
+            log.warn("ProcessProducerMethod<RestClientProducer, Object> not fired. Client extension may not work properly.");
+            return;
+         }
          // register an additional RestClientProducer that supports all the interfaces
          event.addBean(wrapBean(restClientProducerDelegate, jaxrsInterfaces));
       }

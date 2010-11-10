@@ -27,16 +27,21 @@ import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
 import org.jboss.resteasy.client.ClientExecutor;
+import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Interpolator;
 
 /**
- * Produces REST Clients - proxied JAX-RS interfaces.
+ * Produces REST Clients 
+ * - proxied JAX-RS interface
+ * - ClientRequest
  * 
  * @Inject @RestClient
  * private TaskService tasks;
+ * @Inject @RestCLient
+ * private ClientRequest request;
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
@@ -48,7 +53,7 @@ public class RestClientProducer
    private Interpolator interpolator;
    
    @Produces @RestClient("")
-   public Object produce(InjectionPoint ip, ClientExecutor executor)
+   public Object produceRestClient(InjectionPoint ip, ClientExecutor executor)
    {
       RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
       
@@ -62,5 +67,20 @@ public class RestClientProducer
       return ProxyFactory.create(clazz, url, executor);
    }
    
-   // TODO disposer method?
+   @Produces @RestClient("")
+   public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor)
+   {
+      RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
+      
+      if (qualifier == null)
+      {
+         throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid."); // this should never happen
+      }
+      
+      String url = interpolator.interpolate(qualifier.value());
+      
+      return new ClientRequest(url, executor);
+   }
+   
+   // TODO disposer methods?
 }
