@@ -24,7 +24,7 @@ package org.jboss.seam.rest.example.tasks.db;
 import java.util.Date;
 import java.util.LinkedList;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -37,7 +37,8 @@ import org.jboss.seam.rest.example.tasks.entity.Task;
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-@Singleton
+//@Singleton
+@Stateless
 public class ImportBean
 {
 
