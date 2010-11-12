@@ -30,12 +30,13 @@ import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.DelegatingBean;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.weld.extensions.bean.Beans;
+import org.jboss.weld.extensions.literal.DefaultLiteral;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
@@ -52,6 +53,8 @@ public class RestClientTest
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
       war.addPackage(RestClientTest.class.getPackage()); // test classes
+      war.addPackage(Beans.class.getPackage());
+      war.addClass(DefaultLiteral.class);
       war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
       war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
@@ -62,7 +65,7 @@ public class RestClientTest
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addPackage(RestClientExtension.class.getPackage());
-      jar.addClasses(Utils.class, Annotations.class, DelegatingBean.class, Interpolator.class);
+      jar.addClasses(Utils.class, Annotations.class, Interpolator.class);
       jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }

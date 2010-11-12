@@ -22,7 +22,6 @@
 package org.jboss.seam.rest.client;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,28 +33,15 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.ProcessBean;
-import javax.enterprise.inject.spi.ProcessProducerMethod;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.DelegatingBean;
 import org.jboss.seam.rest.util.Utils;
 /**
  * The Seam REST Client extension provides injection of
  * - org.jboss.resteasy.client.ClientRequest instances
  * - REST clients - proxied JAX-RS interfaces capable of invoking client requests
  * 
- * 
- * How @RestClient injection of proxied JAX-RS interfaces works:
- * 1.) We register the RestClientProducer 
- *    - it is useless since by default it produces Object instances only
- *    - we let the container create the Bean instance for the RestClientProducer
- *       and use it as a delegate later on
- * 2.) @RestClient injection points are scanned for JAX-RS interfaces
- * 3.) We create and register the correct RestClientProducer using the delegate from step 1.
- *    - all found JAX-RS interfaces are added to the type closure of the second RestClientProducer
- *    
- *       
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  **/
 public class RestClientExtension implements Extension
@@ -65,7 +51,7 @@ public class RestClientExtension implements Extension
    private boolean enabled;
    
    private Set<Type> jaxrsInterfaces = new HashSet<Type>();
-   private Bean<Object> restClientProducerDelegate;
+   private Bean<RestClientProducer> restClientProducerBean;
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
@@ -78,12 +64,9 @@ public class RestClientExtension implements Extension
       }
    }
    
-   public void getRestClientProducerDelegate(@Observes ProcessProducerMethod<RestClientProducer, Object> event)
+   public void getRestClientProducerDelegate(@Observes ProcessBean<RestClientProducer> event)
    {
-      if (event.getBean().getTypes().size() == 1) // make sure it is the produceRestClient() method
-      {
-         this.restClientProducerDelegate = event.getBean();
-      }
+      this.restClientProducerBean = event.getBean();
    }
    
    public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event)
@@ -115,29 +98,17 @@ public class RestClientExtension implements Extension
    /**
     * Registers the RestClientProducer if there is an injection point that requires it
     */
-   public void afterBeanDiscovery(@Observes AfterBeanDiscovery event)
+   public void afterBeanDiscovery(@Observes AfterBeanDiscovery event, BeanManager manager)
    {
       if (enabled && !jaxrsInterfaces.isEmpty())
       {
-         if (restClientProducerDelegate == null)
+         if (restClientProducerBean == null)
          {
             log.warn("ProcessProducerMethod<RestClientProducer, Object> not fired. Client extension may not work properly.");
             return;
          }
          // register an additional RestClientProducer that supports all the interfaces
-         event.addBean(wrapBean(restClientProducerDelegate, jaxrsInterfaces));
+         event.addBean(new RestClientProducerBean(restClientProducerBean, jaxrsInterfaces, manager));
       }
-   }
-
-   private <T> Bean<T> wrapBean(final Bean<T> delegate, final Set<Type> types)
-   {
-      return new DelegatingBean<T>(delegate)
-      {
-         @Override
-         public Set<Type> getTypes()
-         {
-            return Collections.unmodifiableSet(types);
-         }
-      };
    }
 }

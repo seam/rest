@@ -25,6 +25,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
@@ -50,4 +51,30 @@ public @interface RestClient
     */
    @Nonbinding
    String value();
+   
+   /**
+    * Annotation literal for @{link RestClient} qualifier.
+    */
+   @SuppressWarnings("all")
+   public static class RestClientLiteral extends AnnotationLiteral<RestClient> implements RestClient
+   {
+      private static final long serialVersionUID = -8456396489504116441L;
+      
+      private final String value;
+      
+      public RestClientLiteral()
+      {
+         this("");
+      }
+      
+      public RestClientLiteral(String value)
+      {
+         this.value = value;
+      }
+
+      public String value()
+      {
+         return value;
+      }
+   }
 }

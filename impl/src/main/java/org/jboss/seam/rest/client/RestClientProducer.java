@@ -52,7 +52,10 @@ public class RestClientProducer
    @Inject
    private Interpolator interpolator;
    
-   @Produces @RestClient("")
+   /**
+    * Producer for proxied JAX-RS interfaces - REST Clients
+    * This method is registered as a producer method through RestClientExtension
+    */
    public Object produceRestClient(InjectionPoint ip, ClientExecutor executor)
    {
       RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
@@ -67,6 +70,9 @@ public class RestClientProducer
       return ProxyFactory.create(clazz, url, executor);
    }
    
+   /**
+    * Producer for ClientRequests
+    */
    @Produces @RestClient("")
    public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor)
    {
