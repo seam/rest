@@ -100,7 +100,7 @@ public class ValidationInterceptor implements Serializable
       
       if (violations.isEmpty())
       {
-         log.info("Validation completed. No violations found."); // TODO
+         log.debug("Validation completed. No violations found."); // TODO
          return ctx.proceed();
       }
       else

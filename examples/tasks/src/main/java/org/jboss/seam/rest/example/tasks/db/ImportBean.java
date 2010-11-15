@@ -28,6 +28,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.example.tasks.entity.Category;
 import org.jboss.seam.rest.example.tasks.entity.Task;
 
@@ -37,11 +38,11 @@ import org.jboss.seam.rest.example.tasks.entity.Task;
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-//@Singleton
 @Stateless
 public class ImportBean
 {
-
+   public static final Logger log = Logger.getLogger(ImportBean.class);
+   
    @PersistenceContext
    private EntityManager em;
 
@@ -53,6 +54,8 @@ public class ImportBean
    
    public void feedDatabase()
    {
+      log.info("Running database import.");
+      
       // School
       Category school = createCategory("School");
       addTask(school, "Build the Turing machine");
