@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -55,6 +56,11 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+		</dependency>
+
 		<!-- WELDX depends on this -->
 		<dependency>
 			<groupId>javax.el</groupId>
@@ -94,7 +100,8 @@
 								<configuration>
 									<tasks>
 										<echo message="Deploying emma jar to server lib directory" />
-										<copy file="${emma.jar.file}" todir="${env.JBOSS_HOME}/server/default/lib" overwrite="true" />
+										<copy file="${emma.jar.file}" todir="${env.JBOSS_HOME}/server/default/lib"
+											overwrite="true" />
 									</tasks>
 								</configuration>
 							</execution>
@@ -106,7 +113,8 @@
 								</goals>
 								<configuration>
 									<tasks>
-										<move file="${env.JBOSS_HOME}/bin/coverage.ec" todir="${basedir}" failonerror="false" />
+										<move file="${env.JBOSS_HOME}/bin/coverage.ec" todir="${basedir}"
+											failonerror="false" />
 										<delete file="${basedir}/transaction.log" failonerror="false" />
 									</tasks>
 								</configuration>
@@ -212,6 +220,21 @@
 					<artifactId>deployment-client</artifactId>
 				</dependency>
 			</dependencies>
+			<!-- Exclude RESTEasy-dependent tests -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/RestClientTest.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
 		</profile>
 	</profiles>
 </project>

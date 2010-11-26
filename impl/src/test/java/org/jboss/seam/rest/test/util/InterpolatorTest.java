@@ -31,7 +31,6 @@ import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.weld.extensions.el.Expressions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
@@ -48,7 +47,6 @@ public class InterpolatorTest
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addClasses(MockInterpolator.class, Interpolator.class);
-      jar.addPackage(Expressions.class.getPackage());
       jar.addClass(Fox.class);
       return jar;
    }

@@ -48,4 +48,22 @@ public class Utils
    {
       return WRAPPED_CLASSES.contains(clazz);
    }
+   
+   /**
+    * Find out whether a given class is available on the classpath
+    * @param className
+    * @return true if and only if the given class can be loaded
+    */
+   public static boolean isClassAvailable(String className)
+   {
+      try
+      {
+         Thread.currentThread().getContextClassLoader().loadClass(className);
+         return true;
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+   }
 }
