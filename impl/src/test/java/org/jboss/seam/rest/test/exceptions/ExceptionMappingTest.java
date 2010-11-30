@@ -46,7 +46,7 @@ public class ExceptionMappingTest extends SeamRestClientTest
       war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addClasses(Interpolator.class, ExpressionLanguageInterpolator.class);
-      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING);
+      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       return war;
    }
 
