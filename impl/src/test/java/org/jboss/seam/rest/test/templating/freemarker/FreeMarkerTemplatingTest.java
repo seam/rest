@@ -40,7 +40,7 @@ public class FreeMarkerTemplatingTest extends SeamRestClientTest
       war.addResource("org/jboss/seam/rest/test/templating/freemarker/hello.ftl", "hello.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/freemarker/students.ftl", "students.ftl");
       war.setWebXML("org/jboss/seam/rest/test/templating/freemarker/web.xml");
-      war.addLibraries(LIBRARY_FREEMARKER, LIBRARY_JBOSS_LOGGING, LIBRARY_WELDX);
+      war.addLibraries(LIBRARY_FREEMARKER, LIBRARY_JBOSS_LOGGING, LIBRARY_WELDX, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       war.addClass(Student.class);
       war.addClasses(Resource.class, MyApplication.class, University.class);
       war.addPackage(FreeMarkerTemplate.class.getPackage());

@@ -98,7 +98,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,weld-extensions,jboss-logging</includeArtifactIds>
+							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>
