@@ -25,6 +25,7 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
 import org.jboss.seam.rest.test.Fox;
 import org.jboss.seam.rest.test.SeamRestClientTest;
+import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -39,13 +40,13 @@ public class ExceptionMappingTest extends SeamRestClientTest
    public static WebArchive createDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("META-INF/beans.xml", "beans.xml");
+      war.addWebResource("beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
       war.addPackage(ExceptionMapping.class.getPackage());
       war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
-      war.addClasses(Interpolator.class, MockInterpolator.class);
-      war.addLibrary(getLoggingJar());
+      war.addClasses(Interpolator.class, ExpressionLanguageInterpolator.class);
+      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING);
       return war;
    }
 

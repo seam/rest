@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -23,9 +24,11 @@
 		<httpclient.version>3.1</httpclient.version>
 		<testng.version>5.12.1</testng.version>
 		<jackson.version>1.6.1</jackson.version>
-		<resteasy.version>2.0.1.GA</resteasy.version>
+		<resteasy.version>2.1-beta-1</resteasy.version>
+		<freemarker.version>2.3.16</freemarker.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
+		<weldx.version>1.0.0-SNAPSHOT</weldx.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -79,6 +82,20 @@
 				<artifactId>seam-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-extensions</artifactId>
+				<version>${weldx.version}</version>
+			</dependency>
+				
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+				<scope>provided</scope>
+				<optional>true</optional>
+			</dependency>
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>
@@ -130,18 +147,12 @@
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jaxrs</artifactId>
 				<version>${resteasy.version}</version>
+				<scope>provided</scope>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.activation</groupId>
 						<artifactId>activation</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-httpclient</groupId>
-						<artifactId>commons-httpclient</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.httpcomponents</groupId>
-						<artifactId>httpclient</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>commons-codec</groupId>
@@ -153,13 +164,6 @@
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-cdi</artifactId>
 				<version>${resteasy.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.resteasy</groupId>
-				<artifactId>resteasy-jaxrs</artifactId>
-				<version>${resteasy.version}</version>
-				<scope>provided</scope>
-				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

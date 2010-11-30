@@ -21,6 +21,8 @@
  */
 package org.jboss.seam.rest.test;
 
+import java.io.File;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.jboss.arquillian.api.Run;
@@ -36,6 +38,10 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public abstract class SeamRestClientTest
 {
+   public static final File LIBRARY_WELDX = new File("target/lib/weld-extensions.jar");
+   public static final File LIBRARY_FREEMARKER = new File("target/lib/freemarker.jar");
+   public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
+   
    protected HttpClient client = new HttpClient();
    
    protected void test(String url, int expectedStatus, String expectedBody, String accept) throws Exception
