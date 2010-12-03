@@ -19,30 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.freemarker;
+package org.jboss.seam.rest.test.templating;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-import org.jboss.seam.rest.test.Student;
+import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
 
-@ApplicationScoped
-@Named
-public class University
+@ApplicationPath("/*")
+public class MyApplication extends Application
 {
-   private List<Student> students = Arrays.asList(new Student("A"), new Student("B"), new Student("C"));
-   private String name = "Masaryk University";
 
-   public List<Student> getStudents()
+   @Override
+   public Set<Class<?>> getClasses()
    {
-      return students;
+      Set<Class<?>> classes = new HashSet<Class<?>>();
+      classes.add(FreeMarkerResource.class);
+      classes.add(VelocityResource.class);
+      classes.add(TemplatingMessageBodyWriter.class);
+      return classes;
    }
-   
-   public String getName()
-   {
-      return name;
-   }
+
 }

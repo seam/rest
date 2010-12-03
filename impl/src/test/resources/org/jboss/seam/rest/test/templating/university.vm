@@ -1,0 +1,1 @@
+<university name="${university.name}"><students count="${university.students.size()}">#foreach(${student} in ${university.students})<student>${student.name}</student>#end<student>${response.name}</student></students></university>

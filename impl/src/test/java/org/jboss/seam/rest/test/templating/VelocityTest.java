@@ -19,44 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.freemarker;
+package org.jboss.seam.rest.test.templating;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerTemplate;
-import org.jboss.seam.rest.test.SeamRestClientTest;
-import org.jboss.seam.rest.test.Student;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
-public class FreeMarkerTemplatingTest extends SeamRestClientTest
+public class VelocityTest extends AbstractTemplatingTest
 {
-
    @Deployment
    public static WebArchive createDeployment()
    {
-      WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("beans.xml");
-      war.addResource("org/jboss/seam/rest/test/templating/freemarker/hello.ftl", "hello.ftl");
-      war.addResource("org/jboss/seam/rest/test/templating/freemarker/students.ftl", "students.ftl");
-      war.setWebXML("org/jboss/seam/rest/test/templating/freemarker/web.xml");
-      war.addLibraries(LIBRARY_FREEMARKER, LIBRARY_JBOSS_LOGGING, LIBRARY_WELDX, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
-      war.addClass(Student.class);
-      war.addClasses(Resource.class, MyApplication.class, University.class);
-      war.addPackage(FreeMarkerTemplate.class.getPackage());
+      WebArchive war = createTestApplication();
+      war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
       return war;
    }
    
    @Test
    public void testTemplate() throws Exception
    {
-      test("http://localhost:8080/test/test/hello", 200, "Hello Jozef Hartinger", "text/student");
+      test("http://localhost:8080/test/velocity/hello", 200, "Hello Jozef Hartinger", "text/student");
    }
    
    @Test
    public void testExpressionLanguage() throws Exception
    {
       String expectedResponse = "<university name=\"Masaryk University\"><students count=\"3\"><student>A</student><student>B</student><student>C</student><student>Jozef Hartinger</student></students></university>";
-      test("http://localhost:8080/test/test/students", 200, expectedResponse, "application/university+xml");
+      test("http://localhost:8080/test/velocity/students", 200, expectedResponse, "application/university+xml");
    }
 }

@@ -25,18 +25,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
 
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerTemplate;
+import org.jboss.seam.rest.templating.ResponseTemplate;
+import org.jboss.seam.rest.templating.TemplatingModel;
+import org.jboss.seam.rest.templating.TemplatingProvider;
+import org.jboss.weld.extensions.el.Expressions;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -45,55 +46,36 @@ import freemarker.template.TemplateException;
 
 /**
  * Converts the response object to a rendered FreeMarker template.
+ * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
+ * 
  */
-@Provider
-public class FreeMarkerMessageBodyWriter implements MessageBodyWriter<Object>
+@ApplicationScoped
+public class FreeMarkerProvider implements TemplatingProvider
 {
    private Configuration configuration;
    @Inject
-   private FreeMarkerModel model;
-   
-   public FreeMarkerMessageBodyWriter()
+   private TemplatingModel model;
+   @Inject
+   private Expressions expressions;
+
+   public void init(ServletContext servletContext)
    {
       configuration = new Configuration();
       configuration.setObjectWrapper(new DefaultObjectWrapper());
-   }
-   
-   @Context
-   public void setServletContext(ServletContext sc)
-   {
-      configuration.setServletContextForTemplateLoading(sc, "/");
+      configuration.setServletContextForTemplateLoading(servletContext, "/");
    }
 
-   public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
+   public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
    {
-      return findAnnotation(annotations) != null;
-   }
-
-   public long getSize(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
-   {
-      return -1;
-   }
-
-   public void writeTo(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException
-   {
-      FreeMarkerTemplate annotation = findAnnotation(annotations);
-      
-      if (annotation == null)
-      {
-         throw new IllegalStateException(FreeMarkerTemplate.class.getName() + " not found.");
-      }
-      
       Template template = configuration.getTemplate(annotation.value());
-      
-      model.getData().put("response", t);
-      
+
+      model.getData().put(annotation.responseName(), o);
+
       try
       {
-         OutputStreamWriter writer = new OutputStreamWriter(entityStream);
-         template.process(model.getWrappedModel(), writer);
+         OutputStreamWriter writer = new OutputStreamWriter(os);
+         template.process(new ModelWrapper(model.getData()), writer);
          writer.flush();
       }
       catch (TemplateException e)
@@ -101,16 +83,35 @@ public class FreeMarkerMessageBodyWriter implements MessageBodyWriter<Object>
          throw new RuntimeException("Unable to write FreeMarker response.", e);
       }
    }
-   
-   private FreeMarkerTemplate findAnnotation(Annotation[] annotations)
+
+   /**
+    * Wraps TemplatingModel to allow objects to be referenced via EL in FreeMarker
+    * templates.
+    * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+    *
+    */
+   private class ModelWrapper extends HashMap<String, Object>
    {
-      for (Annotation a : annotations)
+      private static final long serialVersionUID = -2967489085535480741L;
+
+      public ModelWrapper(Map<String, Object> model)
       {
-         if (FreeMarkerTemplate.class.isAssignableFrom(a.annotationType()))
-         {
-            return (FreeMarkerTemplate) a;
-         }
+         super(model);
       }
-      return null;
+
+      @Override
+      public Object get(Object key)
+      {
+         if (containsKey(key))
+         {
+            return super.get(key);
+         }
+         if (key instanceof String)
+         {
+            String elExpression = expressions.toExpression((String) key);
+            return expressions.evaluateValueExpression(elExpression);
+         }
+         return null;
+      }
    }
 }

@@ -19,33 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.freemarker;
+package org.jboss.seam.rest.test.templating;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
 
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerTemplate;
-import org.jboss.seam.rest.test.Student;
-
-@Path("/test")
-public class Resource
+public class FreeMarkerTest extends AbstractTemplatingTest
 {
-   @Path("hello")
-   @GET
-   @Produces("text/student")
-   @FreeMarkerTemplate("hello.ftl")
-   public Student hello()
+   @Deployment
+   public static WebArchive createDeployment()
    {
-      return new Student("Jozef Hartinger");
+      WebArchive war = createTestApplication();
+      war.addLibrary(LIBRARY_FREEMARKER);
+      return war;
    }
    
-   @Path("students")
-   @GET
-   @Produces("application/university+xml")
-   @FreeMarkerTemplate("students.ftl")
-   public Student students()
+   @Test
+   public void testTemplate() throws Exception
    {
-      return new Student("Jozef Hartinger");
+      test("http://localhost:8080/test/freemarker/hello", 200, "Hello Jozef Hartinger", "text/student");
+   }
+   
+   @Test
+   public void testExpressionLanguage() throws Exception
+   {
+      String expectedResponse = "<university name=\"Masaryk University\"><students count=\"3\"><student>A</student><student>B</student><student>C</student><student>Jozef Hartinger</student></students></university>";
+      test("http://localhost:8080/test/freemarker/students", 200, expectedResponse, "application/university+xml");
    }
 }

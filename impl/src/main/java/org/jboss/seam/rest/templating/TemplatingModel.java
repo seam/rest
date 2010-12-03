@@ -19,68 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.templating.freemarker;
+package org.jboss.seam.rest.templating;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-
-import org.jboss.weld.extensions.el.Expressions;
-
 /**
- * Holds objects to be used for rendering.
- * Furthermore, ModelWrapper allows CDI beans to be referenced via their
- * @Name in the FreeMarker template.
+ * Holds objects used for rendering.
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
 @RequestScoped
-public class FreeMarkerModel
+public class TemplatingModel
 {
    private Map<String, Object> data = new HashMap<String, Object>();
-   
-   @Inject
-   private Expressions expressions;
    
    public Map<String, Object> getData()
    {
       return data;
-   }
-   
-   protected Map<String, Object> getWrappedModel()
-   {
-      return new ModelWrapper();
-   }
-
-   private class ModelWrapper extends HashMap<String, Object>
-   {
-      private static final long serialVersionUID = -2967489085535480741L;
-
-      public ModelWrapper()
-      {
-         super(data);
-      }
-
-      @Override
-      public Object get(Object key)
-      {
-         if (containsKey(key))
-         {
-            return super.get(key);
-         }
-         if (key instanceof String)
-         {
-            return expressions.evaluateValueExpression(createElExpression((String) key));
-         }
-         return null;
-      }
-      
-      private String createElExpression(String key)
-      {
-         return "#{" + key + "}";
-      }
    }
 }

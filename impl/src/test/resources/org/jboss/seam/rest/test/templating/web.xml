@@ -7,7 +7,7 @@
     <!-- This is required for the tests to run on RESTEasy -->
 	<context-param>
 		<param-name>javax.ws.rs.Application</param-name>
-		<param-value>org.jboss.seam.rest.test.templating.freemarker.MyApplication</param-value>
+		<param-value>org.jboss.seam.rest.test.templating.MyApplication</param-value>
 	</context-param>
          
 </web-app>

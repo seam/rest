@@ -27,8 +27,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -36,21 +37,33 @@
 			<artifactId>jboss-logging</artifactId>
 		</dependency>
 
+		<!-- Optional dependencies -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
 		</dependency>
-		
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.jboss.arquillian</groupId>
@@ -72,12 +85,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- WELDX depends on this -->
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -98,7 +105,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api</includeArtifactIds>
+							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>

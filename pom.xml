@@ -26,6 +26,8 @@
 		<jackson.version>1.6.1</jackson.version>
 		<resteasy.version>2.1-beta-1</resteasy.version>
 		<freemarker.version>2.3.16</freemarker.version>
+		<velocity.version>1.7</velocity.version>
+		<velocity.tools.version>2.0</velocity.tools.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
 		<weldx.version>1.0.0-SNAPSHOT</weldx.version>
@@ -88,7 +90,7 @@
 				<artifactId>weld-extensions</artifactId>
 				<version>${weldx.version}</version>
 			</dependency>
-				
+
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -96,6 +98,19 @@
 				<scope>provided</scope>
 				<optional>true</optional>
 			</dependency>
+
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocity.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity-tools</artifactId>
+				<version>${velocity.tools.version}</version>
+			</dependency>
+
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>
@@ -182,6 +197,16 @@
 		<dependency>
 			<groupId>org.jboss.spec.javax.interceptor</groupId>
 			<artifactId>jboss-interceptors-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

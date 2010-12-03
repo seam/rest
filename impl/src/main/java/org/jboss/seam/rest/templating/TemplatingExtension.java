@@ -27,23 +27,44 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.rest.client.RestClientExtension;
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerMessageBodyWriter;
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerModel;
+import org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider;
+import org.jboss.seam.rest.templating.velocity.VelocityModel;
+import org.jboss.seam.rest.templating.velocity.VelocityProvider;
 import org.jboss.seam.rest.util.Utils;
 
+/**
+ * Seam REST templating extensions allows HTTP responses to be created using 
+ * a templating engine. FreeMarker and Apache Velocity are supported out of the
+ * box. Support for additional templating engines can be added by implemeneting
+ * the TemplatingProvider interface. 
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
 public class TemplatingExtension implements Extension
 {
    private static final String FREEMARKER_TEMPLATE_CLASS_NAME = "freemarker.template.Template";
-   private static final Logger log = Logger.getLogger(RestClientExtension.class);
+   private static final String VELOCITY_TEMPLATE_CLASS_NAME = "org.apache.velocity.Template";
+   private static final Logger log = Logger.getLogger(TemplatingExtension.class);
    
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
-      if (Utils.isClassAvailable(FREEMARKER_TEMPLATE_CLASS_NAME))
+      boolean freemarkerEnabled = Utils.isClassAvailable(FREEMARKER_TEMPLATE_CLASS_NAME);
+      boolean velocityEnabled = Utils.isClassAvailable(VELOCITY_TEMPLATE_CLASS_NAME);
+      
+      if (freemarkerEnabled)
       {
-         event.addAnnotatedType(manager.createAnnotatedType(FreeMarkerMessageBodyWriter.class));
-         event.addAnnotatedType(manager.createAnnotatedType(FreeMarkerModel.class));
+         event.addAnnotatedType(manager.createAnnotatedType(FreeMarkerProvider.class));
          log.info("Seam REST FreeMarker Extension enabled.");
       }
+      
+      if (velocityEnabled)
+      {
+         event.addAnnotatedType(manager.createAnnotatedType(VelocityModel.class));
+         event.addAnnotatedType(manager.createAnnotatedType(VelocityProvider.class));
+         log.info("Seam REST Velocity Extension enabled.");
+      }
+      
+      event.addAnnotatedType(manager.createAnnotatedType(TemplatingMessageBodyWriter.class));
+      event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
    }
 }

@@ -1,2 +1,3 @@
 org.jboss.seam.rest.SeamRestExtension
 org.jboss.seam.rest.client.RestClientExtension
+org.jboss.seam.rest.templating.TemplatingExtension

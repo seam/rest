@@ -19,27 +19,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.freemarker;
+package org.jboss.seam.rest.test.templating.multiple;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.annotation.Annotation;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.enterprise.context.ApplicationScoped;
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
-import org.jboss.seam.rest.templating.freemarker.FreeMarkerMessageBodyWriter;
+import org.jboss.seam.rest.templating.ResponseTemplate;
+import org.jboss.seam.rest.templating.TemplatingProvider;
 
-@ApplicationPath("/*")
-public class MyApplication extends Application
+@ApplicationScoped
+public class MockTemplatingProvider implements TemplatingProvider
 {
-
-   @Override
-   public Set<Class<?>> getClasses()
+   public void init(ServletContext servletContext)
    {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(Resource.class);
-      classes.add(FreeMarkerMessageBodyWriter.class);
-      return classes;
+      // noop
    }
 
+   public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
+   {
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+      writer.write("Hello world!");
+      writer.flush();
+   }
 }
