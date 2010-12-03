@@ -90,7 +90,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
          }
          else
          {
-            throw new RuntimeException("Multiple TemplateProviders found on classpath. Select the prefered one.");
+            throw new RuntimeException("Multiple TemplatingProviders found on classpath. Select the prefered one.");
          }
       }
    }
