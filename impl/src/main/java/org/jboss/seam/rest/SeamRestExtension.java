@@ -32,6 +32,7 @@ import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.validation.ValidationExceptionMapper;
 import org.jboss.seam.rest.validation.ValidationInterceptor;
+import org.jboss.seam.rest.validation.ValidationMetadata;
 
 public class SeamRestExtension implements Extension
 {
@@ -46,5 +47,6 @@ public class SeamRestExtension implements Extension
       event.addAnnotatedType(manager.createAnnotatedType(SeamExceptionMapper.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionMapper.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationInterceptor.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ValidationMetadata.class));
    }
 }
