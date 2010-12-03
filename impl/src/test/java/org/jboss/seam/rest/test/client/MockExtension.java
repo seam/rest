@@ -21,21 +21,25 @@
  */
 package org.jboss.seam.rest.test.client;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.Extension;
 
+import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 
-public class MockInterpolator implements Interpolator
+/**
+ * Registers Interpolator, which is normally registered by SeamRestExtension but we do
+ * not use the extension in tests (as it has dependencies).
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+public class MockExtension implements Extension
 {
-   @Inject @Named("service.host")
-   private String host = "example.com";
-   @Inject @Named("service.context.path")
-   private String contextPath = "service";
-   
-   public String interpolate(String input)
+   public void addInterpolator(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
-      return input.replaceAll("\\#\\{service.host\\}", host).replaceAll("\\#\\{service.context.path\\}", contextPath);
+      event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
    }
-
 }

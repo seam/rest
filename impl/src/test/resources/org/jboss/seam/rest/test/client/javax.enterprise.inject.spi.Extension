@@ -1,1 +1,2 @@
 org.jboss.seam.rest.client.RestClientExtension
+org.jboss.seam.rest.test.client.MockExtension

@@ -29,7 +29,9 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.seam.rest.client.RestClientExtension;
+import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -58,6 +60,7 @@ public class RestClientTest
       war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
       war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
+      war.addLibrary(SeamRestClientTest.LIBRARY_WELDX);
       return war;
    }
 
@@ -65,7 +68,7 @@ public class RestClientTest
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addPackage(RestClientExtension.class.getPackage());
-      jar.addClasses(Utils.class, Annotations.class, Interpolator.class);
+      jar.addClasses(Utils.class, Annotations.class, Interpolator.class, ExpressionLanguageInterpolator.class);
       jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }
