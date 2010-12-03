@@ -39,8 +39,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.rest.example.tasks.entity.Category;
+import org.jboss.seam.rest.example.tasks.entity.JaxbTaskWrapper;
 import org.jboss.seam.rest.example.tasks.entity.Task;
 import org.jboss.seam.rest.example.tasks.entity.TaskValidationGroup;
+import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
@@ -48,7 +50,6 @@ import org.jboss.seam.rest.validation.ValidateRequest;
  * @author Jozef Hartinger
  *
  */
-@Produces({ "application/xml", "application/json" })
 @Consumes({ "application/xml", "application/json" })
 @ValidateRequest(groups = TaskValidationGroup.class)
 @Stateless
@@ -58,6 +59,8 @@ public class TaskResource extends AbstractEntityResource
    private EntityManager em;
 
    @GET
+   @ResponseTemplate(value = "/freemarker/task.ftl", produces = "application/task+xml", responseName = "task")
+   @Produces({ "application/task+xml", "application/json" })
    public Task getTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo)
    {
       return loadTask(taskId, uriInfo);
@@ -78,7 +81,7 @@ public class TaskResource extends AbstractEntityResource
    }
    
    @PUT
-   public void updateTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo, Task incommingTask)
+   public void updateTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo, JaxbTaskWrapper incommingTask)
    {
       Task task = loadTask(taskId, uriInfo);
       if (incommingTask.getName() != null)

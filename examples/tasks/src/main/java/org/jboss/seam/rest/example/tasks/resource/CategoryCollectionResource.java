@@ -25,11 +25,13 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.jboss.seam.rest.example.tasks.entity.Category;
+import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
@@ -38,8 +40,8 @@ import org.jboss.seam.rest.validation.ValidateRequest;
  *
  */
 @Path("/category")
-@Produces( { "application/xml", "application/json" })
 @RequestScoped
+@Named
 public class CategoryCollectionResource extends AbstractCollectionResource
 {
    @Inject
@@ -47,6 +49,11 @@ public class CategoryCollectionResource extends AbstractCollectionResource
    
    @GET
    @ValidateRequest
+   @Produces( { "application/json", "application/categories+xml", "application/categories-short+xml" })
+   @ResponseTemplate.List({
+      @ResponseTemplate(value = "/freemarker/categories.ftl", produces = "application/categories+xml"),
+      @ResponseTemplate(value = "/freemarker/categories-short.ftl", produces = "application/categories-short+xml")
+   })
    public List<Category> getCategories()
    {
       return bean.getCategories(start, limit);

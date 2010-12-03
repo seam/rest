@@ -62,4 +62,19 @@ public abstract class AbstractCollectionResource
    {
       this.uriInfo = uriInfo;
    }
+
+   public int getStart()
+   {
+      return start;
+   }
+
+   public int getLimit()
+   {
+      return limit;
+   }
+
+   public UriInfo getUriInfo()
+   {
+      return uriInfo;
+   }
 }

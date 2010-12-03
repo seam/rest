@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -33,6 +34,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.jboss.seam.rest.example.tasks.entity.Task;
+import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
@@ -41,8 +43,8 @@ import org.jboss.seam.rest.validation.ValidateRequest;
  *
  */
 @Path("/task")
-@Produces({ "application/xml", "application/json" })
 @RequestScoped
+@Named
 public class TaskCollectionResource extends AbstractCollectionResource
 {
    @Inject
@@ -54,6 +56,8 @@ public class TaskCollectionResource extends AbstractCollectionResource
 
    @GET
    @ValidateRequest
+   @Produces({ "application/tasks+xml", "application/json" })
+   @ResponseTemplate( value = "/freemarker/tasks.ftl", produces = "application/tasks+xml" )
    public List<Task> getTasks()
    {
       return bean.getTasks(start, limit, status, uriInfo.getPathParameters().getFirst("category"));
@@ -69,7 +73,8 @@ public class TaskCollectionResource extends AbstractCollectionResource
     * Ugly workaround for https://jira.jboss.org/browse/CDI-6
     * (We must use setter injection instead of field injection which makes things less clear)
     */
-   @QueryParam("status") @DefaultValue("unresolved")
+   @QueryParam("status")
+   @DefaultValue("unresolved")
    public void setStatus(String status)
    {
       this.status = status;

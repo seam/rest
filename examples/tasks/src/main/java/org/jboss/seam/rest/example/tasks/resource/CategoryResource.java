@@ -38,6 +38,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.rest.example.tasks.entity.Category;
+import org.jboss.seam.rest.example.tasks.entity.JaxbTaskWrapper;
 import org.jboss.seam.rest.example.tasks.entity.Task;
 import org.jboss.seam.rest.example.tasks.entity.TaskValidationGroup;
 import org.jboss.seam.rest.validation.ValidateRequest;
@@ -83,7 +84,7 @@ public class CategoryResource extends AbstractEntityResource
     */
    @POST
    @Path("/task")
-   public Response createTask(Task incommingTask, @PathParam("category") String categoryName, @Context UriInfo uriInfo)
+   public Response createTask(JaxbTaskWrapper incommingTask, @PathParam("category") String categoryName, @Context UriInfo uriInfo)
    {
       Category category = loadCategory(categoryName);
       

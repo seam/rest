@@ -34,7 +34,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -43,7 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  */
 @Entity
-@XmlRootElement
 @NamedQueries({ 
    @NamedQuery(name = "categoryByName", query = "select category from Category category where category.name = :category"),
    @NamedQuery(name = "categories", query = "select category from Category category order by category.id")

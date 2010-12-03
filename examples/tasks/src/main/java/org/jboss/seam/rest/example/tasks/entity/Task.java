@@ -36,7 +36,6 @@ import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -50,7 +49,6 @@ import org.jboss.seam.rest.example.tasks.json.JsonDateSerializer;
  * 
  */
 @Entity
-@XmlRootElement
 @GroupSequence({ Task.class, TaskValidationGroup.class })
 @NamedQueries({
    @NamedQuery(name = "taskById", query = "select task from Task task where task.id = :tid"),

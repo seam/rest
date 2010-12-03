@@ -2,7 +2,7 @@
 	xsi:schemaLocation="
 	http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
-	<interceptors>
-		<class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
-	</interceptors>
+<!--	<interceptors>-->
+<!--		<class>org.jboss.seam.rest.validation.ValidationInterceptor</class>-->
+<!--	</interceptors>-->
 </beans>
