@@ -27,6 +27,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -38,6 +39,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * TemplatingMessageBodyWriter is enabled for every JAX-RS method annotated
@@ -95,8 +97,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
       }
    }
 
-   @Context
-   public void setServletContext(ServletContext context)
+   public void setServletContext(@Observes @Initialized ServletContext context)
    {
       if (provider != null)
       {

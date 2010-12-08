@@ -36,6 +36,16 @@
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
 		</dependency>
+		
+		<dependency>
+   			<groupId>org.jboss.seam.servlet</groupId>
+   			<artifactId>seam-servlet-api</artifactId>
+		</dependency>
+		
+		<dependency>
+   			<groupId>org.jboss.seam.servlet</groupId>
+   			<artifactId>seam-servlet-impl</artifactId>
+		</dependency>
 
 		<!-- Optional dependencies -->
 		<dependency>
@@ -105,7 +115,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang</includeArtifactIds>
+							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>

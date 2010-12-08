@@ -47,4 +47,11 @@ public class FreeMarkerTest extends AbstractTemplatingTest
       String expectedResponse = "<university name=\"Masaryk University\"><students count=\"3\"><student>A</student><student>B</student><student>C</student><student>Jozef Hartinger</student></students></university>";
       test("http://localhost:8080/test/freemarker/students", 200, expectedResponse, "application/university+xml");
    }
+   
+   @Test
+   public void testCorrectTemplateSelected() throws Exception
+   {
+      test("http://localhost:8080/test/freemarker/greeting", 200, "Hi Jozef Hartinger", "text/greeting-informal");
+      test("http://localhost:8080/test/freemarker/greeting", 200, "Good morning Mr. Jozef Hartinger", "text/greeting-formal");
+   }
 }
