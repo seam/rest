@@ -24,6 +24,8 @@ package org.jboss.seam.rest.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jboss.weld.extensions.reflection.Reflections;
+
 public class Utils
 {
    private static Set<Class<?>> WRAPPED_CLASSES = new HashSet<Class<?>>(); 
@@ -58,7 +60,7 @@ public class Utils
    {
       try
       {
-         Thread.currentThread().getContextClassLoader().loadClass(className);
+         Reflections.classForName(className);
          return true;
       }
       catch (Exception e)
