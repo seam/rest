@@ -26,6 +26,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider;
 import org.jboss.seam.rest.templating.velocity.VelocityModel;
 import org.jboss.seam.rest.templating.velocity.VelocityProvider;
@@ -43,6 +44,7 @@ public class TemplatingExtension implements Extension
 {
    private static final String FREEMARKER_TEMPLATE_CLASS_NAME = "freemarker.template.Template";
    private static final String VELOCITY_TEMPLATE_CLASS_NAME = "org.apache.velocity.Template";
+   private static final Logger log = Logger.getLogger(TemplatingExtension.class);
    
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
@@ -51,15 +53,17 @@ public class TemplatingExtension implements Extension
       
       if (freemarkerEnabled)
       {
+         log.debug("FreeMarker found on classpath, adding support beans.");
          event.addAnnotatedType(manager.createAnnotatedType(FreeMarkerProvider.class));
       }
       
       if (velocityEnabled)
       {
+         log.debug("Velocity found on classpath, adding support beans.");
          event.addAnnotatedType(manager.createAnnotatedType(VelocityModel.class));
          event.addAnnotatedType(manager.createAnnotatedType(VelocityProvider.class));
       }
-      
+
       event.addAnnotatedType(manager.createAnnotatedType(TemplatingMessageBodyWriter.class));
       event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
    }

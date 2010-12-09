@@ -55,17 +55,15 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    private TemplatingProvider provider;
    private Class<? extends TemplatingProvider> preferedTemplatingProvider;
 
-   public TemplatingMessageBodyWriter()
-   {
-      super();
-   }
-
    @Inject
    public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension)
    {
+      log.debugv("Initializing {0}", getClass().getSimpleName());
+      
       Instance<? extends TemplatingProvider> instance = providerInstance;
       if (preferedTemplatingProvider != null)
       {
+         log.debugv("Prefered templating provider specified. Selecting {0}", preferedTemplatingProvider.getName());
          instance = providerInstance.select(preferedTemplatingProvider);
       }
       
@@ -97,6 +95,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    {
       if (provider != null)
       {
+         log.debugv("Initializing templating provider.");
          provider.init(context);
       }
    }
