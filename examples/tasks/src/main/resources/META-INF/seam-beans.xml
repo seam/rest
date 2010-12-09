@@ -1,21 +1,26 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:s="urn:java:ee" xmlns:rest="urn:java:org.jboss.seam.rest.exceptions">
+	xmlns:s="urn:java:ee" xmlns:exceptions="urn:java:org.jboss.seam.rest.exceptions" xmlns:templating="urn:java:org.jboss.seam.rest.templating">
 	xsi:schemaLocation="
 	http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
-	<rest:ExceptionMappingConfiguration>
-		<s:replaces/>
-		<rest:exceptionMappings>
+	<exceptions:ExceptionMappingConfiguration>
+		<s:modifies/>
+		<exceptions:exceptionMappings>
 			<s:value>
-				<rest:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-					<rest:message>Requested resource does not exist.</rest:message>
-				</rest:ExceptionMapping>
+				<exceptions:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+					<exceptions:message>Requested resource does not exist.</exceptions:message>
+				</exceptions:ExceptionMapping>
 			</s:value>
 			<s:value>
-				<rest:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
-					<rest:message>Illegal value.</rest:message>
-				</rest:ExceptionMapping>
+				<exceptions:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
+					<exceptions:message>Illegal value.</exceptions:message>
+				</exceptions:ExceptionMapping>
 			</s:value>
-		</rest:exceptionMappings>
-	</rest:ExceptionMappingConfiguration>
+		</exceptions:exceptionMappings>
+	</exceptions:ExceptionMappingConfiguration>
+	
+	<!-- This configuration is not neccesary and is present for testing purposes only -->
+	<templating:TemplatingMessageBodyWriter preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
+		<s:modifies/>
+	</templating:TemplatingMessageBodyWriter>
 </beans>
