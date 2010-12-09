@@ -32,7 +32,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -56,47 +55,44 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    private TemplatingProvider provider;
    private Class<? extends TemplatingProvider> preferedTemplatingProvider;
 
+   public TemplatingMessageBodyWriter()
+   {
+      super();
+   }
+
    @Inject
    public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension)
    {
-      // no templating engines found
-      if (providerInstance.isUnsatisfied())
+      Instance<? extends TemplatingProvider> instance = providerInstance;
+      if (preferedTemplatingProvider != null)
       {
-         log.debug("No TemplateProvider found. Templating support disabled.");
-         return;
-      }
-
-      // exactly one templating engine available, let's use it
-      if (!providerInstance.isAmbiguous())
-      {
-         provider = providerInstance.get();
-         return;
+         instance = providerInstance.select(preferedTemplatingProvider);
       }
       
-      // There are multiple templating engines available.
-      // Users can resolve the ambiguity by selecting the TemplatingProvider
-      // to be used via "preferedTemplatingProvider" (e.g. via XML confing).
-      if (providerInstance.isAmbiguous())
+      // no templating engines found
+      if (instance.isUnsatisfied())
       {
-         if (preferedTemplatingProvider != null)
+         if (preferedTemplatingProvider == null)
          {
-            Instance<? extends TemplatingProvider> child = providerInstance.select(preferedTemplatingProvider);
-            if (child.isAmbiguous() && child.isUnsatisfied())
-            {
-               throw new RuntimeException("Unable to retrieve prefered TemplateProvider: " + preferedTemplatingProvider.getName());
-            }
-            else
-            {
-               provider = child.get();
-            }
+            log.info("No TemplateProvider found. Templating support disabled.");
+            return;
          }
          else
          {
-            throw new RuntimeException("Multiple TemplatingProviders found on classpath. Select the prefered one.");
+            throw new RuntimeException("Unable to load prefered TemplateProvider " + preferedTemplatingProvider.getName());
          }
       }
-   }
 
+      // multiple templating engines found
+      if (instance.isAmbiguous())
+      {
+         throw new RuntimeException("Multiple TemplatingProviders found on classpath. Select the prefered one.");
+      }
+      
+      provider = instance.get();
+      log.infov("Seam REST Templating Extension enabled. Using {0}", provider.toString());
+   }
+   
    public void setServletContext(@Observes @Initialized ServletContext context)
    {
       if (provider != null)

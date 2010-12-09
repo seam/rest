@@ -69,4 +69,10 @@ public class VelocityProvider implements TemplatingProvider
       template.merge(model, writer);
       writer.flush();
    }
+   
+   @Override
+   public String toString()
+   {
+      return getClass().getName();
+   }
 }

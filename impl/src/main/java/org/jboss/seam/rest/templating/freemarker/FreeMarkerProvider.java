@@ -114,4 +114,10 @@ public class FreeMarkerProvider implements TemplatingProvider
          return null;
       }
    }
+
+   @Override
+   public String toString()
+   {
+      return getClass().getName();
+   }
 }
