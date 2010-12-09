@@ -58,7 +58,7 @@ public class ValidationInterceptor implements Serializable
    @AroundInvoke
    public Object intercept(InvocationContext ctx) throws Exception
    {
-      log.debugv("Validating {0}", ctx.getMethod().toGenericString()); // TODO
+      log.debugv("Validating {0}", ctx.getMethod().toGenericString());
       
       // do scanning only once
       if (! metadata.containsMethodMetadata(ctx.getMethod()))
@@ -75,7 +75,7 @@ public class ValidationInterceptor implements Serializable
       // validate JAX-RS resource fields
       if (interceptorBinding.validateResourceFields())
       {
-         log.debugv("Validating JAX-RS resource {0}", ctx.getTarget()); // TODO
+         log.debugv("Validating JAX-RS resource {0}", ctx.getTarget());
          violations.addAll(validator.validate(ctx.getTarget(), groups));
       }
       
@@ -83,7 +83,7 @@ public class ValidationInterceptor implements Serializable
       if (interceptorBinding.validateMessageBody() && (method.getMessageBody() != null))
       {
          Object parameter = ctx.getParameters()[method.getMessageBody()];
-         log.debugv("Validating HTTP message body {0}", parameter); // TODO
+         log.debugv("Validating HTTP message body {0}", parameter);
          violations.addAll(validator.validate(parameter, groups));
       }
       
@@ -93,19 +93,19 @@ public class ValidationInterceptor implements Serializable
          for (Integer parameterIndex : method.getParameterObjects())
          {
             Object parameter = ctx.getParameters()[parameterIndex];
-            log.debugv("Validating parameter object {0}", parameter); // TODO
+            log.debugv("Validating parameter object {0}", parameter);
             violations.addAll(validator.validate(parameter, groups));
          }
       }
       
       if (violations.isEmpty())
       {
-         log.debug("Validation completed. No violations found."); // TODO
+         log.debug("Validation completed. No violations found.");
          return ctx.proceed();
       }
       else
       {
-         log.debugv("Validation completed. {0} violations found.", violations.size()); // TODO
+         log.debugv("Validation completed. {0} violations found.", violations.size());
          throw new ValidationException(violations);
       }
    }
@@ -116,14 +116,14 @@ public class ValidationInterceptor implements Serializable
       Set<Integer> parameterObjects = new HashSet<Integer>();
       ValidateRequest interceptorBinding = getInterceptorBinding(method);
       
-      log.debugv("This is the first time {0} is invoked. Scanning.", method); // TODO
+      log.debugv("This is the first time {0} is invoked. Scanning.", method);
       
       Annotation[][] parameterAnnotations = method.getParameterAnnotations();
       for (int i = 0; i < parameterAnnotations.length; i++)
       {
          if (parameterAnnotations[i].length == 0)
          {
-            log.debugv("{0} identified as the message body.", method.getParameterTypes()[i]); // TODO
+            log.debugv("{0} identified as the message body.", method.getParameterTypes()[i]);
             messageBodyIndex = i;
             continue;
          }
