@@ -11,6 +11,7 @@
    <xi:include href="installation.xml" />
    <xi:include href="exception-mapping.xml" />
    <xi:include href="validation.xml" />
+   <xi:include href="templating.xml" />
    <xi:include href="client.xml" />
 
 </book>

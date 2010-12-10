@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="rest.templating">
+	<title>Templating support</title>
+	
+	<para>
+		Seam REST allows HTTP responses to be created using templates. Instead of being bound
+		to a particlar templating engine, Seam REST comes with support for multiple templating engines
+		and support for others can be plugged in. 
+	</para>
+
+	<sect1>
+		<title>Creating JAX-RS responses using templates</title>
+		
+		<para>
+			REST-based web services are often expected to return multiple representations of a resource. The templating
+			support is useful for producing media formats such as XHTML and it can be also used instead of JAXB to produce
+			domain-specific XML representations of a resource. Besides, almost any other representation of a resource can be described
+			in a template.			
+		</para>
+		
+		<para>
+			To enable templating for a particular method, decorate the method with the <literal>@ResponseTemplate</literal>
+			annotation. Path to a template file to be used for rendering is required.
+		</para>
+		
+		<example>
+			<title>@ResponseTemplate in action</title>
+			<programlisting role="JAVA"><![CDATA[@ResponseTemplate("/freemarker/task.ftl")
+public Task getTask(@PathParam("taskId") long taskId) {
+...
+}]]></programlisting>
+		</example>
+
+		<para>
+			The <literal>@ResponseTemplate</literal> annotation offers several other options. For example, it's possible for a method
+			to offer multiple representations of a resource, each rendered using a different template.
+			In this situation, the <literal>produces</literal> member of the <literal>@ResponseTemplate</literal> annotation is used
+			to distinguish between produced media types.
+		</para>
+
+		<example>
+			<title>Multiple @ResponseTemplates</title>
+			<programlisting role="JAVA"><![CDATA[@GET
+@Produces( { "application/json", "application/categories+xml", "application/categories-short+xml" })
+@ResponseTemplate.List({
+      @ResponseTemplate(value = "/freemarker/categories.ftl", produces = "application/categories+xml"),
+      @ResponseTemplate(value = "/freemarker/categories-short.ftl", produces = "application/categories-short+xml")
+})
+public List<Category> getCategories()]]></programlisting>
+		</example>
+
+		<table>
+			<title>@ResponseTemplate options</title>
+			<tgroup cols='4'>
+				<thead>
+					<row>
+						<entry>Name</entry>
+						<entry>Required</entry>
+						<entry>Default value</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>value</entry>
+						<entry>true</entry>
+						<entry>-</entry>
+						<entry>Path to the template (e.g. /freemarker/categories.ftl)
+						</entry>
+					</row>
+					<row>
+						<entry>produces</entry>
+						<entry>false</entry>
+						<entry>*/*</entry>
+						<entry>Restricts which media type is produced by the template.
+							Useful in situations when a method produces multiple media types,
+							each using a different template.</entry>
+					</row>
+					<row>
+						<entry>responseName</entry>
+						<entry>false</entry>
+						<entry>response</entry>
+						<entry>Name under which the object returned by the JAX-RS method
+							is available in the template (e.g. Hello ${response.name})
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<sect2>
+			<title>Accessing the model</title>
+
+			<para>
+				There are several ways of accessing the domain data within a template.
+			</para>
+			
+			<para>
+				Firstly, the object returned by the JAX-RS method is available under the "response" name by default.
+				The object can be made available under a different name using the <literal>responseName</literal> member of the <literal>@ResponseTemplate</literal>
+				annotation. 
+			</para>
+			
+			<example>
+				<title>hello.ftl</title>
+				<programlisting><![CDATA[Hello ${response.name}]]></programlisting>
+			</example>
+			
+			<para>
+				Secondly, every bean reachable via an EL expression is available within a template.
+			</para>
+			
+			<example>
+				<title>Using EL names in a template</title>
+				<programlisting role="XML"><![CDATA[#foreach(${student} in ${university.students})
+	<student>${student.name}</student>
+#end]]></programlisting>
+			</example>
+			
+			<note>
+				<para>
+					Note that the syntax of the expression depends on the particular
+					templating engine and most of the time differs from the syntax of EL expressions. For example, 
+					<literal>${university.students}</literal> must be used instead of <literal>#{university.students}</literal>
+					in a FreeMarker template. 
+				</para>
+			</note>
+			
+			<para>
+				Last but not least, the model can be populated programatically. In order to do that, inject the <literal>TemplatingModel</literal>
+				bean and put the desired objects into the underlying <literal>data</literal> map. In the following example, the list of professors is available under the "professors" name.
+			</para>
+			
+			<example>
+				<title>Defining model programatically</title>
+				<programlisting role="JAVA"><![CDATA[@Inject
+private TemplatingModel model;
+   
+@GET
+@ResponseTemplate("/freemarker/university.ftl")
+public University getUniversity()
+{
+   // load university and professors
+   University university = ...
+   List<Professor> professors = ...
+   
+   model.getData().put("professors", professors);
+   return university;
+}]]></programlisting>
+			</example>
+			
+		</sect2>
+
+	</sect1>
+
+	<sect1>
+		<title>Builtin support for templating engines</title>
+
+		<para>
+			Seam REST currently comes with builtin templating providers for
+			FreeMarker and Apache Velocity.
+		</para>
+
+		<sect2>
+			<title>FreeMarker</title>
+			<para>
+				FreeMarker is one of the most popular templating engines. To
+				enable Seam REST FreeMarker support, bundle the FreeMarker jar with
+				the web application.
+			</para>
+				
+			<para>
+				For more information on writing FreeMarker templates, refer to the 
+				<ulink url="http://freemarker.sourceforge.net/docs/index.html">FreeMarker Manual</ulink>
+			</para>
+		</sect2>
+
+		<sect2>
+			<title>Apache Velocity</title>
+			<para>
+				Apache Velocity is another popular Java-based templating engine. Similarly to FreeMarker support, 
+				Velocity support is enabled automatically if Velocity libraries are detected on the classpath. 
+			</para>
+			
+			<para>
+				For more information on writing Velocity templates, refer to the 
+				<ulink url="http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html">Apache Velocity User Guide</ulink>
+			</para>
+		</sect2>
+		
+		<sect2>
+			<title>Pluggable support for templating engines</title>
+			<para>
+				All that needs to be done to extend the set of supported templating engines is to implement
+				the <literal>TemplatingProvider</literal> interface. See the 
+				<ulink url="http://docs.jboss.org/seam/3/rest/latest/api/org/jboss/seam/rest/templating/TemplatingProvider.html">Javadoc</ulink> for hints.
+			</para>
+		</sect2>
+
+		<sect2>
+			<title>Selecting prefered templating engine</title>
+			<para>
+				In certain deployment scenarios it is not possible to control
+				the classpath completely and multiple template engines may be
+				available at the same time. If that happens, Seam REST fails to
+				operate with the following message:
+			</para>
+
+			<informalexample>
+				<programlisting>Multiple TemplatingProviders found on classpath. Select the prefered one.</programlisting>
+			</informalexample>
+
+			<para>
+				Thus, the TemplatingProvider ambiguity needs to be resolved. To
+				do so, choose the prefered templating engine using XML
+				configuration, as demonstrated below.
+			</para>
+
+			<example>
+				<title>Prefered provider</title>
+				<programlisting role="XML"><![CDATA[<beans xmlns:templating="urn:java:org.jboss.seam.rest.templating">
+	<templating:TemplatingMessageBodyWriter preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
+		<s:modifies />
+	</templating:TemplatingMessageBodyWriter>
+</beans>]]></programlisting>
+			</example>
+
+			<table>
+				<title>Builtin Templating Providers</title>
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>Name</entry>
+							<entry>FQCN</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>FreeMarker</entry>
+							<entry>org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider</entry>
+						</row>
+						<row>
+							<entry>Apache Velocity</entry>
+							<entry>org.jboss.seam.rest.templating.velocity.VelocityProvider</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect2>
+
+	</sect1>
+
+</chapter>
