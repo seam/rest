@@ -65,6 +65,5 @@ public class TemplatingExtension implements Extension
       }
 
       event.addAnnotatedType(manager.createAnnotatedType(TemplatingMessageBodyWriter.class));
-      event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
    }
 }

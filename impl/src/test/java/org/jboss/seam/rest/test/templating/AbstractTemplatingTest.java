@@ -25,6 +25,9 @@ import java.io.File;
 
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingExtension;
+import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
+import org.jboss.seam.rest.templating.TemplatingModel;
+import org.jboss.seam.rest.templating.TemplatingProvider;
 import org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider;
 import org.jboss.seam.rest.templating.velocity.VelocityProvider;
 import org.jboss.seam.rest.test.SeamRestClientTest;
@@ -63,6 +66,7 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       war.addClasses(Student.class, University.class);
       war.addClasses(FreeMarkerResource.class, VelocityResource.class, MyApplication.class);
       war.addLibrary(createSeamRest());
+      war.addLibrary(createSeamRestApi());
       return war;
    }
    
@@ -71,10 +75,17 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
       jar.addManifestResource("org/jboss/seam/rest/test/templating/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       jar.addClass(Utils.class);
-      jar.addPackage(ResponseTemplate.class.getPackage());
-      jar.addPackage(TemplatingExtension.class.getPackage());
+      jar.addClasses(TemplatingExtension.class, TemplatingMessageBodyWriter.class);
       jar.addPackage(FreeMarkerProvider.class.getPackage());
       jar.addPackage(VelocityProvider.class.getPackage());
+      return jar;
+   }
+   
+   public static JavaArchive createSeamRestApi()
+   {
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest-api.jar");
+      jar.addClasses(ResponseTemplate.class, TemplatingModel.class, TemplatingProvider.class);
+      jar.addManifestResource("beans.xml");
       return jar;
    }
 }
