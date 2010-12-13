@@ -21,6 +21,7 @@
  */
 package org.jboss.seam.rest.validation;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +34,10 @@ import javax.enterprise.context.ApplicationScoped;
  *
  */
 @ApplicationScoped
-public class ValidationMetadata
+public class ValidationMetadata implements Serializable
 {
+   private static final long serialVersionUID = 9094847250956854536L;
+   
    private Map<Method, ValidatedMethodMetadata> methods = new HashMap<Method, ValidatedMethodMetadata>();
    
    public ValidatedMethodMetadata getMethodMetadata(Method method)
