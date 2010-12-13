@@ -8,7 +8,7 @@
 		<exceptions:exceptionMappings>
 			<s:value>
 				<exceptions:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-					<exceptions:message>Requested resource does not exist.</exceptions:message>
+					<exceptions:message>Requested resource (#{uriInfo.path}) does not exist.</exceptions:message>
 				</exceptions:ExceptionMapping>
 			</s:value>
 			<s:value>

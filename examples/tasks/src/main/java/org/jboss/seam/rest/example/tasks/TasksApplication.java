@@ -50,6 +50,7 @@ public class TasksApplication extends Application
       classes.add(SeamExceptionMapper.class);
       classes.add(ValidationExceptionMapper.class);
       classes.add(TemplatingMessageBodyWriter.class);
+      classes.add(UriInfoProducer.class);
       return classes;
    }
 }
