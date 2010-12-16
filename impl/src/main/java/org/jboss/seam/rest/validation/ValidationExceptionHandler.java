@@ -23,28 +23,38 @@ package org.jboss.seam.rest.validation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.ConstraintViolation;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
 
+import org.jboss.seam.exception.control.CatchResource;
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.validation.ValidationException;
 
-@Provider
+/**
+ * The default handler that converts ValidationException to an HTTP response.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+@HandlesExceptions
 @ApplicationScoped
-public class ValidationExceptionMapper implements ExceptionMapper<ValidationException>
+public class ValidationExceptionHandler
 {
-   public Response toResponse(ValidationException exception)
+   public void handleValidationException(@Handles(precedence = -100, during = TraversalPath.DESCENDING) @RestRequest CaughtException<ValidationException> event, @CatchResource ResponseBuilder builder)
    {
-      ResponseBuilder response = Response.status(BAD_REQUEST);
+      builder.status(BAD_REQUEST);
       ValidationErrorMessageWrapper error = new ValidationErrorMessageWrapper();
 
-      for (ConstraintViolation<Object> violation : exception.getViolations())
+      for (ConstraintViolation<Object> violation : event.getException().getViolations())
       {
          error.addMessage(violation.getMessage());
       }
-      return response.entity(error).build();
+      builder.entity(error);
+      
+      event.handled();
    }
 }

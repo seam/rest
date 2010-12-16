@@ -4,14 +4,25 @@
 <chapter id="rest.installation">
 	<title>Installation</title>
 	<para>
-		The Seam REST module requires a Java EE 6 compliant server such as <ulink url="http://www.jboss.org/jbossas">JBoss
-		Application Server</ulink> or <ulink url="https://glassfish.dev.java.net/">GlassFish</ulink> to run on.
+		The Seam REST module requires a Java EE 6 compliant server such as
+		<ulink url="http://www.jboss.org/jbossas">JBoss
+			Application Server</ulink>
+		or
+		<ulink url="https://glassfish.dev.java.net/">GlassFish</ulink>
+		to run on.
 	</para>
 
 	<para>
-		To use the Seam REST module, add <literal>seam-rest</literal> and <literal>seam-rest-api</literal> jars into the web application.
-		If using Maven, add the following dependency
-		into the web application's <literal>pom.xml</literal> configuration file.
+		To use the Seam REST module, add
+		<literal>seam-rest</literal>
+		and
+		<literal>seam-rest-api</literal>
+		jars into the web application.
+		If using Maven, add the following
+		dependency
+		into the web application's
+		<literal>pom.xml</literal>
+		configuration file.
 	</para>
 
 	<example>
@@ -21,6 +32,12 @@
 	<artifactId>seam-rest</artifactId> 
 	<version>${seam.rest.version}</version> 
 </dependency>]]></programlisting>
-
 	</example>
+
+	<para>
+		Besides, Seam REST has several transitive dependencies (which are
+		added automatically when using maven). See
+		<xref linkend="rest.dependencies.table" />
+		for more details.
+	</para>
 </chapter>

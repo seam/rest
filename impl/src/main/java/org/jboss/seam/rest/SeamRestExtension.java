@@ -27,10 +27,13 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import org.jboss.seam.rest.exceptions.CatchJaxrsBridge;
+import org.jboss.seam.rest.exceptions.ErrorMessageWrapper;
+import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
+import org.jboss.seam.rest.exceptions.SeamExceptionHandler;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.seam.rest.validation.ValidationExceptionMapper;
+import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.seam.rest.validation.ValidationInterceptor;
 import org.jboss.seam.rest.validation.ValidationMetadata;
 
@@ -44,9 +47,15 @@ public class SeamRestExtension implements Extension
       event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));
       event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
       
-      event.addAnnotatedType(manager.createAnnotatedType(SeamExceptionMapper.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionMapper.class));
+      // Bean Validation integration
+      event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionHandler.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationInterceptor.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationMetadata.class));
+      
+      // Catch integration
+      event.addAnnotatedType(manager.createAnnotatedType(CatchJaxrsBridge.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ErrorMessageWrapper.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ResponseBuilderProducer.class));
+      event.addAnnotatedType(manager.createAnnotatedType(SeamExceptionHandler.class));
    }
 }

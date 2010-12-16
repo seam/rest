@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="rest.dependencies">
+	<title>Seam REST Dependencies</title>
+
+	<para>
+		The Seam REST module depends on the following transitive
+		dependencies at runtime.
+	</para>
+
+	<table id="rest.dependencies.table">
+		<title>Transitive dependencies</title>
+		<tgroup cols='2'>
+			<thead>
+				<row>
+					<entry>Name</entry>
+					<entry>Version</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>Weld Extensions</entry>
+					<entry>1.0.0-SNAPSHOT</entry>
+				</row>
+				<row>
+					<entry>Seam Servlet</entry>
+					<entry>3.0.0.Alpha2</entry>
+				</row>
+				<row>
+					<entry>Seam Catch</entry>
+					<entry>3.0.0.Alpha2</entry>
+				</row>
+				<row>
+					<entry>JBoss Logging</entry>
+					<entry>3.0.0.Beta4</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+
+</chapter>

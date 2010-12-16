@@ -21,16 +21,28 @@
  */
 package org.jboss.seam.rest.test.validation;
 
+import java.util.Collections;
+
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.exception.control.CatchResource;
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.ExceptionStack;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
+import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
-import org.jboss.seam.rest.validation.ValidationExceptionMapper;
+import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -42,13 +54,23 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class ValidationTest
 {
-   @Inject @Valid
+   @Inject
+   @Valid
    private PersonResource validResource;
-   @Inject @Invalid
+   @Inject
+   @Invalid
    private PersonResource invalidResource;
    @Inject
    private ResourceChild resourceChild;
-   
+   @Inject
+   @CatchResource
+   private Instance<ResponseBuilder> builder;
+   @Inject
+   @CatchResource
+   private Instance<Response> response;
+   @Inject
+   private Instance<ValidationExceptionHandler> handler;
+
    @Deployment
    public static JavaArchive createDeployment()
    {
@@ -56,17 +78,18 @@ public class ValidationTest
       jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addPackage(ValidationTest.class.getPackage());
+      jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalPath.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
       jar.addClasses(Annotations.class, Utils.class);
       return jar;
    }
-   
+
    @Test
    public void testCorrectMessageBody()
    {
       Person tester = new Person("Jozef", "Hartinger", 22, false);
       validResource.partiallyValidatedOperation(tester);
    }
-   
+
    @Test
    public void testIncorrectMessageBody()
    {
@@ -81,7 +104,7 @@ public class ValidationTest
          assertEquals(3, e.getViolations().size());
       }
    }
-   
+
    @Test
    public void testIncorrectFormBean()
    {
@@ -97,24 +120,42 @@ public class ValidationTest
          assertEquals(3, e.getViolations().size());
       }
    }
-   
+
    @Test
-   public void testValidationExceptionMapper()
+   public void testValidationExceptionHandler()
    {
       Person tester = new Person("foo", "bar", 100, true);
-      ValidationExceptionMapper mapper = new ValidationExceptionMapper();
+
       try
       {
+         // prepare exception
          validResource.partiallyValidatedOperation(tester);
          throw new RuntimeException("Expected exception not thrown.");
       }
-      catch (ValidationException e)
+      catch (final ValidationException e)
       {
-         Response response = mapper.toResponse(e);
-         assertEquals("must be false", response.getEntity().toString().trim());
+         // pass the exception to the handler
+         ExceptionStack stack = new ExceptionStack(Collections.<Throwable>singleton(e), 0);
+         this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false)
+         {
+            @Override
+            public ValidationException getException()
+            {
+               return e;
+            }
+
+            @Override
+            public void handled()
+            {
+            }
+
+         }, builder.get());
+
+         assertEquals(400, response.get().getStatus());
+         assertEquals("must be false", response.get().getEntity().toString().trim());
       }
    }
-   
+
    @Test
    public void testGroups()
    {
@@ -123,7 +164,7 @@ public class ValidationTest
 
       validResource.partiallyValidatedOperation(partiallyValidPerson);
       validResource.completelyValidatedOperation(completelyValidPerson);
-      
+
       try
       {
          validResource.completelyValidatedOperation(partiallyValidPerson);
@@ -134,7 +175,7 @@ public class ValidationTest
          // expected
       }
    }
-   
+
    @Test
    public void testResourceHierarchy()
    {
@@ -148,7 +189,7 @@ public class ValidationTest
          // expected
       }
    }
-   
+
    @Test
    public void testResourceValidation()
    {

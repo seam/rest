@@ -25,47 +25,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-import javax.ws.rs.ext.Providers;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.exception.control.CatchResource;
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.TraversalPath;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
 import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
 import org.jboss.seam.rest.exceptions.PlainTextExceptionMapping;
-import org.jboss.seam.rest.exceptions.UnhandledException;
 import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.servlet.event.Initialized;
 
 /**
- * SeamExceptionMapper allows exceptions to be mapped to HTTP status codes
+ * SeamExceptionHandler allows exceptions to be mapped to HTTP status codes
  * declaratively (at runtime).
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  * 
  */
-@Provider
 @ApplicationScoped
-public class SeamExceptionMapper implements ExceptionMapper<Throwable>
+@HandlesExceptions
+public class SeamExceptionHandler
 {
 
-   @Context
-   private Providers providers;
    @Inject
    private Interpolator interpolator;
    private Map<Class<? extends Throwable>, ExceptionMapping> mappings = new HashMap<Class<? extends Throwable>, ExceptionMapping>();
-   private boolean initialized = false;
 
-   private static final Logger log = Logger.getLogger(SeamExceptionMapper.class);
+   private static final Logger log = Logger.getLogger(SeamExceptionHandler.class);
 
    /**
     * Store mappings in a Map so that we can find them by the exception type
     */
-   @Inject
-   public void init(ExceptionMappingConfiguration configuration)
+   public void init(@Observes @Initialized ServletContext context, ExceptionMappingConfiguration configuration)
    {
       log.info("Processing exception mapping configuration.");
       for (ExceptionMapping mapping : configuration.getExceptionMappings())
@@ -73,64 +71,37 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
          this.mappings.put(mapping.getExceptionType(), mapping);
          log.infov("Registered {0}", mapping);
       }
-      initialized = true;
    }
 
-   public Response toResponse(Throwable e)
+   public void handleException(@Handles(precedence = -100, during = TraversalPath.DESCENDING) @RestRequest CaughtException<Throwable> event, @CatchResource ResponseBuilder builder)
    {
-      if (!initialized)
+      Class<? extends Throwable> exceptionType = event.getException().getClass();
+      log.debugv("Handling {0}", exceptionType);
+      
+      if (mappings.containsKey(exceptionType))
       {
-         log.warn("SeamExceptionMapper has not been initialized properly. You are probably running in non-CDI environment.");
+         produceResponse(event.getException(), builder);
+         event.handled();
       }
-
-      log.debugv("Handling {0}", e.getClass());
-
-      Throwable exception = e;
-
-      while (exception != null) // iterate over cause chain
+      else
       {
-
-         Class<? extends Throwable> exceptionType = exception.getClass();
-
-         if (mappings.containsKey(exceptionType))
-         {
-            return handleException(exception);
-         }
-
-         // Check if there is an ExceptionMapper to handle the request -
-         // according to spec there should not be since it would be chosen
-         // to handle the exception instead of the SeamExceptionMapper
-         ExceptionMapper<? extends Throwable> mapper = providers.getExceptionMapper(exceptionType);
-         // do not do recursion
-         if (mapper != null && !(mapper instanceof SeamExceptionMapper))
-         {
-            return delegateException(mapper, exception);
-         }
-
-         log.debugv("Unwrapping {0}", exception.getClass());
-         exception = exception.getCause();
+         event.rethrow();
+         event.unmute(); // let us handle the causing exception
       }
-
-      // No ExceptionMapper/ExceptionMapping, rethrow the exception
-      throw new UnhandledException(e);
    }
-
-   protected Response handleException(Throwable exception)
+   
+   protected void produceResponse(Throwable exception, ResponseBuilder builder)
    {
       ExceptionMapping mapping = mappings.get(exception.getClass());
       log.debugv("Found exception mapping {0} for {1}", mapping, exception.getClass());
 
-      ResponseBuilder builder = Response.status(mapping.getStatusCode());
+      builder.status(mapping.getStatusCode());
       if (mapping.getMessage() != null)
       {
          builder.entity(createEntityBody(mapping));
       }
-      return builder.build();
    }
 
-   // TODO make this extensible - allow
-   // users to provide own ExceptionMapping
-   // subclasses
    protected Object createEntityBody(ExceptionMapping mapping)
    {
       if (mapping instanceof PlainTextExceptionMapping)
@@ -153,11 +124,5 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       {
          return mapping.getMessage();
       }
-   }
-
-   @SuppressWarnings({ "rawtypes", "unchecked" })
-   protected Response delegateException(ExceptionMapper delegate, Throwable exception)
-   {
-      return delegate.toResponse(exception);
    }
 }

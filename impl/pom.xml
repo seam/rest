@@ -36,15 +36,25 @@
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
 		</dependency>
-		
+
 		<dependency>
-   			<groupId>org.jboss.seam.servlet</groupId>
-   			<artifactId>seam-servlet-api</artifactId>
+			<groupId>org.jboss.seam.servlet</groupId>
+			<artifactId>seam-servlet-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
-   			<groupId>org.jboss.seam.servlet</groupId>
-   			<artifactId>seam-servlet-impl</artifactId>
+			<groupId>org.jboss.seam.servlet</groupId>
+			<artifactId>seam-servlet-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.catch</groupId>
+			<artifactId>seam-catch-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.catch</groupId>
+			<artifactId>seam-catch-impl</artifactId>
 		</dependency>
 
 		<!-- Optional dependencies -->
@@ -61,7 +71,7 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-tools</artifactId>
@@ -115,7 +125,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl</includeArtifactIds>
+							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch-api,seam-catch-impl</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>

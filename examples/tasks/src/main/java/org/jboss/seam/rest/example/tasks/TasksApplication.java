@@ -31,9 +31,8 @@ import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.jboss.seam.rest.example.tasks.resource.CategoryCollectionResource;
 import org.jboss.seam.rest.example.tasks.resource.CategoryResource;
 import org.jboss.seam.rest.example.tasks.resource.TaskCollectionResource;
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import org.jboss.seam.rest.exceptions.CatchJaxrsBridge;
 import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
-import org.jboss.seam.rest.validation.ValidationExceptionMapper;
 
 @ApplicationPath("/api/*")
 public class TasksApplication extends Application
@@ -47,8 +46,7 @@ public class TasksApplication extends Application
       classes.add(CategoryResource.class);
       classes.add(TaskCollectionResource.class);
       classes.add(JacksonJaxbJsonProvider.class);
-      classes.add(SeamExceptionMapper.class);
-      classes.add(ValidationExceptionMapper.class);
+      classes.add(CatchJaxrsBridge.class);
       classes.add(TemplatingMessageBodyWriter.class);
       classes.add(UriInfoProducer.class);
       return classes;

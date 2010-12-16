@@ -57,6 +57,13 @@ public class Resource {
 	}
 	
 	@GET
+	@Path("/e2")
+	public void e2()
+	{
+	   throw new Exception2(new Exception1());
+	}
+	
+	@GET
 	@Path("/ejb")
 	public void ejb()
 	{
@@ -75,5 +82,19 @@ public class Resource {
 	public void throwNsme()
 	{
 		throw new NoSuchMethodError();
+	}
+	
+	@GET
+	@Path("/ie")
+	public void throwIe() throws InstantiationException
+	{
+	   throw new InstantiationException();
+	}
+	
+	@GET
+	@Path("/imse")
+	public void throwImse() throws InstantiationException
+	{
+	   throw new IllegalMonitorStateException();
 	}
 }

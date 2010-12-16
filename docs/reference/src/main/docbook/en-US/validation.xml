@@ -75,13 +75,13 @@ public void updateTask(Task incommingTask)
 				is a simple carrier of constraint violations found by the
 				Bean
 				Validation provider. The exception can be handled by an
-				<literal>ExceptionMapper</literal>
+				<literal>ExceptionMapper</literal> or Seam Catch handler.
 				.
 			</para>
 			<para>
 				Seam REST comes with a built-in
-				<literal>ValidationExceptionMapper</literal>
-				which is registered by default. The exception mapper converts the
+				<literal>ValidationException</literal> handler
+				which is registered by default. The exception handler converts the
 				<literal>ValidationException</literal>
 				to an HTTP response with 400 (Bad request) status code. Furthermore,
 				messages relevant to the violated constraints are sent within the

@@ -43,10 +43,12 @@ public class ExceptionMappingTest extends SeamRestClientTest
       war.addWebResource("beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
       war.addPackage(ExceptionMapping.class.getPackage());
-      war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MyApplication.class);
+      war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addClasses(Interpolator.class, ExpressionLanguageInterpolator.class);
-      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING);
+//      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL, LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
       return war;
    }
 
@@ -61,6 +63,12 @@ public class ExceptionMappingTest extends SeamRestClientTest
    {
       test("http://localhost:8080/test/exceptions/aioobe", 421, null);
    }
+   
+   @Test
+   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/ie", 415, null);
+   }
 
    @Test
    public void testRuntimeException() throws Exception
@@ -72,6 +80,12 @@ public class ExceptionMappingTest extends SeamRestClientTest
    public void testExceptionUnwrapping() throws Exception
    {
       test("http://localhost:8080/test/exceptions/e1", 400, null);
+   }
+   
+   @Test
+   public void testExceptionUnwrapping2() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/e2", 400, null);
    }
 
    @Test
@@ -90,5 +104,12 @@ public class ExceptionMappingTest extends SeamRestClientTest
    public void testErrorMessageInterpolationSwitch() throws Exception
    {
       test("http://localhost:8080/test/exceptions/nsme", 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog");
+   }
+   
+    @Test
+   // Disabled for now
+   public void testUnhandledExceptionRethrown() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/imse", 500, null);
    }
 }

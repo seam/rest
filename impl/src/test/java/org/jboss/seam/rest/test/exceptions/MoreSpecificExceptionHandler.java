@@ -19,29 +19,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.exceptions;
+package org.jboss.seam.rest.test.exceptions;
 
-public class UnhandledException extends RuntimeException
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.jboss.seam.exception.control.CatchResource;
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.rest.exceptions.RestRequest;
+
+@HandlesExceptions
+public class MoreSpecificExceptionHandler
 {
-   private static final long serialVersionUID = 2094785191554517720L;
-
-   public UnhandledException()
+   public void handleInstantiationException(@Handles(precedence = 0) @RestRequest CaughtException<InstantiationException> event, @CatchResource ResponseBuilder builder)
    {
+      builder.status(415);
+      event.handled();
    }
-
-   public UnhandledException(String message, Throwable cause)
-   {
-      super(message, cause);
-   }
-
-   public UnhandledException(String message)
-   {
-      super(message);
-   }
-
-   public UnhandledException(Throwable cause)
-   {
-      super(cause);
-   }
-
 }

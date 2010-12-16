@@ -27,7 +27,8 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import org.jboss.seam.rest.exceptions.CatchJaxrsBridge;
+import org.jboss.seam.rest.exceptions.SeamExceptionHandler;
 
 @ApplicationPath("/*")
 public class MyApplication extends Application
@@ -40,7 +41,7 @@ public class MyApplication extends Application
       Set<Class<?>> classes = new HashSet<Class<?>>();
       classes.add(Resource.class);
       classes.add(MoreSpecificExceptionMapper.class);
-      classes.add(SeamExceptionMapper.class);
+      classes.add(CatchJaxrsBridge.class);
       return classes;
    }
 }
