@@ -104,6 +104,13 @@ public class ValidationTest
          assertEquals(3, e.getViolations().size());
       }
    }
+   
+   @Test
+   public void testDisabledValidation()
+   {
+      Person tester = new Person("foo", "b", 5, true);
+      validResource.notValidatedOperation(tester);
+   }
 
    @Test
    public void testIncorrectFormBean()

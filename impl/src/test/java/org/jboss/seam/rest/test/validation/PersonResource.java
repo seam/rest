@@ -65,6 +65,11 @@ public class PersonResource
    {
    }
    
+   @ValidateRequest(validateMessageBody = false)
+   public void notValidatedOperation(Person person)
+   {
+   }
+   
    @ValidateRequest
    public void formOperation(@FormObject FormBean form1, @FormObject FormBean form2)
    {
