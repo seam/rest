@@ -32,7 +32,7 @@ import org.jboss.seam.rest.tasks.statistics.entity.Category;
 import org.jboss.seam.rest.tasks.statistics.entity.Task;
 
 @Path("/api")
-@Produces("application/xml")
+@Produces("application/json")
 public interface SeamTasksService
 {
    @Path("/task")
