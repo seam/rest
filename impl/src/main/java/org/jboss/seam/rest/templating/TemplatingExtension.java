@@ -35,7 +35,7 @@ import org.jboss.seam.rest.util.Utils;
 /**
  * Seam REST templating extensions allows HTTP responses to be created using 
  * a templating engine. FreeMarker and Apache Velocity are supported out of the
- * box. Support for additional templating engines can be added by implemeneting
+ * box. Support for additional templating engines can be added by implementing
  * the TemplatingProvider interface. 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *

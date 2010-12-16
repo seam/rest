@@ -40,8 +40,9 @@ import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.jboss.weld.extensions.bean.defaultbean.DefaultBean;
 
 /**
- * Produces the default ClientExecutor. It can be overriden by providing 
- * ClientExecutor Bean.
+ * Produces the default ClientExecutor.
+ * The default ClientExecutor can be overriden by providing 
+ * an alternative instance of ClientExecutor.
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *

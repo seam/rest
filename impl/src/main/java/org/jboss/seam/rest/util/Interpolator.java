@@ -23,5 +23,8 @@ package org.jboss.seam.rest.util;
 
 public interface Interpolator
 {
+   /**
+    * Evaluates EL expressions contained in the input String.
+    */
    String interpolate(String input);
 }

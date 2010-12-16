@@ -39,11 +39,13 @@ import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 /**
  * The Seam REST Client extension provides injection of
- * - org.jboss.resteasy.client.ClientRequest instances
- * - REST clients - proxied JAX-RS interfaces capable of invoking client requests
+ * <ul>
+ * <li>org.jboss.resteasy.client.ClientRequest instances</li>
+ * <li>REST clients - proxied JAX-RS interfaces capable of invoking client requests</li>
+ * </ul>
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- **/
+ */
 public class RestClientExtension implements Extension
 {
    private static final Logger log = Logger.getLogger(RestClientExtension.class);
@@ -52,6 +54,7 @@ public class RestClientExtension implements Extension
    
    private Set<Type> jaxrsInterfaces = new HashSet<Type>();
    private Bean<RestClientProducer> restClientProducerBean;
+   
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
@@ -64,11 +67,26 @@ public class RestClientExtension implements Extension
       }
    }
    
+   /**
+    * Obtains the <code>Bean</code> instance for the <code>RestClientProducer</code> component.
+    * This instance is used later for registering {@link RestClientProducer#produceRestClient} as a producer method.
+    * @param event
+    */
    public void getRestClientProducerDelegate(@Observes ProcessBean<RestClientProducer> event)
    {
       this.restClientProducerBean = event.getBean();
    }
    
+   /**
+    * Scans a Bean for the following injection points
+    * 
+    * <code>
+    * @Inject @RestClient
+    * private T service;
+    * </code>
+    * 
+    * where T is a JAX-RS annotated interface and builds a collection of these types.
+    */
    public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event)
    {
       if (!enabled)

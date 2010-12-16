@@ -49,11 +49,18 @@ public class ValidatedMethodMetadata
       return method;
    }
 
+   /**
+    * Returns the index of the message body parameter or null if the method 
+    * does not contain a message body parameter.
+    */
    public Integer getMessageBody()
    {
       return messageBody;
    }
 
+   /**
+    * Returns a set of indexes of the parameter object parameters.
+    */
    public Set<Integer> getParameterObjects()
    {
       return parameterObjects;

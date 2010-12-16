@@ -55,6 +55,19 @@ public class ValidationInterceptor implements Serializable
    @Inject
    private ValidationMetadata metadata;
 
+   /**
+    * Intercepts method invocations to <code>@ValidateRequest</code> annotated methods.
+    * <p>
+    * On the first run, the method is scanned for message body parameters and parameter object parameters
+    * and the metadata is stored within {@link ValidationMetadata}.
+    * </p>
+    * <p>
+    * On subsequent runs, method parameters and the declaring instance are validated using {@link Validator}.
+    * {@link ValidationException} is thrown if validation fails.
+    *  
+    * @throws ValidationException
+    *
+    */
    @AroundInvoke
    public Object intercept(InvocationContext ctx) throws Exception
    {

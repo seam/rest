@@ -61,7 +61,7 @@ public class SeamExceptionHandler
    private static final Logger log = Logger.getLogger(SeamExceptionHandler.class);
 
    /**
-    * Store mappings in a Map so that we can find them by the exception type
+    * Initializes SeamExceptionHandler. Mappings are stored in a Map so that we can find them by the exception type
     */
    public void init(@Observes @Initialized ServletContext context, ExceptionMappingConfiguration configuration)
    {

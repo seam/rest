@@ -37,11 +37,24 @@ import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.seam.rest.validation.ValidationInterceptor;
 import org.jboss.seam.rest.validation.ValidationMetadata;
 
+/**
+ * Registers Seam REST components.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
 public class SeamRestExtension implements Extension
 {
    private static final Logger log = Logger.getLogger(SeamRestExtension.class);
    
-   void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
+   /**
+    * The following components are registered:
+    * <ul>
+    * <li>Bean Validation integration components</li>
+    * <li>Exception mapping components</li>
+    * <li>Utilities</li>
+    * </ul>
+    */
+   void registerSeamRest(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       log.info("Seam REST Extension starting...");
       event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));

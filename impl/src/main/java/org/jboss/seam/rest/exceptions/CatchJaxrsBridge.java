@@ -32,7 +32,6 @@ import org.jboss.seam.exception.control.ExceptionToCatch;
  * A JAX-RS ExceptionMapper implementation that maps all exceptions (i.e.,
  * Throwable) raised during a JAX-RS request to the Seam Catch exception
  * handling bus.
- * <p/>
  * <p>
  * Exceptions are send to Seam Catch by firing an event of type
  * {@link ExceptionToCatch} to the CDI event bus. The event payload

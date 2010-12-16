@@ -29,7 +29,7 @@ public class Annotations
 {
    /**
     * Looks for annotation on a given class including stereotypes.
-    * TODO only the first level of stereotypes is implemented currently (class -> stereotype -> annotation)
+    * Note that only the first level of stereotypes is implemented currently (class -> stereotype -> annotation)
     * if the annotation is placed deeper in the stereotype hierarchy, it won't be found
     * 
     * @param clazz class to be inspected

@@ -28,7 +28,9 @@ import java.lang.reflect.Type;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.AmbiguousResolutionException;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.WebApplicationException;
@@ -42,8 +44,8 @@ import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * TemplatingMessageBodyWriter is enabled for every JAX-RS method annotated
- * with @ResponseTemplate annotation and delegates response production to the
- * TemplatingProvider.
+ * with <code>@ResponseTemplate</code> annotation and delegates response production to the
+ * {@link TemplatingProvider}.
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
@@ -55,6 +57,12 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    private TemplatingProvider provider;
    private Class<? extends TemplatingProvider> preferedTemplatingProvider;
 
+   /**
+    * Initializes TemplatingMessageBodyWriter. <code>TemplatingProvider</code> is selected.
+    * 
+    * @throws UnsatisfiedResolutionException if the preferred <code>TemplatingProvider</code> is selected but is not available for injection.
+    * @throws AmbiguousResolutionException if there are multiple <code>TemplatingProviders<code> available.
+    */
    @Inject
    public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension)
    {
@@ -77,20 +85,23 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
          }
          else
          {
-            throw new RuntimeException("Unable to load prefered TemplateProvider " + preferedTemplatingProvider.getName());
+            throw new UnsatisfiedResolutionException("Unable to load prefered TemplateProvider " + preferedTemplatingProvider.getName());
          }
       }
 
       // multiple templating engines found
       if (instance.isAmbiguous())
       {
-         throw new RuntimeException("Multiple TemplatingProviders found on classpath. Select the prefered one.");
+         throw new AmbiguousResolutionException("Multiple TemplatingProviders found on classpath. Select the prefered one.");
       }
       
       provider = instance.get();
       log.infov("Seam REST Templating Extension enabled. Using {0}", provider.toString());
    }
    
+   /**
+    * Initializes the <code>TemplatingProvider</code> if available.
+    */
    public void setServletContext(@Observes @Initialized ServletContext context)
    {
       if (provider != null)
@@ -100,6 +111,9 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
       }
    }
 
+   /**
+    * Returns true if and only if the templating extension is enabled and the method contains the <code>@ResponseTemplate</code> annotation.
+    */
    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
    {
       if (provider == null)

@@ -34,14 +34,18 @@ import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Interpolator;
 
 /**
- * Produces REST Clients 
- * - proxied JAX-RS interface
- * - ClientRequest
+ * Produces REST Clients
+ * <ul>
+ * <li>proxied JAX-RS interface</li>
+ * <li>ClientRequest</li>
+ * </ul>
  * 
+ * <code>
  * @Inject @RestClient
  * private TaskService tasks;
  * @Inject @RestCLient
  * private ClientRequest request;
+ * </code>
  * 
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
@@ -53,8 +57,9 @@ public class RestClientProducer
    private Interpolator interpolator;
    
    /**
-    * Producer for proxied JAX-RS interfaces - REST Clients
-    * This method is registered as a producer method through RestClientExtension
+    * Producer method for proxied JAX-RS interfaces - REST Clients
+    * This method is not registered as a producer method by default.
+    * It is registered by {@link RestClientExtension} only if there is an appropriate injection point.
     */
    public Object produceRestClient(InjectionPoint ip, ClientExecutor executor)
    {
@@ -71,7 +76,7 @@ public class RestClientProducer
    }
    
    /**
-    * Producer for ClientRequests
+    * Produces ClientRequest instances.
     */
    @Produces @RestClient("")
    public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor)
