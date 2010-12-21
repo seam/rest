@@ -15,18 +15,25 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.rest.exceptions;
+package org.jboss.seam.rest.exceptions.integration;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.seam.exception.control.CatchResource;
+import org.jboss.logging.Logger;
+import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionToCatch;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.RestResource;
+import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 
 /**
  * A JAX-RS ExceptionMapper implementation that maps all exceptions (i.e.,
@@ -44,14 +51,18 @@ import org.jboss.seam.exception.control.ExceptionToCatch;
  */
 @Provider
 @ApplicationScoped
-public class CatchJaxrsBridge implements ExceptionMapper<Throwable>
+@HandlesExceptions
+public class CatchExceptionMapper extends SeamExceptionMapper
 {
-   @Inject @CatchResource
-   private Instance<Response> responseProvider;
-
+   @Inject
+   @RestResource
+   private Instance<Response> response;
    @Inject
    private Event<ExceptionToCatch> bridgeEvent;
+   
+   private static final Logger log = Logger.getLogger(CatchExceptionMapper.class);
 
+   @Override
    public Response toResponse(Throwable exception)
    {
       ExceptionToCatch payload = new ExceptionToCatch(exception, RestRequest.RestRequestLiteral.INSTANCE);
@@ -59,6 +70,23 @@ public class CatchJaxrsBridge implements ExceptionMapper<Throwable>
       // The call returns if the exception is handled. The exception is rethrown by catch otherwise. 
       bridgeEvent.fire(payload);
       
-      return responseProvider.get();
+      return response.get();
+   }
+   
+   public void handleException(@Handles(precedence = -100, during = TraversalPath.DESCENDING) @RestRequest CaughtException<Throwable> event, @RestResource ResponseBuilder builder)
+   {
+      Class<? extends Throwable> exceptionType = event.getException().getClass();
+      log.debugv("Handling {0}", exceptionType);
+      
+      if (getMappings().containsKey(exceptionType))
+      {
+         produceResponse(event.getException(), builder);
+         event.handled();
+      }
+      else
+      {
+         event.rethrow();
+         event.unmute(); // let us handle the causing exception
+      }
    }
 }

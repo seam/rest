@@ -19,28 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest.exceptions;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
-
-@ApplicationPath("/*")
-public class MyApplication extends Application
+public class UnhandledException extends RuntimeException
 {
-   // According to spec, this method does not need to be overridden - that would trigger scanning
-   // Unfortunatelly, RESTEasy does not implement this properly
-   @Override
-   public Set<Class<?>> getClasses()
+   private static final long serialVersionUID = 2094785191554517720L;
+
+   public UnhandledException()
    {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(Resource.class);
-      classes.add(MoreSpecificExceptionMapper.class);
-      classes.add(SeamExceptionMapper.class);
-      return classes;
+   }
+
+   public UnhandledException(String message, Throwable cause)
+   {
+      super(message, cause);
+   }
+
+   public UnhandledException(String message)
+   {
+      super(message);
+   }
+
+   public UnhandledException(Throwable cause)
+   {
+      super(cause);
    }
 }

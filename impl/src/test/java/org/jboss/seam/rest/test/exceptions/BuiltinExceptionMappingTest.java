@@ -22,34 +22,48 @@
 package org.jboss.seam.rest.test.exceptions;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.seam.rest.exceptions.ExceptionMapping;
+import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.test.Fox;
 import org.jboss.seam.rest.test.SeamRestClientTest;
+import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.rest.validation.ValidationException;
+import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
-public class ExceptionMappingTest extends SeamRestClientTest
+public class BuiltinExceptionMappingTest extends SeamRestClientTest
 {
-
-   // TODO simulate war/jar structure
-
    @Deployment
    public static WebArchive createDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
       war.addWebResource("beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
-      war.addPackage(ExceptionMapping.class.getPackage());
       war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
-      war.addClasses(Interpolator.class, ExpressionLanguageInterpolator.class);
       war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING);
+      war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
+      war.addLibraries(createSeamRestImpl());
 //      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
-      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL, LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
       return war;
+   }
+   
+   public static JavaArchive createSeamRestImpl()
+   {
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
+      jar.addPackage(RestRequest.class.getPackage());
+      jar.addPackage(CatchExceptionMapper.class.getPackage());
+      // utils
+      jar.addClasses(Utils.class, Annotations.class, Interpolator.class, ExpressionLanguageInterpolator.class);
+      jar.addClasses(ValidationException.class, ValidationExceptionHandler.class);
+      jar.addManifestResource("beans.xml", "beans.xml");
+      return jar;
    }
 
    @Test
@@ -64,12 +78,6 @@ public class ExceptionMappingTest extends SeamRestClientTest
       test("http://localhost:8080/test/exceptions/aioobe", 421, null);
    }
    
-   @Test
-   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
-   {
-      test("http://localhost:8080/test/exceptions/ie", 415, null);
-   }
-
    @Test
    public void testRuntimeException() throws Exception
    {
@@ -106,8 +114,7 @@ public class ExceptionMappingTest extends SeamRestClientTest
       test("http://localhost:8080/test/exceptions/nsme", 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog");
    }
    
-    @Test
-   // Disabled for now
+   @Test
    public void testUnhandledExceptionRethrown() throws Exception
    {
       test("http://localhost:8080/test/exceptions/imse", 500, null);

@@ -19,28 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest.exceptions;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.inject.Qualifier;
 
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@ApplicationPath("/*")
-public class MyApplication extends Application
+/**
+ * Used to qualify a resource used by Seam REST
+ *
+ * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ */
+@Qualifier
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
+public @interface RestResource
 {
-   // According to spec, this method does not need to be overridden - that would trigger scanning
-   // Unfortunatelly, RESTEasy does not implement this properly
-   @Override
-   public Set<Class<?>> getClasses()
-   {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(Resource.class);
-      classes.add(MoreSpecificExceptionMapper.class);
-      classes.add(SeamExceptionMapper.class);
-      return classes;
-   }
 }

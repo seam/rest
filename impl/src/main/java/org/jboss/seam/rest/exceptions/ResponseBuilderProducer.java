@@ -23,8 +23,6 @@ import javax.enterprise.inject.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.jboss.seam.exception.control.CatchResource;
-
 /**
  * A request-scoped resource for customizing an REST error response from within
  * a Seam Catch exception handler.
@@ -32,21 +30,21 @@ import org.jboss.seam.exception.control.CatchResource;
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  */
-@CatchResource
 @RequestScoped
 public class ResponseBuilderProducer
 {
    private ResponseBuilder responseBuilder;
 
    @Produces
-   @CatchResource
+   @RequestScoped
+   @RestResource
    public ResponseBuilder getResponseBuilder()
    {
       return responseBuilder;
    }
 
    @Produces
-   @CatchResource
+   @RestResource
    public Response buildCatchResponse()
    {
       return responseBuilder.build();

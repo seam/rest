@@ -21,26 +21,25 @@
  */
 package org.jboss.seam.rest.test.exceptions;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 
-@ApplicationPath("/*")
-public class MyApplication extends Application
+/**
+ * Simulates {@link SeamRestException} either registering {@link SeamExceptionMapper}
+ * or {@link CatchExceptionMapper} but not both.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+public class MockExtension implements Extension
 {
-   // According to spec, this method does not need to be overridden - that would trigger scanning
-   // Unfortunatelly, RESTEasy does not implement this properly
-   @Override
-   public Set<Class<?>> getClasses()
+   public void vetoSeamExceptionMapper(@Observes ProcessAnnotatedType<SeamExceptionMapper> event)
    {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(Resource.class);
-      classes.add(MoreSpecificExceptionMapper.class);
-      classes.add(SeamExceptionMapper.class);
-      return classes;
+      if (event.getAnnotatedType().getJavaClass().equals(SeamExceptionMapper.class))
+      {
+         event.veto();
+      }
    }
 }

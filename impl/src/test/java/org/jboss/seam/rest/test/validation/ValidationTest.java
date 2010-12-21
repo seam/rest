@@ -38,11 +38,12 @@ import org.jboss.seam.exception.control.HandlesExceptions;
 import org.jboss.seam.exception.control.TraversalPath;
 import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
 import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.RestResource;
+import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
-import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -63,13 +64,13 @@ public class ValidationTest
    @Inject
    private ResourceChild resourceChild;
    @Inject
-   @CatchResource
+   @RestResource
    private Instance<ResponseBuilder> builder;
    @Inject
-   @CatchResource
+   @RestResource
    private Instance<Response> response;
    @Inject
-   private Instance<ValidationExceptionHandler> handler;
+   private Instance<CatchValidationExceptionHandler> handler;
 
    @Deployment
    public static JavaArchive createDeployment()
@@ -77,7 +78,9 @@ public class ValidationTest
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(ValidateRequest.class.getPackage());
+      jar.addClass(CatchValidationExceptionHandler.class);
       jar.addPackage(ValidationTest.class.getPackage());
+      jar.addClass(RestResource.class);
       jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalPath.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
       jar.addClasses(Annotations.class, Utils.class);
       return jar;

@@ -21,26 +21,32 @@
  */
 package org.jboss.seam.rest.test.exceptions;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
-
-@ApplicationPath("/*")
-public class MyApplication extends Application
+public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
 {
-   // According to spec, this method does not need to be overridden - that would trigger scanning
-   // Unfortunatelly, RESTEasy does not implement this properly
-   @Override
-   public Set<Class<?>> getClasses()
+   @Deployment
+   public static WebArchive createDeploymentWithCatch()
    {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(Resource.class);
-      classes.add(MoreSpecificExceptionMapper.class);
-      classes.add(SeamExceptionMapper.class);
-      return classes;
+      WebArchive war = createDeployment();
+      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
+      war.addClass(MockExtension.class);
+      war.addManifestResource("org/jboss/seam/rest/test/exceptions/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
+      return war;
+   }
+   
+   @Test
+   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/ie", 415, null);
+   }
+   
+   @Test
+   @Override
+   public void testUnhandledExceptionRethrown() throws Exception
+   {
+      // SEAMSERVLET-19
    }
 }

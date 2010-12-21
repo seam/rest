@@ -19,31 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.validation;
-
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+package org.jboss.seam.rest.exceptions.integration;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.validation.ConstraintViolation;
+import javax.inject.Inject;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.RestResource;
+import org.jboss.seam.rest.validation.ValidationException;
+import org.jboss.seam.rest.validation.ValidationExceptionHandler;
+
 /**
- * The default handler that converts ValidationException to an HTTP response.
+ * The default handler that obtains {@link ValidationException} from Seam Catch and
+ * converts it to an HTTP response.
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
+@HandlesExceptions
 @ApplicationScoped
-public class ValidationExceptionHandler
+public class CatchValidationExceptionHandler
 {
-   public void handleValidationException(ValidationException exception, ResponseBuilder builder)
+   @Inject
+   private ValidationExceptionHandler delegate;
+   
+   public void handleValidationException(@Handles(precedence = -100, during = TraversalPath.DESCENDING) @RestRequest CaughtException<ValidationException> event, @RestResource ResponseBuilder builder)
    {
-      builder.status(BAD_REQUEST);
-      ValidationErrorMessageWrapper error = new ValidationErrorMessageWrapper();
-      
-      for (ConstraintViolation<Object> violation : exception.getViolations())
-      {
-         error.addMessage(violation.getMessage());
-      }
-      builder.entity(error);
+      delegate.handleValidationException(event.getException(), builder);
+      event.handled();
    }
 }
