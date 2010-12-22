@@ -47,7 +47,7 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
       war.setWebXML("WEB-INF/web.xml");
       war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
-      war.addLibraries(LIBRARY_WELDX, LIBRARY_JBOSS_LOGGING);
+      war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL, LIBRARY_JBOSS_LOGGING);
       war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
       war.addLibraries(createSeamRestImpl());
 //      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);

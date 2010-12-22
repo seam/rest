@@ -22,13 +22,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-extensions</artifactId>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-api</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.el</groupId>
+			<artifactId>jboss-el-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -45,6 +50,12 @@
 		<dependency>
 			<groupId>org.jboss.seam.servlet</groupId>
 			<artifactId>seam-servlet-impl</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.weld</groupId>
+					<artifactId>weld-extensions</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Optional dependencies -->
@@ -60,8 +71,14 @@
 			<artifactId>seam-catch-impl</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.weld</groupId>
+					<artifactId>weld-extensions</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
@@ -129,7 +146,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,weld-extensions,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch-api,seam-catch-impl</includeArtifactIds>
+							<includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch-api,seam-catch-impl</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.jboss.seam</groupId>
 		<artifactId>seam-parent</artifactId>
-		<version>4</version>
+		<version>5</version>
 	</parent>
 
 	<groupId>org.jboss.seam.rest</groupId>
@@ -16,7 +16,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<seam.version>3.0.0.b03</seam.version>
+		<seam.version>3.0.0.b04</seam.version>
 		<jbossas.version>6.0.0.20100911-M5</jbossas.version>
 		<jboss.server.manager.version>1.0.3.GA</jboss.server.manager.version>
 		<javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
@@ -30,7 +30,6 @@
 		<velocity.tools.version>2.0</velocity.tools.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
-		<weldx.version>1.0.0-SNAPSHOT</weldx.version>
 		<seam.servlet.version>3.0.0.Alpha2</seam.servlet.version>
 		<seam.catch.version>3.0.0.Alpha2</seam.catch.version>
 	</properties>
@@ -96,12 +95,6 @@
    				<groupId>org.jboss.seam.servlet</groupId>
    				<artifactId>seam-servlet-impl</artifactId>
    				<version>${seam.servlet.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.weld</groupId>
-				<artifactId>weld-extensions</artifactId>
-				<version>${weldx.version}</version>
 			</dependency>
 
 			<dependency>

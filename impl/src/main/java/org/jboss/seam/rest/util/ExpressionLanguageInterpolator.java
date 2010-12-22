@@ -27,7 +27,8 @@ import java.util.regex.Pattern;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.jboss.weld.extensions.el.Expressions;
+import org.jboss.seam.solder.el.Expressions;
+
 
 @ApplicationScoped
 public class ExpressionLanguageInterpolator implements Interpolator

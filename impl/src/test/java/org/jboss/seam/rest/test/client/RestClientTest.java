@@ -34,11 +34,11 @@ import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.solder.bean.Beans;
+import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.weld.extensions.bean.Beans;
-import org.jboss.weld.extensions.literal.DefaultLiteral;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
@@ -60,7 +60,7 @@ public class RestClientTest
       war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
       war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
-      war.addLibrary(SeamRestClientTest.LIBRARY_WELDX);
+      war.addLibraries(SeamRestClientTest.LIBRARY_SEAM_SOLDER_API, SeamRestClientTest.LIBRARY_SEAM_SOLDER_IMPL);
       return war;
    }
 

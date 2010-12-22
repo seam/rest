@@ -36,8 +36,8 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 
 import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.weld.extensions.bean.AbstractImmutableBean;
-import org.jboss.weld.extensions.bean.Beans;
+import org.jboss.seam.solder.bean.AbstractImmutableBean;
+import org.jboss.seam.solder.bean.Beans;
 
 /**
  * We need to create a producer method with the type closure discovered at boot time.

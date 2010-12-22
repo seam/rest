@@ -29,7 +29,7 @@ import javax.inject.Inject;
 
 import org.apache.velocity.context.Context;
 import org.jboss.seam.rest.templating.TemplatingModel;
-import org.jboss.weld.extensions.el.Expressions;
+import org.jboss.seam.solder.el.Expressions;
 
 /**
  * Wraps TemplatingModel to allow objects to be referenced via EL in velocity

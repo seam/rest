@@ -24,7 +24,7 @@ package org.jboss.seam.rest.util;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.weld.extensions.reflection.Reflections;
+import org.jboss.seam.solder.reflection.Reflections;
 
 public class Utils
 {

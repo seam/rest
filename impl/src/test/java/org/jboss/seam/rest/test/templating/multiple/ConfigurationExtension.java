@@ -28,7 +28,7 @@ import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 
 import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
-import org.jboss.weld.extensions.bean.ForwardingInjectionTarget;
+import org.jboss.seam.solder.bean.ForwardingInjectionTarget;
 
 /**
  * Simulates configuring TemplatingMessageBodyWriter via XML extension.

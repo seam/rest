@@ -38,7 +38,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public abstract class SeamRestClientTest
 {
-   public static final File LIBRARY_WELDX = new File("target/lib/weld-extensions.jar");
+   public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
+   public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
    public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
    public static final File LIBRARY_SLF4J_API = new File("target/lib/slf4j-api.jar");
    public static final File LIBRARY_SLF4J_IMPL = new File("target/lib/slf4j-simple.jar");

@@ -60,7 +60,7 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       war.addResource("org/jboss/seam/rest/test/templating/formal.ftl", "formal.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/informal.ftl", "informal.ftl");
       war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
-      war.addLibraries(LIBRARY_WELDX);
+      war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL);
       war.addLibraries(LIBRARY_JBOSS_LOGGING, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
       war.addClasses(Student.class, University.class);

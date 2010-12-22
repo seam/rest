@@ -37,7 +37,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
-import org.jboss.weld.extensions.el.Expressions;
+import org.jboss.seam.solder.el.Expressions;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
