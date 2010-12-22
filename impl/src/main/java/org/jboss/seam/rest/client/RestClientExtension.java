@@ -129,4 +129,9 @@ public class RestClientExtension implements Extension
          event.addBean(new RestClientProducerBean(restClientProducerBean, jaxrsInterfaces, manager));
       }
    }
+
+   public boolean isClientIntegrationEnabled()
+   {
+      return enabled;
+   }
 }
