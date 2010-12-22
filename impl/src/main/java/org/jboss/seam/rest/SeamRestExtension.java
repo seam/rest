@@ -27,14 +27,22 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.exceptions.ErrorMessageWrapper;
+import org.jboss.seam.rest.exceptions.ExceptionMapping;
+import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
+import org.jboss.seam.rest.exceptions.PlainTextExceptionMapping;
 import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
+import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
+import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.seam.rest.validation.ValidationInterceptor;
 import org.jboss.seam.rest.validation.ValidationMetadata;
@@ -54,6 +62,7 @@ public class SeamRestExtension implements Extension
    /**
     * The following components are registered:
     * <ul>
+    * <li>API Beans</li>
     * <li>Bean Validation integration components</li>
     * <li>Exception mapping components</li>
     * <li>Utilities</li>
@@ -64,6 +73,16 @@ public class SeamRestExtension implements Extension
    {
       log.info("Seam REST Extension starting...");
       catchIntegrationEnabled = Utils.isClassAvailable(SEAM_CATCH_NAME);
+      
+      // API
+      event.addQualifier(RestClient.class);
+      event.addQualifier(RestRequest.class);
+      event.addQualifier(RestResource.class);
+      event.addInterceptorBinding(ValidateRequest.class);
+      event.addAnnotatedType(manager.createAnnotatedType(ExceptionMapping.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ExceptionMappingConfiguration.class));
+      event.addAnnotatedType(manager.createAnnotatedType(PlainTextExceptionMapping.class));
+      event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
       
       // Utils
       event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));

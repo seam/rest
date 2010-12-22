@@ -31,9 +31,15 @@
 			<title>Dependency added to pom.xml</title>
 			<programlisting role="XML"><![CDATA[<dependency> 
 		<groupId>org.jboss.seam.rest</groupId> 
-		<artifactId>seam-rest</artifactId> 
+		<artifactId>seam-rest-api</artifactId> 
 		<version>${seam.rest.version}</version> 
-	</dependency>]]></programlisting>
+	</dependency>
+
+<dependency> 
+		<groupId>org.jboss.seam.rest</groupId> 
+		<artifactId>seam-rest-impl</artifactId> 
+		<version>${seam.rest.version}</version> 
+</dependency>]]></programlisting>
 		</example>
 	</sect1>
 

@@ -18,7 +18,7 @@
 
 	<properties>
 		<resteasy.version>2.0.1.GA</resteasy.version>
-		<seam.xml.version>3.0.0.Beta1</seam.xml.version>
+		<seam.config.version>3.0.0.Beta2</seam.config.version>
 		<!-- test properties -->
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
@@ -81,19 +81,19 @@
 
 		<!-- Runtime dependencies -->
 		<dependency>
-			<groupId>org.jboss.seam.xml</groupId>
-			<artifactId>seam-xml-config</artifactId>
-			<version>${seam.xml.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-extensions</artifactId>
+			<groupId>org.jboss.seam.config</groupId>
+			<artifactId>seam-config-xml</artifactId>
+			<version>${seam.config.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam.rest</groupId>
-			<artifactId>seam-rest</artifactId>
+			<artifactId>seam-rest-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam.rest</groupId>
+			<artifactId>seam-rest-impl</artifactId>
 		</dependency>
 
 		<dependency>

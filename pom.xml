@@ -30,7 +30,7 @@
 		<velocity.tools.version>2.0</velocity.tools.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
-		<seam.servlet.version>3.0.0.Alpha2</seam.servlet.version>
+		<seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>
 		<seam.catch.version>3.0.0.Alpha2</seam.catch.version>
 	</properties>
 
@@ -50,6 +50,7 @@
 	<modules>
 		<module>api</module>
 		<module>impl</module>
+		<module>combined</module>
 	</modules>
 
 	<dependencyManagement>
@@ -82,7 +83,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.seam.rest</groupId>
-				<artifactId>seam-rest</artifactId>
+				<artifactId>seam-rest-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
