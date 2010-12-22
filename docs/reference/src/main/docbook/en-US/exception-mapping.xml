@@ -27,7 +27,7 @@
 	<sect1>
 		<title>Seam Catch Integration</title>
 		<para>
-			Seam Catch is used within the Seam REST module for dealing with
+			Seam Catch can be used within the Seam REST module for dealing with
 			exceptions.
 			As a result, an exception that occurs during an invocation
 			of a JAX-RS service is routed through the Catch
@@ -55,7 +55,7 @@
 				<programlisting role="JAVA"><![CDATA[@HandlesExceptions
 public class ExceptionHandler
 {
-   @Inject @CatchResource
+   @Inject @RestResource
    ResponseBuilder builder
    
    public void handleException(@Handles @RestRequest CaughtException<NoResultException> event)
@@ -107,6 +107,7 @@ public class ExceptionHandler
 		</para>
 
 		<para>
+			Catch integration is optional and only enabled when Catch libraries are available on classpath. 
 			For more information on Seam Catch, see
 			<ulink
 				url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>

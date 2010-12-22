@@ -12,32 +12,77 @@
 		to run on.
 	</para>
 
-	<para>
-		To use the Seam REST module, add
-		<literal>seam-rest</literal>
-		and
-		<literal>seam-rest-api</literal>
-		jars into the web application.
-		If using Maven, add the following
-		dependency
-		into the web application's
-		<literal>pom.xml</literal>
-		configuration file.
-	</para>
+	<sect1>
+		<title>Basics</title>
+		<para>
+			To use the Seam REST module, add
+			<literal>seam-rest</literal>
+			and
+			<literal>seam-rest-api</literal>
+			jars into the web application.
+			If using Maven, add the following
+			dependency
+			into the web application's
+			<literal>pom.xml</literal>
+			configuration file.
+		</para>
+	
+		<example>
+			<title>Dependency added to pom.xml</title>
+			<programlisting role="XML"><![CDATA[<dependency> 
+		<groupId>org.jboss.seam.rest</groupId> 
+		<artifactId>seam-rest</artifactId> 
+		<version>${seam.rest.version}</version> 
+	</dependency>]]></programlisting>
+		</example>
+	</sect1>
 
-	<example>
-		<title>Dependency added to pom.xml</title>
-		<programlisting role="XML"><![CDATA[<dependency> 
-	<groupId>org.jboss.seam.rest</groupId> 
-	<artifactId>seam-rest</artifactId> 
-	<version>${seam.rest.version}</version> 
-</dependency>]]></programlisting>
-	</example>
+	<sect1>
+		<title>Transitive dependencies</title>
+		<para>
+			Besides, Seam REST has several transitive dependencies (which are
+			added automatically when using maven). See
+			<xref linkend="rest.dependencies.table" />
+			for more details.
+		</para>
+	</sect1>
+	
+	<sect1>
+		<title>Registering JAX-RS components explicitly</title>
+		
+		<para>
+			The Seam REST module hooks into the exception processing mechanism of JAX-RS by registering
+			<literal>SeamExceptionMapper</literal>. Besides, <literal>TemplatingMessageBodyWriter</literal> is registered
+			to provide templating support.
+		</para>
+		
+		<para>
+			These components registered by default if classpath scanning
+			of JAX-RS resources and providers is enabled (an empty <literal>javax.ws.rs.coreApplication</literal> is provided).
+		</para>
+		
+		<programlisting role="JAVA"><![CDATA[@ApplicationPath("/api/*")
+public class MyApplication extends Application {}]]></programlisting>
 
-	<para>
-		Besides, Seam REST has several transitive dependencies (which are
-		added automatically when using maven). See
-		<xref linkend="rest.dependencies.table" />
-		for more details.
-	</para>
+		<para>
+			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden to select resources and providers explicitly, 
+			<literal>SeamExceptionMapper</literal> must be selected as well.
+		</para>
+		
+		<programlisting role="JAVA"><![CDATA[@ApplicationPath("/api/*")
+public class MyApplication extends Application
+{
+   @Override
+   public Set<Class<?>> getClasses()
+   {
+      Set<Class<?>> classes = new HashSet<Class<?>>();
+      ...
+      ...
+      ...
+      classes.add(SeamExceptionMapper.class);
+      classes.add(TemplatingMessageBodyWriter.class);
+      return classes;
+   }
+}]]></programlisting>
+	</sect1>
 </chapter>
