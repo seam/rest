@@ -31,7 +31,6 @@
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
 		<seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>
-		<seam.catch.version>3.0.0.Alpha2</seam.catch.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -118,18 +117,6 @@
 				<version>${velocity.tools.version}</version>
 			</dependency>
 			
-			<dependency>
-         		<groupId>org.jboss.seam.catch</groupId>
-         		<artifactId>seam-catch-api</artifactId>
-         		<version>${seam.catch.version}</version>
-      		</dependency>
-
-			<dependency>
-				<groupId>org.jboss.seam.catch</groupId>
-				<artifactId>seam-catch-impl</artifactId>
-				<version>${seam.catch.version}</version>
-			</dependency>
-
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>

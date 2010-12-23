@@ -42,11 +42,4 @@ public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
    {
       test("http://localhost:8080/test/exceptions/ie", 415, null);
    }
-   
-   @Test
-   @Override
-   public void testUnhandledExceptionRethrown() throws Exception
-   {
-      // SEAMSERVLET-19
-   }
 }

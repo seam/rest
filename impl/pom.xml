@@ -160,6 +160,9 @@
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
 					</additionalClasspathElements>
+					<excludes>
+						<exclude>**/CatchExceptionMappingTest.java</exclude> <!-- Disabled for now SEAMREST-12 -->
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
