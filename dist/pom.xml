@@ -27,7 +27,7 @@
 
       <dependency>
          <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest</artifactId>
+         <artifactId>seam-rest-impl</artifactId>
          <optional>true</optional>
       </dependency>
 
@@ -50,14 +50,14 @@
 
       <dependency>
          <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest</artifactId>
+         <artifactId>seam-rest-impl</artifactId>
          <version>${project.version}</version>
          <classifier>sources</classifier>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest</artifactId>
+         <artifactId>seam-rest-impl</artifactId>
          <version>${project.version}</version>
          <classifier>javadoc</classifier>
          <optional>true</optional>
