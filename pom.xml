@@ -31,6 +31,7 @@
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
 		<seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>
+		<seam.config.version>3.0.0.Beta2</seam.config.version>
 	</properties>
 
 	<url>http://www.seamframework.org</url>
@@ -143,6 +144,11 @@
 				<scope>test</scope>
 			</dependency>
 			<!-- Seam Tasks dependencies -->
+			<dependency>
+				<groupId>org.jboss.seam.config</groupId>
+				<artifactId>seam-config-xml</artifactId>
+				<version>${seam.config.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-jaxrs</artifactId>
@@ -271,6 +277,7 @@
 				<module>dist</module>
 				<module>docs/reference</module>
 				<module>examples/tasks</module>
+				<module>examples/tasks-statistics</module>
 			</modules>
 		</profile>
 	</profiles>

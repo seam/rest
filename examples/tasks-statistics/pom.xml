@@ -27,7 +27,7 @@
 			<groupId>org.jboss.seam.rest</groupId>
 			<artifactId>seam-rest-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.seam.rest</groupId>
 			<artifactId>seam-rest-impl</artifactId>
@@ -47,5 +47,23 @@
 	<build>
 		<finalName>seam-tasks-statistics</finalName>
 	</build>
+	<profiles>
+		<profile>
+			<id>distribution</id>
+			<activation>
+				<property>
+					<name>release</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
 

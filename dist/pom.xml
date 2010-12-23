@@ -78,6 +78,14 @@
          <type>zip</type>
          <optional>true</optional>
       </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.seam.rest</groupId>
+         <artifactId>seam-tasks-statistics-example</artifactId>
+         <version>${project.version}</version>
+         <type>zip</type>
+         <optional>true</optional>
+      </dependency>
 
    </dependencies>
 
