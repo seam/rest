@@ -23,7 +23,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.ext.Provider;
+import javax.ws.rs.ext.ExceptionMapper;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.exception.control.CaughtException;
@@ -49,10 +49,9 @@ import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  */
-@Provider
 @ApplicationScoped
 @HandlesExceptions
-public class CatchExceptionMapper extends SeamExceptionMapper
+public class CatchExceptionMapper extends SeamExceptionMapper implements ExceptionMapper<Throwable>
 {
    @Inject
    @RestResource
