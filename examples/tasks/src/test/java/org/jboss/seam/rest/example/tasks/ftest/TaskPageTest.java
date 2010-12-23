@@ -89,7 +89,8 @@ public class TaskPageTest extends AbstractTestCase
       assertTrue(page.isTaskPresent(newCategory, id, name));
    }
 
-   @Test
+   @Test(enabled = false)
+   //SEAMREST-13
    public void testRemovingTask()
    {
       assertTrue(page.isTaskPresent(4, "Learn new vocab for English conversations"));
@@ -112,7 +113,7 @@ public class TaskPageTest extends AbstractTestCase
       assertTrue(page.isTaskPresent(18, "Visit grandma"));
    }
 
-   @Test
+   @Test 
    public void testResolvingTask()
    {
       int taskId = 12;
