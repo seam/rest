@@ -29,7 +29,7 @@ import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 
 /**
- * Container for {@link ValidatedMethodMetadata}.
+ * Container for {@link MethodMetadata}.
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
@@ -38,14 +38,14 @@ public class ValidationMetadata implements Serializable
 {
    private static final long serialVersionUID = 9094847250956854536L;
    
-   private Map<Method, ValidatedMethodMetadata> methods = new HashMap<Method, ValidatedMethodMetadata>();
+   private Map<Method, MethodMetadata> methods = new HashMap<Method, MethodMetadata>();
    
-   public ValidatedMethodMetadata getMethodMetadata(Method method)
+   public MethodMetadata getMethodMetadata(Method method)
    {
       return methods.get(method);
    }
    
-   void addMethodMetadata(ValidatedMethodMetadata method)
+   void addMethodMetadata(MethodMetadata method)
    {
       methods.put(method.getMethod(), method);
    }

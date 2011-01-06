@@ -53,6 +53,10 @@ public void updateTask(Task incommingTask)
 ...
 }]]></programlisting>
 
+		<para>
+			Now, the HTTP request's entity body (the incomingTask parameter) will be validated prior to invoking the method.
+		</para>
+
 		<sect2>
 			<title>Validating entity body</title>
 
@@ -119,7 +123,7 @@ Content-Length:	129
 
 			<example>
 				<title>JAX-RS resource</title>
-				<programlisting role="XML"><![CDATA[public class PersonResource
+				<programlisting role="JAVA"><![CDATA[public class PersonResource
 {
 	@QueryParam("search")
 	@Size(min = 1, max = 30)
@@ -152,14 +156,6 @@ Content-Length:	129
 					resources.
 				</para>
 			</important>
-			
-			<warning>
-				<para>
-					As a consequence of <ulink url="https://jira.jboss.org/browse/CDI-6">CDI-6</ulink>, some containers
-					are not able to perform JAX-RS field injection on an intercepted CDI bean. In this situation,
-					JAX-RS setter injection can be used as a workaround.
-				</para>
-			</warning>
 		</sect2>
 
 		<sect2>
@@ -183,9 +179,7 @@ public List<Person>search(@QueryParam("search") String query,
 
 			<note>
 				<para>
-					Currently, Seam REST does not validate primitive method parameters
-					(including
-					String ones). Therefore, either use resource field
+					Currently, Seam REST does only validate JavaBean parameters (as oposed to primitive types, Strings and so on). Therefore, to validate these types of parameters, either use resource field
 					validation described
 					in
 					<xref linkend="rest.resource.validation" />
@@ -209,7 +203,7 @@ public List<Person>search(@QueryParam("search") String query,
 				<ulink
 					url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>
 				.
-				These parameters can be validated by Seam REST.
+				These parameters can be validated by Seam REST. To trigger the validation, annotate the parameter with <literal>javax.validation.Valid</literal> annotation.
 			</para>
 
 			<example>
@@ -229,7 +223,7 @@ public List<Person>search(@QueryParam("search") String query,
 @POST
 @Path("/myservice")
 @ValidateRequest
-public void post(@Form MyForm form) {...}]]></programlisting>
+public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 			</example>
 		</sect2>
 	</sect1>
@@ -251,11 +245,6 @@ public void post(@Form MyForm form) {...}]]></programlisting>
 						<entry>validateMessageBody</entry>
 						<entry>Enables/Disables validation of message body parameters.
 						</entry>
-						<entry>true</entry>
-					</row>
-					<row>
-						<entry>validateParameterObjects</entry>
-						<entry>Enables/Disables validation of parameter objects.</entry>
 						<entry>true</entry>
 					</row>
 					<row>

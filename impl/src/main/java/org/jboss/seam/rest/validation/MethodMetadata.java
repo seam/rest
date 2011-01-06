@@ -29,18 +29,18 @@ import java.util.Set;
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-public class ValidatedMethodMetadata
+public class MethodMetadata
 {
    private final Method method;
    private final Integer messageBody; // position of the messageBody, may be null
-   private final Set<Integer> parameterObjects; // positions of parameter objects
+   private final Set<Integer> validatedParameters; // positions of other validated parameters
    private final ValidateRequest interceptorBinding;
    
-   public ValidatedMethodMetadata(Method method, Integer messageBody, Set<Integer> parameterObjects, ValidateRequest interceptorBinding)
+   public MethodMetadata(Method method, Integer messageBody, Set<Integer> validatedParameters, ValidateRequest interceptorBinding)
    {
       this.method = method;
       this.messageBody = messageBody;
-      this.parameterObjects = parameterObjects;
+      this.validatedParameters = validatedParameters;
       this.interceptorBinding = interceptorBinding;
    }
 
@@ -59,11 +59,11 @@ public class ValidatedMethodMetadata
    }
 
    /**
-    * Returns a set of indexes of the parameter object parameters.
+    * Returns a set of indexes of the validated parameters.
     */
-   public Set<Integer> getParameterObjects()
+   public Set<Integer> getValidatedParameters()
    {
-      return parameterObjects;
+      return validatedParameters;
    }
 
    public ValidateRequest getInterceptorBinding()
