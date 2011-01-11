@@ -70,12 +70,6 @@ public @interface ValidateRequest
    boolean validateMessageBody() default true;
 
    /**
-    * If set to false, form objects will not be validated. 
-    */
-   @Nonbinding
-   boolean validateParameterObjects() default true;
-   
-   /**
     * If set to false, the JAX-RS resource fields will not be validated.
     */
    @Nonbinding
@@ -90,19 +84,17 @@ public @interface ValidateRequest
       private static final long serialVersionUID = 6404662043744038090L;
       
       private final Class<?>[] groups;
-      private final boolean validateParameterObjects;
       private final boolean validateMessageBody;
       private final boolean validateResourceFields;
       
       public ValidateLiteral()
       {
-         this(new Class<?>[] { Default.class }, true, true, true);
+         this(new Class<?>[] { Default.class }, true, true);
       }
       
-      public ValidateLiteral(Class<?>[] groups, boolean validateFormObjects, boolean validateMessageBody, boolean validateResourceFields)
+      public ValidateLiteral(Class<?>[] groups, boolean validateMessageBody, boolean validateResourceFields)
       {
          this.groups = groups;
-         this.validateParameterObjects = validateFormObjects;
          this.validateMessageBody = validateMessageBody;
          this.validateResourceFields = validateResourceFields;
       }
@@ -110,11 +102,6 @@ public @interface ValidateRequest
       public Class<?>[] groups()
       {
          return groups;
-      }
-
-      public boolean validateParameterObjects()
-      {
-         return validateParameterObjects;
       }
 
       public boolean validateMessageBody()

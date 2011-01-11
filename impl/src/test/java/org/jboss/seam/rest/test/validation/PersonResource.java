@@ -71,7 +71,7 @@ public class PersonResource
    }
    
    @ValidateRequest
-   public void formOperation(@FormObject FormBean form1, @FormObject FormBean form2)
+   public void formOperation(@javax.validation.Valid @FormObject FormBean form1, @javax.validation.Valid @FormObject FormBean form2)
    {
    }
 }
