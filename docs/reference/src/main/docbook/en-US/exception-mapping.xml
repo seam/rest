@@ -11,30 +11,38 @@
 		comes with and alternative approach which is more consistent with the
 		CDI programming model, easier to use and still portable.
 	</para>
-	
+
 	<para>
 		Firstly, Seam
 		Catch is plugged in
-		which allows exceptions that occur in
+		which allows exceptions that
+		occur in
 		different
-		parts of an application to be treated uniformly. Besides,
+		parts of an application to be treated uniformly.
+		Besides,
 		a
 		builtin
-		exception handler is provided which enables simple exception-mapping
+		exception handler is provided which enables simple
+		exception-mapping
 		rules to be defined declaratively. 
 	</para>
 
 	<sect1>
 		<title>Seam Catch Integration</title>
 		<para>
-			Seam Catch can be used within the Seam REST module for dealing with
+			Seam Catch can be used within the Seam REST module for dealing
+			with
 			exceptions.
-			As a result, an exception that occurs during an invocation
+			As a result, an exception that occurs during an
+			invocation
 			of a JAX-RS service is routed through the Catch
-			exception handling
-			mechanism which is similar to the CDI event bus and lets exception
+			exception
+			handling
+			mechanism which is similar to the CDI event bus and lets
+			exception
 			handling logic to be
-			implemented in a loosely-coupled fashion.  
+			implemented in a loosely-coupled
+			fashion.  
 		</para>
 
 		<para>
@@ -107,7 +115,8 @@ public class ExceptionHandler
 		</para>
 
 		<para>
-			Catch integration is optional and only enabled when Catch libraries are available on classpath. 
+			Catch integration is optional and only enabled when Catch libraries
+			are available on classpath.
 			For more information on Seam Catch, see
 			<ulink
 				url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>
@@ -119,58 +128,54 @@ public class ExceptionHandler
 		<title>Declarative Exception Mapping</title>
 		<para>
 			Often, exception-mapping rules are simple. Thus,
-			they do not
-			really need to be implemented in Java.
-			Instead, declarative approach
-			is
-			more
-			appropriate in these situations. The Seam
-			REST module allows
-			exception types to be
-			bound to
-			HTTP responses
-			declaratively.
-	</para>
+			instead of being
+			implemented programatically, they can
+			be expressed declaratively using
+			metadata such as Java annotations or XML.
+			The Seam
+			REST module supports
+			both ways of declarative configuration so it's up to you to choose.
+		</para>
 
 		<para>
 			For each exception type, it is possible to specify the status
-			code and the error message of the HTTP response.
-			There are two ways of
-			exception mapping configuration in Seam REST. 
-	</para>
+			code and the error message of the HTTP response. 
+		</para>
 
 		<sect2>
-			<title>Programmatic configuration</title>
+			<title>Annotation-based configuration</title>
 			<para>
-				Seam REST exception mapping can be configured from Java code.
-				Firstly, create an
-				<literal>ExceptionMappingConfiguration</literal>
-				subclass which
-				<literal>@Specializes</literal>
-				the provided one. Then, implement a
-				<literal>@PostConstruct</literal>
-				-annotated
-				method in which the
-				<literal>ExceptionMapping</literal>
-				definitions are added as shown in the following example.
+				Seam REST exception mapping can be configured directly in Java code
+				using Java Annotations.
+				An exception mapping rule is expressed by the
+				<literal>@ExceptionMapping</literal>
+				annotation. Multiple
+				exception mappings can be specified using the
+				<literal>@ExceptionMapping.List</literal>
+				annotation.
 			</para>
 
 			<example>
-				<title>Programmatic exception mapping configuration</title>
-				<programlisting role="JAVA"><![CDATA[@Specializes
-public class CustomExceptionMappingConfiguration extends ExceptionMappingConfiguration {
-{
-	@PostConstruct
-	public void setup()
-	{
-    	addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-	}
-}]]></programlisting>
+				<title>Annotation-based exception mapping configuration</title>
+				<programlisting role="JAVA"><![CDATA[@ExceptionMapping.List({
+   @ExceptionMapping(exceptionType = NoResultException.class, status = 404, message = "Requested resource does not exist."),
+   @ExceptionMapping(exceptionType = IllegalArgumentException.class, status = 400, message = "Illegal argument value.")
+})]]></programlisting>
 			</example>
 
+			<para>
+				The
+				<literal>@ExceptionMapping</literal>
+				annotation can be applied on any Java class in the deployment.
+				However, it
+				is recommended to keep all the exception mapping
+				declarations on a single place, such as the
+				<literal>javax.ws.rs.core.Application</literal>
+				subclass.
+			</para>
+
 			<table>
-				<title>ExceptionMapping properties</title>
+				<title>@ExceptionMapping properties</title>
 				<tgroup cols='4'>
 					<thead>
 						<row>
@@ -188,7 +193,7 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 							<entry>Fully-qualified class name of the exception class</entry>
 						</row>
 						<row>
-							<entry>statusCode</entry>
+							<entry>status</entry>
 							<entry>true</entry>
 							<entry>-</entry>
 							<entry>HTTP status code</entry>
@@ -200,11 +205,22 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 							<entry>Error message sent within the HTTP response</entry>
 						</row>
 						<row>
+							<entry>useExceptionMessage</entry>
+							<entry>false</entry>
+							<entry>false</entry>
+							<entry>Use the message of the exception as the error message</entry>
+						</row>
+						<row>
 							<entry>interpolateMessageBody</entry>
 							<entry>false</entry>
 							<entry>true</entry>
-							<entry>Enables/Disables EL interpolation of the error message
-							</entry>
+							<entry>Enables/Disables EL interpolation of the error message</entry>
+						</row>
+						<row>
+							<entry>useJaxb</entry>
+							<entry>false</entry>
+							<entry>true</entry>
+							<entry>Wrap the error message within a JAXB object to allows marshalling to various media formats such as application/xml, application/json, etc.</entry>
 						</row>
 					</tbody>
 				</tgroup>
@@ -214,16 +230,14 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 		<sect2>
 			<title>XML configuration</title>
 			<para>
-				An alternative and more practical way of configuration is to use
+				An alternative way of configuration is to use
 				the
-				Seam XML module to configure the
-				<literal>ExceptionMappingConfiguration</literal>
-				and
-				<literal>ExceptionMapping</literal>
-				classes in XML.
+				Seam Config module to configure the
+				<literal>SeamRestConfiguration</literal>
+				class in XML.
 			</para>
 			<para>
-				Firstly, the Seam XML module needs to be added to the
+				Firstly, the Seam Config module needs to be added to the
 				application. If
 				using maven, this can be done by specifying the
 				following dependency:
@@ -232,16 +246,16 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 			<example>
 				<title>Seam XML dependency added to the pom.xml file.</title>
 				<programlisting role="XML"><![CDATA[<dependency> 
-	<groupId>org.jboss.seam.xml</groupId> 
-	<artifactId>seam-xml-config</artifactId> 
-	<version>${seam.xml.version}</version> 
+	<groupId>org.jboss.seam.config</groupId> 
+	<artifactId>seam-config-xml</artifactId> 
+	<version>${seam.config.version}</version> 
 </dependency>]]></programlisting>
 			</example>
 
 			<para>
-				For more information on the seam-xml module, refer to the
+				For more information on the Seam Config module, refer to the
 				<ulink
-					url="http://docs.jboss.org/seam/3/xml-config/latest/reference/en-US/html_single/">Seam XML reference documentation</ulink>
+					url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>
 				Once the Seam XML module is added, specify the configuration in the
 				<literal>seam-beans.xml</literal>
 				file, located in the
@@ -253,21 +267,20 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 
 			<example>
 				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<exceptions:ExceptionMappingConfiguration>
-	<s:replaces/>
-	<exceptions:exceptionMappings>
+				<programlisting role="XML"><![CDATA[<rest:SeamRestConfiguration>
+	<rest:mappings>
 		<s:value>
-			<exceptions:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+			<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
 				<exceptions:message>Requested resource does not exist.</exceptions:message>
-			</exceptions:ExceptionMapping>
+			</exceptions:Mapping>
 		</s:value>
 		<s:value>
-			<exceptions:ExceptionMapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
-				<exceptions:message>Illegal parameter value.</exceptions:message>
-			</exceptions:ExceptionMapping>
+			<exceptions:Mapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
+				<exceptions:message>Illegal value.</exceptions:message>
+			</exceptions:Mapping>
 		</s:value>
-	</exceptions:exceptionMappings>
-</exceptions:ExceptionMappingConfiguration>]]></programlisting>
+	</rest:mappings>
+</rest:SeamRestConfiguration>]]></programlisting>
 			</example>
 
 			<para>
@@ -276,20 +289,18 @@ public class CustomExceptionMappingConfiguration extends ExceptionMappingConfigu
 		</para>
 			<example>
 				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<exceptions:ExceptionMapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-	<exceptions:message>Requested resource with id #{pathParameters['id']} does not exist.</exceptions:message>
-</exceptions:ExceptionMapping>]]></programlisting>
+				<programlisting role="XML"><![CDATA[<<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+	<exceptions:message>Requested resource (#{uriInfo.path}) does not exist.</exceptions:message>
+</exceptions:Mapping>]]></programlisting>
 			</example>
 		</sect2>
 
 		<sect2>
-			<title>Exception Mapping</title>
+			<title>Declarative Exception Mapping Processing</title>
 			<para>
 				When an exception occurs at runtime, the
 				<literal>SeamExceptionMapper</literal>
-				first looks for a matching
-				<literal>ExceptionMapping</literal>
-				.
+				first looks for a matching exception mapping rule.
 				If it finds one, it creates an HTTP response with the specified
 				status
 				code and error message.
