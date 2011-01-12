@@ -146,7 +146,7 @@ public class ValidationTest
       {
          // pass the exception to the handler
          ExceptionStack stack = new ExceptionStack(Collections.<Throwable>singleton(e), 0);
-         this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false)
+         this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false, false)
          {
             @Override
             public ValidationException getException()

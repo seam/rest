@@ -20,34 +20,47 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.seam.rest.exceptions;
+package org.jboss.seam.rest;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.jboss.seam.rest.exceptions.ExceptionMapping;
+import org.jboss.seam.rest.exceptions.Mapping;
+import org.jboss.seam.rest.templating.TemplatingProvider;
 
 /**
- * Configuration class for exception mappings.
+ * TODO
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
 @ApplicationScoped
-public class ExceptionMappingConfiguration {
-	private Set<ExceptionMapping> exceptionMappings = new HashSet<ExceptionMapping>();
+public class SeamRestConfiguration {
+   
+	private Set<Mapping> mappings = new HashSet<Mapping>();
+	private Class<? extends TemplatingProvider> preferedTemplatingProvider;
 	
-	public Set<ExceptionMapping> getExceptionMappings() {
-		return exceptionMappings;
+	public Set<Mapping> getMappings() {
+		return mappings;
 	}
 
-	public void setExceptionMappings(Set<ExceptionMapping> exceptionMappings) {
-		this.exceptionMappings = exceptionMappings;
+	public void setMappings(Set<Mapping> Mappings) {
+		this.mappings = Mappings;
 	}
 	
-	public void addExceptionMapping(ExceptionMapping exceptionMapping)
+	public void addMapping(Mapping mapping)
 	{
-		this.exceptionMappings.add(exceptionMapping);
+		this.mappings.add(mapping);
 	}
+
+   public Class<? extends TemplatingProvider> getPreferedTemplatingProvider()
+   {
+      return preferedTemplatingProvider;
+   }
+
+   public void setPreferedTemplatingProvider(Class<? extends TemplatingProvider> preferedTemplatingProvider)
+   {
+      this.preferedTemplatingProvider = preferedTemplatingProvider;
+   }
 }

@@ -32,8 +32,6 @@ public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
    {
       WebArchive war = createDeployment();
       war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
-      war.addClass(MockExtension.class);
-      war.addManifestResource("org/jboss/seam/rest/test/exceptions/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return war;
    }
    

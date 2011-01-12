@@ -22,10 +22,16 @@
 package org.jboss.seam.rest.test.exceptions;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
+import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
+import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 
 /**
  * Simulates {@link SeamRestException} either registering {@link SeamExceptionMapper}
@@ -35,9 +41,23 @@ import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
  */
 public class MockExtension implements Extension
 {
+   public void registerSeam(@Observes BeforeBeanDiscovery event, BeanManager manager)
+   {
+      event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
+      event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionHandler.class));
+   }
+   
    public void vetoSeamExceptionMapper(@Observes ProcessAnnotatedType<SeamExceptionMapper> event)
    {
-      if (event.getAnnotatedType().getJavaClass().equals(SeamExceptionMapper.class))
+      if (event.getAnnotatedType().getJavaClass().equals(SeamExceptionMapper.class) && Utils.isClassAvailable("org.jboss.seam.exception.control.extension.CatchExtension"))
+      {
+         event.veto();
+      }
+   }
+   
+   public void vetoSeamRestConfiguration(@Observes ProcessAnnotatedType<SeamRestConfiguration> event)
+   {
+      if (event.getAnnotatedType().getJavaClass().equals(SeamRestConfiguration.class))
       {
          event.veto();
       }

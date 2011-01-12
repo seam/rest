@@ -19,35 +19,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.multiple;
+package org.jboss.seam.rest.example.jaxrs.exceptions;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.seam.rest.test.templating.AbstractTemplatingTest;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-/**
- * This test verifies that a prefered TemplatingProvider
- * can be selected.
- *  
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-public class PreferedTemplatingProviderTest extends AbstractTemplatingTest
-{
-   @Deployment
-   public static WebArchive createDeployment()
-   {
-      WebArchive war = createTestApplication();
-      war.addLibrary(LIBRARY_FREEMARKER);
-      war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
-      war.addClasses(MockTemplatingProvider.class, CustomSeamRestConfiguration.class);
-      return war;
-   }
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Named;
+
+@ApplicationScoped
+public class DateProducer
+{  
+   private DateFormat format = SimpleDateFormat.getDateTimeInstance(); 
    
-   @Test
-   public void testPreferedTemplateIsSelected() throws Exception
+   @Produces @Named
+   public String getDate()
    {
-      test("http://localhost:8080/test/freemarker/hello", 200, "Hello world!", "text/student");
+      return format.format(new Date());
    }
 }

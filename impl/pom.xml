@@ -49,12 +49,6 @@
 		<dependency>
 			<groupId>org.jboss.seam.servlet</groupId>
 			<artifactId>seam-servlet-impl</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-extensions</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- Optional dependencies -->
@@ -62,22 +56,8 @@
 			<groupId>org.jboss.seam.catch</groupId>
 			<artifactId>seam-catch-api</artifactId>
 			<scope>provided</scope>
-			<optional>true</optional>
 		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.catch</groupId>
-			<artifactId>seam-catch-impl</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-extensions</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
@@ -124,10 +104,14 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.catch</groupId>
+			<artifactId>seam-catch-impl</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -239,20 +223,17 @@
 				<dependency>
 					<groupId>org.jboss.jbossas</groupId>
 					<artifactId>jboss-as-client</artifactId>
-					<version>${jbossas.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-jbossas-managed-6</artifactId>
-					<version>${arquillian.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.jboss.jbossas</groupId>
 					<artifactId>jboss-server-manager</artifactId>
-					<version>${jboss.server.manager.version}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -264,14 +245,12 @@
 				<dependency>
 					<groupId>org.jboss.jbossas</groupId>
 					<artifactId>jboss-as-client</artifactId>
-					<version>${jbossas.version}</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-jbossas-remote-6</artifactId>
-					<version>${arquillian.version}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -282,7 +261,6 @@
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-glassfish-embedded-3</artifactId>
-					<version>${arquillian.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.glassfish.extras</groupId>

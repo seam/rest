@@ -21,33 +21,15 @@
  */
 package org.jboss.seam.rest.test.templating.multiple;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.seam.rest.test.templating.AbstractTemplatingTest;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import javax.annotation.PostConstruct;
 
-/**
- * This test verifies that a prefered TemplatingProvider
- * can be selected.
- *  
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-public class PreferedTemplatingProviderTest extends AbstractTemplatingTest
+import org.jboss.seam.rest.SeamRestConfiguration;
+
+public class CustomSeamRestConfiguration extends SeamRestConfiguration
 {
-   @Deployment
-   public static WebArchive createDeployment()
+   @PostConstruct
+   public void init()
    {
-      WebArchive war = createTestApplication();
-      war.addLibrary(LIBRARY_FREEMARKER);
-      war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
-      war.addClasses(MockTemplatingProvider.class, CustomSeamRestConfiguration.class);
-      return war;
-   }
-   
-   @Test
-   public void testPreferedTemplateIsSelected() throws Exception
-   {
-      test("http://localhost:8080/test/freemarker/hello", 200, "Hello world!", "text/student");
+      setPreferedTemplatingProvider(MockTemplatingProvider.class);
    }
 }

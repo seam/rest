@@ -1,52 +1,97 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-   <groupId>org.jboss.seam.rest</groupId>
-   <artifactId>seam-rest-reference-guide</artifactId>
-   <version>3.0.0-SNAPSHOT</version>
-   <packaging>jdocbook</packaging>
-   <name>Seam REST Reference Guide</name>
+	<groupId>org.jboss.seam.rest</groupId>
+	<artifactId>seam-rest-reference-guide</artifactId>
+	<version>3.0.0-SNAPSHOT</version>
+	<packaging>jdocbook</packaging>
+	<name>Seam REST Reference Guide</name>
 
-   <parent>
-      <groupId>org.jboss.seam.rest</groupId>
-      <artifactId>seam-rest-parent</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
-      <relativePath>../../pom.xml</relativePath>
-   </parent>
+	<parent>
+		<groupId>org.jboss.seam.rest</groupId>
+		<artifactId>seam-rest-parent</artifactId>
+		<version>3.0.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 
-   <properties>
-      <pdf.name>${project.artifactId}.pdf</pdf.name>
-   </properties>
+	<properties>
+		<pdf.name>${project.artifactId}.pdf</pdf.name>
+	</properties>
 
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.jboss.maven.plugins</groupId>
-            <artifactId>maven-jdocbook-plugin</artifactId>
-         </plugin>
-         <!-- Attach docs as a war so dist can retrieve them -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>attach-zip</id>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>attach-artifact</goal>
-                  </goals>
-                  <configuration>
-                     <artifacts>
-                        <artifact>
-                           <file>${project.build.outputDirectory}/${project.artifactId}-${project.version}.war</file>
-                           <type>war</type>
-                        </artifact>
-                     </artifacts>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+	<profiles>
+		<profile>
+			<id>jboss-public-repository</id>
+			<!-- Repository is active unless explicitly disabled e.g. -P!jboss-public-repository -->
+			<activation>
+				<property>
+					<name>jboss-public-repository</name>
+					<value>!false</value>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>jboss-public-repository-group</id>
+					<name>JBoss Public Maven Repository Group</name>
+					<url>http://repository.jboss.org/nexus/content/groups/public</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+						<updatePolicy>never</updatePolicy>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>jboss-public-repository-group</id>
+					<name>JBoss Public Maven Repository Group</name>
+					<url>http://repository.jboss.org/nexus/content/groups/public</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.jboss.maven.plugins</groupId>
+					<artifactId>maven-jdocbook-plugin</artifactId>
+				</plugin>
+				<!-- Attach docs as a war so dist can retrieve them -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-zip</id>
+							<phase>package</phase>
+							<goals>
+								<goal>attach-artifact</goal>
+							</goals>
+							<configuration>
+								<artifacts>
+									<artifact>
+										<file>${project.build.outputDirectory}/${project.artifactId}-${project.version}.war</file>
+										<type>war</type>
+									</artifact>
+								</artifacts>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
 </project>

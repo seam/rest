@@ -21,6 +21,7 @@
  */
 package org.jboss.seam.rest.example.tasks;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,10 +45,15 @@ public class TasksApplication extends Application
       classes.add(CategoryCollectionResource.class);
       classes.add(CategoryResource.class);
       classes.add(TaskCollectionResource.class);
-      classes.add(JacksonJaxbJsonProvider.class);
       classes.add(SeamExceptionMapper.class);
       classes.add(TemplatingMessageBodyWriter.class);
       classes.add(UriInfoProducer.class);
       return classes;
+   }
+
+   @Override
+   public Set<Object> getSingletons()
+   {
+      return Collections.<Object>singleton(new JacksonJaxbJsonProvider());
    }
 }

@@ -19,17 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.exceptions;
+package org.jboss.seam.rest.example.jaxrs.exceptions.resource;
 
-public class PlainTextExceptionMapping extends ExceptionMapping
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import org.jboss.seam.solder.reflection.Reflections;
+
+@Path("exceptions")
+@Produces("application/xml")
+public class ExceptionResource
 {
-   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean interpolateMessageBody)
+   @GET
+   public void throwException(@QueryParam("exception") @DefaultValue("java.lang.Exception") String exceptionType) throws Throwable
    {
-      super(exceptionType, statusCode, message, interpolateMessageBody);
-   }
-
-   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message)
-   {
-      super(exceptionType, statusCode, message);
+      Object object = Reflections.classForName(exceptionType).newInstance();
+      
+      if (!(object instanceof Exception))
+      {
+         throw new RuntimeException(exceptionType + " is not an exception");
+      }
+      
+      throw (Throwable) object;
    }
 }

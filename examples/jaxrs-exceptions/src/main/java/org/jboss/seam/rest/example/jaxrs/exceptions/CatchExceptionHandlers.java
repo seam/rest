@@ -19,24 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.example.tasks.noxml;
+package org.jboss.seam.rest.example.jaxrs.exceptions;
 
-import javax.enterprise.inject.Alternative;
-import javax.persistence.NoResultException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.exception.control.CaughtException;
+import org.jboss.seam.exception.control.Handles;
+import org.jboss.seam.exception.control.HandlesExceptions;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
+import org.jboss.seam.rest.exceptions.RestResource;
 
-/**
- * This is a configuration for Seam REST exception mapping. Activate this alternative if the XML
- * configuration cannot be used.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-@Alternative
+@HandlesExceptions
 @ExceptionMapping.List({
-   @ExceptionMapping(exceptionType = NoResultException.class, status = 404, message = "Requested resource does not exist."),
-   @ExceptionMapping(exceptionType = IllegalArgumentException.class, status = 400, message = "Illegal parameter value.")
+   @ExceptionMapping(exceptionType = IllegalAccessException.class, status = 403),
+   @ExceptionMapping(exceptionType = NullPointerException.class, status = 500, message = "NullPointerException was thrown."),
+   @ExceptionMapping(exceptionType = RuntimeException.class, status = 500, useExceptionMessage = true)
 })
-public class CustomExceptionMappingConfiguration extends SeamRestConfiguration {
+public class CatchExceptionHandlers
+{
+   public void arithmeticExceptionHandler(@Handles CaughtException<ArithmeticException> event, @RestResource ResponseBuilder builder)
+   {
+      builder.status(500).entity("Cannot divide by zero. Want to divide by two instead?").type(MediaType.TEXT_PLAIN_TYPE).build();
+      event.handled();
+   }
 }

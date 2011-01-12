@@ -19,6 +19,7 @@ package org.jboss.seam.rest.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -31,6 +32,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.validation.ValidationException;
@@ -66,23 +68,39 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
    @Inject
    private ValidationExceptionHandler validationExceptionHandler;
 
-   private Map<Class<? extends Throwable>, ExceptionMapping> mappings = new HashMap<Class<? extends Throwable>, ExceptionMapping>();
+   private Map<Class<? extends Throwable>, Mapping> mappings = new HashMap<Class<? extends Throwable>, Mapping>();
 
    private static final Logger log = Logger.getLogger(SeamExceptionMapper.class);
 
    /**
-    * Initializer method. Mappings are stored in a Map so that we can find them
+    * Mappings are stored in a Map so that we can find them
     * by the exception type.
     */
    @Inject
-   public void init(ExceptionMappingConfiguration configuration)
+   public void init(Instance<SeamRestConfiguration> configuration, ExceptionMappingExtension extension)
    {
       log.info("Processing exception mapping configuration.");
-      for (ExceptionMapping mapping : configuration.getExceptionMappings())
+      
+      // XML-configured mappings
+      if (!configuration.isAmbiguous() && !configuration.isUnsatisfied())
       {
-         this.mappings.put(mapping.getExceptionType(), mapping);
-         log.infov("Registered {0}", mapping);
+         Set<Mapping> exceptionMappings = configuration.get().getMappings();
+         for (Mapping mapping : exceptionMappings)
+         {
+            addExceptionMapping(mapping);
+         }
       }
+      // annotation-configured mappings
+      for (Mapping mapping : extension.getExceptionMappings())
+      {
+         addExceptionMapping(mapping);
+      }
+   }
+   
+   protected void addExceptionMapping(Mapping mapping)
+   {
+      this.mappings.put(mapping.getExceptionType(), mapping);
+      log.infov("Registered {0}", mapping);
    }
 
    /**
@@ -105,7 +123,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
 
          if (mappings.containsKey(exceptionType))
          {
-            produceResponse(exception, responseBuilder);
+            produceResponse(exception, responseBuilder, interpolator);
             return response.get();
          }
          
@@ -123,43 +141,52 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
       throw new UnhandledException(e);
    }
 
-   protected void produceResponse(Throwable exception, ResponseBuilder builder)
+   protected void produceResponse(Throwable exception, ResponseBuilder builder, Interpolator interpolator)
    {
-      ExceptionMapping mapping = mappings.get(exception.getClass());
+      Mapping mapping = mappings.get(exception.getClass());
       log.debugv("Found exception mapping {0} for {1}", mapping, exception.getClass());
 
       builder.status(mapping.getStatusCode());
-      if (mapping.getMessage() != null)
+      
+      String message = createMessage(mapping.getMessage(), mapping.isInterpolateMessageBody(), mapping.isUseExceptionMessage(), exception, interpolator);
+      if (message != null)
       {
-         builder.entity(createEntityBody(mapping));
+         builder.entity(createEntityBody(mapping, message));
       }
    }
 
-   protected Object createEntityBody(ExceptionMapping mapping)
+   protected String createMessage(String message, boolean interpolate, boolean useExceptionMessage, Throwable e, Interpolator interpolator)
    {
-      if (mapping instanceof PlainTextExceptionMapping)
+      String msg = message;
+      if (msg == null || msg.length() == 0)
       {
-         return getInterpolatedMessage(mapping);
+         if (useExceptionMessage)
+         {
+            msg = e.getMessage();
+         }
+         else
+         {
+            return null; // empty body is acceptable
+         }
       }
-      else
+      
+      if (interpolate && msg != null)
       {
-         return new ErrorMessageWrapper(getInterpolatedMessage(mapping));
+         return interpolator.interpolate(msg);
       }
+      return msg;
    }
-
-   private String getInterpolatedMessage(ExceptionMapping mapping)
+   
+   protected Object createEntityBody(Mapping mapping, String message)
    {
-      if (mapping.isInterpolateMessageBody())
+      if (mapping.isUseJaxb())
       {
-         return interpolator.interpolate(mapping.getMessage());
+         return new ErrorMessageWrapper(message);
       }
-      else
-      {
-         return mapping.getMessage();
-      }
+      return message;
    }
 
-   public Map<Class<? extends Throwable>, ExceptionMapping> getMappings()
+   public Map<Class<? extends Throwable>, Mapping> getMappings()
    {
       return mappings;
    }

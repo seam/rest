@@ -40,6 +40,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.servlet.event.Initialized;
 
 /**
@@ -55,7 +56,6 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
 {
    private static final Logger log = Logger.getLogger(TemplatingMessageBodyWriter.class);
    private TemplatingProvider provider;
-   private Class<? extends TemplatingProvider> preferedTemplatingProvider;
 
    /**
     * Initializes TemplatingMessageBodyWriter. <code>TemplatingProvider</code> is selected.
@@ -64,11 +64,18 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
     * @throws AmbiguousResolutionException if there are multiple <code>TemplatingProviders<code> available.
     */
    @Inject
-   public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension)
+   public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension, Instance<SeamRestConfiguration> configuration)
    {
       log.debugv("Initializing {0}", getClass().getSimpleName());
       
       Instance<? extends TemplatingProvider> instance = providerInstance;
+      Class<? extends TemplatingProvider> preferedTemplatingProvider = null;
+      
+      // because of SEAMREST-15, we need to check if SeamRestConfiguration is available
+      if (!configuration.isAmbiguous() && !configuration.isUnsatisfied())
+      {
+         preferedTemplatingProvider = configuration.get().getPreferedTemplatingProvider();
+      }
       if (preferedTemplatingProvider != null)
       {
          log.debugv("Prefered templating provider specified. Selecting {0}", preferedTemplatingProvider.getName());
@@ -167,15 +174,5 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
          }
       }
       return null;
-   }
-
-   public Class<? extends TemplatingProvider> getPreferedTemplatingProvider()
-   {
-      return preferedTemplatingProvider;
-   }
-
-   public void setPreferedTemplatingProvider(Class<? extends TemplatingProvider> preferedTemplatingProvider)
-   {
-      this.preferedTemplatingProvider = preferedTemplatingProvider;
    }
 }

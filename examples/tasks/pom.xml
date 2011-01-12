@@ -53,6 +53,18 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.jboss.seam.servlet</groupId>
+			<artifactId>seam-servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.servlet</groupId>
+			<artifactId>seam-servlet-impl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	
 		<!-- APIs -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
