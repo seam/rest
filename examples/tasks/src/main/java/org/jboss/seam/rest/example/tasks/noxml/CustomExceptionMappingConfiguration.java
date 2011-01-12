@@ -21,12 +21,11 @@
  */
 package org.jboss.seam.rest.example.tasks.noxml;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Alternative;
 import javax.persistence.NoResultException;
 
+import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
-import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
 
 /**
  * This is a configuration for Seam REST exception mapping. Activate this alternative if the XML
@@ -35,12 +34,9 @@ import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
  *
  */
 @Alternative
-public class CustomExceptionMappingConfiguration extends ExceptionMappingConfiguration {
-	
-	@PostConstruct
-	public void setup()
-	{
-		addExceptionMapping(new ExceptionMapping(NoResultException.class, 404, "Requested resource does not exist."));
-		addExceptionMapping(new ExceptionMapping(IllegalArgumentException.class, 400, "Illegal parameter value."));
-	}
+@ExceptionMapping.List({
+   @ExceptionMapping(exceptionType = NoResultException.class, status = 404, message = "Requested resource does not exist."),
+   @ExceptionMapping(exceptionType = IllegalArgumentException.class, status = 400, message = "Illegal parameter value.")
+})
+public class CustomExceptionMappingConfiguration extends SeamRestConfiguration {
 }
