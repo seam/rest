@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Seam JAX-RS Exceptions example</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container">
+<h2>Annotation-based configuration</h2>
+<ul>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.IllegalAccessException">@ExceptionMapping(exceptionType = IllegalAccessException.class, status = 403)</a></li>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.NullPointerException">@ExceptionMapping(exceptionType = NullPointerException.class, status = 500, message = "NullPointerException was thrown.")</a></li>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.Object">@ExceptionMapping(exceptionType = RuntimeException.class, status = 500, useExceptionMessage = true)</a></li>
+</ul>
+<h2>XML-based configuration</h2>
+<ul>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.StringIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.StringIndexOutOfBoundsException" statusCode="500"/&gt;</a></li>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.ArrayIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.ArrayIndexOutOfBoundsException" statusCode="500" message="ArrayIndexOutOfBoundsException was thrown."/&gt;</a></li>
+	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.IndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.IndexOutOfBoundsException"	statusCode="500" message="An exception was thrown. The date is: #{date}"/&gt;</a></li>
+</ul>
+<h2>Programmatic exception handling</h2>
+<ul>
+	<li>
+		<a href="http://localhost:8080/seam-jaxrs-exceptions/exceptions?exception=java.lang.ArithmeticException">ArithmeticException</a>
+	</li>
+</ul>
+</div>
+</body>
+</html>
