@@ -28,20 +28,12 @@ import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.client.RestClient;
-import org.jboss.seam.rest.exceptions.ErrorMessageWrapper;
-import org.jboss.seam.rest.exceptions.ExceptionMapping;
-import org.jboss.seam.rest.exceptions.ExceptionMappingConfiguration;
-import org.jboss.seam.rest.exceptions.PlainTextExceptionMapping;
-import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
+import org.jboss.seam.rest.exceptions.Mapping;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
-import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
-import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
-import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.seam.rest.validation.ValidationInterceptor;
@@ -55,33 +47,25 @@ import org.jboss.seam.rest.validation.ValidationMetadata;
 public class SeamRestExtension implements Extension
 {
    private static final Logger log = Logger.getLogger(SeamRestExtension.class);
-   private static final String SEAM_CATCH_NAME = "org.jboss.seam.exception.control.extension.CatchExtension";
-   
-   private boolean catchIntegrationEnabled = false;
    
    /**
     * The following components are registered:
     * <ul>
     * <li>API Beans</li>
     * <li>Bean Validation integration components</li>
-    * <li>Exception mapping components</li>
     * <li>Utilities</li>
-    * <li>Seam Catch integration</li>
     * </ul>
     */
    void registerSeamRest(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       log.info("Seam REST Extension starting...");
-      catchIntegrationEnabled = Utils.isClassAvailable(SEAM_CATCH_NAME);
       
       // API
       event.addQualifier(RestClient.class);
       event.addQualifier(RestRequest.class);
       event.addQualifier(RestResource.class);
       event.addInterceptorBinding(ValidateRequest.class);
-      event.addAnnotatedType(manager.createAnnotatedType(ExceptionMapping.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ExceptionMappingConfiguration.class));
-      event.addAnnotatedType(manager.createAnnotatedType(PlainTextExceptionMapping.class));
+      event.addAnnotatedType(manager.createAnnotatedType(Mapping.class));
       event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
       
       // Utils
@@ -92,26 +76,5 @@ public class SeamRestExtension implements Extension
       event.addAnnotatedType(manager.createAnnotatedType(ValidationInterceptor.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationMetadata.class));
       event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionHandler.class));
-      
-      // Exception mapping
-      if (!catchIntegrationEnabled)
-      {
-         event.addAnnotatedType(manager.createAnnotatedType(SeamExceptionMapper.class));
-      }
-      event.addAnnotatedType(manager.createAnnotatedType(ErrorMessageWrapper.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ResponseBuilderProducer.class));
-      
-      // Seam Catch integration
-      if (catchIntegrationEnabled)
-      {
-         log.info("Catch integration enabled.");
-         event.addAnnotatedType(manager.createAnnotatedType(CatchExceptionMapper.class));
-         event.addAnnotatedType(manager.createAnnotatedType(CatchValidationExceptionHandler.class));
-      }
-   }
-
-   public boolean isCatchIntegrationEnabled()
-   {
-      return catchIntegrationEnabled;
    }
 }

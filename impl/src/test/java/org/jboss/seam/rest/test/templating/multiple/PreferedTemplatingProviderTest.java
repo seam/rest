@@ -41,8 +41,7 @@ public class PreferedTemplatingProviderTest extends AbstractTemplatingTest
       WebArchive war = createTestApplication();
       war.addLibrary(LIBRARY_FREEMARKER);
       war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
-      war.addClasses(MockTemplatingProvider.class, ConfigurationExtension.class);
-      war.addManifestResource("org/jboss/seam/rest/test/templating/multiple/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
+      war.addClasses(MockTemplatingProvider.class, CustomSeamRestConfiguration.class);
       return war;
    }
    

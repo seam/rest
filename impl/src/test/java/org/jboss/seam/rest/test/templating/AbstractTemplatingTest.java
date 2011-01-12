@@ -23,6 +23,8 @@ package org.jboss.seam.rest.test.templating;
 
 import java.io.File;
 
+import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.exceptions.Mapping;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingExtension;
 import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
@@ -78,13 +80,14 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       jar.addClasses(TemplatingExtension.class, TemplatingMessageBodyWriter.class);
       jar.addPackage(FreeMarkerProvider.class.getPackage());
       jar.addPackage(VelocityProvider.class.getPackage());
+      jar.addClass(SeamRestConfiguration.class);
       return jar;
    }
    
    public static JavaArchive createSeamRestApi()
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest-api.jar");
-      jar.addClasses(ResponseTemplate.class, TemplatingModel.class, TemplatingProvider.class);
+      jar.addClasses(ResponseTemplate.class, TemplatingModel.class, TemplatingProvider.class, Mapping.class);
       jar.addManifestResource("beans.xml");
       return jar;
    }

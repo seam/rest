@@ -19,8 +19,10 @@ package org.jboss.seam.rest.exceptions.integration;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -31,9 +33,13 @@ import org.jboss.seam.exception.control.ExceptionToCatch;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
 import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
+import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * A JAX-RS ExceptionMapper implementation that maps all exceptions (i.e.,
@@ -58,8 +64,23 @@ public class CatchExceptionMapper extends SeamExceptionMapper implements Excepti
    private Instance<Response> response;
    @Inject
    private Event<ExceptionToCatch> bridgeEvent;
+   @Inject
+   private Interpolator interpolator;
    
    private static final Logger log = Logger.getLogger(CatchExceptionMapper.class);
+
+   // TODO it should not be necessary to override initializer method
+   @Inject
+   public void init(Instance<SeamRestConfiguration> configuration, ExceptionMappingExtension extension)
+   {
+      super.init(configuration, extension);
+   }
+
+   // TODO it should not be necessary to override observer method
+   @Override
+   public void init(@Observes @Initialized ServletContext ctx)
+   {
+   }
 
    @Override
    public Response toResponse(Throwable exception)
@@ -79,7 +100,7 @@ public class CatchExceptionMapper extends SeamExceptionMapper implements Excepti
       
       if (getMappings().containsKey(exceptionType))
       {
-         produceResponse(event.getException(), builder);
+         produceResponse(event.getException(), builder, interpolator);
          event.handled();
       }
       else

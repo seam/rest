@@ -93,8 +93,36 @@ public class Resource {
 	
 	@GET
 	@Path("/imse")
-	public void throwImse() throws InstantiationException
+	public void throwImse()
 	{
 	   throw new IllegalMonitorStateException();
+	}
+	
+	@GET
+	@Path("/itse")
+	public void throwItse()
+	{
+	   throw new IllegalThreadStateException();
+	}
+	
+	@GET
+	@Path("/nsfe")
+	public void throwNsfe()
+	{
+	   throw new NoSuchFieldError();
+	}
+	
+	@GET
+	@Path("/nfe")
+	public void throwNfe()
+	{
+	   throw new NumberFormatException("incorrect number format");
+	}
+	
+	@GET
+	@Path("/sioobe")
+	public void throwSioobe()
+	{
+	   throw new StringIndexOutOfBoundsException("The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog");
 	}
 }

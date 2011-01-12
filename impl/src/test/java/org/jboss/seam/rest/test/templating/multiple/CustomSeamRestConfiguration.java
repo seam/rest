@@ -19,17 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.exceptions;
+package org.jboss.seam.rest.test.templating.multiple;
 
-public class PlainTextExceptionMapping extends ExceptionMapping
+import javax.annotation.PostConstruct;
+
+import org.jboss.seam.rest.SeamRestConfiguration;
+
+public class CustomSeamRestConfiguration extends SeamRestConfiguration
 {
-   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean interpolateMessageBody)
+   @PostConstruct
+   public void init()
    {
-      super(exceptionType, statusCode, message, interpolateMessageBody);
-   }
-
-   public PlainTextExceptionMapping(Class<? extends Throwable> exceptionType, int statusCode, String message)
-   {
-      super(exceptionType, statusCode, message);
+      setPreferedTemplatingProvider(MockTemplatingProvider.class);
    }
 }

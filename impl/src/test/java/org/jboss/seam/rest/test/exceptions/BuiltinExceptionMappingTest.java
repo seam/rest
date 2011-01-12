@@ -22,6 +22,7 @@
 package org.jboss.seam.rest.test.exceptions;
 
 import org.jboss.arquillian.api.Deployment;
+import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.test.Fox;
@@ -45,11 +46,13 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
       war.addWebResource("beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
-      war.addClasses(CustomExceptionMappingConfiguration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
+      war.addClasses(CustomSeamRestConfigration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL, LIBRARY_JBOSS_LOGGING);
       war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
       war.addLibraries(createSeamRestImpl());
+      war.addClass(MockExtension.class);
+      war.addManifestResource("org/jboss/seam/rest/test/exceptions/TestExtension", "services/javax.enterprise.inject.spi.Extension");
 //      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       return war;
    }
@@ -59,10 +62,11 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
       jar.addPackage(RestRequest.class.getPackage());
       jar.addPackage(CatchExceptionMapper.class.getPackage());
+      jar.addClass(SeamRestConfiguration.class);
       // utils
       jar.addClasses(Utils.class, Annotations.class, Interpolator.class, ExpressionLanguageInterpolator.class);
       jar.addClasses(ValidationException.class, ValidationExceptionHandler.class);
-      jar.addManifestResource("beans.xml", "beans.xml");
+      jar.addManifestResource("org/jboss/seam/rest/test/exceptions/CatchExtension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }
 
@@ -118,5 +122,29 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
    public void testUnhandledExceptionRethrown() throws Exception
    {
       test("http://localhost:8080/test/exceptions/imse", 500, null);
+   }
+   
+   @Test
+   public void testAnnotationConfiguredMapping1() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/itse", 415, null);
+   }
+   
+   @Test
+   public void testAnnotationConfiguredMapping2() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/nsfe", 416, "NoSuchField");
+   }
+   
+   @Test
+   public void testAnnotationConfiguredMapping3() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/nfe", 417, "incorrect number format");
+   }
+   
+   @Test
+   public void testAnnotationConfiguredMapping4() throws Exception
+   {
+      test("http://localhost:8080/test/exceptions/sioobe", 418, "The quick brown fox jumps over the lazy dog");
    }
 }
