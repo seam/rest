@@ -32,12 +32,12 @@
 		<example>
 			<title>Sample JAX-RS annotated interface</title>
 			<programlisting role="JAVA"><![CDATA[@Path("/task")
-@Produces(“application/xml”)
+@Produces("application/xml")
 public interface TaskService
 {
 	@GET
-	@Path(“/{id}”)
-	Task getTask(@PathParam”(“id”)long id);
+	@Path("/{id}")
+	Task getTask(@PathParam("id")long id);
 }]]></programlisting>
 		</example>
 

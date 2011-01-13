@@ -63,7 +63,7 @@
 		</para>
 		
 		<para>
-			These components registered by default if classpath scanning
+			These components are registered by default if classpath scanning
 			of JAX-RS resources and providers is enabled (an empty <literal>javax.ws.rs.coreApplication</literal> is provided).
 		</para>
 		
@@ -72,7 +72,7 @@ public class MyApplication extends Application {}]]></programlisting>
 
 		<para>
 			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden to select resources and providers explicitly, 
-			<literal>SeamExceptionMapper</literal> must be selected as well.
+			add <literal>SeamExceptionMapper</literal> and <literal>TemplatingMessageBodyWriter</literal>.
 		</para>
 		
 		<programlisting role="JAVA"><![CDATA[@ApplicationPath("/api/*")
