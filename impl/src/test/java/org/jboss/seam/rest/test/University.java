@@ -19,21 +19,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest.test;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
-import org.jboss.seam.rest.util.Interpolator;
 
 @ApplicationScoped
-public class MockInterpolator implements Interpolator
+@Named
+public class University
 {
-   public String interpolate(String input)
+   private List<Student> students = Arrays.asList(new Student("A"), new Student("B"), new Student("C"));
+   private String name = "Masaryk University";
+
+   public List<Student> getStudents()
    {
-      if ("The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog".equals(input))
-      {
-         return "The quick brown fox jumps over the lazy dog";
-      }
-      return input;
+      return students;
+   }
+   
+   public String getName()
+   {
+      return name;
    }
 }

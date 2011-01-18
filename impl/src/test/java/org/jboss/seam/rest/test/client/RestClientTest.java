@@ -28,12 +28,8 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.seam.rest.client.RestClientExtension;
+import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.test.SeamRestClientTest;
-import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
-import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.solder.bean.Beans;
 import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -46,7 +42,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class RestClientTest
 {
-
    @Inject
    private InjectedBean bean;
 
@@ -57,7 +52,7 @@ public class RestClientTest
       war.addPackage(RestClientTest.class.getPackage()); // test classes
       war.addPackage(Beans.class.getPackage());
       war.addClass(DefaultLiteral.class);
-      war.addWebResource("beans.xml", "classes/META-INF/beans.xml");
+      war.addWebResource("WEB-INF/beans.xml", "classes/META-INF/beans.xml");
       war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
       war.addLibraries(SeamRestClientTest.LIBRARY_SEAM_SOLDER_API, SeamRestClientTest.LIBRARY_SEAM_SOLDER_IMPL);
@@ -66,9 +61,9 @@ public class RestClientTest
 
    public static JavaArchive getSeamRest()
    {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addPackage(RestClientExtension.class.getPackage());
-      jar.addClasses(Utils.class, Annotations.class, Interpolator.class, ExpressionLanguageInterpolator.class);
+      JavaArchive jar = SeamRestClientTest.createSeamRest();
+      // mock solder services
+      jar.addClasses(MockInterpolator.class);
       jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }

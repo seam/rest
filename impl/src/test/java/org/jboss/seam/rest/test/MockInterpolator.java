@@ -19,27 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.client;
+package org.jboss.seam.rest.test;
 
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.BeforeBeanDiscovery;
-import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.context.ApplicationScoped;
 
-import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 
-/**
- * Registers Interpolator, which is normally registered by SeamRestExtension but we do
- * not use the extension in tests (as it has dependencies).
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- *
- */
-public class MockExtension implements Extension
+@Mock
+@ApplicationScoped
+public class MockInterpolator implements Interpolator
 {
-   public void addInterpolator(@Observes BeforeBeanDiscovery event, BeanManager manager)
+   public String interpolate(String input)
    {
-      event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
+      if ("The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog".equals(input))
+      {
+         return "The quick brown fox jumps over the lazy dog";
+      }
+      else if ("http://#{service.host}:8080/#{service.context.path}/ping".equals(input))
+      {
+         return "http://example.com:8080/service/ping";
+      }
+      return input;
    }
 }

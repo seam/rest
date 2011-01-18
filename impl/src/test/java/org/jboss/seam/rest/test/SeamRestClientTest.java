@@ -29,9 +29,25 @@ import org.jboss.arquillian.api.Run;
 import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.logging.Logger;
+import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.client.RestClient;
+import org.jboss.seam.rest.exceptions.ErrorMessageWrapper;
+import org.jboss.seam.rest.exceptions.ExceptionMapping;
+import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
+import org.jboss.seam.rest.exceptions.Mapping;
+import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
+import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.RestResource;
+import org.jboss.seam.rest.exceptions.UnhandledException;
+import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
+import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.assertEquals;
 
 @Run(RunModeType.AS_CLIENT)
@@ -70,6 +86,28 @@ public abstract class SeamRestClientTest
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "logging.jar");
       jar.addPackage(Logger.class.getPackage());
+      return jar;
+   }
+   
+   /**
+    * Simulates combined seam-rest.jar.
+    * No extensions are enabled.
+    * Interpolator implementation is not added.
+    * Templating support is not added.
+    * SeamExceptionMapper and CatchExceptionMapper is not added.
+    */
+   public static JavaArchive createSeamRest()
+   {
+      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
+      jar.addPackage(SeamRestConfiguration.class.getPackage());
+      jar.addPackage(RestClient.class.getPackage()); // .client
+      jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions api
+      jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions impl
+      jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
+      jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
+      jar.addPackage(ValidateRequest.class.getPackage());
+      jar.addClass(Mock.class);
+      jar.addManifestResource("mock-beans.xml", "beans.xml");
       return jar;
    }
 }

@@ -23,18 +23,14 @@ package org.jboss.seam.rest.test.templating;
 
 import java.io.File;
 
-import org.jboss.seam.rest.SeamRestConfiguration;
-import org.jboss.seam.rest.exceptions.Mapping;
-import org.jboss.seam.rest.templating.ResponseTemplate;
-import org.jboss.seam.rest.templating.TemplatingExtension;
-import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
-import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
 import org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider;
 import org.jboss.seam.rest.templating.velocity.VelocityProvider;
+import org.jboss.seam.rest.test.MockExpressions;
+import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.test.Student;
-import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.rest.test.University;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -50,11 +46,12 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
    public static final File LIBRARY_VELOCITY = new File("target/lib/velocity.jar");
    public static final File LIBRARY_VELOCITY_TOOLS = new File("target/lib/velocity-tools.jar");
    public static final File LIBRARY_COMMONS_LANG = new File("target/lib/commons-lang.jar");
+   public static final File LIBRARY_COMMONS_COLLECTIONS = new File("target/lib/commons-collections.jar");
    
    public static WebArchive createTestApplication()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("beans.xml");
+      war.addWebResource("WEB-INF/beans.xml", "beans.xml");
       war.addResource("org/jboss/seam/rest/test/templating/hello.ftl", "hello.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/hello.vm", "hello.vm");
       war.addResource("org/jboss/seam/rest/test/templating/university.ftl", "university.ftl");
@@ -64,31 +61,20 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
       war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL);
       war.addLibraries(LIBRARY_JBOSS_LOGGING, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
-      war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
-      war.addClasses(Student.class, University.class);
       war.addClasses(FreeMarkerResource.class, VelocityResource.class, MyApplication.class);
-      war.addLibrary(createSeamRest());
-      war.addLibrary(createSeamRestApi());
       return war;
    }
    
-   public static JavaArchive createSeamRest()
+   public static JavaArchive getSeamRest()
    {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
-      jar.addManifestResource("org/jboss/seam/rest/test/templating/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
-      jar.addClass(Utils.class);
-      jar.addClasses(TemplatingExtension.class, TemplatingMessageBodyWriter.class);
+      JavaArchive jar = SeamRestClientTest.createSeamRest();
+      jar.addPackage(TemplatingProvider.class.getPackage());
       jar.addPackage(FreeMarkerProvider.class.getPackage());
       jar.addPackage(VelocityProvider.class.getPackage());
-      jar.addClass(SeamRestConfiguration.class);
-      return jar;
-   }
-   
-   public static JavaArchive createSeamRestApi()
-   {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest-api.jar");
-      jar.addClasses(ResponseTemplate.class, TemplatingModel.class, TemplatingProvider.class, Mapping.class);
-      jar.addManifestResource("beans.xml");
+      // mock solder services
+      jar.addClasses(MockExpressions.class, Student.class, University.class, MockInterpolator.class);
+      // mock seam servlet services
+      jar.addClass(MockListener.class);
       return jar;
    }
 }

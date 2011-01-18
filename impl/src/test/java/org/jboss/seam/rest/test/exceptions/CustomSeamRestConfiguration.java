@@ -19,30 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating;
+package org.jboss.seam.rest.test.exceptions;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Specializes;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.exceptions.Mapping;
 
-import org.jboss.seam.rest.test.Student;
+@Specializes
+public class CustomSeamRestConfiguration extends SeamRestConfiguration {
 
-@ApplicationScoped
-@Named
-public class University
-{
-   private List<Student> students = Arrays.asList(new Student("A"), new Student("B"), new Student("C"));
-   private String name = "Masaryk University";
-
-   public List<Student> getStudents()
-   {
-      return students;
-   }
-   
-   public String getName()
-   {
-      return name;
-   }
+	@PostConstruct
+	public void setup()
+	{
+		addMapping(new Mapping(IllegalAccessException.class, 410));
+		addMapping(new Mapping(ArrayIndexOutOfBoundsException.class, 411));
+		addMapping(new Mapping(NullPointerException.class, 412, "Null reference.", false, false, false));
+		addMapping(new Mapping(UnsupportedOperationException.class, 413, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog", false, true, false));
+		addMapping(new Mapping(NoSuchMethodError.class, 414, "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog", false, false, false));
+		addMapping(new Mapping(Exception2.class, 400));
+	}
 }

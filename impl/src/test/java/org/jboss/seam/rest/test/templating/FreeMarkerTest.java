@@ -32,6 +32,7 @@ public class FreeMarkerTest extends AbstractTemplatingTest
    {
       WebArchive war = createTestApplication();
       war.addLibrary(LIBRARY_FREEMARKER);
+      war.addLibrary(getSeamRest());
       return war;
    }
    

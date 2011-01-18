@@ -31,7 +31,8 @@ public class VelocityTest extends AbstractTemplatingTest
    public static WebArchive createDeployment()
    {
       WebArchive war = createTestApplication();
-      war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
+      war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG, LIBRARY_COMMONS_COLLECTIONS);
+      war.addLibrary(getSeamRest());
       return war;
    }
    

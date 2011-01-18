@@ -19,19 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.multiple;
+package org.jboss.seam.rest.test.templating;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
+import javax.inject.Inject;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
 
-@Specializes
-public class CustomSeamRestConfiguration extends SeamRestConfiguration
+@WebListener
+public class MockListener implements ServletContextListener
 {
-   @PostConstruct
-   public void init()
+   @Inject
+   private TemplatingMessageBodyWriter writer;
+
+   public void contextInitialized(ServletContextEvent sce)
    {
-      setPreferedTemplatingProvider(MockTemplatingProvider.class);
+      writer.init(sce.getServletContext());
    }
+
+   public void contextDestroyed(ServletContextEvent sce)
+   {
+   }
+
 }

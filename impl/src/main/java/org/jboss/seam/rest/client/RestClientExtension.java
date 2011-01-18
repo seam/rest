@@ -33,6 +33,7 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.ProcessBean;
+import javax.enterprise.inject.spi.ProcessManagedBean;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
@@ -58,13 +59,6 @@ public class RestClientExtension implements Extension
    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
-      if (enabled)
-      {
-         log.info("Seam REST Client Extension enabled.");
-         // register providers
-         event.addAnnotatedType(manager.createAnnotatedType(DefaultClientExecutorProducer.class));
-         event.addAnnotatedType(manager.createAnnotatedType(RestClientProducer.class));
-      }
    }
    
    /**
@@ -72,7 +66,7 @@ public class RestClientExtension implements Extension
     * This instance is used later for registering {@link RestClientProducer#produceRestClient} as a producer method.
     * @param event
     */
-   public void getRestClientProducerDelegate(@Observes ProcessBean<RestClientProducer> event)
+   public void getRestClientProducerDelegate(@Observes ProcessManagedBean<RestClientProducer> event)
    {
       this.restClientProducerBean = event.getBean();
    }

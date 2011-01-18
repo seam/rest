@@ -22,9 +22,11 @@
 package org.jboss.seam.rest.test.exceptions;
 
 import javax.ejb.EJBException;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+@RequestScoped
 @Path("/exceptions")
 public class Resource {
 

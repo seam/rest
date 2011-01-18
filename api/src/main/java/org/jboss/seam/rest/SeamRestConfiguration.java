@@ -25,17 +25,14 @@ package org.jboss.seam.rest;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import org.jboss.seam.rest.exceptions.Mapping;
 import org.jboss.seam.rest.templating.TemplatingProvider;
 
 /**
- * TODO
+ * This class is used by the config module for alternative setup.
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  *
  */
-@ApplicationScoped
 public class SeamRestConfiguration {
    
 	private Set<Mapping> mappings = new HashSet<Mapping>();

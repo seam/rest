@@ -33,7 +33,6 @@ import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
-import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
@@ -45,7 +44,7 @@ import org.jboss.seam.servlet.event.Initialized;
  * 
  * <p>
  * If there is no matching rule for an exception, the exception is rethrown wrapped within
- * {@link UnhandledException}. Note that this implementation is replaced by {@link CatchExceptionMapper}
+ * {@link UnhandledException}. Note that this implementation is replaced by CatchExceptionMapper
  * in environments where Seam Catch is available.
  * </p> 
  * 

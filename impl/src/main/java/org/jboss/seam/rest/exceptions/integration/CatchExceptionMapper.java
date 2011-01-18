@@ -21,6 +21,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Specializes;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Response;
@@ -57,6 +58,7 @@ import org.jboss.seam.servlet.event.Initialized;
  */
 @ApplicationScoped
 @HandlesExceptions
+@Specializes
 public class CatchExceptionMapper extends SeamExceptionMapper implements ExceptionMapper<Throwable>
 {
    @Inject

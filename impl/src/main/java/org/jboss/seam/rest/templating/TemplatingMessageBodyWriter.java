@@ -64,7 +64,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
     * @throws AmbiguousResolutionException if there are multiple <code>TemplatingProviders<code> available.
     */
    @Inject
-   public void init(Instance<TemplatingProvider> providerInstance, TemplatingExtension extension, Instance<SeamRestConfiguration> configuration)
+   public void init(Instance<TemplatingProvider> providerInstance, Instance<SeamRestConfiguration> configuration)
    {
       log.debugv("Initializing {0}", getClass().getSimpleName());
       
@@ -109,7 +109,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    /**
     * Initializes the <code>TemplatingProvider</code> if available.
     */
-   public void setServletContext(@Observes @Initialized ServletContext context)
+   public void init(@Observes @Initialized ServletContext context)
    {
       if (provider != null)
       {

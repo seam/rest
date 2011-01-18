@@ -22,17 +22,11 @@
 package org.jboss.seam.rest.test.exceptions;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.seam.rest.SeamRestConfiguration;
-import org.jboss.seam.rest.exceptions.RestRequest;
+import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.test.Fox;
+import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.test.SeamRestClientTest;
-import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
-import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.seam.rest.util.Utils;
-import org.jboss.seam.rest.validation.ValidationException;
-import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -46,26 +40,21 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
       war.addWebResource("beans.xml", "beans.xml");
       war.setWebXML("WEB-INF/web.xml");
-      war.addClasses(CustomSeamRestConfigration.class, Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
+      war.addClasses(Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
       war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL, LIBRARY_JBOSS_LOGGING);
-      war.addLibraries(LIBRARY_SEAM_SERVLET_API, LIBRARY_SEAM_SERVLET_IMPL);
-      war.addLibraries(createSeamRestImpl());
-      war.addClass(MockExtension.class);
-      war.addManifestResource("org/jboss/seam/rest/test/exceptions/TestExtension", "services/javax.enterprise.inject.spi.Extension");
-//      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+      war.addLibraries(getSeamRest());
+      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       return war;
    }
    
-   public static JavaArchive createSeamRestImpl()
+   public static JavaArchive getSeamRest()
    {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
-      jar.addPackage(RestRequest.class.getPackage());
-      jar.addPackage(CatchExceptionMapper.class.getPackage());
-      jar.addClass(SeamRestConfiguration.class);
-      // utils
-      jar.addClasses(Utils.class, Annotations.class, Interpolator.class, ExpressionLanguageInterpolator.class);
-      jar.addClasses(ValidationException.class, ValidationExceptionHandler.class);
+      JavaArchive jar = SeamRestClientTest.createSeamRest();
+      // mock solder services
+      jar.addClass(MockInterpolator.class);
+      jar.addClass(CustomSeamRestConfiguration.class);
+      jar.addClasses(SeamExceptionMapper.class, CatchExceptionMapper.class);
       jar.addManifestResource("org/jboss/seam/rest/test/exceptions/CatchExtension", "services/javax.enterprise.inject.spi.Extension");
       return jar;
    }

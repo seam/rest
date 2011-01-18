@@ -35,8 +35,6 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
 import org.jboss.seam.rest.exceptions.Mapping;
-import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
-import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.util.Utils;
 
 public class ExceptionMappingExtension implements Extension
@@ -47,24 +45,12 @@ public class ExceptionMappingExtension implements Extension
    private Set<Mapping> exceptionMappings = new HashSet<Mapping>();
    private boolean catchIntegrationEnabled = false;
    
-   public void rergisterExceptionMapping(@Observes BeforeBeanDiscovery event, BeanManager manager)
+   public void scanForCatch(@Observes BeforeBeanDiscovery event, BeanManager manager)
    {
       catchIntegrationEnabled = Utils.isClassAvailable(SEAM_CATCH_NAME);
-      
-      // General Exception mapping
-      if (!catchIntegrationEnabled)
-      {
-         event.addAnnotatedType(manager.createAnnotatedType(SeamExceptionMapper.class));
-      }
-      event.addAnnotatedType(manager.createAnnotatedType(ErrorMessageWrapper.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ResponseBuilderProducer.class));
-      
-      // Seam Catch integration
       if (catchIntegrationEnabled)
       {
          log.info("Catch integration enabled.");
-         event.addAnnotatedType(manager.createAnnotatedType(CatchExceptionMapper.class));
-         event.addAnnotatedType(manager.createAnnotatedType(CatchValidationExceptionHandler.class));
       }
    }
 

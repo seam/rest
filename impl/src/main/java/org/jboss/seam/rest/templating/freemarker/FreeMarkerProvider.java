@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,6 +32,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.jboss.seam.rest.templating.ModelWrapper;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
@@ -75,49 +74,12 @@ public class FreeMarkerProvider implements TemplatingProvider
       try
       {
          OutputStreamWriter writer = new OutputStreamWriter(os);
-         template.process(new ModelWrapper(model.getData()), writer);
+         template.process(new ModelWrapper(model.getData(), expressions), writer);
          writer.flush();
       }
       catch (TemplateException e)
       {
          throw new RuntimeException("Unable to write FreeMarker response.", e);
       }
-   }
-
-   /**
-    * Wraps TemplatingModel to allow objects to be referenced via EL in FreeMarker
-    * templates.
-    * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
-    *
-    */
-   private class ModelWrapper extends HashMap<String, Object>
-   {
-      private static final long serialVersionUID = -2967489085535480741L;
-
-      public ModelWrapper(Map<String, Object> model)
-      {
-         super(model);
-      }
-
-      @Override
-      public Object get(Object key)
-      {
-         if (containsKey(key))
-         {
-            return super.get(key);
-         }
-         if (key instanceof String)
-         {
-            String elExpression = expressions.toExpression((String) key);
-            return expressions.evaluateValueExpression(elExpression);
-         }
-         return null;
-      }
-   }
-
-   @Override
-   public String toString()
-   {
-      return getClass().getName();
    }
 }

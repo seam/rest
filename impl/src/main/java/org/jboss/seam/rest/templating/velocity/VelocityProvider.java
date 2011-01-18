@@ -34,9 +34,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.jboss.seam.rest.templating.ModelWrapper;
 import org.jboss.seam.rest.templating.ResponseTemplate;
+import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
+import org.jboss.seam.solder.el.Expressions;
 
 /**
  * Renders response using Apache Velocity.
@@ -47,7 +51,9 @@ import org.jboss.seam.rest.templating.TemplatingProvider;
 public class VelocityProvider implements TemplatingProvider
 {
    @Inject
-   private VelocityModel model;
+   private TemplatingModel model;
+   @Inject
+   private Expressions expressions;
    
    public void init(ServletContext servletContext)
    {
@@ -60,13 +66,14 @@ public class VelocityProvider implements TemplatingProvider
 
    public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
    {
+      ModelWrapper model = new ModelWrapper(this.model.getData(), expressions);
       model.put(annotation.responseName(), o);
       
       Template template = null;
       template = Velocity.getTemplate(annotation.value());
          
       OutputStreamWriter writer = new OutputStreamWriter(os);
-      template.merge(model, writer);
+      template.merge(new VelocityContext(model), writer);
       writer.flush();
    }
    

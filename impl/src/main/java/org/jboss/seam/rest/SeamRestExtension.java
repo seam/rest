@@ -22,22 +22,11 @@
 package org.jboss.seam.rest;
 
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.rest.client.RestClient;
-import org.jboss.seam.rest.exceptions.Mapping;
-import org.jboss.seam.rest.exceptions.RestRequest;
-import org.jboss.seam.rest.exceptions.RestResource;
-import org.jboss.seam.rest.templating.TemplatingModel;
-import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
-import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.seam.rest.validation.ValidateRequest;
-import org.jboss.seam.rest.validation.ValidationExceptionHandler;
-import org.jboss.seam.rest.validation.ValidationInterceptor;
-import org.jboss.seam.rest.validation.ValidationMetadata;
 
 /**
  * Registers Seam REST components.
@@ -48,33 +37,21 @@ public class SeamRestExtension implements Extension
 {
    private static final Logger log = Logger.getLogger(SeamRestExtension.class);
    
-   /**
-    * The following components are registered:
-    * <ul>
-    * <li>API Beans</li>
-    * <li>Bean Validation integration components</li>
-    * <li>Utilities</li>
-    * </ul>
-    */
-   void registerSeamRest(@Observes BeforeBeanDiscovery event, BeanManager manager)
+   public void registerSeamRest(@Observes BeforeBeanDiscovery event)
    {
-      log.info("Seam REST Extension starting...");
-      
-      // API
-      event.addQualifier(RestClient.class);
-      event.addQualifier(RestRequest.class);
-      event.addQualifier(RestResource.class);
-      event.addInterceptorBinding(ValidateRequest.class);
-      event.addAnnotatedType(manager.createAnnotatedType(Mapping.class));
-      event.addAnnotatedType(manager.createAnnotatedType(TemplatingModel.class));
-      
-      // Utils
-      event.addAnnotatedType(manager.createAnnotatedType(Interpolator.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ExpressionLanguageInterpolator.class));
-      
-      // Bean Validation integration
-      event.addAnnotatedType(manager.createAnnotatedType(ValidationInterceptor.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ValidationMetadata.class));
-      event.addAnnotatedType(manager.createAnnotatedType(ValidationExceptionHandler.class));
+      log.info("Seam REST starting...");
    }
+   
+   /**
+    * Veto SeamRestConfiguration class from bean discovery since we want it's subclasses to be beans,
+    * not the class itself.
+    */
+   public void vetoSeamRestConfiguration(@Observes ProcessAnnotatedType<SeamRestConfiguration> event)
+   {
+      if (event.getAnnotatedType().getJavaClass().equals(SeamRestConfiguration.class))
+      {
+         event.veto();
+      }
+   }
+   
 }

@@ -37,7 +37,7 @@ public class DisabledTemplatingTest extends AbstractTemplatingTest
    @Deployment
    public static WebArchive createDeployment()
    {
-      return createTestApplication();
+      return createTestApplication().addLibrary(getSeamRest());
    }
    
    @Test

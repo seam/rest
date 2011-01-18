@@ -19,19 +19,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating.multiple;
+package org.jboss.seam.rest.test;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Specializes;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import org.jboss.seam.rest.SeamRestConfiguration;
+import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Stereotype;
 
-@Specializes
-public class CustomSeamRestConfiguration extends SeamRestConfiguration
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Stereotype
+@Target({ TYPE })
+@Retention(RUNTIME)
+@Documented
+@Alternative
+public @interface Mock
 {
-   @PostConstruct
-   public void init()
-   {
-      setPreferedTemplatingProvider(MockTemplatingProvider.class);
-   }
+
 }
