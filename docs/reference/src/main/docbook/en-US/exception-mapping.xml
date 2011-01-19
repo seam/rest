@@ -5,51 +5,49 @@
 	<title>Exception Handling</title>
 
 	<para>
-		The JAX-RS specification defines Exception Mapping Providers as a
-		standard mechanism for treating Java exceptions.
+		The JAX-RS specification defines the mechanism for exception mapping providers as the
+		standard mechanism for Java exception handling.
 		The Seam REST module
-		comes with and alternative approach which is more consistent with the
-		CDI programming model, easier to use and still portable.
+		comes with an alternative approach, which is more consistent with the
+		CDI programming model. It is also easier to use and still remains portable.
 	</para>
 
 	<para>
-		Firstly, Seam
-		Catch is plugged in
-		which allows exceptions that
-		occur in
-		different
-		parts of an application to be treated uniformly.
-		Besides,
-		a
-		builtin
-		exception handler is provided which enables simple
-		exception-mapping
-		rules to be defined declaratively. 
+		The Seam REST module allows you to:
+		<itemizedlist>
+			<listitem>
+				<para>
+					integrate with Seam Catch and thus handle exceptions that occur in different parts of an application uniformly;
+				</para>
+			</listitem>
+		
+			<listitem>
+				<para>
+					define exception handling rules declaratively with annotations or XML.
+				</para>
+			</listitem>
+		</itemizedlist>
 	</para>
 
 	<sect1>
 		<title>Seam Catch Integration</title>
 		<para>
-			Seam Catch can be used within the Seam REST module for dealing
-			with
-			exceptions.
-			As a result, an exception that occurs during an
+			Seam Catch handles exceptions within the Seam REST module:
+			as result, an exception that occurs during an
 			invocation
 			of a JAX-RS service is routed through the Catch
 			exception
 			handling
-			mechanism which is similar to the CDI event bus and lets
-			exception
-			handling logic to be
-			implemented in a loosely-coupled
-			fashion.  
+			mechanism similar to the CDI event bus. This allows you to implement the exception
+			handling logic in a loosely-coupled
+			fashion.
 		</para>
 
 		<para>
 			The following code sample demonstrates a simple exception handler
 			that converts the
 			<literal>NoResultException</literal>
-			exception to the 404 HTTP response.
+			exception to a 404 HTTP response.
 		</para>
 
 		<example>
@@ -91,7 +89,7 @@ public class ExceptionHandler
 					</callout>
 					<callout arearefs="handler-method">
 						<para>
-							A method for hanling
+							A method for handling
 							<literal>NoResultException</literal>
 							instances. Note that the
 							<literal>ExceptionHandler</literal>
@@ -104,20 +102,20 @@ public class ExceptionHandler
 		</example>
 
 		<para>
-			Similarly to the CDI event bus, exceptions to be handled by a handler
-			method can be filtered by qualifiers. In the example above, we
-			are
-			only interested in exceptions that occur in a JAX-RS service
-			invocation. (As opposed to all exceptions of the given type that
-			occur in the application - in the view layer for example.) Thus, the
+			Similarly to the CDI event bus, exceptions handled by a handler
+			method can be filtered by qualifiers. The example above treats
+			only exceptions that occur in a JAX-RS service
+			invocation (as opposed to all exceptions of the given type that
+			occur in the application, for example in the view layer). Thus, the
 			<literal>@RestRequest</literal>
-			qualifier is used.
+			qualifier is used to enable the handler only for exceptions that occur
+			during JAX-RS service invocation.
 		</para>
 
 		<para>
 			Catch integration is optional and only enabled when Catch libraries
 			are available on classpath.
-			For more information on Seam Catch, see
+			For more information on Seam Catch, refer to
 			<ulink
 				url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>
 			.
@@ -127,32 +125,32 @@ public class ExceptionHandler
 	<sect1>
 		<title>Declarative Exception Mapping</title>
 		<para>
-			Often, exception-mapping rules are simple. Thus,
+			Exception-mapping rules are often fairly simple. Thus,
 			instead of being
 			implemented programatically, they can
-			be expressed declaratively using
+			be expressed declaratively through
 			metadata such as Java annotations or XML.
 			The Seam
 			REST module supports
-			both ways of declarative configuration so it's up to you to choose.
+			both ways of declarative configurations.
 		</para>
 
 		<para>
-			For each exception type, it is possible to specify the status
-			code and the error message of the HTTP response. 
+			For each exception type, you can specify a status
+			code and an error message of the HTTP response. 
 		</para>
 
 		<sect2>
 			<title>Annotation-based configuration</title>
 			<para>
-				Seam REST exception mapping can be configured directly in Java code
-				using Java Annotations.
-				An exception mapping rule is expressed by the
+				You can configure Seam REST exception mapping directly in your Java code
+				with Java Annotations.
+				An exception mapping rule is defined as a
 				<literal>@ExceptionMapping</literal>
-				annotation. Multiple
-				exception mappings can be specified using the
+				annotation. Use an
 				<literal>@ExceptionMapping.List</literal>
-				annotation.
+				annotation to define multiple
+				exception mappings.
 			</para>
 
 			<example>
@@ -168,8 +166,8 @@ public class ExceptionHandler
 				<literal>@ExceptionMapping</literal>
 				annotation can be applied on any Java class in the deployment.
 				However, it
-				is recommended to keep all the exception mapping
-				declarations on a single place, such as the
+				is recommended to keep all exception mapping
+				declarations in the same place, for example, in the
 				<literal>javax.ws.rs.core.Application</literal>
 				subclass.
 			</para>
@@ -208,19 +206,19 @@ public class ExceptionHandler
 							<entry>useExceptionMessage</entry>
 							<entry>false</entry>
 							<entry>false</entry>
-							<entry>Use the message of the exception as the error message</entry>
+							<entry>Exception error message</entry>
 						</row>
 						<row>
 							<entry>interpolateMessageBody</entry>
 							<entry>false</entry>
 							<entry>true</entry>
-							<entry>Enables/Disables EL interpolation of the error message</entry>
+							<entry>Enabling/disabling the EL interpolation of the error message</entry>
 						</row>
 						<row>
 							<entry>useJaxb</entry>
 							<entry>false</entry>
 							<entry>true</entry>
-							<entry>Wrap the error message within a JAXB object to allows marshalling to various media formats such as application/xml, application/json, etc.</entry>
+							<entry>Enabling/disabling wrapping of the error message within a JAXB object. This allows marshalling to various media formats such as application/xml, application/json, etc.</entry>
 						</row>
 					</tbody>
 				</tgroup>
@@ -230,16 +228,13 @@ public class ExceptionHandler
 		<sect2>
 			<title>XML configuration</title>
 			<para>
-				An alternative way of configuration is to use
-				the
-				Seam Config module to configure the
-				<literal>SeamRestConfiguration</literal>
+				As an alternative to the annotation-based configuration, you can use the Seam Config module to configure the <literal>SeamRestConfiguration</literal>
 				class in XML.
 			</para>
 			<para>
-				Firstly, the Seam Config module needs to be added to the
-				application. If
-				using maven, this can be done by specifying the
+				First, add the Seam Config module to the
+				application. If you are
+				using maven, you can do this by specifying the
 				following dependency:
 		</para>
 
@@ -255,8 +250,8 @@ public class ExceptionHandler
 			<para>
 				For more information on the Seam Config module, refer to the
 				<ulink
-					url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>
-				Once the Seam XML module is added, specify the configuration in the
+					url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>.
+				Once you have added the Seam XML module, specify the configuration in the
 				<literal>seam-beans.xml</literal>
 				file, located in the
 				<literal>WEB-INF</literal>
@@ -284,7 +279,7 @@ public class ExceptionHandler
 			</example>
 
 			<para>
-				Furthermore, EL expressions can be used in message templates to
+				Furthermore, you can use EL expressions in message templates to
 				provide dynamic and more descriptive error messages.
 		</para>
 			<example>
@@ -296,7 +291,7 @@ public class ExceptionHandler
 		</sect2>
 
 		<sect2>
-			<title>Declarative Exception Mapping Processing</title>
+			<title>Declarative exception mapping processing</title>
 			<para>
 				When an exception occurs at runtime, the
 				<literal>SeamExceptionMapper</literal>
@@ -306,9 +301,7 @@ public class ExceptionHandler
 				code and error message.
 			</para>
 			<para>
-				The error message is marshalled within a JAXB object. As a
-				result, the
-				error message is available in multiple media formats. The
+				The error message is marshalled within a JAXB object and is thus available in multiple media formats. The
 				most commonly used formats are XML and JSON. Most JAX-RS
 				implementations
 				provide media

@@ -4,12 +4,11 @@
 <chapter id="rest.installation">
 	<title>Installation</title>
 	<para>
-		The Seam REST module requires a Java EE 6 compliant server such as
+		The Seam REST module runs only on Java EE 6 compliant servers such as
 		<ulink url="http://www.jboss.org/jbossas">JBoss
 			Application Server</ulink>
 		or
-		<ulink url="https://glassfish.dev.java.net/">GlassFish</ulink>
-		to run on.
+		<ulink url="https://glassfish.dev.java.net/">GlassFish</ulink>.
 	</para>
 
 	<sect1>
@@ -47,7 +46,7 @@
 		<title>Transitive dependencies</title>
 		<para>
 			Besides, Seam REST has several transitive dependencies (which are
-			added automatically when using maven). See
+			added automatically when using maven). Refer to
 			<xref linkend="rest.dependencies.table" />
 			for more details.
 		</para>
@@ -57,21 +56,19 @@
 		<title>Registering JAX-RS components explicitly</title>
 		
 		<para>
-			The Seam REST module hooks into the exception processing mechanism of JAX-RS by registering
-			<literal>SeamExceptionMapper</literal>. Besides, <literal>TemplatingMessageBodyWriter</literal> is registered
-			to provide templating support.
+			The Seam REST module registers <literal>SeamExceptionMapper</literal> to hook into the exception processing mechanism of JAX-RS and <literal>TemplatingMessageBodyWriter</literal> to provide templating support.
 		</para>
 		
 		<para>
 			These components are registered by default if classpath scanning
-			of JAX-RS resources and providers is enabled (an empty <literal>javax.ws.rs.coreApplication</literal> is provided).
+			of JAX-RS resources and providers is enabled (an empty <literal>javax.ws.rs.core.Application</literal> subclass is provided).
 		</para>
 		
 		<programlisting role="JAVA"><![CDATA[@ApplicationPath("/api/*")
 public class MyApplication extends Application {}]]></programlisting>
 
 		<para>
-			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden to select resources and providers explicitly, 
+			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden and the resources and providers must be selected explicitly, 
 			add <literal>SeamExceptionMapper</literal> and <literal>TemplatingMessageBodyWriter</literal>.
 		</para>
 		

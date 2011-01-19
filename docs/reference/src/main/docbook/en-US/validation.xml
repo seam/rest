@@ -14,10 +14,9 @@
 	</para>
 
 	<para>
-		The Seam REST module integrates with the Bean Validation
-		specification. This
-		allows incomming HTTP requests to be validated
-		using this
+		The Seam REST module follows the Bean Validation
+		specification and the incomming HTTP requests can be validated
+		with this
 		standardized
 		mechanism.
 	</para>
@@ -66,7 +65,7 @@ public void updateTask(Task incommingTask)
 				validated. If the
 				object is valid, the web service method is
 				executed.
-				Otherwise, the
+				Otherwise, a
 				<literal>ValidationException</literal>
 				exception
 				is thrown.
@@ -80,15 +79,15 @@ public void updateTask(Task incommingTask)
 				Bean
 				Validation provider. The exception can be handled by an
 				<literal>ExceptionMapper</literal> or Seam Catch handler.
-				.
+				
 			</para>
 			<para>
 				Seam REST comes with a built-in
-				<literal>ValidationException</literal> handler
+				<literal>ValidationException</literal> handler,
 				which is registered by default. The exception handler converts the
 				<literal>ValidationException</literal>
-				to an HTTP response with 400 (Bad request) status code. Furthermore,
-				messages relevant to the violated constraints are sent within the
+				to an HTTP response with the 400 (Bad request) status code. Furthermore,
+				it sends messages relevant to the violated constraints within the
 				message body of the HTTP response.
 			</para>
 
@@ -140,7 +139,7 @@ Content-Length:	129
 			</example>
 
 			<para>
-				If a method of a resource is annotated with
+				If a method of a resource is annotated with an
 				<literal>@ValidateRequest</literal>
 				annotation, the fields
 				of a resource are validated by default.
@@ -148,7 +147,7 @@ Content-Length:	129
 			
 			<important>
 				<para>
-					Since the JAX-RS injection occurs at resource creation time only,
+					Since the JAX-RS injection occurs only at resource creation time,
 					do
 					not use the
 					JAX-RS field injection for other than
@@ -179,7 +178,7 @@ public List<Person>search(@QueryParam("search") String query,
 
 			<note>
 				<para>
-					Currently, Seam REST does only validate JavaBean parameters (as oposed to primitive types, Strings and so on). Therefore, to validate these types of parameters, either use resource field
+					Currently, Seam REST validates only JavaBean parameters (as oposed to primitive types, Strings and so on). Therefore, to validate these types of parameters, either use resource field
 					validation described
 					in
 					<xref linkend="rest.resource.validation" />
@@ -193,17 +192,14 @@ public List<Person>search(@QueryParam("search") String query,
 				parameters is too large, JAX-RS implementations provide
 				implementations of the
 				<ulink
-					url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>
-				. These objects aggregate multiple parameters into a single
-				object.
-				For example
+					url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>. These objects aggregate multiple parameters into a single
+				object, for example
 				<ulink
 					url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink>
 				or
 				<ulink
-					url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>
-				.
-				These parameters can be validated by Seam REST. To trigger the validation, annotate the parameter with <literal>javax.validation.Valid</literal> annotation.
+					url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>.
+				These parameters can be validated by Seam REST. To trigger the validation, annotate the parameter with a <literal>javax.validation.Valid</literal> annotation.
 			</para>
 
 			<example>
@@ -243,20 +239,20 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 				<tbody>
 					<row>
 						<entry>validateMessageBody</entry>
-						<entry>Enables/Disables validation of message body parameters.
+						<entry>Enabling/disabling validation of message body parameters
 						</entry>
 						<entry>true</entry>
 					</row>
 					<row>
 						<entry>validateResourceFields</entry>
-						<entry>Enables/Disables validation of fields fields of a JAX-RS
-							resource.
+						<entry>Enabling/disabling validation of fields of a JAX-RS
+							resource
 						</entry>
 						<entry>true</entry>
 					</row>
 					<row>
 						<entry>groups</entry>
-						<entry>Validation groups to be used for validation.</entry>
+						<entry>Validation groups to be used for validation</entry>
 						<entry>javax.validation.groups.Default</entry>
 					</row>
 				</tbody>
@@ -269,9 +265,9 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 		<para>
 			In some cases, it is desired to have a specific
 			group of
-			constraints used to validate the web service parameters.
+			constraints used for validation of web service parameters.
 			These
-			constraints are usually weaker compared to the default constraints of
+			constraints are usually weaker than the default constraints of
 			a domain model.
 			Take partial
 			updates as an example.
@@ -306,17 +302,17 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 			resource.
 		</para>
 		<para>
-			When using partial updates, only the values of modified fields
+			When using partial updates, only values of modified fields
 			are required to be
-			sent within the update request. Only the non-null
+			sent within the update request, while the non-null
 			values of the
 			received object are updated. Therefore, two groups of
 			constraints are
-			needed: one for partial updates
+			needed: group for partial updates
 			(including
 			@Size and
 			@Email, excluding @NotNull) and the
-			default one
+			default group
 			(@NotNull).
 		</para>
 		<para>
@@ -368,8 +364,8 @@ public class Employee {
 						<para>
 							The
 							<literal>@GroupsSequence</literal>
-							annotation indicates that both validation groups will be used by
-							default (e.g. when persisting the entity).
+							annotation indicates that both validation groups are used by
+							default (for example, when persisting the entity).
 						</para>
 					</callout>
 				</calloutlist>

@@ -5,8 +5,8 @@
 	<title>Seam REST Dependencies</title>
 
 	<para>
-		The Seam REST module depends on the following transitive
-		dependencies at runtime.
+		The Seam REST module depends on the transitive
+		dependencies at runtime listed in table <xref linkend="rest.dependencies.table"/>.
 	</para>
 
 	<table id="rest.dependencies.table">
