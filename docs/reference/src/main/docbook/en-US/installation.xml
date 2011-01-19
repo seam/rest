@@ -68,7 +68,7 @@
 public class MyApplication extends Application {}]]></programlisting>
 
 		<para>
-			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden and the resources and providers must be selected explicitly, 
+			Otherwise, if the Application's <literal>getClasses()</literal> method is overriden to select resources and providers explicitlyy
 			add <literal>SeamExceptionMapper</literal> and <literal>TemplatingMessageBodyWriter</literal>.
 		</para>
 		
