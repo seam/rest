@@ -29,7 +29,7 @@
 		</itemizedlist>
 	</para>
 
-	<sect1>
+	<sect1 id="rest.exception.mapping.catch">
 		<title>Seam Catch Integration</title>
 		<para>
 			Seam Catch handles exceptions within the Seam REST module:
@@ -158,7 +158,9 @@ public class ExceptionHandler
 				<programlisting role="JAVA"><![CDATA[@ExceptionMapping.List({
    @ExceptionMapping(exceptionType = NoResultException.class, status = 404, message = "Requested resource does not exist."),
    @ExceptionMapping(exceptionType = IllegalArgumentException.class, status = 400, message = "Illegal argument value.")
-})]]></programlisting>
+})
+@ApplicationPath("/api")
+public MyApplication extends Application {]]></programlisting>
 			</example>
 
 			<para>
@@ -225,7 +227,7 @@ public class ExceptionHandler
 			</table>
 		</sect2>
 
-		<sect2>
+		<sect2 id="rest.exception.mapping.xml">
 			<title>XML configuration</title>
 			<para>
 				As an alternative to the annotation-based configuration, you can use the Seam Config module to configure the <literal>SeamRestConfiguration</literal>
@@ -284,7 +286,7 @@ public class ExceptionHandler
 		</para>
 			<example>
 				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+				<programlisting role="XML"><![CDATA[<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
 	<exceptions:message>Requested resource (#{uriInfo.path}) does not exist.</exceptions:message>
 </exceptions:Mapping>]]></programlisting>
 			</example>

@@ -4,35 +4,133 @@
 <chapter id="rest.dependencies">
 	<title>Seam REST Dependencies</title>
 
-	<para>
-		The Seam REST module depends on the transitive
-		dependencies at runtime listed in table <xref linkend="rest.dependencies.table"/>.
-	</para>
+	<sect1>
+		<title>Transitive Dependencies</title>
 
-	<table id="rest.dependencies.table">
-		<title>Transitive dependencies</title>
-		<tgroup cols='2'>
-			<thead>
-				<row>
-					<entry>Name</entry>
-					<entry>Version</entry>
-				</row>
-			</thead>
-			<tbody>
-				<row>
-					<entry>Seam Solder</entry>
-					<entry>3.0.0.Beta1</entry>
-				</row>
-				<row>
-					<entry>Seam Servlet</entry>
-					<entry>3.0.0.Alpha3</entry>
-				</row>
-				<row>
-					<entry>JBoss Logging</entry>
-					<entry>3.0.0.Beta4</entry>
-				</row>
-			</tbody>
-		</tgroup>
-	</table>
+		<para>
+			The Seam REST module depends on the transitive
+			dependencies at runtime
+			listed in table
+			<xref linkend="rest.dependencies.table" />
+			.
+		</para>
 
+		<table id="rest.dependencies.table">
+			<title>Transitive dependencies</title>
+			<tgroup cols='2'>
+				<thead>
+					<row>
+						<entry>Name</entry>
+						<entry>Version</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Seam Solder</entry>
+						<entry>3.0.0.Beta1</entry>
+					</row>
+					<row>
+						<entry>Seam Servlet</entry>
+						<entry>3.0.0.Alpha3</entry>
+					</row>
+					<row>
+						<entry>JBoss Logging</entry>
+						<entry>3.0.0.Beta4</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</sect1>
+
+	<sect1>
+		<title>Optional dependencies</title>
+
+		<sect2>
+			<title>Seam Catch</title>
+			
+			<para>
+				Seam Catch can be used for handling Java exceptions. For more information on using
+				Seam Catch with Seam REST, refer to <xref linkend="rest.exception.mapping.catch"/>
+			</para>
+			
+			<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.jboss.seam.catch</groupId>
+	<artifactId>seam-catch-api</artifactId>
+	<version>${seam.catch.version}</version>
+</dependency>
+<dependency>
+	<groupId>org.jboss.seam.catch</groupId>
+	<artifactId>seam-catch-impl</artifactId>
+	<version>${seam.catch.version}</version>
+</dependency>]]></programlisting>
+		</sect2>
+		<sect2>
+			<title>Seam Config</title>
+			
+			<para>
+				Seam Config can be used to configure Seam REST using XML. For more information on using
+				Seam Config with Seam REST, refer to <xref linkend="rest.exception.mapping.xml"/>
+			</para>
+			
+			<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.jboss.seam.config</groupId>
+	<artifactId>seam-config-xml</artifactId>
+	<version>${seam.config.version}</version>
+</dependency>]]></programlisting>
+		</sect2>
+		<sect2>
+			<title>FreeMarker</title>
+			
+			<para>
+				FreeMarker can be used for rendering HTTP responses. For more information on using
+				FreeMarker with Seam REST, refer to <xref linkend="rest.templating.freemarker"/>
+			</para>
+			
+			<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.freemarker</groupId>
+	<artifactId>freemarker</artifactId>
+	<version>${freemarker.version}</version>
+</dependency>]]></programlisting>
+		</sect2>
+		<sect2>
+			<title>Apache Velocity</title>
+			
+			<para>
+				Apache Velocity can be used for rendering HTTP responses. For more information on using
+				Velocity with Seam REST, refer to <xref linkend="rest.templating.velocity"/>
+			</para>
+			
+			<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.apache.velocity</groupId>
+	<artifactId>velocity</artifactId>
+	<version>${velocity.version}</version>
+</dependency>
+<dependency>
+	<groupId>org.apache.velocity</groupId>
+	<artifactId>velocity-tools</artifactId>
+	<version>${velocity.tools.version}</version>
+</dependency>]]></programlisting>
+		</sect2>
+		<sect2>
+			<title>RESTEasy</title>
+			
+			<para>
+				RESTEasy Client Framework can be used for building clients of RESTful web services. 
+				For more information on using RESTEasy Client Framework, refer to <xref linkend="rest.client"/>
+			</para>
+			
+			<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.jboss.resteasy</groupId>
+	<artifactId>resteasy-jaxrs</artifactId>
+	<version>${resteasy.version}</version>
+</dependency>]]></programlisting>
+
+			<note>
+				<para>
+					Note that RESTEasy is provided on JBoss Application Server 6 and thus you
+					do not need to bundle it with the web application.
+				</para>
+			</note>
+		</sect2>
+	</sect1>
 </chapter>

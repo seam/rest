@@ -163,7 +163,7 @@ public University getUniversity()
 			FreeMarker and Apache Velocity.
 		</para>
 
-		<sect2>
+		<sect2 id="rest.templating.freemarker">
 			<title>FreeMarker</title>
 			<para>
 				FreeMarker is one of the most popular templating engines. To
@@ -177,7 +177,7 @@ public University getUniversity()
 			</para>
 		</sect2>
 
-		<sect2>
+		<sect2 id="rest.templating.velocity">
 			<title>Apache Velocity</title>
 			<para>
 				Apache Velocity is another popular Java-based templating engine. Similarly to FreeMarker support, 
