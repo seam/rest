@@ -86,6 +86,14 @@
          <type>zip</type>
          <optional>true</optional>
       </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.seam.rest</groupId>
+         <artifactId>seam-jaxrs-exceptions-example</artifactId>
+         <version>${project.version}</version>
+         <type>zip</type>
+         <optional>true</optional>
+      </dependency>
 
    </dependencies>
 

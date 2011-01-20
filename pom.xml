@@ -257,6 +257,7 @@
 				<module>docs/reference</module>
 				<module>examples/tasks</module>
 				<module>examples/tasks-statistics</module>
+				<module>examples/jaxrs-exceptions</module>
 			</modules>
 		</profile>
 	</profiles>
