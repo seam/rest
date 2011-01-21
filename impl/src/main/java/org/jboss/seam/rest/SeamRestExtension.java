@@ -30,7 +30,7 @@ import org.jboss.logging.Logger;
 
 /**
  * Registers Seam REST components.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class SeamRestExtension implements Extension

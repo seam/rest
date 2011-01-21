@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  * a Seam Catch exception handler.
  *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 @RequestScoped
 public class ResponseBuilderProducer

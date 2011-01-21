@@ -49,7 +49,7 @@ import org.jboss.seam.servlet.event.Initialized;
  * </p> 
  * 
  * @see ExceptionMappingConfiguration
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  * 
  */
 @Provider

@@ -37,7 +37,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 /**
  * This test class contains common methods for creating testing artifacts.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public abstract class AbstractTemplatingTest extends SeamRestClientTest

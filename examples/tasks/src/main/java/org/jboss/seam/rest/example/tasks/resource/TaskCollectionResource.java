@@ -39,7 +39,7 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * Collection resource for tasks
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Path("/task")

@@ -46,7 +46,7 @@ import freemarker.template.TemplateException;
 /**
  * Converts the response object to a rendered FreeMarker template.
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  * 
  */
 @ApplicationScoped

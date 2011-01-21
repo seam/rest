@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 
 /**
  * Compares Map entries based on their values in ascending order.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class MapEntryValueComparator<K, V extends Comparable<V>> implements Comparator<Entry<K, V>>

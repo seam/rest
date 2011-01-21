@@ -37,7 +37,7 @@ import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 /**
  * The default handler that obtains {@link ValidationException} from Seam Catch and
  * converts it to an HTTP response.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @HandlesExceptions

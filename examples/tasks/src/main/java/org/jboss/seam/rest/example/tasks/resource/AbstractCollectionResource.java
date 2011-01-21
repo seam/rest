@@ -31,7 +31,7 @@ import javax.ws.rs.core.UriInfo;
 /**
  * Ugly workaround for https://jira.jboss.org/browse/CDI-6
  * (We must use setter injection instead of field injection which makes things less clear)
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public abstract class AbstractCollectionResource

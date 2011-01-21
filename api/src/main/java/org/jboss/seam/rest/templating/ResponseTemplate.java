@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that the HTTP response is produced using a template.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Retention(RUNTIME)

@@ -47,7 +47,7 @@ import org.jboss.seam.servlet.event.Initialized;
  * TemplatingMessageBodyWriter is enabled for every JAX-RS method annotated
  * with <code>@ResponseTemplate</code> annotation and delegates response production to the
  * {@link TemplatingProvider}.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Provider

@@ -35,7 +35,7 @@ import org.jboss.seam.rest.example.tasks.entity.Task;
 
 /**
  * Database import
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Stateless

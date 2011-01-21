@@ -26,7 +26,7 @@ import org.jboss.test.selenium.locator.JQueryLocator;
 
 /**
  * Page object for the resolved tasks page (resolved.html)
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class ResolvedPage extends AbstractPage

@@ -24,7 +24,7 @@ package org.jboss.seam.rest.exceptions;
 /**
  * Represents a mapping of an exception to an HTTP status code and response body.
  * 
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class Mapping

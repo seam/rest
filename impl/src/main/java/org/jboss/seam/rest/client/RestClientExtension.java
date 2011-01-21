@@ -45,7 +45,7 @@ import org.jboss.seam.rest.util.Utils;
  * <li>REST clients - proxied JAX-RS interfaces capable of invoking client requests</li>
  * </ul>
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 public class RestClientExtension implements Extension
 {

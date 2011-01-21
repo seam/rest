@@ -31,7 +31,7 @@ import org.junit.Test;
  * This test verifies that a prefered TemplatingProvider
  * can be selected.
  *  
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class PreferedTemplatingProviderTest extends AbstractTemplatingTest
