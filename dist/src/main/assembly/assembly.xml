@@ -28,7 +28,7 @@
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
             <include>org.jboss.seam.rest:seam-rest-api</include>
-            <include>org.jboss.seam.rest:seam-rest</include>
+            <include>org.jboss.seam.rest:seam-rest-impl</include>
          </includes>
          <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
@@ -58,6 +58,22 @@
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
             <include>org.jboss.seam.rest:seam-tasks-example</include>
+         </includes>
+      </dependencySet>
+      <dependencySet>
+         <outputDirectory>examples</outputDirectory>
+         <unpack>true</unpack>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.rest:seam-tasks-statistics-example</include>
+         </includes>
+      </dependencySet>
+      <dependencySet>
+         <outputDirectory>examples</outputDirectory>
+         <unpack>true</unpack>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.rest:seam-jaxrs-exceptions-example</include>
          </includes>
       </dependencySet>
       <!-- Pull in docbook artifacts -->
