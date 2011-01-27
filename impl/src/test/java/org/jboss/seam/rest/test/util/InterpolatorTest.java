@@ -28,8 +28,8 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.rest.test.Fox;
 import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,7 @@ public class InterpolatorTest
    public static JavaArchive createDeployment()
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addManifestResource("beans.xml", ArchivePaths.create("beans.xml"));
+      jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
       jar.addClasses(MockInterpolator.class, Interpolator.class);
       jar.addClass(Fox.class);
       return jar;

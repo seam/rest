@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.jboss.seam</groupId>
 		<artifactId>seam-parent</artifactId>
-		<version>7</version>
+		<version>8</version>
 	</parent>
 
 	<groupId>org.jboss.seam.rest</groupId>
@@ -15,7 +16,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<seam.version>3.0.0.b06</seam.version>
+		<seam.version>3.0.0.b07</seam.version>
+		<seam.catch.version>3.0.0.Beta1</seam.catch.version>
 		<javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
 		<javax.ws.rs.version>1.1.1</javax.ws.rs.version>
 		<httpclient.version>3.1</httpclient.version>
@@ -65,6 +67,19 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.jboss.seam.catch</groupId>
+				<artifactId>seam-catch-api</artifactId>
+				<scope>compile</scope>
+				<version>${seam.catch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.catch</groupId>
+				<artifactId>seam-catch-impl</artifactId>
+				<scope>compile</scope>
+				<version>${seam.catch.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>jsr311-api</artifactId>
 				<scope>provided</scope>
@@ -81,7 +96,7 @@
 				<artifactId>seam-rest-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -101,7 +116,7 @@
 				<artifactId>velocity-tools</artifactId>
 				<version>${velocity.tools.version}</version>
 			</dependency>
-			
+
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>

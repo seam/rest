@@ -25,7 +25,6 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.jboss.seam.rest.util.Interpolator;
 
-@Mock
 @ApplicationScoped
 public class MockInterpolator implements Interpolator
 {

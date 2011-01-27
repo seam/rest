@@ -35,7 +35,7 @@ import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionStack;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
-import org.jboss.seam.exception.control.TraversalPath;
+import org.jboss.seam.exception.control.TraversalMode;
 import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
@@ -81,7 +81,7 @@ public class ValidationTest
       jar.addClass(CatchValidationExceptionHandler.class);
       jar.addPackage(ValidationTest.class.getPackage());
       jar.addClass(RestResource.class);
-      jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalPath.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
+      jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
       jar.addClasses(Annotations.class, Utils.class);
       return jar;
    }

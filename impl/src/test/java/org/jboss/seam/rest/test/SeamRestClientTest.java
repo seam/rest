@@ -41,10 +41,12 @@ import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.UnhandledException;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.util.Annotations;
+import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
 
@@ -56,6 +58,7 @@ public abstract class SeamRestClientTest
 {
    public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
    public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
+   public static final File LIBRARY_SEAM_SOLDER = new File("target/lib/seam-solder.jar");
    public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
    public static final File LIBRARY_SLF4J_API = new File("target/lib/slf4j-api.jar");
    public static final File LIBRARY_SLF4J_IMPL = new File("target/lib/slf4j-simple.jar");
@@ -92,7 +95,6 @@ public abstract class SeamRestClientTest
    /**
     * Simulates combined seam-rest.jar.
     * No extensions are enabled.
-    * Interpolator implementation is not added.
     * Templating support is not added.
     * SeamExceptionMapper and CatchExceptionMapper is not added.
     */
@@ -104,10 +106,9 @@ public abstract class SeamRestClientTest
       jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions api
       jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions impl
       jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
-      jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
+      jar.addClasses(Annotations.class, Interpolator.class, Utils.class, ExpressionLanguageInterpolator.class); // .utils
       jar.addPackage(ValidateRequest.class.getPackage());
-      jar.addClass(Mock.class);
-      jar.addManifestResource("mock-beans.xml", "beans.xml");
+      jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
       return jar;
    }
 }

@@ -36,7 +36,6 @@ import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
-import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * This {@link ExceptionMapper} implementation converts caught exceptions to HTTP responses
@@ -106,7 +105,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable>
     * This observer method triggers {@link #init(ExceptionMappingConfiguration)}
     * on bootstrap.
     */
-   public void init(@Observes @Initialized ServletContext ctx)
+   public void init(@Observes @RestResource ServletContext ctx)
    {
    }
 

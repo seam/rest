@@ -28,6 +28,7 @@ import java.lang.annotation.Annotation;
 import java.util.Properties;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
@@ -53,7 +54,8 @@ public class VelocityProvider implements TemplatingProvider
    @Inject
    private TemplatingModel model;
    @Inject
-   private Expressions expressions;
+   private Instance<Expressions> expressions;
+   // Instance is only needed because of a bug in GF
    
    public void init(ServletContext servletContext)
    {
@@ -66,7 +68,7 @@ public class VelocityProvider implements TemplatingProvider
 
    public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
    {
-      ModelWrapper model = new ModelWrapper(this.model.getData(), expressions);
+      ModelWrapper model = new ModelWrapper(this.model.getData(), expressions.get());
       model.put(annotation.responseName(), o);
       
       Template template = null;

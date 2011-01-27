@@ -19,28 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating;
+package org.jboss.seam.rest.test.exceptions;
 
-import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
-
-@WebListener
-public class MockListener implements ServletContextListener
+@RunWith(Arquillian.class)
+public class CatchIntegrationTest extends BuiltinExceptionMappingTest
 {
-   @Inject
-   private TemplatingMessageBodyWriter writer;
-
-   public void contextInitialized(ServletContextEvent sce)
+   @Deployment
+   public static WebArchive createDeploymentWithCatch()
    {
-      writer.init(sce.getServletContext());
+      WebArchive war = createDeployment();
+      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
+      return war;
    }
-
-   public void contextDestroyed(ServletContextEvent sce)
+   
+   @Test
+   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
    {
+      test("http://localhost:8080/test/exceptions/ie", 415, null);
    }
-
 }

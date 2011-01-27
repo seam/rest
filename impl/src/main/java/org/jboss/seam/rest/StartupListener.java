@@ -19,25 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
+import org.jboss.seam.rest.exceptions.RestResource;
+
+/**
+ * TODO: This listener will be replaced with Seam Servlet.
+ * Do not observe the event fired by this listener as it will be removed in future releases.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+@WebListener
+public class StartupListener implements ServletContextListener
 {
-   @Deployment
-   public static WebArchive createDeploymentWithCatch()
-   {
-      WebArchive war = createDeployment();
-      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
-      return war;
-   }
+   @Inject @RestResource
+   private Event<ServletContext> event;
    
-   @Test
-   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
+   @Override
+   public void contextInitialized(ServletContextEvent sce)
    {
-      test("http://localhost:8080/test/exceptions/ie", 415, null);
+      event.fire(sce.getServletContext());
+   }
+
+   @Override
+   public void contextDestroyed(ServletContextEvent sce)
+   {
    }
 }

@@ -21,13 +21,16 @@
  */
 package org.jboss.seam.rest.test.exceptions;
 
+import javax.enterprise.inject.spi.Extension;
+
 import org.jboss.arquillian.api.Deployment;
+import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
 import org.jboss.seam.rest.test.Fox;
-import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -38,11 +41,11 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
    public static WebArchive createDeployment()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("beans.xml", "beans.xml");
-      war.setWebXML("WEB-INF/web.xml");
+      war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+      war.setWebXML("org/jboss/seam/rest/test/exceptions/web.xml");
       war.addClasses(Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class, MyApplication.class);
       war.addClasses(Exception1.class, Exception2.class);
-      war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL, LIBRARY_JBOSS_LOGGING);
+      war.addLibrary(LIBRARY_SEAM_SOLDER);
       war.addLibraries(getSeamRest());
       war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       return war;
@@ -51,11 +54,9 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest
    public static JavaArchive getSeamRest()
    {
       JavaArchive jar = SeamRestClientTest.createSeamRest();
-      // mock solder services
-      jar.addClass(MockInterpolator.class);
       jar.addClass(CustomSeamRestConfiguration.class);
       jar.addClasses(SeamExceptionMapper.class, CatchExceptionMapper.class);
-      jar.addManifestResource("org/jboss/seam/rest/test/exceptions/CatchExtension", "services/javax.enterprise.inject.spi.Extension");
+      jar.addServiceProvider(Extension.class, ExceptionMappingExtension.class);
       return jar;
    }
 

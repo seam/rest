@@ -26,12 +26,11 @@ import java.io.File;
 import org.jboss.seam.rest.templating.TemplatingProvider;
 import org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider;
 import org.jboss.seam.rest.templating.velocity.VelocityProvider;
-import org.jboss.seam.rest.test.MockExpressions;
-import org.jboss.seam.rest.test.MockInterpolator;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.test.Student;
 import org.jboss.seam.rest.test.University;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
@@ -51,16 +50,16 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
    public static WebArchive createTestApplication()
    {
       WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addWebResource("WEB-INF/beans.xml", "beans.xml");
+      war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+      war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
       war.addResource("org/jboss/seam/rest/test/templating/hello.ftl", "hello.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/hello.vm", "hello.vm");
       war.addResource("org/jboss/seam/rest/test/templating/university.ftl", "university.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/university.vm", "university.vm");
       war.addResource("org/jboss/seam/rest/test/templating/formal.ftl", "formal.ftl");
       war.addResource("org/jboss/seam/rest/test/templating/informal.ftl", "informal.ftl");
-      war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
-      war.addLibraries(LIBRARY_SEAM_SOLDER_API, LIBRARY_SEAM_SOLDER_IMPL);
-      war.addLibraries(LIBRARY_JBOSS_LOGGING, LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+      war.addLibrary(LIBRARY_SEAM_SOLDER);
+      war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
       war.addClasses(FreeMarkerResource.class, VelocityResource.class, MyApplication.class);
       return war;
    }
@@ -71,10 +70,7 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest
       jar.addPackage(TemplatingProvider.class.getPackage());
       jar.addPackage(FreeMarkerProvider.class.getPackage());
       jar.addPackage(VelocityProvider.class.getPackage());
-      // mock solder services
-      jar.addClasses(MockExpressions.class, Student.class, University.class, MockInterpolator.class);
-      // mock seam servlet services
-      jar.addClass(MockListener.class);
+      jar.addClasses(Student.class, University.class);
       return jar;
    }
 }
