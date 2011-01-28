@@ -27,15 +27,7 @@
 				<tbody>
 					<row>
 						<entry>Seam Solder</entry>
-						<entry>3.0.0.Beta1</entry>
-					</row>
-					<row>
-						<entry>Seam Servlet</entry>
-						<entry>3.0.0.Alpha3</entry>
-					</row>
-					<row>
-						<entry>JBoss Logging</entry>
-						<entry>3.0.0.Beta4</entry>
+						<entry>3.0.0.Beta2</entry>
 					</row>
 				</tbody>
 			</tgroup>

@@ -1,23 +1,21 @@
 Seam Tasks Example
 ==============================================================
 
+Deploying to JBoss AS 6
+======================
+mvn clean package
+cp target/seam-tasks.war $JBOSS_HOME/server/default/deploy
+$JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
 
 Deploying to Glassfish
 ======================
-mvn clean package
+mvn clean package -Pglassfish
 $GF_HOME/bin/asadmin start-database
 $GF_HOME/bin/asadmin start-domain
 $GF_HOME/bin/asadmin deploy target/seam-tasks.war
 
 
-Deploying to JBoss AS 6
-======================
-mvn clean package -Pjboss-as
-cp target/seam-tasks.war $JBOSS_HOME/server/default/deploy
-$JBOSS_HOME/bin/run.sh -c default
-
-
-Deploying to Resin
+Deploying to Resin (not currently supported)
 ======================
 mvn clean package -Presin
 cp target/seam-tasks.war $RESIN_HOME/webapps
@@ -26,7 +24,7 @@ $RESIN_HOME/bin/resin.sh start
 Running functional test from command line
 ======================
 build & deploy the application (using steps above)
-mvn -Pftest
+mvn verify -Pftest
 
 Running functional tests from Eclipse
 ======================

@@ -30,7 +30,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 /**
  * Container for {@link MethodMetadata}.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @ApplicationScoped

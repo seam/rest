@@ -47,7 +47,7 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * CRUD resource for resources
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Consumes({ "application/xml", "application/json" })

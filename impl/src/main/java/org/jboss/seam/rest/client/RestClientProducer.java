@@ -47,7 +47,7 @@ import org.jboss.seam.rest.util.Interpolator;
  * private ClientRequest request;
  * </code>
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @ApplicationScoped

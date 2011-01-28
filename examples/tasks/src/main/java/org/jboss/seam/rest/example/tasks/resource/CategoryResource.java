@@ -45,7 +45,7 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * CRUD resource for categories
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Path("/category/{category}")

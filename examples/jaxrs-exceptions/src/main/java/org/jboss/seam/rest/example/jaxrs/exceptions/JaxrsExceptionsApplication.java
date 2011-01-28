@@ -19,25 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest.example.jaxrs.exceptions;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
+@ApplicationPath("/api")
+public class JaxrsExceptionsApplication extends Application
 {
-   @Deployment
-   public static WebArchive createDeploymentWithCatch()
-   {
-      WebArchive war = createDeployment();
-      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
-      return war;
-   }
-   
-   @Test
-   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
-   {
-      test("http://localhost:8080/test/exceptions/ie", 415, null);
-   }
 }

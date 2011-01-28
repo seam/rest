@@ -29,7 +29,7 @@ import javax.enterprise.context.RequestScoped;
  * Holds objects used for rendering. Populate the underlying data map with
  * objects to be accessible within a template.
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @RequestScoped

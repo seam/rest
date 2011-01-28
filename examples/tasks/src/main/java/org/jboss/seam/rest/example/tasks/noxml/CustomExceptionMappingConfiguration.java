@@ -30,7 +30,7 @@ import org.jboss.seam.rest.exceptions.ExceptionMapping;
 /**
  * This is a configuration for Seam REST exception mapping. Activate this alternative if the XML
  * configuration cannot be used.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Alternative

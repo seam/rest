@@ -27,6 +27,7 @@ import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
@@ -46,7 +47,7 @@ import freemarker.template.TemplateException;
 /**
  * Converts the response object to a rendered FreeMarker template.
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  * 
  */
 @ApplicationScoped
@@ -56,7 +57,8 @@ public class FreeMarkerProvider implements TemplatingProvider
    @Inject
    private TemplatingModel model;
    @Inject
-   private Expressions expressions;
+   private Instance<Expressions> expressions;
+   // Instance is only needed because of a bug in GF
 
    public void init(ServletContext servletContext)
    {
@@ -74,7 +76,7 @@ public class FreeMarkerProvider implements TemplatingProvider
       try
       {
          OutputStreamWriter writer = new OutputStreamWriter(os);
-         template.process(new ModelWrapper(model.getData(), expressions), writer);
+         template.process(new ModelWrapper(model.getData(), expressions.get()), writer);
          writer.flush();
       }
       catch (TemplateException e)

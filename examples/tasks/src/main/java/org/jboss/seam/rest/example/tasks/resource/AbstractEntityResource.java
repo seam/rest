@@ -28,7 +28,7 @@ import org.jboss.seam.rest.example.tasks.entity.Category;
 
 /**
  * Common methods for entity resources
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public abstract class AbstractEntityResource

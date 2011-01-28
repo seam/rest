@@ -47,7 +47,7 @@ import javax.validation.groups.Default;
  * This behaviour can be altered using {@link #validateMessageBody()}, {@link #validateFormParameters()}
  * and {@link #validateResourceFields()} attributes. 
  * 
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Target( { TYPE, METHOD })

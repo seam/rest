@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 /**
  * Tests for the tasks page (tasks.html)
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class TaskPageTest extends AbstractTestCase

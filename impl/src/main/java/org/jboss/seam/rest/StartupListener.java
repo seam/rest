@@ -19,24 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test;
+package org.jboss.seam.rest;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-import javax.enterprise.inject.Alternative;
-import javax.enterprise.inject.Stereotype;
+import org.jboss.seam.rest.exceptions.RestResource;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Stereotype
-@Target({ TYPE })
-@Retention(RUNTIME)
-@Documented
-@Alternative
-public @interface Mock
+/**
+ * TODO: This listener will be replaced with Seam Servlet.
+ * Do not observe the event fired by this listener as it will be removed in future releases.
+ * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ *
+ */
+@WebListener
+public class StartupListener implements ServletContextListener
 {
+   @Inject @RestResource
+   private Event<ServletContext> event;
+   
+   @Override
+   public void contextInitialized(ServletContextEvent sce)
+   {
+      event.fire(sce.getServletContext());
+   }
 
+   @Override
+   public void contextDestroyed(ServletContextEvent sce)
+   {
+   }
 }

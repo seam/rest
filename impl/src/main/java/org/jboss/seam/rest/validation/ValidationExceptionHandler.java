@@ -29,7 +29,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * The default handler that converts ValidationException to an HTTP response.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @ApplicationScoped
