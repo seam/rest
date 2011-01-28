@@ -26,12 +26,16 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.rest.example.tasks.entity.Task;
 import org.jboss.seam.rest.templating.ResponseTemplate;
@@ -45,12 +49,23 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 @Path("/task")
 @RequestScoped
 @Named
-public class TaskCollectionResource extends AbstractCollectionResource
+public class TaskCollectionResource
 {
    @Inject
    private CollectionBean bean;
    @Inject
    private TaskResource taskSubresource;
+   @Context
+   protected UriInfo uriInfo;
+   @QueryParam("start")
+   @DefaultValue("0")
+   @Min(value = 0, message = "start must be a non-negative number")
+   protected int start;
+   @QueryParam("limit")
+   @DefaultValue("5")
+   @Min(value = 0, message = "limit must be a non-negative number")
+   @Max(value = 100, message = "Cannot return more than 100 items")
+   protected int limit;
    @Pattern(regexp = "resolved|unresolved|all", message="Unknown task status. Allowed values: resolved, unresolved, all")
    private String status;
 
