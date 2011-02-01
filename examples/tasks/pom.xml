@@ -14,6 +14,7 @@
 	<packaging>war</packaging>
 	<version>3.0.0-SNAPSHOT</version>
 	<name>Seam Tasks Example</name>
+	<url>http://seamframework.org/Seam3/RESTModule</url>
 
 	<properties>
 		<resteasy.version>2.1.0.GA</resteasy.version>
