@@ -31,7 +31,7 @@
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
 	</properties>
 
-	<url>http://www.seamframework.org</url>
+	<url>http://seamframework.org/Seam3/RESTModule</url>
 
 	<developers>
 		<developer>
