@@ -37,9 +37,9 @@ import javax.validation.Validator;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
+import org.jboss.seam.solder.reflection.PrimitiveTypes;
 
 @Interceptor
 @ValidateRequest
@@ -169,7 +169,10 @@ public class ValidationInterceptor implements Serializable
       {
          return false; // we only validate the message body and @Valid annotated parameters
       }
-      if (parameterType.getClass().isPrimitive() || Utils.isPrimitiveWrapper(parameterType) || String.class.isAssignableFrom(parameterType))
+      // check for primitive types and Strings
+      if (PrimitiveTypes.allPrimitiveTypes().contains(parameterType) || 
+            PrimitiveTypes.allWrapperTypes().contains(parameterType) || 
+            String.class.isAssignableFrom(parameterType))
       {
          log.warnv("Parameter {0} will not be validated as it is not a JavaBean.", parameterType);
          return false;

@@ -21,36 +21,10 @@
  */
 package org.jboss.seam.rest.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jboss.seam.solder.reflection.Reflections;
 
 public class Utils
 {
-   private static Set<Class<?>> WRAPPED_CLASSES = new HashSet<Class<?>>(); 
-      
-   {
-      WRAPPED_CLASSES.add(Boolean.class);
-      WRAPPED_CLASSES.add(Character.class);
-      WRAPPED_CLASSES.add(Byte.class);
-      WRAPPED_CLASSES.add(Short.class);
-      WRAPPED_CLASSES.add(Integer.class);
-      WRAPPED_CLASSES.add(Long.class);
-      WRAPPED_CLASSES.add(Float.class);
-      WRAPPED_CLASSES.add(Double.class);
-      WRAPPED_CLASSES.add(Void.class);
-   }
-
-   /**
-    * Returns true if and only it the clazz parameter is a primitive type wrapper. 
-    * (Boolean, Character, Byte, Short, Integer, Long, Float, Double or Void) 
-    */
-   public static boolean isPrimitiveWrapper(Class<?> clazz)
-   {
-      return WRAPPED_CLASSES.contains(clazz);
-   }
-   
    /**
     * Find out whether a given class is available on the classpath
     * @param className

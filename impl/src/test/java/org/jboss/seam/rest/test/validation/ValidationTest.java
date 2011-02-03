@@ -44,6 +44,7 @@ import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
+import org.jboss.seam.solder.reflection.PrimitiveTypes;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -83,6 +84,7 @@ public class ValidationTest
       jar.addClass(RestResource.class);
       jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
       jar.addClasses(Annotations.class, Utils.class);
+      jar.addClasses(PrimitiveTypes.class);
       return jar;
    }
 

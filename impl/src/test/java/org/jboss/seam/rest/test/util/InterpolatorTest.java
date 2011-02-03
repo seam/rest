@@ -26,11 +26,12 @@ import javax.inject.Inject;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.rest.test.Fox;
-import org.jboss.seam.rest.test.MockInterpolator;
+import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
@@ -42,11 +43,19 @@ public class InterpolatorTest
    private Interpolator interpolator;
    
    @Deployment
-   public static JavaArchive createDeployment()
+   public static WebArchive getDeployment()
+   {
+      return ShrinkWrap.create(WebArchive.class, "test.war")
+         .addWebResource(EmptyAsset.INSTANCE, "beans.xml")
+         .addLibrary(getJar())
+         .addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+   }
+   
+   public static JavaArchive getJar()
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
       jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-      jar.addClasses(MockInterpolator.class, Interpolator.class);
+      jar.addClasses(Interpolator.class);
       jar.addClass(Fox.class);
       return jar;
    }

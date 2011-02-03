@@ -41,7 +41,6 @@ import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.UnhandledException;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.ExpressionLanguageInterpolator;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
@@ -106,7 +105,7 @@ public abstract class SeamRestClientTest
       jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions api
       jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions impl
       jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
-      jar.addClasses(Annotations.class, Interpolator.class, Utils.class, ExpressionLanguageInterpolator.class); // .utils
+      jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
       return jar;
