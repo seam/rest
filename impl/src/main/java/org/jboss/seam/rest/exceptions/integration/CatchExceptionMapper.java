@@ -32,6 +32,7 @@ import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionToCatch;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.seam.exception.control.Precedence;
 import org.jboss.seam.exception.control.TraversalMode;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
@@ -78,7 +79,7 @@ public class CatchExceptionMapper extends SeamExceptionMapper implements Excepti
       return response.get();
    }
    
-   public void handleException(@Handles(precedence = -100, during = TraversalMode.DEPTH_FIRST) @RestRequest CaughtException<Throwable> event, @RestResource ResponseBuilder builder)
+   public void handleException(@Handles(precedence = Precedence.BUILT_IN, during = TraversalMode.DEPTH_FIRST) @RestRequest CaughtException<Throwable> event, @RestResource ResponseBuilder builder)
    {
       Class<? extends Throwable> exceptionType = event.getException().getClass();
       log.debugv("Handling {0}", exceptionType);

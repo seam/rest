@@ -84,4 +84,10 @@ public class FreeMarkerProvider implements TemplatingProvider
          throw new RuntimeException("Unable to write FreeMarker response.", e);
       }
    }
+   
+   @Override
+   public String toString()
+   {
+      return getClass().getName();
+   }
 }

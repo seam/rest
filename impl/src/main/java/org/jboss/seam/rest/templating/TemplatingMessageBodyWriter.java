@@ -87,7 +87,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
       {
          if (preferedTemplatingProvider == null)
          {
-            log.info("No TemplateProvider found. Templating support disabled.");
+            log.debug("No TemplateProvider found. Templating support disabled.");
             return;
          }
          else
@@ -103,7 +103,6 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
       }
       
       provider = instance.get();
-      log.infov("Seam REST Templating Extension enabled. Using {0}", provider.toString());
    }
    
    /**
@@ -174,5 +173,10 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
          }
       }
       return null;
+   }
+
+   public TemplatingProvider getProvider()
+   {
+      return provider;
    }
 }

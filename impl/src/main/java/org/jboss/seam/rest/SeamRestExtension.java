@@ -22,26 +22,16 @@
 package org.jboss.seam.rest;
 
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
-import org.jboss.logging.Logger;
-
 /**
- * Registers Seam REST components.
+ * Currently just vetoes {@link SeamRestConfiguration}.
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class SeamRestExtension implements Extension
 {
-   private static final Logger log = Logger.getLogger(SeamRestExtension.class);
-   
-   public void registerSeamRest(@Observes BeforeBeanDiscovery event)
-   {
-      log.info("Seam REST starting...");
-   }
-   
    /**
     * Veto SeamRestConfiguration class from bean discovery since we want it's subclasses to be beans,
     * not the class itself.
