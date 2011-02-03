@@ -28,6 +28,7 @@
 		<velocity.tools.version>2.0</velocity.tools.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
+		<emma.version>2.0.5312</emma.version>
 	</properties>
 
 	<url>http://seamframework.org/Seam3/RESTModule</url>

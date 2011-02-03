@@ -170,22 +170,33 @@
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
+						<artifactId>maven-dependency-plugin</artifactId>
 						<executions>
 							<execution>
 								<id>deploy-emma-jar</id>
 								<phase>process-test-sources</phase>
 								<goals>
-									<goal>run</goal>
+									<goal>copy</goal>
 								</goals>
 								<configuration>
-									<tasks>
-										<echo message="Deploying emma jar to server lib directory" />
-										<copy file="${emma.jar.file}" todir="${env.JBOSS_HOME}/server/default/lib"
-											overwrite="true" />
-									</tasks>
+									<artifactItems>
+										<artifactItem>
+											<groupId>emma</groupId>
+											<artifactId>emma</artifactId>
+											<version>${emma.version}</version>
+											<type>jar</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${env.JBOSS_HOME}/server/default/lib</outputDirectory>
+										</artifactItem>
+									</artifactItems>
 								</configuration>
 							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
 							<execution>
 								<id>retrieve-coverage-file</id>
 								<phase>test</phase>
@@ -196,15 +207,23 @@
 									<tasks>
 										<move file="${env.JBOSS_HOME}/bin/coverage.ec" todir="${basedir}"
 											failonerror="false" />
+									</tasks>
+								</configuration>
+							</execution>
+							<execution>
+								<id>remove-coverage-files</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
 										<delete file="${basedir}/transaction.log" failonerror="false" />
+										<delete file="${basedir}/coverage.ec" failonerror="false" />
 									</tasks>
 								</configuration>
 							</execution>
 						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>emma-maven-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.sonatype.maven.plugin</groupId>
