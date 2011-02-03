@@ -169,7 +169,7 @@ public class ValidationInterceptor implements Serializable
       {
          return false; // we only validate the message body and @Valid annotated parameters
       }
-      if (Utils.isPrimitiveWrapper(parameterType) || String.class.isAssignableFrom(parameterType))
+      if (parameterType.getClass().isPrimitive() || Utils.isPrimitiveWrapper(parameterType) || String.class.isAssignableFrom(parameterType))
       {
          log.warnv("Parameter {0} will not be validated as it is not a JavaBean.", parameterType);
          return false;
