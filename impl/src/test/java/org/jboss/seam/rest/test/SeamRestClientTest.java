@@ -30,6 +30,7 @@ import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
+import org.jboss.seam.rest.SeamRestExtension;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.exceptions.ErrorMessageWrapper;
 import org.jboss.seam.rest.exceptions.ExceptionMapping;
@@ -100,7 +101,7 @@ public abstract class SeamRestClientTest
    public static JavaArchive createSeamRest()
    {
       JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
-      jar.addPackage(SeamRestConfiguration.class.getPackage());
+      jar.addClasses(SeamRestConfiguration.class, SeamRestExtension.class);
       jar.addPackage(RestClient.class.getPackage()); // .client
       jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions api
       jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions impl
@@ -108,6 +109,8 @@ public abstract class SeamRestClientTest
       jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+      // mock SeamRestStartup
+      jar.addClass(MockStartup.class);
       return jar;
    }
 }
