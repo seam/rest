@@ -23,6 +23,7 @@ package org.jboss.seam.rest.client;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
@@ -30,8 +31,8 @@ import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.seam.rest.client.RestClient;
-import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.solder.reflection.AnnotationInspector;
 
 /**
  * Produces REST Clients
@@ -55,6 +56,8 @@ public class RestClientProducer
 {
    @Inject
    private Interpolator interpolator;
+   @Inject
+   private BeanManager manager;
    
    /**
     * Producer method for proxied JAX-RS interfaces - REST Clients
@@ -63,7 +66,7 @@ public class RestClientProducer
     */
    public Object produceRestClient(InjectionPoint ip, ClientExecutor executor)
    {
-      RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
+      RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
       
       if (qualifier == null || ! (ip.getType() instanceof Class<?>))
       {
@@ -81,7 +84,7 @@ public class RestClientProducer
    @Produces @RestClient("")
    public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor)
    {
-      RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
+      RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
       
       if (qualifier == null)
       {

@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -39,6 +40,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
+import org.jboss.seam.solder.reflection.AnnotationInspector;
 import org.jboss.seam.solder.reflection.PrimitiveTypes;
 
 @Interceptor
@@ -53,6 +55,8 @@ public class ValidationInterceptor implements Serializable
    private Validator validator;
    @Inject
    private ValidationMetadata metadata;
+   @Inject
+   private BeanManager manager;
 
    /**
     * Intercepts method invocations to <code>@ValidateRequest</code> annotated methods.
@@ -148,7 +152,13 @@ public class ValidationInterceptor implements Serializable
 
    private ValidateRequest getInterceptorBinding(Method method)
    {
-      ValidateRequest interceptorBinding = Annotations.getAnnotation(method, ValidateRequest.class);
+      // check for @ValidateRequest on method
+      ValidateRequest interceptorBinding = AnnotationInspector.getAnnotation(method, ValidateRequest.class, manager);
+      // check for @ValidateRequest on class
+      if (interceptorBinding == null)
+      {
+         interceptorBinding = AnnotationInspector.getAnnotation(method.getDeclaringClass(), ValidateRequest.class, manager);
+      }
       if (interceptorBinding == null)
       {
          log.debugv("Unable to find @ValidateRequest interceptor binding for {0}", method.toGenericString());

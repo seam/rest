@@ -36,8 +36,8 @@ import javax.enterprise.inject.spi.ProcessBean;
 import javax.enterprise.inject.spi.ProcessManagedBean;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
+import org.jboss.seam.solder.reflection.AnnotationInspector;
 /**
  * The Seam REST Client extension provides injection of
  * <ul>
@@ -81,7 +81,7 @@ public class RestClientExtension implements Extension
     * 
     * where T is a JAX-RS annotated interface and builds a collection of these types.
     */
-   public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event)
+   public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event, BeanManager manager)
    {
       if (!enabled)
       {
@@ -90,7 +90,7 @@ public class RestClientExtension implements Extension
       
       for (InjectionPoint ip : event.getBean().getInjectionPoints())
       {
-         RestClient qualifier = Annotations.getAnnotation(ip.getQualifiers(), RestClient.class);
+         RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
          
          if (qualifier != null)
          {
