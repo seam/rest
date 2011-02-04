@@ -26,7 +26,7 @@ import java.util.Set;
 
 /**
  * Caches method metadata needed to perform validation of JAX-RS requests.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class MethodMetadata

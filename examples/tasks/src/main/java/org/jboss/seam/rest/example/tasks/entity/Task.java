@@ -45,7 +45,7 @@ import org.jboss.seam.rest.example.tasks.json.JsonDateSerializer;
 
 /**
  * 
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  * 
  */
 @Entity

@@ -21,6 +21,7 @@
  */
 package org.jboss.seam.rest.test.client;
 
+import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
@@ -28,11 +29,12 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.seam.rest.test.MockInterpolator;
+import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.solder.bean.Beans;
 import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -52,19 +54,17 @@ public class RestClientTest
       war.addPackage(RestClientTest.class.getPackage()); // test classes
       war.addPackage(Beans.class.getPackage());
       war.addClass(DefaultLiteral.class);
-      war.addWebResource("WEB-INF/beans.xml", "classes/META-INF/beans.xml");
-      war.addWebResource("org/jboss/seam/rest/test/client/web.xml", "web.xml");
+      war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+      war.addWebResource("WEB-INF/web.xml", "web.xml");
       war.addLibrary(getSeamRest());
-      war.addLibraries(SeamRestClientTest.LIBRARY_SEAM_SOLDER_API, SeamRestClientTest.LIBRARY_SEAM_SOLDER_IMPL);
+      war.addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
       return war;
    }
 
    public static JavaArchive getSeamRest()
    {
       JavaArchive jar = SeamRestClientTest.createSeamRest();
-      // mock solder services
-      jar.addClasses(MockInterpolator.class);
-      jar.addManifestResource("org/jboss/seam/rest/test/client/javax.enterprise.inject.spi.Extension", "services/javax.enterprise.inject.spi.Extension");
+      jar.addServiceProvider(Extension.class, RestClientExtension.class);
       return jar;
    }
 

@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 /**
  * Tests for the category page (categories.html)
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class CategoryPageTest extends AbstractTestCase

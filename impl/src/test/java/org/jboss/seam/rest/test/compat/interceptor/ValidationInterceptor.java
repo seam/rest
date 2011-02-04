@@ -19,25 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.exceptions;
+package org.jboss.seam.rest.test.compat.interceptor;
 
-import org.jboss.arquillian.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
 
-public class CatchExceptionMappingTest extends BuiltinExceptionMappingTest
+@Interceptor
+@Valid
+public class ValidationInterceptor
 {
-   @Deployment
-   public static WebArchive createDeploymentWithCatch()
+   @AroundInvoke
+   public Object intercept(InvocationContext ctx) throws Exception
    {
-      WebArchive war = createDeployment();
-      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
-      return war;
-   }
-   
-   @Test
-   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
-   {
-      test("http://localhost:8080/test/exceptions/ie", 415, null);
+      return "Validated " + ctx.proceed();
    }
 }

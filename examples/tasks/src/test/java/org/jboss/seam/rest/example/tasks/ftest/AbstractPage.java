@@ -29,7 +29,7 @@ import static org.jboss.test.selenium.locator.LocatorFactory.jq;
 
 /**
  * This abstract page class contains common methods for all the pages.
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public abstract class AbstractPage

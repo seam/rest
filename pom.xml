@@ -16,6 +16,7 @@
 
 	<properties>
 		<seam.version>3.0.0.b07</seam.version>
+		<seam.catch.version>3.0.0.Beta1</seam.catch.version>
 		<javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
 		<javax.ws.rs.version>1.1.1</javax.ws.rs.version>
 		<httpclient.version>3.1</httpclient.version>
@@ -27,9 +28,10 @@
 		<velocity.tools.version>2.0</velocity.tools.version>
 		<glassfish.embedded.version>3.0.1</glassfish.embedded.version>
 		<glassfish.deployment.version>3.0.1-b19</glassfish.deployment.version>
+		<emma.version>2.0.5312</emma.version>
 	</properties>
 
-	<url>http://www.seamframework.org</url>
+	<url>http://seamframework.org/Seam3/RESTModule</url>
 
 	<developers>
 		<developer>
@@ -65,6 +67,19 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.jboss.seam.catch</groupId>
+				<artifactId>seam-catch-api</artifactId>
+				<scope>compile</scope>
+				<version>${seam.catch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.catch</groupId>
+				<artifactId>seam-catch-impl</artifactId>
+				<scope>compile</scope>
+				<version>${seam.catch.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>jsr311-api</artifactId>
 				<scope>provided</scope>
@@ -81,7 +96,7 @@
 				<artifactId>seam-rest-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -101,7 +116,7 @@
 				<artifactId>velocity-tools</artifactId>
 				<version>${velocity.tools.version}</version>
 			</dependency>
-			
+
 			<!-- Test dependencies -->
 			<dependency>
 				<groupId>commons-httpclient</groupId>

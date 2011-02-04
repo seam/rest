@@ -14,9 +14,10 @@
 	<packaging>war</packaging>
 	<version>3.0.0-SNAPSHOT</version>
 	<name>Seam Tasks Example</name>
+	<url>http://seamframework.org/Seam3/RESTModule</url>
 
 	<properties>
-		<resteasy.version>2.0.1.GA</resteasy.version>
+		<resteasy.version>2.1.0.GA</resteasy.version>
 		<!-- test properties -->
 		<selenium.java.client.version>1.0.1</selenium.java.client.version>
 		<richfaces.selenium.version>1.5.1.Final</richfaces.selenium.version>
@@ -53,18 +54,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.jboss.seam.servlet</groupId>
-			<artifactId>seam-servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.servlet</groupId>
-			<artifactId>seam-servlet-impl</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	
 		<!-- APIs -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
@@ -93,13 +82,24 @@
 		<dependency>
 			<groupId>org.jboss.seam.config</groupId>
 			<artifactId>seam-config-xml</artifactId>
+			<!-- Because we use the combined jar -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.seam.solder</groupId>
+					<artifactId>seam-solder-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.seam.solder</groupId>
+					<artifactId>seam-solder-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam.rest</groupId>
 			<artifactId>seam-rest-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.seam.rest</groupId>
 			<artifactId>seam-rest-impl</artifactId>
@@ -118,16 +118,6 @@
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<scope>compile</scope>
-		</dependency>
-
-		<!-- WELDX depends on this -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -196,44 +186,6 @@
 			<id>jboss-remote-6</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<configuration>
-							<container>
-								<containerId>jboss5x</containerId>
-								<type>remote</type>
-							</container>
-							<configuration>
-								<type>runtime</type>
-							</configuration>
-						</configuration>
-						<executions>
-							<execution>
-								<id>deploy</id>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>undeploy</id>
-								<phase>post-integration-test</phase>
-								<goals>
-									<goal>undeploy</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>ftest-jboss-remote-6</id>
-			<build>
-				<plugins>
-					<!-- Deploy/undeploy -->
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
@@ -467,36 +419,9 @@
 
 		<profile>
 			<id>jboss-as</id>
-			<!-- Excluded dependencies -->
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.logging</groupId>
-					<artifactId>jboss-logging</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-jaxrs</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-xc</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-					<scope>provided</scope>
-				</dependency>
-
-			</dependencies>
-
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -513,6 +438,24 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>glassfish</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+
 		<profile>
 			<id>distribution</id>
 			<activation>

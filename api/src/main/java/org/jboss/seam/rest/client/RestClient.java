@@ -37,7 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Qualifier for injecting REST client and <code>ClientRequest</code> instances.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Target({ FIELD, ANNOTATION_TYPE, METHOD, PARAMETER })

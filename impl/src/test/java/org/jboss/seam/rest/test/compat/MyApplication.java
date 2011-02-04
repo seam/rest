@@ -19,28 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.test.templating;
+package org.jboss.seam.rest.test.compat;
 
-import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
-
-@WebListener
-public class MockListener implements ServletContextListener
+@ApplicationPath("/api")
+public class MyApplication extends Application
 {
-   @Inject
-   private TemplatingMessageBodyWriter writer;
-
-   public void contextInitialized(ServletContextEvent sce)
-   {
-      writer.init(sce.getServletContext());
-   }
-
-   public void contextDestroyed(ServletContextEvent sce)
-   {
-   }
-
 }

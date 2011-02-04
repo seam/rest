@@ -13,4 +13,5 @@
 
 	<packaging>jar</packaging>
 	<name>Seam REST Module API</name>
+	<url>http://seamframework.org/Seam3/RESTModule</url>
 </project>

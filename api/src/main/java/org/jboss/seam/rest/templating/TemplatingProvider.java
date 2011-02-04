@@ -32,7 +32,7 @@ import javax.ws.rs.core.MultivaluedMap;
 /**
  * Implementations of this interface represent integration points for various
  * templating engines.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public interface TemplatingProvider

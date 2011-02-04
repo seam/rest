@@ -25,7 +25,7 @@ import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.wait
 
 /**
  * Page object for the category page (categories.html)
- * @author Jozef Hartinger
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class CategoryPage extends AbstractPage

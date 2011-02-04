@@ -3,4 +3,11 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+         
+    <!-- This is required for the tests to run on RESTEasy -->
+	<context-param>
+		<param-name>javax.ws.rs.Application</param-name>
+		<param-value>org.jboss.seam.rest.test.exceptions.MyApplication</param-value>
+	</context-param>
+         
 </web-app>

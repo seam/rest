@@ -41,13 +41,13 @@ import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
-import org.jboss.seam.servlet.event.Initialized;
+import org.jboss.seam.rest.exceptions.RestResource;
 
 /**
  * TemplatingMessageBodyWriter is enabled for every JAX-RS method annotated
  * with <code>@ResponseTemplate</code> annotation and delegates response production to the
  * {@link TemplatingProvider}.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 @Provider
@@ -109,7 +109,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object>
    /**
     * Initializes the <code>TemplatingProvider</code> if available.
     */
-   public void init(@Observes @Initialized ServletContext context)
+   public void init(@Observes @RestResource ServletContext context)
    {
       if (provider != null)
       {

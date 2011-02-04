@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * A qualifier used to distinguish Seam Catch handler methods that are appropriate for a REST resource request.
  *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

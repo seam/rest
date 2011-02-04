@@ -42,7 +42,7 @@ import org.jboss.seam.solder.bean.Beans;
 /**
  * We need to create a producer method with the type closure discovered at boot time.
  * Therefore, the producer method has to be registered by extension.
- * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  *
  */
 public class RestClientProducerBean extends AbstractImmutableBean<Object>
