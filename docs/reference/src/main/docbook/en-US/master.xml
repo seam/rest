@@ -7,12 +7,12 @@
 
    <toc />
 
-   <xi:include href="preface.xml" />
-   <xi:include href="installation.xml" />
-   <xi:include href="exception-mapping.xml" />
-   <xi:include href="validation.xml" />
-   <xi:include href="templating.xml" />
-   <xi:include href="client.xml" />
-   <xi:include href="dependencies.xml" />
+   <xi:include href="rest-preface.xml" />
+   <xi:include href="rest-installation.xml" />
+   <xi:include href="rest-exception-mapping.xml" />
+   <xi:include href="rest-validation.xml" />
+   <xi:include href="rest-templating.xml" />
+   <xi:include href="rest-client.xml" />
+   <xi:include href="rest-dependencies.xml" />
 
 </book>
