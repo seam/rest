@@ -67,7 +67,7 @@ public class SeamRestStartup implements ServletContextListener
             restClientExtension.isClientIntegrationEnabled() ? "enabled" : "disabled",
             exceptionMappingExtension.isCatchIntegrationEnabled()  ? "enabled" : "disabled",
             exceptionMapper.getMappings().size(),
-            templating.getProvider().toString());
+            templating.getProvider() == null ? "null" : templating.getProvider().toString());
    }
 
    @Override
