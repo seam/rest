@@ -23,10 +23,11 @@ package org.jboss.seam.rest.templating;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import javax.el.PropertyNotFoundException;
-
-import org.jboss.seam.solder.el.Expressions;
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 
 /**
  * Wraps TemplatingModel to allow objects to be referenced via EL in templates.
@@ -35,13 +36,13 @@ import org.jboss.seam.solder.el.Expressions;
  */
 public class ModelWrapper extends HashMap<String, Object>
 {
-   private static final long serialVersionUID = 592237516146690931L;
-   private Expressions expressions;
+   private static final long serialVersionUID = -4511289530418970162L;
+   private BeanManager manager;
    
-   public ModelWrapper(Map<String, Object> model, Expressions expressions)
+   public ModelWrapper(Map<String, Object> model, BeanManager manager)
    {
       super(model);
-      this.expressions = expressions;
+      this.manager = manager;
    }
 
    @Override
@@ -53,19 +54,16 @@ public class ModelWrapper extends HashMap<String, Object>
       }
       if (key instanceof String)
       {
-         try
+         String name = (String) key;
+         Set<Bean<?>> beans = manager.getBeans(name);
+         if (!beans.isEmpty())
          {
-            String elExpression = expressions.toExpression((String) key);
-            return expressions.evaluateValueExpression(elExpression);
-         }
-         catch (PropertyNotFoundException e)
-         {
-            /* we need to return null in certain situations, for example
-             * 
-             * #foreach(${student} in ${university.students})
-             *
-             * asks for ${student} before considering the foreach "student" variable  
-             */
+            Bean<?> bean = manager.resolve(beans);
+            if (bean != null)
+            {
+               CreationalContext<?> ctx = manager.createCreationalContext(bean);
+               return manager.getReference(bean, bean.getBeanClass(), ctx);
+            }
          }
       }
       return null;

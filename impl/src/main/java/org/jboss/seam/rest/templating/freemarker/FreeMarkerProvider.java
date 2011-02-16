@@ -27,7 +27,7 @@ import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +37,6 @@ import org.jboss.seam.rest.templating.ModelWrapper;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
-import org.jboss.seam.solder.el.Expressions;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -57,8 +56,7 @@ public class FreeMarkerProvider implements TemplatingProvider
    @Inject
    private TemplatingModel model;
    @Inject
-   private Instance<Expressions> expressions;
-   // Instance is only needed because of a bug in GF
+   private BeanManager manager;
 
    public void init(ServletContext servletContext)
    {
@@ -76,7 +74,7 @@ public class FreeMarkerProvider implements TemplatingProvider
       try
       {
          OutputStreamWriter writer = new OutputStreamWriter(os);
-         template.process(new ModelWrapper(model.getData(), expressions.get()), writer);
+         template.process(new ModelWrapper(model.getData(), manager), writer);
          writer.flush();
       }
       catch (TemplateException e)

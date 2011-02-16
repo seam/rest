@@ -28,7 +28,7 @@ import java.lang.annotation.Annotation;
 import java.util.Properties;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +41,6 @@ import org.jboss.seam.rest.templating.ModelWrapper;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
-import org.jboss.seam.solder.el.Expressions;
 
 /**
  * Renders response using Apache Velocity.
@@ -54,7 +53,7 @@ public class VelocityProvider implements TemplatingProvider
    @Inject
    private TemplatingModel model;
    @Inject
-   private Instance<Expressions> expressions;
+   private BeanManager manager;
    // Instance is only needed because of a bug in GF
    
    public void init(ServletContext servletContext)
@@ -68,7 +67,7 @@ public class VelocityProvider implements TemplatingProvider
 
    public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
    {
-      ModelWrapper model = new ModelWrapper(this.model.getData(), expressions.get());
+      ModelWrapper model = new ModelWrapper(this.model.getData(), manager);
       model.put(annotation.responseName(), o);
       
       Template template = null;
