@@ -7,6 +7,8 @@ mvn clean package
 cp target/seam-tasks.war $JBOSS_HOME/server/default/deploy
 $JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
 
+To turn on Seam Catch integration, use -Pcatch (e.g. mvn clean package -Pcatch)
+
 Deploying to Glassfish
 ======================
 mvn clean package -Pglassfish
