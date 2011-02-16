@@ -1,19 +1,19 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:s="urn:java:ee" xmlns:rest="urn:java:org.jboss.seam.rest" xmlns:exceptions="urn:java:org.jboss.seam.rest.exceptions">
+	xmlns:s="urn:java:ee" xmlns:rest="urn:java:org.jboss.seam.rest:org.jboss.seam.rest.exceptions">
 	xsi:schemaLocation="
 	http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 	<rest:SeamRestConfiguration>
 		<rest:mappings>
 			<s:value>
-				<exceptions:Mapping exceptionType="java.lang.StringIndexOutOfBoundsException" statusCode="500"/>
+				<rest:Mapping exceptionType="java.lang.StringIndexOutOfBoundsException" statusCode="500"/>
 			</s:value>
 			<s:value>
-				<exceptions:Mapping exceptionType="java.lang.ArrayIndexOutOfBoundsException" 
+				<rest:Mapping exceptionType="java.lang.ArrayIndexOutOfBoundsException" 
 				statusCode="500" message="ArrayIndexOutOfBoundsException was thrown."/>
 			</s:value>
 			<s:value>
-				<exceptions:Mapping exceptionType="java.lang.IndexOutOfBoundsException"
+				<rest:Mapping exceptionType="java.lang.IndexOutOfBoundsException"
 				statusCode="500" message="An exception was thrown. The date is: #{date}"/>
 			</s:value>
 		</rest:mappings>

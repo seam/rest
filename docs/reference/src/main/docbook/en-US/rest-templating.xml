@@ -219,10 +219,8 @@ public University getUniversity()
 
 			<example>
 				<title>Prefered provider</title>
-				<programlisting role="XML"><![CDATA[<beans xmlns:templating="urn:java:org.jboss.seam.rest.templating">
-	<templating:TemplatingMessageBodyWriter preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
-		<s:modifies />
-	</templating:TemplatingMessageBodyWriter>
+				<programlisting role="XML"><![CDATA[<beans xmlns:rest="urn:java:org.jboss.seam.rest:org.jboss.seam.rest.exceptions">
+	<rest:SeamRestConfiguration preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
 </beans>]]></programlisting>
 			</example>
 

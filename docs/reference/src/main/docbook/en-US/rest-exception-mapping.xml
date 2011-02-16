@@ -267,14 +267,14 @@ public MyApplication extends Application {]]></programlisting>
 				<programlisting role="XML"><![CDATA[<rest:SeamRestConfiguration>
 	<rest:mappings>
 		<s:value>
-			<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-				<exceptions:message>Requested resource does not exist.</exceptions:message>
-			</exceptions:Mapping>
+			<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+				<rest:message>Requested resource does not exist.</rest:message>
+			</rest:Mapping>
 		</s:value>
 		<s:value>
-			<exceptions:Mapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
-				<exceptions:message>Illegal value.</exceptions:message>
-			</exceptions:Mapping>
+			<rest:Mapping exceptionType="java.lang.IllegalArgumentException" statusCode="400">
+				<rest:message>Illegal value.</rest:message>
+			</rest:Mapping>
 		</s:value>
 	</rest:mappings>
 </rest:SeamRestConfiguration>]]></programlisting>
@@ -286,9 +286,9 @@ public MyApplication extends Application {]]></programlisting>
 		</para>
 			<example>
 				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<exceptions:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
-	<exceptions:message>Requested resource (#{uriInfo.path}) does not exist.</exceptions:message>
-</exceptions:Mapping>]]></programlisting>
+				<programlisting role="XML"><![CDATA[<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+	<rest:message>Requested resource (#{uriInfo.path}) does not exist.</rest:message>
+</rest:Mapping>]]></programlisting>
 			</example>
 		</sect2>
 
