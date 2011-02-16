@@ -99,6 +99,7 @@ public class TaskResource extends AbstractEntityResource
    public void deleteTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo)
    {
       Task task = loadTask(taskId, uriInfo);
+      task.getCategory().getTasks().remove(task);
       em.remove(task);
    }
 
