@@ -19,29 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics;
+package org.jboss.seam.rest.tasks.statistics.geo;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
-import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.resteasy.client.core.ClientErrorInterceptor;
-
-public class ErrorInterceptor implements ClientErrorInterceptor
+/**
+ * Very very simplified interface of 
+ * <a href="http://www.geonames.org/export/web-services.html#postalCodeSearch">http://www.geonames.org/export/web-services.html#postalCodeSearch</a>
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
+ *
+ */
+@Produces("application/xml")
+public interface GeonamesService
 {
-   public static final FacesMessage NOT_FOUND = new FacesMessage("Remote service not found. (404)");
-   public static final FacesMessage ERROR = new FacesMessage("Error connecting to remote server.");
-   
-   public void handle(ClientResponse<?> response) throws RuntimeException
-   {
-      if (Status.NOT_FOUND.equals(response.getResponseStatus()))
-      {
-         FacesContext.getCurrentInstance().addMessage(null, NOT_FOUND);
-      }
-      else
-      {
-         FacesContext.getCurrentInstance().addMessage(null, ERROR);
-      }
-   }
+   @Path("/postalCodeSearch")
+   @GET
+   SearchResult searchZip(@QueryParam("postalcode") String postalCode, @QueryParam("maxRows") int maxRows, @QueryParam("username") String username);
 }

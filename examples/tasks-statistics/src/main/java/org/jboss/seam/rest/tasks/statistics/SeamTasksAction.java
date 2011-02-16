@@ -30,15 +30,17 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.tasks.statistics.entity.Category;
 import org.jboss.seam.rest.tasks.statistics.entity.Task;
 
 @RequestScoped
 @Named("client")
-public class SeamTasksClient
+public class SeamTasksAction
 {
+   private static final Logger log = Logger.getLogger(SeamTasksAction.class);
+   
    @Inject
    @RestClient("http://localhost:8080/seam-tasks")
    private SeamTasksService service;
@@ -52,13 +54,6 @@ public class SeamTasksClient
 
    public String loadStatistics()
    {
-      /*
-       * would be nice to search for ClientErrorInterceptors automatically and register them, however
-       * - Extensions cannot depend on RESTEasy
-       * - RESTEasy is lazily initialized in JBoss AS - if it gets initialized after we register the interceptors, they disappear
-       */
-      ResteasyProviderFactory.getInstance().addClientErrorInterceptor(new ErrorInterceptor());
-
       List<Category> categories;
       List<Task> tasksResponse;
       
@@ -69,6 +64,7 @@ public class SeamTasksClient
       }
       catch (Exception e)
       {
+         log.warn(e.getMessage());
          return null; // faces messages are added by the ErrorInterceptor
       }
 
