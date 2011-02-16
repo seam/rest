@@ -40,6 +40,15 @@
 		<version>${seam.rest.version}</version> 
 </dependency>]]></programlisting>
 		</example>
+		
+		<tip>
+         <para>
+            Substitute the expression ${seam.rest.version} with the most recent or appropriate version of Seam Catch.
+            Alternatively, you can create a <ulink 
+            url="http://www.sonatype.com/books/mvnref-book/reference/resource-filtering-sect-properties.html#resource-filtering-sect-user-defined">Maven
+            user-defined property</ulink> to satisfy this substitution so you can centrally manage the version.
+         </para>
+      </tip>
 	</sect1>
 
 	<sect1>
