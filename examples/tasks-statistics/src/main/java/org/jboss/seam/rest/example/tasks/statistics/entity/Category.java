@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics.entity;
+package org.jboss.seam.rest.example.tasks.statistics.entity;
 
 import java.util.List;
 import javax.validation.constraints.NotNull;

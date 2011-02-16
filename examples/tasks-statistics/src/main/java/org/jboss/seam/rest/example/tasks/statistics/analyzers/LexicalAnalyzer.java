@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics.analyzers;
+package org.jboss.seam.rest.example.tasks.statistics.analyzers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,8 +30,8 @@ import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 
-import org.jboss.seam.rest.tasks.statistics.ReportResultEvent;
-import org.jboss.seam.rest.tasks.statistics.entity.Task;
+import org.jboss.seam.rest.example.tasks.statistics.ReportResultEvent;
+import org.jboss.seam.rest.example.tasks.statistics.entity.Task;
 
 @RequestScoped
 public class LexicalAnalyzer

@@ -19,60 +19,41 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics.geo;
+package org.jboss.seam.rest.example.tasks.statistics.analyzers;
 
+import java.util.Date;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.enterprise.event.Observes;
 
-import org.jboss.logging.Logger;
-import org.jboss.seam.rest.client.RestClient;
+import org.jboss.seam.rest.example.tasks.statistics.ReportResultEvent;
+import org.jboss.seam.rest.example.tasks.statistics.entity.Task;
 
-@Named
 @RequestScoped
-public class SearchAction
+public class HistoryAnalyzer
 {
-   private static final Logger log = Logger.getLogger(SearchAction.class);
+   private Task oldestUnresolvedTask;
+
+   @PostConstruct
+   public void init()
+   {
+      // just in case there are no tasks
+      oldestUnresolvedTask = new Task();
+      oldestUnresolvedTask.setUpdated(new Date());
+      oldestUnresolvedTask.setName("No tasks");
+   }
    
-   @Inject
-   @RestClient("http://api.geonames.org")
-   private GeonamesService api;
-
-   private String query;
-   private SearchResult locations;
-
-   public String search()
+   public void processTask(@Observes Task task)
    {
-      try
+      if (!task.isResolved() && task.getUpdated().before(oldestUnresolvedTask.getUpdated()))
       {
-         locations = api.searchZip(query, 20, "demo");
+         oldestUnresolvedTask = task;
       }
-      catch (Throwable e)
-      {
-         log.warn(e.getMessage());
-         // stay on the same page - a faces message is added by ErrorInterceptor
-         return null;
-      }
-      return "search";
    }
-
-   public String getQuery()
+   
+   public void reportResult(@Observes ReportResultEvent result)
    {
-      return query;
+      result.addResult("The oldest unresolved task:", oldestUnresolvedTask.getName());
    }
-
-   public void setQuery(String query)
-   {
-      this.query = query;
-   }
-
-   @Produces
-   @RequestScoped
-   @Named
-   public SearchResult getLocations()
-   {
-      return locations;
-   }
-
 }

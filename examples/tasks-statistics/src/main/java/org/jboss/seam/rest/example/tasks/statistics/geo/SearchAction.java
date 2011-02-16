@@ -19,41 +19,60 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics.analyzers;
+package org.jboss.seam.rest.example.tasks.statistics.geo;
 
-import java.util.Date;
-
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import org.jboss.seam.rest.tasks.statistics.ReportResultEvent;
-import org.jboss.seam.rest.tasks.statistics.entity.Task;
+import org.jboss.logging.Logger;
+import org.jboss.seam.rest.client.RestClient;
 
+@Named
 @RequestScoped
-public class HistoryAnalyzer
+public class SearchAction
 {
-   private Task oldestUnresolvedTask;
+   private static final Logger log = Logger.getLogger(SearchAction.class);
+   
+   @Inject
+   @RestClient("http://api.geonames.org")
+   private GeonamesService api;
 
-   @PostConstruct
-   public void init()
+   private String query;
+   private SearchResult locations;
+
+   public String search()
    {
-      // just in case there are no tasks
-      oldestUnresolvedTask = new Task();
-      oldestUnresolvedTask.setUpdated(new Date());
-      oldestUnresolvedTask.setName("No tasks");
-   }
-   
-   public void processTask(@Observes Task task)
-   {
-      if (!task.isResolved() && task.getUpdated().before(oldestUnresolvedTask.getUpdated()))
+      try
       {
-         oldestUnresolvedTask = task;
+         locations = api.searchZip(query, 20, "demo");
       }
+      catch (Throwable e)
+      {
+         log.warn(e.getMessage());
+         // stay on the same page - a faces message is added by ErrorInterceptor
+         return null;
+      }
+      return "search";
    }
-   
-   public void reportResult(@Observes ReportResultEvent result)
+
+   public String getQuery()
    {
-      result.addResult("The oldest unresolved task:", oldestUnresolvedTask.getName());
+      return query;
    }
+
+   public void setQuery(String query)
+   {
+      this.query = query;
+   }
+
+   @Produces
+   @RequestScoped
+   @Named
+   public SearchResult getLocations()
+   {
+      return locations;
+   }
+
 }

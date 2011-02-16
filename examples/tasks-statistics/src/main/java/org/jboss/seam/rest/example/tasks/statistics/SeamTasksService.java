@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.rest.tasks.statistics;
+package org.jboss.seam.rest.example.tasks.statistics;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.jboss.seam.rest.tasks.statistics.entity.Category;
-import org.jboss.seam.rest.tasks.statistics.entity.Task;
+import org.jboss.seam.rest.example.tasks.statistics.entity.Category;
+import org.jboss.seam.rest.example.tasks.statistics.entity.Task;
 
 @Path("/api")
 @Produces("application/json")
