@@ -10,6 +10,19 @@ between Java EE 6 environments.
 Release Notes
 =============
 
+3.0.0.CR1
+** Bug
+    * [SEAMREST-13] - Removing of a task fails with an exception on JBoss AS
+    * [SEAMREST-24] - Manifest.mf files in jars generated from the module contain unreachable Implementation-URL
+** Feature Request
+    * [SEAMREST-20] - Provide better boot message
+    * [SEAMREST-21] - seam-tasks-statistics overhaul
+    * [SEAMREST-27] - Register ClientErrorInterceptors automatically
+** Task
+    * [SEAMREST-25] - Use Solder's @Requires for optional beans
+    * [SEAMREST-31] - Rewrite templating providers so that they do not depend on Solder's Expressions
+    * [SEAMREST-32] - Move tasks statistics to package org.jboss.seam.rest.example.tasks.statistics
+
 3.0.0.Alpha3
 ** Feature Request
     * [SEAMREST-9] - Add support for @Valid
