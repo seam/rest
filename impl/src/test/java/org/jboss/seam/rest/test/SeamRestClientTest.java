@@ -43,8 +43,7 @@ public abstract class SeamRestClientTest
    public static final File LIBRARY_SLF4J_IMPL = new File("target/lib/slf4j-simple.jar");
    public static final File LIBRARY_SEAM_SERVLET_API = new File("target/lib/seam-servlet-api.jar");
    public static final File LIBRARY_SEAM_SERVLET_IMPL = new File("target/lib/seam-servlet-impl.jar");
-   public static final File LIBRARY_SEAM_CATCH_API = new File("target/lib/seam-catch-api.jar");
-   public static final File LIBRARY_SEAM_CATCH_IMPL = new File("target/lib/seam-catch-impl.jar");
+   public static final File LIBRARY_SEAM_CATCH = new File("target/lib/seam-catch.jar");
    
    protected HttpClient client = new HttpClient();
    

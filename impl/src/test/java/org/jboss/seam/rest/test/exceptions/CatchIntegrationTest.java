@@ -13,7 +13,7 @@ public class CatchIntegrationTest extends BuiltinExceptionMappingTest
    public static WebArchive createDeploymentWithCatch()
    {
       WebArchive war = createDeployment();
-      war.addLibraries(LIBRARY_SEAM_CATCH_API, LIBRARY_SEAM_CATCH_IMPL);
+      war.addLibraries(LIBRARY_SEAM_CATCH);
       return war;
    }
    

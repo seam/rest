@@ -37,13 +37,8 @@
 		<!-- Optional dependencies -->
 		<dependency>
 			<groupId>org.jboss.seam.catch</groupId>
-			<artifactId>seam-catch-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam.catch</groupId>
-			<artifactId>seam-catch-impl</artifactId>
-			<scope>test</scope>
+			<artifactId>seam-catch</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -112,7 +107,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch-api,seam-catch-impl,commons-collections,seam-solder</includeArtifactIds>
+							<includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch,commons-collections,seam-solder</includeArtifactIds>
 							<outputDirectory>${basedir}/target/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>

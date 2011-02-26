@@ -12,6 +12,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.exception.control.CatchResource;
 import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionStack;
+import org.jboss.seam.exception.control.ExceptionStackItem;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
 import org.jboss.seam.exception.control.TraversalMode;
@@ -60,6 +61,7 @@ public class ValidationTest
       jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
       jar.addPackage(ValidateRequest.class.getPackage());
       jar.addClass(CatchValidationExceptionHandler.class);
+      jar.addClass(ExceptionStackItem.class);
       jar.addPackage(ValidationTest.class.getPackage());
       jar.addClass(RestResource.class);
       jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
