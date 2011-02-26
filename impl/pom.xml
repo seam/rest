@@ -118,6 +118,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+				   <skip>true</skip>
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
 					</additionalClasspathElements>
