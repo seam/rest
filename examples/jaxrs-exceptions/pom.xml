@@ -52,24 +52,9 @@
 
 		<dependency>
 			<groupId>org.jboss.seam.catch</groupId>
-			<artifactId>seam-catch-api</artifactId>
+			<artifactId>seam-catch</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.seam.catch</groupId>
-			<artifactId>seam-catch-impl</artifactId>
-			<!-- Because we use the combined jar -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.seam.solder</groupId>
-					<artifactId>seam-solder-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.seam.solder</groupId>
-					<artifactId>seam-solder-impl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -93,24 +78,8 @@
 				<!-- Exclude catch from GF for now -->
 				<dependency>
 					<groupId>org.jboss.seam.catch</groupId>
-					<artifactId>seam-catch-api</artifactId>
+					<artifactId>seam-catch</artifactId>
 					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.seam.catch</groupId>
-					<artifactId>seam-catch-impl</artifactId>
-					<scope>provided</scope>
-					<!-- Because we use the combined jar -->
-					<exclusions>
-						<exclusion>
-							<groupId>org.jboss.seam.solder</groupId>
-							<artifactId>seam-solder-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>org.jboss.seam.solder</groupId>
-							<artifactId>seam-solder-impl</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 			</dependencies>
 

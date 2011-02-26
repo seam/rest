@@ -8,17 +8,25 @@ Seam REST ${project.version}
 Contents of distribution
 ========================
 
-doc/
+ artifacts/
+ 
+  Seam Catch libraries
+
+ doc/
 
   API Docs and reference guide.
   
-examples/
+ examples/
 
   Seam REST Examples
   
-lib/
+ lib/
 
-  Seam REST Jar files
+  Seam REST dependencies
+  
+ source/
+ 
+  Source code for this module
   
 Licensing
 =========

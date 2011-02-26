@@ -21,14 +21,7 @@
    <dependencies>
       <dependency>
          <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-api</artifactId>
-         <optional>true</optional>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-impl</artifactId>
-         <optional>true</optional>
+         <artifactId>seam-rest</artifactId>
       </dependency>
 
       <dependency>
