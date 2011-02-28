@@ -117,40 +117,36 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-				   <skip>true</skip>
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
 					</additionalClasspathElements>
+               <excludes>
+                  <!-- Do not run compatibility tests -->
+                  <exclude>**/compat/**/*.java</exclude>
+               </excludes>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<profiles>
-		<!-- Run with -Dcompat to run compatibility tests -->
-		<profile>
-			<id>compat</id>
-			<activation>
-				<property>
-					<name>compat</name>
-					<value>!true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<excludes>
-								<!-- Do not run compatibility tests -->
-								<exclude>**/compat/**/*.java</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+      <profile>
+         <id>default</id>
+         <activation>
+            <activeByDefault>true</activeByDefault>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <configuration>
+                     <skip>true</skip>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
 		<profile>
 			<id>code-coverage</id>
 			<build>
@@ -293,9 +289,6 @@
 		</profile>
 		<profile>
 			<id>glassfish-remote-3</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
@@ -326,9 +319,6 @@
 		</profile>
 		<profile>
 			<id>glassfish-remote-3-rest</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
