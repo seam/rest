@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Seam JAX-RS Exceptions example" verbose="2" parallel="false">
+   <test name="Seam JAX-RS Exceptions">
+      <parameter name="example.context.path" value="/seam-jaxrs-exceptions" />
+      <packages>
+         <package name="org.jboss.seam.rest.example.jaxrs.ftest" />
+      </packages>
+   </test>
+</suite>
