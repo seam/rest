@@ -12,3 +12,8 @@ Deploying to Glassfish
 mvn clean package -Pglassfish
 $GF_HOME/bin/asadmin start-domain
 $GF_HOME/bin/asadmin deploy target/seam-jaxrs-exceptions.war
+
+Running tests
+======================
+Deploy the application
+Run mvn clean verify

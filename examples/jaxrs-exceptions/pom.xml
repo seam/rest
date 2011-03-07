@@ -54,11 +54,61 @@
          <groupId>org.jboss.seam.catch</groupId>
          <artifactId>seam-catch</artifactId>
       </dependency>
+      
+      <!-- Test dependencies -->
+      <dependency>
+         <groupId>org.testng</groupId>
+         <artifactId>testng</artifactId>
+         <scope>test</scope>
+      </dependency>
+      
+      <dependency>
+         <groupId>commons-httpclient</groupId>
+         <artifactId>commons-httpclient</artifactId>
+         <scope>test</scope>
+      </dependency>
 
    </dependencies>
 
    <build>
       <finalName>seam-jaxrs-exceptions</finalName>
+      <plugins>
+         <plugin>
+            <!-- no unit tests, surefire would instead run functional tests in incorrect 
+               phase -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+               <skip>true</skip>
+            </configuration>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+               <includes>
+                  <include>**/*Test.java</include>
+               </includes>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>integration-test</id>
+                  <phase>integration-test</phase>
+                  <goals>
+                     <goal>integration-test</goal>
+                  </goals>
+               </execution>
+               <execution>
+               <id>verify</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>verify</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
    </build>
    <profiles>
       <profile>
