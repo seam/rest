@@ -12,6 +12,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.rest.example.tasks.entity.Category;
 import org.jboss.seam.rest.templating.ResponseTemplate;
@@ -38,6 +40,8 @@ public class CategoryCollectionResource
    @Min(value = 0, message = "limit must be a non-negative number")
    @Max(value = 100, message = "Cannot return more than 100 items")
    protected int limit;
+   @Context
+   protected UriInfo uriInfo;
    
    @GET
    @ValidateRequest
@@ -49,5 +53,20 @@ public class CategoryCollectionResource
    public List<Category> getCategories()
    {
       return bean.getCategories(start, limit);
+   }
+
+   public int getStart()
+   {
+      return start;
+   }
+
+   public int getLimit()
+   {
+      return limit;
+   }
+
+   public UriInfo getUriInfo()
+   {
+      return uriInfo;
    }
 }

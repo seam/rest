@@ -73,4 +73,19 @@ public class TaskCollectionResource
    {
       this.status = status;
    }
+
+   public UriInfo getUriInfo()
+   {
+      return uriInfo;
+   }
+
+   public int getStart()
+   {
+      return start;
+   }
+
+   public int getLimit()
+   {
+      return limit;
+   }
 }

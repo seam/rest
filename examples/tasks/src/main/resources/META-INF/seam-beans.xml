@@ -1,7 +1,7 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:s="urn:java:ee" xmlns:rest="urn:java:org.jboss.seam.rest:org.jboss.seam.rest.exceptions">
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
-	<rest:SeamRestConfiguration preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
+	<rest:SeamRestConfiguration>
 		<rest:mappings>
 			<s:value>
 				<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">

@@ -1,8 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 <suite name="Seam Tasks example" verbose="2" parallel="false">
-	<test name="Seam Tasks">
-		<packages>
-			<package name="org.jboss.seam.rest.example.tasks.ftest" />
-		</packages>
+
+   <!-- We specify the classes explicitly since we need to execute XmlRepresentationTest before any other -->
+	<test name="Seam Tasks" preserve-order="true">
+      <classes>
+         <class name="org.jboss.seam.rest.example.tasks.test.XmlRepresentationTest"/>
+         <class name="org.jboss.seam.rest.example.tasks.ftest.TaskPageTest"/>
+         <class name="org.jboss.seam.rest.example.tasks.ftest.CategoryPageTest"/>
+         <class name="org.jboss.seam.rest.example.tasks.ftest.ResolvedPageTest"/>
+      </classes>
 	</test>
 </suite>

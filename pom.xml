@@ -20,7 +20,7 @@
       <javax.ejb.version>1.0.0.Beta2</javax.ejb.version>
       <javax.ws.rs.version>1.1.1</javax.ws.rs.version>
       <httpclient.version>3.1</httpclient.version>
-      <testng.version>5.12.1</testng.version>
+      <testng.version>5.14.2</testng.version>
       <jackson.version>1.6.1</jackson.version>
       <resteasy.version>2.1.0.GA</resteasy.version>
       <freemarker.version>2.3.16</freemarker.version>
@@ -60,23 +60,23 @@
             <type>pom</type>
          </dependency>
 
-                        <dependency>
-                           <groupId>org.jboss.seam.rest</groupId>
-                           <artifactId>seam-rest-api</artifactId>
-                           <version>${project.version}</version>
-                        </dependency>
+         <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-api</artifactId>
+            <version>${project.version}</version>
+         </dependency>
 
-                        <dependency>
-                           <groupId>org.jboss.seam.rest</groupId>
-                           <artifactId>seam-rest-impl</artifactId>
-                           <version>${project.version}</version>
-                        </dependency>
+         <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-impl</artifactId>
+            <version>${project.version}</version>
+         </dependency>
 
-                        <dependency>
-                           <groupId>org.jboss.seam.rest</groupId>
-                           <artifactId>seam-rest</artifactId>
-                           <version>${project.version}</version>
-                        </dependency>
+         <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest</artifactId>
+            <version>${project.version}</version>
+         </dependency>
 
          <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -103,6 +103,48 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-tools</artifactId>
             <version>${velocity.tools.version}</version>
+            <exclusions>
+               <exclusion>
+                  <groupId>dom4j</groupId>
+                     <artifactId>dom4j</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>oro</groupId>
+                  <artifactId>oro</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>sslext</groupId>
+                  <artifactId>sslext</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.apache.struts</groupId>
+                  <artifactId>struts-core</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.apache.struts</groupId>
+                  <artifactId>struts-taglib</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>org.apache.struts</groupId>
+                  <artifactId>struts-tiles</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>commons-beanutils</groupId>
+                  <artifactId>commons-beanutils</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>commons-digester</groupId>
+                  <artifactId>commons-digester</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>commons-chain</groupId>
+                  <artifactId>commons-chain</artifactId>
+               </exclusion>
+               <exclusion>
+                  <groupId>commons-validator</groupId>
+                  <artifactId>commons-validator</artifactId>
+               </exclusion>
+            </exclusions>
          </dependency>
 
          <!-- Test dependencies -->

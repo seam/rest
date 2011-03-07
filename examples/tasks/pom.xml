@@ -104,6 +104,11 @@
          <groupId>org.testng</groupId>
          <artifactId>testng</artifactId>
       </dependency>
+      <dependency>
+         <groupId>commons-httpclient</groupId>
+         <artifactId>commons-httpclient</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
    <build>
@@ -136,15 +141,6 @@
    </build>
 
    <profiles>
-      <profile>
-         <id>catch</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.seam.catch</groupId>
-               <artifactId>seam-catch</artifactId>
-            </dependency>
-         </dependencies>
-      </profile>
       <profile>
          <id>jboss-remote-6</id>
          <build>
@@ -244,16 +240,73 @@
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-war-plugin</artifactId>
-                  <configuration>
-                     <webResources>
-                        <resource>
-                           <directory>src/main/jboss</directory>
-                        </resource>
-                     </webResources>
-                  </configuration>
+                  <executions>
+                     <execution>
+                        <id>package-jboss</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>war</goal>
+                        </goals>
+                        <configuration>
+                           <useCache>false</useCache>
+                           <warSourceDirectory>src/main/jboss</warSourceDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
                </plugin>
             </plugins>
          </build>
+      </profile>
+      
+      <profile>
+         <id>velocity</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-war-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>package-velocity</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>war</goal>
+                        </goals>
+                        <configuration>
+                           <useCache>false</useCache>
+                           <warSourceDirectory>src/main/velocity</warSourceDirectory>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+         <dependencies>
+            <dependency>
+               <groupId>org.apache.velocity</groupId>
+               <artifactId>velocity</artifactId>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.velocity</groupId>
+               <artifactId>velocity-tools</artifactId>
+            </dependency>
+            <!-- exclude freemarker -->
+            <dependency>
+               <groupId>org.freemarker</groupId>
+               <artifactId>freemarker</artifactId>
+               <scope>provided</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+      
+      <profile>
+         <id>catch</id>
+         <dependencies>
+            <dependency>
+               <groupId>org.jboss.seam.catch</groupId>
+               <artifactId>seam-catch</artifactId>
+            </dependency>
+         </dependencies>
       </profile>
 
       <profile>
