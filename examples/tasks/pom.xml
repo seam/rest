@@ -231,7 +231,7 @@
       </profile>
 
       <profile>
-         <id>jboss-as</id>
+         <id>jbossas</id>
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
