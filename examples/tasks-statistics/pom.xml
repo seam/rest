@@ -55,14 +55,12 @@
       <dependency>
          <groupId>org.seleniumhq.selenium.client-drivers</groupId>
          <artifactId>selenium-java-client-driver</artifactId>
-         <version>${selenium.java.client.version}</version>
          <scope>test</scope>
       </dependency>
       
       <dependency>
          <groupId>org.jboss.test</groupId>
          <artifactId>richfaces-selenium</artifactId>
-         <version>${richfaces.selenium.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
