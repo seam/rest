@@ -1,12 +1,14 @@
-package org.jboss.seam.rest.example.se.model;
+package org.jboss.seam.rest.example.client.ui;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.table.AbstractTableModel;
 
-import org.jboss.seam.rest.example.se.action.SearchAction;
-import org.jboss.seam.rest.example.se.model.SearchResult.Location;
+import org.jboss.seam.rest.example.client.geo.SearchAction;
+import org.jboss.seam.rest.example.client.geo.SearchResult.Location;
 
-public class SearchResultTableModel extends AbstractTableModel
+@Singleton
+public class ZipSearchResultTableModel extends AbstractTableModel
 {
    private static final long serialVersionUID = -1292943578451876546L;
    @Inject

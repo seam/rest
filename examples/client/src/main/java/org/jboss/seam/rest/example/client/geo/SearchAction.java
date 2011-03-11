@@ -1,19 +1,26 @@
-package org.jboss.seam.rest.example.se.action;
+package org.jboss.seam.rest.example.client.geo;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.rest.client.RestClient;
-import org.jboss.seam.rest.example.se.ConnectionException;
-import org.jboss.seam.rest.example.se.StatusException;
-import org.jboss.seam.rest.example.se.model.SearchResult;
+import org.jboss.seam.rest.example.client.ConnectionException;
+import org.jboss.seam.rest.example.client.StatusException;
 
+/**
+ * Executes a zip code query using the geonames API. {@link http://www.geonames.org/export/ws-overview.html}
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
+ *
+ */
 @Singleton
 public class SearchAction
 {
    @Inject
    @RestClient("http://api.geonames.org")
    private GeonamesService api;
+   
+   private static final Logger log = Logger.getLogger(SearchAction.class);
    
    private static final String ZIP_PATTERN = "^\\d{5}([\\-]\\d{4})?$"; 
    private SearchResult locations = new SearchResult();
@@ -31,12 +38,13 @@ public class SearchAction
          
          if (locations.getStatus() != null)
          {
+            log.error(locations.getStatus().getMessage());
             throw new StatusException(locations.getStatus().getMessage());
          }
       }
       catch (Throwable e)
       {
-         e.printStackTrace();
+         log.error(e.getMessage());
          throw new ConnectionException(e);
       }
    }

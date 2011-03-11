@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.example.se.model;
+package org.jboss.seam.rest.example.client.geo;
 
 import java.util.ArrayList;
 import java.util.List;

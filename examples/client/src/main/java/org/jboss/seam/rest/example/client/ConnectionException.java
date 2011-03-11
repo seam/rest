@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.example.se;
+package org.jboss.seam.rest.example.client;
 
 public class ConnectionException extends RuntimeException
 {
