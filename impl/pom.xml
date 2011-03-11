@@ -64,6 +64,7 @@
       <dependency>
          <groupId>org.jboss.resteasy</groupId>
          <artifactId>resteasy-jaxrs</artifactId>
+         <optional>true</optional>
       </dependency>
 
       <!-- Test dependencies -->
