@@ -10,7 +10,7 @@
    </parent>
 
    <groupId>org.jboss.seam.rest</groupId>
-   <artifactId>seam-rest-client-example</artifactId>
+   <artifactId>seam-rest-example-client</artifactId>
    <packaging>war</packaging>
    <version>3.0.0-SNAPSHOT</version>
    <name>Seam REST Client Example</name>
@@ -104,9 +104,26 @@
             </plugins>
          </build>
       </profile>
+      <profile>
+         <id>distribution</id>
+         <activation>
+            <property>
+               <name>release</name>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-assembly-plugin</artifactId>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
    </profiles>
    
    <build>
+      <finalName>rest-client</finalName>
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>

@@ -65,7 +65,7 @@
          <unpack>true</unpack>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.rest:seam-tasks-example</include>
+            <include>org.jboss.seam.rest:seam-rest-example-tasks</include>
          </includes>
       </dependencySet>
       <dependencySet>
@@ -73,7 +73,7 @@
          <unpack>true</unpack>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.rest:seam-tasks-statistics-example</include>
+            <include>org.jboss.seam.rest:seam-rest-example-exceptions</include>
          </includes>
       </dependencySet>
       <dependencySet>
@@ -81,7 +81,7 @@
          <unpack>true</unpack>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.rest:seam-jaxrs-exceptions-example</include>
+            <include>org.jboss.seam.rest:seam-rest-example-client</include>
          </includes>
       </dependencySet>
       

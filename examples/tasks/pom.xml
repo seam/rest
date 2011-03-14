@@ -10,10 +10,10 @@
    </parent>
 
    <groupId>org.jboss.seam.rest</groupId>
-   <artifactId>seam-tasks-example</artifactId>
+   <artifactId>seam-rest-example-tasks</artifactId>
    <packaging>war</packaging>
    <version>3.0.0-SNAPSHOT</version>
-   <name>Seam Tasks Example</name>
+   <name>Seam REST Tasks Example</name>
    <url>http://seamframework.org/Seam3/RESTModule</url>
 
    <properties>
@@ -112,7 +112,7 @@
    </dependencies>
 
    <build>
-      <finalName>seam-tasks</finalName>
+      <finalName>rest-tasks</finalName>
       <plugins>
          <plugin>
             <!-- no unit tests, surefire would instead run functional tests in incorrect 
