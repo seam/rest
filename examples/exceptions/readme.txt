@@ -1,4 +1,4 @@
-Seam JAXRS-Exceptions Example
+Seam REST Exceptions Example
 ==============================================================
 
 Deploying to JBoss AS 6
