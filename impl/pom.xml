@@ -355,13 +355,26 @@
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-surefire-plugin</artifactId>
-                  <configuration>
-                     <excludes>
-                        <!-- Do not run compatibility tests -->
-                        <exclude>**/compat/**/*.java</exclude>
-                        <exclude>**/RestClientTest.java</exclude>
-                     </excludes>
-                  </configuration>
+                  <executions>
+                     <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                           <goal>test</goal>
+                        </goals>
+                        <configuration>
+                           <additionalClasspathElements>
+                              <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
+                           </additionalClasspathElements>
+                           <excludes>
+                              <!-- Do not run compatibility tests --> 
+                              <exclude>**/compat/**/*.java</exclude>
+                              <!-- Do not run rest client tests --> 
+                              <exclude>**/client/**/*.java</exclude>
+                           </excludes>
+                        </configuration>
+                     </execution>
+                  </executions>
                </plugin>
             </plugins>
          </build>
