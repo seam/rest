@@ -32,7 +32,6 @@ public class ResolvedPageTest extends AbstractTestCase
       assertTrue(page.isTaskPresent(6, "Print study materials"));
       assertTrue(page.isTaskPresent(13, "Buy a turtle"));
       assertTrue(page.isTaskPresent(14, "Buy new shoes"));
-      assertTrue(page.isTaskPresent(17, "Learn to fly"));
    }
 
    @Test

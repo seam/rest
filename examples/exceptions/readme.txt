@@ -16,4 +16,4 @@ $GF_HOME/bin/asadmin deploy target/seam-jaxrs-exceptions.war
 Running tests
 ======================
 Deploy the application
-Run mvn clean verify
+Run mvn clean verify (DO NOT run the ftest profile!)

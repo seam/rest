@@ -25,7 +25,7 @@ public class SeamTasksAction
    private static final Logger log = Logger.getLogger(SeamTasksAction.class);
 
    @Inject
-   @RestClient("http://localhost:8080/seam-tasks")
+   @RestClient("http://localhost:8080/rest-tasks")
    private SeamTasksService service;
    @Inject
    private BeanManager manager;

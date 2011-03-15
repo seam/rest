@@ -18,22 +18,22 @@ function ajax(type, url, callback, data) {
 }
 
 function getCategories(start, limit, callback) {
-	var url = "/seam-tasks/api/category?start" + start + "&limit=" + limit;
+	var url = "/rest-tasks/api/category?start" + start + "&limit=" + limit;
 	ajax("GET", url, callback);
 }
 
 function putCategory(categoryName, success) {
-	var url = "/seam-tasks/api/category/" + escape(categoryName);
+	var url = "/rest-tasks/api/category/" + escape(categoryName);
 	ajax("PUT", url, success);
 }
 
 function deleteCategory(categoryName, success) {
-	var url = "/seam-tasks/api/category/" + escape(categoryName);
+	var url = "/rest-tasks/api/category/" + escape(categoryName);
 	ajax("DELETE", url, success);
 }
 
 function getTasksForCategory(categoryName, callback) {
-	var URI = escape("/seam-tasks/api/category/" + categoryName + "/task");
+	var URI = escape("/rest-tasks/api/category/" + categoryName + "/task");
 	ajax("GET", URI, callback);
 }
 
@@ -42,29 +42,29 @@ function getTask(URI, callback) {
 }
 
 function getTasks(status, start, limit, callback) {
-	var URI = "/seam-tasks/api/task?status=" + escape(status) + "&start="
+	var URI = "/rest-tasks/api/task?status=" + escape(status) + "&start="
 			+ escape(start) + "&limit=" + escape(limit);
 	ajax("GET", URI, callback);
 }
 
 function postTask(categoryName, taskName, success) {
-	var URI = escape("/seam-tasks/api/category/" + categoryName + "/task");
+	var URI = escape("/rest-tasks/api/category/" + categoryName + "/task");
 	ajax("POST", URI, success, JSON.stringify({"name" : taskName}));
 }
 
 function putTask(task, success) {
-	var URI = escape("/seam-tasks/api/task/" + task.id);
+	var URI = escape("/rest-tasks/api/task/" + task.id);
 	ajax("PUT", URI, success, JSON.stringify(task));
 }
 
 function moveTask(task, newCategory, success) {
-	var URI = "/seam-tasks/api/task/" + task.id + "/move?category="
+	var URI = "/rest-tasks/api/task/" + task.id + "/move?category="
 			+ newCategory.name;
 	ajax("POST", URI, success);
 }
 
 function deleteTask(task, success) {
-	var URI = escape("/seam-tasks/api/task/" + task.id);
+	var URI = escape("/rest-tasks/api/task/" + task.id);
 	ajax("DELETE", URI, success);
 }
 

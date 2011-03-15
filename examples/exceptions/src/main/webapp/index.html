@@ -9,20 +9,20 @@
 <div class="container">
 <h2>Annotation-based configuration</h2>
 <ul>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.IllegalAccessException">@ExceptionMapping(exceptionType = IllegalAccessException.class, status = 403)</a></li>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.NullPointerException">@ExceptionMapping(exceptionType = NullPointerException.class, status = 500, message = "NullPointerException was thrown.")</a></li>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.Object">@ExceptionMapping(exceptionType = RuntimeException.class, status = 500, useExceptionMessage = true)</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.IllegalAccessException">@ExceptionMapping(exceptionType = IllegalAccessException.class, status = 403)</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.NullPointerException">@ExceptionMapping(exceptionType = NullPointerException.class, status = 500, message = "NullPointerException was thrown.")</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.Object">@ExceptionMapping(exceptionType = RuntimeException.class, status = 500, useExceptionMessage = true)</a></li>
 </ul>
 <h2>XML-based configuration</h2>
 <ul>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.StringIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.StringIndexOutOfBoundsException" statusCode="500"/&gt;</a></li>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.ArrayIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.ArrayIndexOutOfBoundsException" statusCode="500" message="ArrayIndexOutOfBoundsException was thrown."/&gt;</a></li>
-	<li><a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.IndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.IndexOutOfBoundsException"	statusCode="500" message="An exception was thrown. The date is: #{date}"/&gt;</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.StringIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.StringIndexOutOfBoundsException" statusCode="500"/&gt;</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.ArrayIndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.ArrayIndexOutOfBoundsException" statusCode="500" message="ArrayIndexOutOfBoundsException was thrown."/&gt;</a></li>
+	<li><a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.IndexOutOfBoundsException">&lt;exceptions:Mapping exceptionType="java.lang.IndexOutOfBoundsException"	statusCode="500" message="An exception was thrown. The date is: #{date}"/&gt;</a></li>
 </ul>
 <h2>Programmatic exception handling</h2>
 <ul>
 	<li>
-		<a href="http://localhost:8080/seam-jaxrs-exceptions/api/exceptions?exception=java.lang.ArithmeticException">ArithmeticException</a>
+		<a href="http://localhost:8080/rest-exceptions/api/exceptions?exception=java.lang.ArithmeticException">ArithmeticException</a>
 	</li>
 </ul>
 </div>

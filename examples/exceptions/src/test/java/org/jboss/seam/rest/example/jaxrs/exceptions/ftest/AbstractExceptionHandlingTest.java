@@ -11,7 +11,7 @@ import org.testng.annotations.Parameters;
 
 public abstract class AbstractExceptionHandlingTest
 {
-   protected String contextPath = "http://localhost:8080/seam-jaxrs-exceptions/api";
+   protected String contextPath = "http://localhost:8080/rest-exceptions/api";
    private HttpClient client = new HttpClient();
 
    @BeforeClass
