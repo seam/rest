@@ -2,98 +2,100 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 <chapter id="rest.validation">
-	<title>Bean Validation Integration</title>
+    <title>Bean Validation Integration</title>
 
-	<para>
-		Bean Validation (JSR-303) is a specification introduced as a
-		part
-		of Java EE 6. It aims to provide a standardized way of
-		validating
-		the
-		domain model across all application layers. 
+    <para>
+        Bean Validation (JSR-303) is a specification introduced as a
+        part
+        of Java EE 6. It aims to provide a standardized way of
+        validating
+        the
+        domain model across all application layers. 
 	</para>
 
-	<para>
-		The Seam REST module follows the Bean Validation
-		specification and the incomming HTTP requests can be validated
-		with this
-		standardized
-		mechanism.
+    <para>
+        The Seam REST module follows the Bean Validation
+        specification and the incomming HTTP requests can be validated
+        with this
+        standardized
+        mechanism.
 	</para>
 
-	<sect1>
-		<title>Validating HTTP requests</title>
+    <sect1>
+        <title>Validating HTTP requests</title>
 
-		<para>
-			Firstly, enable the
-			<literal>ValidationInterceptor</literal>
-			in the
-			<literal>beans.xml</literal>
-			configuration
-			file.
-		</para>
+        <para>
+            Firstly, enable the
+            <literal>ValidationInterceptor</literal>
+            in the
+            <literal>beans.xml</literal>
+            configuration
+            file.
+        </para>
 
-		<programlisting role="XML"><![CDATA[<interceptors>
+        <programlisting role="XML"><![CDATA[<interceptors>
 	<class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
 </interceptors>]]></programlisting>
 
-		<para>
-			Then, enable validation of a particular method by decorating
-			it with
-			the
-			<literal>@ValidateRequest</literal>
-			annotation.
-		</para>
+        <para>
+            Then, enable validation of a particular method by decorating
+            it with
+            the
+            <literal>@ValidateRequest</literal>
+            annotation.
+        </para>
 
-		<programlisting role="JAVA"><![CDATA[@PUT
+        <programlisting role="JAVA"><![CDATA[@PUT
 @ValidateRequest
 public void updateTask(Task incommingTask)
 {
 ...
 }]]></programlisting>
 
-		<para>
-			Now, the HTTP request's entity body (the incomingTask parameter) will be validated prior to invoking the method.
+        <para>
+            Now, the HTTP request's entity body (the incomingTask parameter) will be validated prior to invoking the method.
 		</para>
 
-		<sect2>
-			<title>Validating entity body</title>
+        <sect2>
+            <title>Validating entity body</title>
 
-			<para>
-				By default, the entity parameter (the parameter with no annotations
-				that represent the body of the HTTP request) is
-				validated. If the
-				object is valid, the web service method is
-				executed.
-				Otherwise, a
-				<literal>ValidationException</literal>
-				exception
-				is thrown.
-			</para>
+            <para>
+                By default, the entity parameter (the parameter with no annotations
+                that represent the body of the HTTP request) is
+                validated. If the
+                object is valid, the web service method is
+                executed.
+                Otherwise, a
+                <literal>ValidationException</literal>
+                exception
+                is thrown.
+            </para>
 
-			<para>
-				The
-				<literal>ValidationException</literal>
-				exception
-				is a simple carrier of constraint violations found by the
-				Bean
-				Validation provider. The exception can be handled by an
-				<literal>ExceptionMapper</literal> or Seam Catch handler.
-				
-			</para>
-			<para>
-				Seam REST comes with a built-in
-				<literal>ValidationException</literal> handler,
-				which is registered by default. The exception handler converts the
-				<literal>ValidationException</literal>
-				to an HTTP response with the 400 (Bad request) status code. Furthermore,
-				it sends messages relevant to the violated constraints within the
-				message body of the HTTP response.
-			</para>
+            <para>
+                The
+                <literal>ValidationException</literal>
+                exception
+                is a simple carrier of constraint violations found by the
+                Bean
+                Validation provider. The exception can be handled by an
+                <literal>ExceptionMapper</literal>
+                or Seam Catch handler.
 
-			<example>
-				<title>HTTP response</title>
-				<programlisting role="XML"><![CDATA[HTTP/1.1 400 Bad Request
+            </para>
+            <para>
+                Seam REST comes with a built-in
+                <literal>ValidationException</literal>
+                handler,
+                which is registered by default. The exception handler converts the
+                <literal>ValidationException</literal>
+                to an HTTP response with the 400 (Bad request) status code. Furthermore,
+                it sends messages relevant to the violated constraints within the
+                message body of the HTTP response.
+            </para>
+
+            <example>
+                <title>HTTP response</title>
+                <programlisting role="XML"><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/xml
 Content-Length:	129
 				
@@ -103,26 +105,26 @@ Content-Length:	129
 		<message>Name length must be between 1 and 100.</message>
 	</messages>
 </error>]]></programlisting>
-			</example>
-		</sect2>
+            </example>
+        </sect2>
 
-		<sect2 id="rest.resource.validation">
-			<title>Validating resource fields</title>
-			<para>
-				Besides the message body, the JAX-RS specification allows
-				various
-				parts of the HTTP request to be injected into the JAX-RS
-				resource or passed as method parameters.
-				These
-				parameters are usually
-				HTTP form parameters, query parameters,
-				path
-				parameters, headers, etc.
+        <sect2 id="rest.resource.validation">
+            <title>Validating resource fields</title>
+            <para>
+                Besides the message body, the JAX-RS specification allows
+                various
+                parts of the HTTP request to be injected into the JAX-RS
+                resource or passed as method parameters.
+                These
+                parameters are usually
+                HTTP form parameters, query parameters,
+                path
+                parameters, headers, etc.
 			</para>
 
-			<example>
-				<title>JAX-RS resource</title>
-				<programlisting role="JAVA"><![CDATA[public class PersonResource
+            <example>
+                <title>JAX-RS resource</title>
+                <programlisting role="JAVA"><![CDATA[public class PersonResource
 {
 	@QueryParam("search")
 	@Size(min = 1, max = 30)
@@ -136,75 +138,77 @@ Content-Length:	129
 	@Min(0) @Max(50)
 	private int limit;
 ...]]></programlisting>
-			</example>
+            </example>
 
-			<para>
-				If a method of a resource is annotated with an
-				<literal>@ValidateRequest</literal>
-				annotation, the fields
-				of a resource are validated by default.
+            <para>
+                If a method of a resource is annotated with an
+                <literal>@ValidateRequest</literal>
+                annotation, the fields
+                of a resource are validated by default.
+            </para>
+
+            <important>
+                <para>
+                    Since the JAX-RS injection occurs only at resource creation time,
+                    do
+                    not use the
+                    JAX-RS field injection for other than
+                    <literal>@RequestScoped</literal>
+                    resources.
+                </para>
+            </important>
+        </sect2>
+
+        <sect2>
+            <title>Validating other method parameters</title>
+
+            <para>
+                The JAX-RS specification allows path parameters, query
+                parameters, matrix parameters, cookie parameters and headers to
+                be
+                passed as parameters of a resource
+                method.
 			</para>
-			
-			<important>
-				<para>
-					Since the JAX-RS injection occurs only at resource creation time,
-					do
-					not use the
-					JAX-RS field injection for other than
-					<literal>@RequestScoped</literal>
-					resources.
-				</para>
-			</important>
-		</sect2>
 
-		<sect2>
-			<title>Validating other method parameters</title>
-
-			<para>
-				The JAX-RS specification allows path parameters, query
-				parameters, matrix parameters, cookie parameters and headers to
-				be
-				passed as parameters of a resource
-				method.
-			</para>
-
-			<example>
-				<title>JAX-RS method parameters</title>
-				<programlisting role="XML"><![CDATA[@GET
+            <example>
+                <title>JAX-RS method parameters</title>
+                <programlisting role="XML"><![CDATA[@GET
 public List<Person>search(@QueryParam("search") String query,
 	@QueryParam("start") @DefaultValue("0") int start,
 	@QueryParam("limit") @DefaultValue("20") int limit)]]></programlisting>
-			</example>
+            </example>
 
-			<note>
-				<para>
-					Currently, Seam REST validates only JavaBean parameters (as oposed to primitive types, Strings and so on). Therefore, to validate these types of parameters, either use resource field
-					validation described
-					in
-					<xref linkend="rest.resource.validation" />
-					or read further and use parameter objects.
-				</para>
-			</note>
+            <note>
+                <para>
+                    Currently, Seam REST validates only JavaBean parameters (as oposed to primitive types, Strings and so on).
+                    Therefore, to validate these types of parameters, either use resource field
+                    validation described
+                    in
+                    <xref linkend="rest.resource.validation" />
+                    or read further and use parameter objects.
+                </para>
+            </note>
 
-			<para>
-				In order to prevent an oversized method
-				signature when the number of
-				parameters is too large, JAX-RS implementations provide
-				implementations of the
-				<ulink
-					url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>. These objects aggregate multiple parameters into a single
-				object, for example
-				<ulink
-					url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink>
-				or
-				<ulink
-					url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>.
-				These parameters can be validated by Seam REST. To trigger the validation, annotate the parameter with a <literal>javax.validation.Valid</literal> annotation.
-			</para>
+            <para>
+                In order to prevent an oversized method
+                signature when the number of
+                parameters is too large, JAX-RS implementations provide
+                implementations of the
+                <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>
+                . These objects aggregate multiple parameters into a single
+                object, for example
+                <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/_Form.html">RESTEasy Form Object</ulink>
+                or
+                <ulink url="http://cxf.apache.org/docs/jax-rs.html#JAX-RS-Parameterbeans">Apache CXF Parameter Bean</ulink>
+                .
+                These parameters can be validated by Seam REST. To trigger the validation, annotate the parameter with a
+                <literal>javax.validation.Valid</literal>
+                annotation.
+            </para>
 
-			<example>
-				<title>RESTEasy parameter object</title>
-				<programlisting role="JAVA"><![CDATA[public class MyForm {
+            <example>
+                <title>RESTEasy parameter object</title>
+                <programlisting role="JAVA"><![CDATA[public class MyForm {
    @FormParam("stuff")
    @Size(min = 1, max = 30)
    private int stuff;
@@ -220,64 +224,64 @@ public List<Person>search(@QueryParam("search") String query,
 @Path("/myservice")
 @ValidateRequest
 public void post(@Valid @Form MyForm form) {...}]]></programlisting>
-			</example>
-		</sect2>
-	</sect1>
+            </example>
+        </sect2>
+    </sect1>
 
-	<sect1>
-		<title>Validation configuration</title>
-		<table>
-			<title>@ValidateRequest annotation properties</title>
-			<tgroup cols='3'>
-				<thead>
-					<row>
-						<entry>@ValidateRequest attribute</entry>
-						<entry>Description</entry>
-						<entry>Default value</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>validateMessageBody</entry>
-						<entry>Enabling/disabling validation of message body parameters
+    <sect1>
+        <title>Validation configuration</title>
+        <table>
+            <title>@ValidateRequest annotation properties</title>
+            <tgroup cols='3'>
+                <thead>
+                    <row>
+                        <entry>@ValidateRequest attribute</entry>
+                        <entry>Description</entry>
+                        <entry>Default value</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>validateMessageBody</entry>
+                        <entry>Enabling/disabling validation of message body parameters
 						</entry>
-						<entry>true</entry>
-					</row>
-					<row>
-						<entry>validateResourceFields</entry>
-						<entry>Enabling/disabling validation of fields of a JAX-RS
-							resource
+                        <entry>true</entry>
+                    </row>
+                    <row>
+                        <entry>validateResourceFields</entry>
+                        <entry>Enabling/disabling validation of fields of a JAX-RS
+                            resource
 						</entry>
-						<entry>true</entry>
-					</row>
-					<row>
-						<entry>groups</entry>
-						<entry>Validation groups to be used for validation</entry>
-						<entry>javax.validation.groups.Default</entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
-	</sect1>
+                        <entry>true</entry>
+                    </row>
+                    <row>
+                        <entry>groups</entry>
+                        <entry>Validation groups to be used for validation</entry>
+                        <entry>javax.validation.groups.Default</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </sect1>
 
-	<sect1>
-		<title>Using validation groups</title>
-		<para>
-			In some cases, it is desired to have a specific
-			group of
-			constraints used for validation of web service parameters.
-			These
-			constraints are usually weaker than the default constraints of
-			a domain model.
-			Take partial
-			updates as an example.
+    <sect1>
+        <title>Using validation groups</title>
+        <para>
+            In some cases, it is desired to have a specific
+            group of
+            constraints used for validation of web service parameters.
+            These
+            constraints are usually weaker than the default constraints of
+            a domain model.
+            Take partial
+            updates as an example.
 		</para>
-		<para>
-			Consider the following example:
+        <para>
+            Consider the following example:
 		</para>
-		<example>
-			<title>Employee.java</title>
-			<programlisting role="JAVA"><![CDATA[public class Employee {
+        <example>
+            <title>Employee.java</title>
+            <programlisting role="JAVA"><![CDATA[public class Employee {
 	@NotNull
 	@Size(min = 2, max = 30)
 	private String name;
@@ -289,50 +293,50 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 	
 	// getters and setters
 }]]></programlisting>
-		</example>
-		<para>
-			The Employee resource in the example above is not allowed to
-			have the null value specified in any of its fields.
-			Thus, the entire
-			representation of a
-			resource (including the
-			department and related
-			object graph) must be
-			sent to update the
-			resource.
+        </example>
+        <para>
+            The Employee resource in the example above is not allowed to
+            have the null value specified in any of its fields.
+            Thus, the entire
+            representation of a
+            resource (including the
+            department and related
+            object graph) must be
+            sent to update the
+            resource.
 		</para>
-		<para>
-			When using partial updates, only values of modified fields
-			are required to be
-			sent within the update request, while the non-null
-			values of the
-			received object are updated. Therefore, two groups of
-			constraints are
-			needed: group for partial updates
-			(including
-			@Size and
-			@Email, excluding @NotNull) and the
-			default group
-			(@NotNull).
+        <para>
+            When using partial updates, only values of modified fields
+            are required to be
+            sent within the update request, while the non-null
+            values of the
+            received object are updated. Therefore, two groups of
+            constraints are
+            needed: group for partial updates
+            (including
+            @Size and
+            @Email, excluding @NotNull) and the
+            default group
+            (@NotNull).
 		</para>
-		<para>
-			A validation group is a simple Java interface:
+        <para>
+            A validation group is a simple Java interface:
 		</para>
 
-		<example>
-			<title>PartialUpdateGroup.java</title>
-			<programlisting role="JAVA"><![CDATA[public interface PartialUpdateGroup {}]]></programlisting>
-		</example>
+        <example>
+            <title>PartialUpdateGroup.java</title>
+            <programlisting role="JAVA"><![CDATA[public interface PartialUpdateGroup {}]]></programlisting>
+        </example>
 
-		<example>
-			<title>Employee.java</title>
-			<programlistingco>
-				<areaspec>
-					<area id="employee-default-constraint" coords="3" />
-					<area id="employee-partial-validation-constraint" coords="4" />
-					<area id="employee-default-group-definition" coords="1" />
-				</areaspec>
-				<programlisting role="JAVA"><![CDATA[@GroupSequence({ Default.class, PartialUpdateGroup.class })
+        <example>
+            <title>Employee.java</title>
+            <programlistingco>
+                <areaspec>
+                    <area id="employee-default-constraint" coords="3" />
+                    <area id="employee-partial-validation-constraint" coords="4" />
+                    <area id="employee-default-group-definition" coords="1" />
+                </areaspec>
+                <programlisting role="JAVA"><![CDATA[@GroupSequence({ Default.class, PartialUpdateGroup.class })
 public class Employee {
 	@NotNull
 	@Size(min = 2, max = 30, groups = PartialUpdateGroup.class)
@@ -345,50 +349,50 @@ public class Employee {
 
 	// getters and setters
 }]]></programlisting>
-				<calloutlist>
-					<callout arearefs="employee-default-constraint">
-						<para>
-							The
-							<literal>@NotNull</literal>
-							constraint belongs to the default validation group.
-						</para>
-					</callout>
-					<callout arearefs="employee-partial-validation-constraint">
-						<para>
-							The
-							<literal>@Size</literal>
-							constraint belongs to the partial update validation group.
-						</para>
-					</callout>
-					<callout arearefs="employee-default-group-definition">
-						<para>
-							The
-							<literal>@GroupsSequence</literal>
-							annotation indicates that both validation groups are used by
-							default (for example, when persisting the entity).
-						</para>
-					</callout>
-				</calloutlist>
-			</programlistingco>
-		</example>
+                <calloutlist>
+                    <callout arearefs="employee-default-constraint">
+                        <para>
+                            The
+                            <literal>@NotNull</literal>
+                            constraint belongs to the default validation group.
+                        </para>
+                    </callout>
+                    <callout arearefs="employee-partial-validation-constraint">
+                        <para>
+                            The
+                            <literal>@Size</literal>
+                            constraint belongs to the partial update validation group.
+                        </para>
+                    </callout>
+                    <callout arearefs="employee-default-group-definition">
+                        <para>
+                            The
+                            <literal>@GroupsSequence</literal>
+                            annotation indicates that both validation groups are used by
+                            default (for example, when persisting the entity).
+                        </para>
+                    </callout>
+                </calloutlist>
+            </programlistingco>
+        </example>
 
-		<para>
-			Finally, the
-			<literal>ValidationInterceptor</literal>
-			is configured to validate the
-			<literal>PartialUpdateGroup</literal>
-			group
-			only.
-		</para>
+        <para>
+            Finally, the
+            <literal>ValidationInterceptor</literal>
+            is configured to validate the
+            <literal>PartialUpdateGroup</literal>
+            group
+            only.
+        </para>
 
-		<example>
-			<title>EmployeeResource.java</title>
-			<programlistingco>
-				<areaspec>
-					<area id="employee-group-definition" coords="4" />
-					<area id="employee-partial-update" coords="8" />
-				</areaspec>
-				<programlisting role="JAVA"><![CDATA[@Path("/{id}")
+        <example>
+            <title>EmployeeResource.java</title>
+            <programlistingco>
+                <areaspec>
+                    <area id="employee-group-definition" coords="4" />
+                    <area id="employee-partial-update" coords="8" />
+                </areaspec>
+                <programlisting role="JAVA"><![CDATA[@Path("/{id}")
 	@PUT
 	@Consumes("application/xml")
 	@ValidateRequest(groups = PartialUpdateGroup.class)
@@ -404,23 +408,23 @@ public class Employee {
 			employee.setEmail(e.getEmail());
 		}
 	}]]></programlisting>
-				<calloutlist>
-					<callout arearefs="employee-group-definition">
-						<para>
-							The partial update validation group is used for web service
-							parameter validation.
+                <calloutlist>
+                    <callout arearefs="employee-group-definition">
+                        <para>
+                            The partial update validation group is used for web service
+                            parameter validation.
             			</para>
-					</callout>
-					<callout arearefs="employee-partial-update">
-						<para>
-							Partial update — only the not-null fields of the transferred
-							representation are used for update. The null fields are not
-							updated.
+                    </callout>
+                    <callout arearefs="employee-partial-update">
+                        <para>
+                            Partial update — only the not-null fields of the transferred
+                            representation are used for update. The null fields are not
+                            updated.
             			</para>
-					</callout>
-				</calloutlist>
-			</programlistingco>
-		</example>
+                    </callout>
+                </calloutlist>
+            </programlistingco>
+        </example>
 
-	</sect1>
+    </sect1>
 </chapter>

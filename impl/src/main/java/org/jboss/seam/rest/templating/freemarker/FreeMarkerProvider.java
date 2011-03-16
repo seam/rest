@@ -29,42 +29,36 @@ import freemarker.template.TemplateException;
  * 
  */
 @ApplicationScoped
-public class FreeMarkerProvider implements TemplatingProvider
-{
-   private Configuration configuration;
-   @Inject
-   private TemplatingModel model;
-   @Inject
-   private BeanManager manager;
+public class FreeMarkerProvider implements TemplatingProvider {
+    private Configuration configuration;
+    @Inject
+    private TemplatingModel model;
+    @Inject
+    private BeanManager manager;
 
-   public void init(ServletContext servletContext)
-   {
-      configuration = new Configuration();
-      configuration.setObjectWrapper(new DefaultObjectWrapper());
-      configuration.setServletContextForTemplateLoading(servletContext, "/");
-   }
+    public void init(ServletContext servletContext) {
+        configuration = new Configuration();
+        configuration.setObjectWrapper(new DefaultObjectWrapper());
+        configuration.setServletContextForTemplateLoading(servletContext, "/");
+    }
 
-   public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
-   {
-      Template template = configuration.getTemplate(annotation.value());
+    public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
+        Template template = configuration.getTemplate(annotation.value());
 
-      model.getData().put(annotation.responseName(), o);
+        model.getData().put(annotation.responseName(), o);
 
-      try
-      {
-         OutputStreamWriter writer = new OutputStreamWriter(os);
-         template.process(new ModelWrapper(model.getData(), manager), writer);
-         writer.flush();
-      }
-      catch (TemplateException e)
-      {
-         throw new RuntimeException("Unable to write FreeMarker response.", e);
-      }
-   }
-   
-   @Override
-   public String toString()
-   {
-      return getClass().getName();
-   }
+        try {
+            OutputStreamWriter writer = new OutputStreamWriter(os);
+            template.process(new ModelWrapper(model.getData(), manager), writer);
+            writer.flush();
+        } catch (TemplateException e) {
+            throw new RuntimeException("Unable to write FreeMarker response.", e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

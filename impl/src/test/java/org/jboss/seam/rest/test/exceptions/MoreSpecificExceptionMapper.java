@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class MoreSpecificExceptionMapper implements ExceptionMapper<ArrayIndexOutOfBoundsException> {
 
-	public Response toResponse(ArrayIndexOutOfBoundsException exception) {
-		return Response.status(421).build();
-	}
+    public Response toResponse(ArrayIndexOutOfBoundsException exception) {
+        return Response.status(421).build();
+    }
 }

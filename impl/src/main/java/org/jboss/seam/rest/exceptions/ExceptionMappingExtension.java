@@ -16,56 +16,47 @@ import org.jboss.seam.rest.exceptions.ExceptionMapping;
 import org.jboss.seam.rest.exceptions.Mapping;
 import org.jboss.seam.rest.util.Utils;
 
-public class ExceptionMappingExtension implements Extension
-{
-   private static final Logger log = Logger.getLogger(ExceptionMappingExtension.class);
-   private static final String SEAM_CATCH_NAME = "org.jboss.seam.exception.control.extension.CatchExtension";
+public class ExceptionMappingExtension implements Extension {
+    private static final Logger log = Logger.getLogger(ExceptionMappingExtension.class);
+    private static final String SEAM_CATCH_NAME = "org.jboss.seam.exception.control.extension.CatchExtension";
 
-   private Set<Mapping> exceptionMappings = new HashSet<Mapping>();
-   private boolean catchIntegrationEnabled = false;
-   
-   public void scanForCatch(@Observes BeforeBeanDiscovery event, BeanManager manager)
-   {
-      catchIntegrationEnabled = Utils.isClassAvailable(SEAM_CATCH_NAME);
-      if (catchIntegrationEnabled)
-      {
-         log.info("Catch integration enabled.");
-      }
-   }
+    private Set<Mapping> exceptionMappings = new HashSet<Mapping>();
+    private boolean catchIntegrationEnabled = false;
 
-   public <T> void findExceptionMappingDeclaration(@Observes ProcessAnnotatedType<T> event)
-   {
-      AnnotatedType<T> type = event.getAnnotatedType();
-      
-      ExceptionMapping.List mappings = type.getAnnotation(ExceptionMapping.List.class);
-      if (mappings != null)
-      {
-         for (ExceptionMapping mapping : mappings.value())
-         {
+    public void scanForCatch(@Observes BeforeBeanDiscovery event, BeanManager manager) {
+        catchIntegrationEnabled = Utils.isClassAvailable(SEAM_CATCH_NAME);
+        if (catchIntegrationEnabled) {
+            log.info("Catch integration enabled.");
+        }
+    }
+
+    public <T> void findExceptionMappingDeclaration(@Observes ProcessAnnotatedType<T> event) {
+        AnnotatedType<T> type = event.getAnnotatedType();
+
+        ExceptionMapping.List mappings = type.getAnnotation(ExceptionMapping.List.class);
+        if (mappings != null) {
+            for (ExceptionMapping mapping : mappings.value()) {
+                addExceptionMapping(mapping);
+            }
+        }
+
+        // also, single @DeclarativeExceptionMapping can be used
+        ExceptionMapping mapping = type.getAnnotation(ExceptionMapping.class);
+        if (mapping != null) {
             addExceptionMapping(mapping);
-         }
-      }
-      
-      // also, single @DeclarativeExceptionMapping can be used
-      ExceptionMapping mapping = type.getAnnotation(ExceptionMapping.class);
-      if (mapping != null)
-      {
-         addExceptionMapping(mapping);
-      }
-   }
-   
-   private void addExceptionMapping(ExceptionMapping mapping)
-   {
-      exceptionMappings.add(new Mapping(mapping.exceptionType(), mapping.status(), mapping.message(), mapping.useExceptionMessage(), mapping.interpolateMessage(), mapping.useJaxb()));
-   }
-      
-   public Set<Mapping> getExceptionMappings()
-   {
-      return Collections.unmodifiableSet(exceptionMappings);
-   }
+        }
+    }
 
-   public boolean isCatchIntegrationEnabled()
-   {
-      return catchIntegrationEnabled;
-   }
+    private void addExceptionMapping(ExceptionMapping mapping) {
+        exceptionMappings.add(new Mapping(mapping.exceptionType(), mapping.status(), mapping.message(), mapping
+                .useExceptionMessage(), mapping.interpolateMessage(), mapping.useJaxb()));
+    }
+
+    public Set<Mapping> getExceptionMappings() {
+        return Collections.unmodifiableSet(exceptionMappings);
+    }
+
+    public boolean isCatchIntegrationEnabled() {
+        return catchIntegrationEnabled;
+    }
 }

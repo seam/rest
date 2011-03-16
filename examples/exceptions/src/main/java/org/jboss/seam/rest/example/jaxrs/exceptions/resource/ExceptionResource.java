@@ -10,18 +10,16 @@ import org.jboss.seam.solder.reflection.Reflections;
 
 @Path("exceptions")
 @Produces("application/xml")
-public class ExceptionResource
-{
-   @GET
-   public void throwException(@QueryParam("exception") @DefaultValue("java.lang.Exception") String exceptionType) throws Throwable
-   {
-      Object object = Reflections.classForName(exceptionType).newInstance();
-      
-      if (!(object instanceof Exception))
-      {
-         throw new RuntimeException(exceptionType + " is not an exception");
-      }
-      
-      throw (Throwable) object;
-   }
+public class ExceptionResource {
+    @GET
+    public void throwException(@QueryParam("exception") @DefaultValue("java.lang.Exception") String exceptionType)
+            throws Throwable {
+        Object object = Reflections.classForName(exceptionType).newInstance();
+
+        if (!(object instanceof Exception)) {
+            throw new RuntimeException(exceptionType + " is not an exception");
+        }
+
+        throw (Throwable) object;
+    }
 }

@@ -1,102 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>org.jboss.seam.rest</groupId>
-      <artifactId>seam-rest-parent</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
-   </parent>
+    <parent>
+        <groupId>org.jboss.seam.rest</groupId>
+        <artifactId>seam-rest-parent</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-   <artifactId>seam-rest-distribution</artifactId>
-   <name>Seam REST Distribution</name>
-   <description>Builds a Seam REST release distribution</description>
-   <packaging>pom</packaging>
+    <artifactId>seam-rest-distribution</artifactId>
+    <name>Seam REST Distribution</name>
+    <description>Builds a Seam REST release distribution</description>
+    <packaging>pom</packaging>
 
-   <properties>
-      <maven.deploy.skip>true</maven.deploy.skip>
-   </properties>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest</artifactId>
-      </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest</artifactId>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-api</artifactId>
-         <version>${project.version}</version>
-         <classifier>sources</classifier>
-         <optional>true</optional>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-api</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+            <optional>true</optional>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-api</artifactId>
-         <version>${project.version}</version>
-         <classifier>javadoc</classifier>
-         <optional>true</optional>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-api</artifactId>
+            <version>${project.version}</version>
+            <classifier>javadoc</classifier>
+            <optional>true</optional>
+        </dependency>
 
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-impl</artifactId>
-         <version>${project.version}</version>
-         <classifier>sources</classifier>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-impl</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-impl</artifactId>
-         <version>${project.version}</version>
-         <classifier>javadoc</classifier>
-         <optional>true</optional>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-impl</artifactId>
+            <version>${project.version}</version>
+            <classifier>javadoc</classifier>
+            <optional>true</optional>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-reference-guide</artifactId>
-         <version>${project.version}</version>
-         <type>war</type>
-         <optional>true</optional>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-reference-guide</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <optional>true</optional>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-example-tasks</artifactId>
-         <version>${project.version}</version>
-         <type>zip</type>
-         <optional>true</optional>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-example-exceptions</artifactId>
-         <version>${project.version}</version>
-         <type>zip</type>
-         <optional>true</optional>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.rest</groupId>
-         <artifactId>seam-rest-example-client</artifactId>
-         <version>${project.version}</version>
-         <type>zip</type>
-         <optional>true</optional>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-example-tasks</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+            <optional>true</optional>
+        </dependency>
 
-   </dependencies>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-example-exceptions</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+            <optional>true</optional>
+        </dependency>
 
-   <build>
-      <finalName>seam-rest</finalName>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-         </plugin>
-      </plugins>
-   </build>
+        <dependency>
+            <groupId>org.jboss.seam.rest</groupId>
+            <artifactId>seam-rest-example-client</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>seam-rest</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

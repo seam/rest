@@ -3,16 +3,16 @@
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 <book lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
 
-   <xi:include href="book_info.xml" />
+    <xi:include href="book_info.xml" />
 
-   <toc />
+    <toc />
 
-   <xi:include href="rest-preface.xml" />
-   <xi:include href="rest-installation.xml" />
-   <xi:include href="rest-exception-mapping.xml" />
-   <xi:include href="rest-validation.xml" />
-   <xi:include href="rest-templating.xml" />
-   <xi:include href="rest-client.xml" />
-   <xi:include href="rest-dependencies.xml" />
+    <xi:include href="rest-preface.xml" />
+    <xi:include href="rest-installation.xml" />
+    <xi:include href="rest-exception-mapping.xml" />
+    <xi:include href="rest-validation.xml" />
+    <xi:include href="rest-templating.xml" />
+    <xi:include href="rest-client.xml" />
+    <xi:include href="rest-dependencies.xml" />
 
 </book>

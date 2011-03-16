@@ -35,167 +35,137 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class ValidationTest
-{
-   @Inject
-   @Valid
-   private PersonResource validResource;
-   @Inject
-   @Invalid
-   private PersonResource invalidResource;
-   @Inject
-   private ResourceChild resourceChild;
-   @Inject
-   @RestResource
-   private Instance<ResponseBuilder> builder;
-   @Inject
-   @RestResource
-   private Instance<Response> response;
-   @Inject
-   private Instance<CatchValidationExceptionHandler> handler;
+public class ValidationTest {
+    @Inject
+    @Valid
+    private PersonResource validResource;
+    @Inject
+    @Invalid
+    private PersonResource invalidResource;
+    @Inject
+    private ResourceChild resourceChild;
+    @Inject
+    @RestResource
+    private Instance<ResponseBuilder> builder;
+    @Inject
+    @RestResource
+    private Instance<Response> response;
+    @Inject
+    private Instance<CatchValidationExceptionHandler> handler;
 
-   @Deployment
-   public static JavaArchive createDeployment()
-   {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
-      jar.addPackage(ValidateRequest.class.getPackage());
-      jar.addClass(CatchValidationExceptionHandler.class);
-      jar.addClass(ExceptionStackItem.class);
-      jar.addPackage(ValidationTest.class.getPackage());
-      jar.addClass(RestResource.class);
-      jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class, RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
-      jar.addClasses(Annotations.class, Utils.class);
-      jar.addClasses(PrimitiveTypes.class, AnnotationInspector.class);
-      return jar;
-   }
+    @Deployment
+    public static JavaArchive createDeployment() {
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
+        jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
+        jar.addPackage(ValidateRequest.class.getPackage());
+        jar.addClass(CatchValidationExceptionHandler.class);
+        jar.addClass(ExceptionStackItem.class);
+        jar.addPackage(ValidationTest.class.getPackage());
+        jar.addClass(RestResource.class);
+        jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class,
+                RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
+        jar.addClasses(Annotations.class, Utils.class);
+        jar.addClasses(PrimitiveTypes.class, AnnotationInspector.class);
+        return jar;
+    }
 
-   @Test
-   public void testCorrectMessageBody()
-   {
-      Person tester = new Person("Jozef", "Hartinger", 22, false);
-      validResource.partiallyValidatedOperation(tester);
-   }
+    @Test
+    public void testCorrectMessageBody() {
+        Person tester = new Person("Jozef", "Hartinger", 22, false);
+        validResource.partiallyValidatedOperation(tester);
+    }
 
-   @Test
-   public void testIncorrectMessageBody()
-   {
-      Person tester = new Person("foo", "b", 5, true);
-      try
-      {
-         validResource.partiallyValidatedOperation(tester);
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (ValidationException e)
-      {
-         assertEquals(3, e.getViolations().size());
-      }
-   }
-   
-   @Test
-   public void testDisabledValidation()
-   {
-      Person tester = new Person("foo", "b", 5, true);
-      validResource.notValidatedOperation(tester);
-   }
+    @Test
+    public void testIncorrectMessageBody() {
+        Person tester = new Person("foo", "b", 5, true);
+        try {
+            validResource.partiallyValidatedOperation(tester);
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (ValidationException e) {
+            assertEquals(3, e.getViolations().size());
+        }
+    }
 
-   @Test
-   public void testIncorrectFormBean()
-   {
-      FormBean form1 = new FormBean(null, "a");
-      FormBean form2 = new FormBean(null, "bb");
-      try
-      {
-         validResource.formOperation(form1, form2);
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (ValidationException e)
-      {
-         assertEquals(3, e.getViolations().size());
-      }
-   }
+    @Test
+    public void testDisabledValidation() {
+        Person tester = new Person("foo", "b", 5, true);
+        validResource.notValidatedOperation(tester);
+    }
 
-   @Test
-   public void testValidationExceptionHandler()
-   {
-      Person tester = new Person("foo", "bar", 100, true);
+    @Test
+    public void testIncorrectFormBean() {
+        FormBean form1 = new FormBean(null, "a");
+        FormBean form2 = new FormBean(null, "bb");
+        try {
+            validResource.formOperation(form1, form2);
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (ValidationException e) {
+            assertEquals(3, e.getViolations().size());
+        }
+    }
 
-      try
-      {
-         // prepare exception
-         validResource.partiallyValidatedOperation(tester);
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (final ValidationException e)
-      {
-         // pass the exception to the handler
-         ExceptionStack stack = new ExceptionStack(Collections.<Throwable>singleton(e), 0);
-         this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false, false)
-         {
-            @Override
-            public ValidationException getException()
-            {
-               return e;
-            }
+    @Test
+    public void testValidationExceptionHandler() {
+        Person tester = new Person("foo", "bar", 100, true);
 
-            @Override
-            public void handled()
-            {
-            }
+        try {
+            // prepare exception
+            validResource.partiallyValidatedOperation(tester);
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (final ValidationException e) {
+            // pass the exception to the handler
+            ExceptionStack stack = new ExceptionStack(Collections.<Throwable> singleton(e), 0);
+            this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false, false) {
+                @Override
+                public ValidationException getException() {
+                    return e;
+                }
 
-         }, builder.get());
+                @Override
+                public void handled() {
+                }
 
-         assertEquals(400, response.get().getStatus());
-         assertEquals("must be false", response.get().getEntity().toString().trim());
-      }
-   }
+            }, builder.get());
 
-   @Test
-   public void testGroups()
-   {
-      Person partiallyValidPerson = new Person("foo", "bar", 100, false);
-      Person completelyValidPerson = new Person("foo", "bar", 100, false, "foobar");
+            assertEquals(400, response.get().getStatus());
+            assertEquals("must be false", response.get().getEntity().toString().trim());
+        }
+    }
 
-      validResource.partiallyValidatedOperation(partiallyValidPerson);
-      validResource.completelyValidatedOperation(completelyValidPerson);
+    @Test
+    public void testGroups() {
+        Person partiallyValidPerson = new Person("foo", "bar", 100, false);
+        Person completelyValidPerson = new Person("foo", "bar", 100, false, "foobar");
 
-      try
-      {
-         validResource.completelyValidatedOperation(partiallyValidPerson);
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (ValidationException e)
-      {
-         // expected
-      }
-   }
+        validResource.partiallyValidatedOperation(partiallyValidPerson);
+        validResource.completelyValidatedOperation(completelyValidPerson);
 
-   @Test
-   public void testResourceHierarchy()
-   {
-      try
-      {
-         resourceChild.ping(new Person());
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (ValidationException e)
-      {
-         // expected
-      }
-   }
+        try {
+            validResource.completelyValidatedOperation(partiallyValidPerson);
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (ValidationException e) {
+            // expected
+        }
+    }
 
-   @Test
-   public void testResourceValidation()
-   {
-      Person validPerson = new Person("foo", "bar", 100, false, "foobar");
-      try
-      {
-         invalidResource.completelyValidatedOperation(validPerson);
-         throw new RuntimeException("Expected exception not thrown.");
-      }
-      catch (ValidationException e)
-      {
-         assertEquals(3, e.getViolations().size());
-      }
-   }
+    @Test
+    public void testResourceHierarchy() {
+        try {
+            resourceChild.ping(new Person());
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (ValidationException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testResourceValidation() {
+        Person validPerson = new Person("foo", "bar", 100, false, "foobar");
+        try {
+            invalidResource.completelyValidatedOperation(validPerson);
+            throw new RuntimeException("Expected exception not thrown.");
+        } catch (ValidationException e) {
+            assertEquals(3, e.getViolations().size());
+        }
+    }
 }

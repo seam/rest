@@ -15,21 +15,21 @@ import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 
 /**
- * The default handler that obtains {@link ValidationException} from Seam Catch and
- * converts it to an HTTP response.
+ * The default handler that obtains {@link ValidationException} from Seam Catch and converts it to an HTTP response.
+ * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 @HandlesExceptions
 @ApplicationScoped
-public class CatchValidationExceptionHandler
-{
-   @Inject
-   private ValidationExceptionHandler delegate;
-   
-   public void handleValidationException(@Handles(precedence = Precedence.BUILT_IN, during = TraversalMode.DEPTH_FIRST) @RestRequest CaughtException<ValidationException> event, @RestResource ResponseBuilder builder)
-   {
-      delegate.handleValidationException(event.getException(), builder);
-      event.handled();
-   }
+public class CatchValidationExceptionHandler {
+    @Inject
+    private ValidationExceptionHandler delegate;
+
+    public void handleValidationException(
+            @Handles(precedence = Precedence.BUILT_IN, during = TraversalMode.DEPTH_FIRST) @RestRequest CaughtException<ValidationException> event,
+            @RestResource ResponseBuilder builder) {
+        delegate.handleValidationException(event.getException(), builder);
+        event.handled();
+    }
 }

@@ -6,11 +6,9 @@ import javax.interceptor.InvocationContext;
 
 @Interceptor
 @Valid
-public class ValidationInterceptor
-{
-   @AroundInvoke
-   public Object intercept(InvocationContext ctx) throws Exception
-   {
-      return "Validated " + ctx.proceed();
-   }
+public class ValidationInterceptor {
+    @AroundInvoke
+    public Object intercept(InvocationContext ctx) throws Exception {
+        return "Validated " + ctx.proceed();
+    }
 }

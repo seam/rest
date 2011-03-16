@@ -12,24 +12,21 @@ import javax.ws.rs.ext.Provider;
 @SuppressWarnings("unused")
 @ApplicationScoped
 @Provider
-public class UriInfoProducer implements ExceptionMapper<UriInfoProducer.FooException>
-{
-   @Produces @Named
-   private UriInfo uriInfo;
-   
-   @Context
-   public void setUriInfo(UriInfo uriInfo)
-   {
-      this.uriInfo = uriInfo;
-   }
+public class UriInfoProducer implements ExceptionMapper<UriInfoProducer.FooException> {
+    @Produces
+    @Named
+    private UriInfo uriInfo;
 
-   @SuppressWarnings("serial")
-   public class FooException extends Exception
-   {
-   }
+    @Context
+    public void setUriInfo(UriInfo uriInfo) {
+        this.uriInfo = uriInfo;
+    }
 
-   public Response toResponse(FooException exception)
-   {
-      return null;
-   }
+    @SuppressWarnings("serial")
+    public class FooException extends Exception {
+    }
+
+    public Response toResponse(FooException exception) {
+        return null;
+    }
 }

@@ -7,10 +7,8 @@ import javax.enterprise.context.ApplicationScoped;
 @Singleton
 @Startup
 @ApplicationScoped
-public class Echo
-{
-   public boolean ping()
-   {
-      return true;
-   }
+public class Echo {
+    public boolean ping() {
+        return true;
+    }
 }

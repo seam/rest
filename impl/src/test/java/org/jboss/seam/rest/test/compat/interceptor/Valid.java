@@ -15,7 +15,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ TYPE })
 @Retention(RUNTIME)
 @Documented
-public @interface Valid
-{
+public @interface Valid {
 
 }

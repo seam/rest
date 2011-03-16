@@ -35,69 +35,60 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
  * 
  */
 @ApplicationScoped
-public class RestClientProducer
-{
-   private static final Logger log = Logger.getLogger(RestClientProducer.class);
-   @Inject
-   private Interpolator interpolator;
-   @Inject
-   private BeanManager manager;
+public class RestClientProducer {
+    private static final Logger log = Logger.getLogger(RestClientProducer.class);
+    @Inject
+    private Interpolator interpolator;
+    @Inject
+    private BeanManager manager;
 
-   @Inject
-   public void initClientSupport(Instance<ClientErrorInterceptor> interceptors)
-   {
-      /*
-       * Automatically Register ClientErrors
-       */
-      Iterator<ClientErrorInterceptor> iterator = interceptors.iterator();
-      while (iterator.hasNext())
-      {
-         ClientErrorInterceptor interceptor = iterator.next();
-         ResteasyProviderFactory.getInstance().addClientErrorInterceptor(interceptor);
-         log.infov("Registered ClientErrorInterceptor {0}", interceptor.getClass());
-      }
-   }
-   
-   /**
-    * Producer method for proxied JAX-RS interfaces - REST Clients This method
-    * is not registered as a producer method by default. It is registered by
-    * {@link RestClientExtension} only if there is an appropriate injection
-    * point.
-    */
-   public Object produceRestClient(InjectionPoint ip, ClientExecutor executor)
-   {
-      RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
+    @Inject
+    public void initClientSupport(Instance<ClientErrorInterceptor> interceptors) {
+        /*
+         * Automatically Register ClientErrors
+         */
+        Iterator<ClientErrorInterceptor> iterator = interceptors.iterator();
+        while (iterator.hasNext()) {
+            ClientErrorInterceptor interceptor = iterator.next();
+            ResteasyProviderFactory.getInstance().addClientErrorInterceptor(interceptor);
+            log.infov("Registered ClientErrorInterceptor {0}", interceptor.getClass());
+        }
+    }
 
-      if (qualifier == null || !(ip.getType() instanceof Class<?>))
-      {
-         // this should never happen
-         throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid.");
-      }
+    /**
+     * Producer method for proxied JAX-RS interfaces - REST Clients This method is not registered as a producer method by
+     * default. It is registered by {@link RestClientExtension} only if there is an appropriate injection point.
+     */
+    public Object produceRestClient(InjectionPoint ip, ClientExecutor executor) {
+        RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
 
-      Class<?> clazz = (Class<?>) ip.getType();
-      String url = interpolator.interpolate(qualifier.value());
-      return ProxyFactory.create(clazz, url, executor);
-   }
+        if (qualifier == null || !(ip.getType() instanceof Class<?>)) {
+            // this should never happen
+            throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid.");
+        }
 
-   /**
-    * Produces ClientRequest instances.
-    */
-   @Produces
-   @RestClient("")
-   public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor)
-   {
-      RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
+        Class<?> clazz = (Class<?>) ip.getType();
+        String url = interpolator.interpolate(qualifier.value());
+        return ProxyFactory.create(clazz, url, executor);
+    }
 
-      if (qualifier == null)
-      {
-         // this should never happen
-         throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid."); 
-      }
+    /**
+     * Produces ClientRequest instances.
+     */
+    @Produces
+    @RestClient("")
+    public ClientRequest produceClientRequest(InjectionPoint ip, ClientExecutor executor) {
+        RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
 
-      String url = interpolator.interpolate(qualifier.value());
+        if (qualifier == null) {
+            // this should never happen
+            throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid.");
+        }
 
-      return new ClientRequest(url, executor);
-   }
+        String url = interpolator.interpolate(qualifier.value());
 
-   // TODO disposer methods?
+        return new ClientRequest(url, executor);
+    }
+
+    // TODO disposer methods?
 }

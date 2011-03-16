@@ -11,13 +11,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 @Path("/task")
-public interface TaskService
-{
-   @POST
-   @Consumes("application/xml")
-   Response createTask(Task task);
-   
-   @GET
-   @Produces("application/xml")
-   Task getTask(@QueryParam("a") int a, @MatrixParam("b") int b, @CookieParam("c") int c);
+public interface TaskService {
+    @POST
+    @Consumes("application/xml")
+    Response createTask(Task task);
+
+    @GET
+    @Produces("application/xml")
+    Task getTask(@QueryParam("a") int a, @MatrixParam("b") int b, @CookieParam("c") int c);
 }

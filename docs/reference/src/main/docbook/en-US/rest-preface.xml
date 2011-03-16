@@ -2,15 +2,15 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 <preface>
-	<title>Introduction</title>
-	<para>
-		Seam REST is a lightweight module that provides
-		additional integration of technologies within the Java EE platform
-		as well as third party technologies.
+    <title>Introduction</title>
+    <para>
+        Seam REST is a lightweight module that provides
+        additional integration of technologies within the Java EE platform
+        as well as third party technologies.
 	</para>
-	
-	<para>
-		Seam REST is independent from CDI and JAX-RS implementations and thus fully portable 
-		between Java EE 6 environments.
+
+    <para>
+        Seam REST is independent from CDI and JAX-RS implementations and thus fully portable
+        between Java EE 6 environments.
 	</para>
 </preface>

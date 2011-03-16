@@ -22,70 +22,64 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * Collection resource for tasks
+ * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 @Path("/task")
 @RequestScoped
 @Named
-public class TaskCollectionResource
-{
-   @Inject
-   private CollectionBean bean;
-   @Inject
-   private TaskResource taskSubresource;
-   @Context
-   protected UriInfo uriInfo;
-   @QueryParam("start")
-   @DefaultValue("0")
-   @Min(value = 0, message = "start must be a non-negative number")
-   protected int start;
-   @QueryParam("limit")
-   @DefaultValue("5")
-   @Min(value = 0, message = "limit must be a non-negative number")
-   @Max(value = 100, message = "Cannot return more than 100 items")
-   protected int limit;
-   @Pattern(regexp = "resolved|unresolved|all", message="Unknown task status. Allowed values: resolved, unresolved, all")
-   private String status;
+public class TaskCollectionResource {
+    @Inject
+    private CollectionBean bean;
+    @Inject
+    private TaskResource taskSubresource;
+    @Context
+    protected UriInfo uriInfo;
+    @QueryParam("start")
+    @DefaultValue("0")
+    @Min(value = 0, message = "start must be a non-negative number")
+    protected int start;
+    @QueryParam("limit")
+    @DefaultValue("5")
+    @Min(value = 0, message = "limit must be a non-negative number")
+    @Max(value = 100, message = "Cannot return more than 100 items")
+    protected int limit;
+    @Pattern(regexp = "resolved|unresolved|all", message = "Unknown task status. Allowed values: resolved, unresolved, all")
+    private String status;
 
-   @GET
-   @ValidateRequest
-   @Produces({ "application/tasks+xml", "application/json" })
-   @ResponseTemplate( value = "/freemarker/tasks.ftl", produces = "application/tasks+xml" )
-   public List<Task> getTasks()
-   {
-      return bean.getTasks(start, limit, status, uriInfo.getPathParameters().getFirst("category"));
-   }
+    @GET
+    @ValidateRequest
+    @Produces({ "application/tasks+xml", "application/json" })
+    @ResponseTemplate(value = "/freemarker/tasks.ftl", produces = "application/tasks+xml")
+    public List<Task> getTasks() {
+        return bean.getTasks(start, limit, status, uriInfo.getPathParameters().getFirst("category"));
+    }
 
-   @Path("/{taskId}")
-   public TaskResource getTaskSubresource()
-   {
-      return taskSubresource;
-   }
+    @Path("/{taskId}")
+    public TaskResource getTaskSubresource() {
+        return taskSubresource;
+    }
 
-   /**
-    * Ugly workaround for https://jira.jboss.org/browse/CDI-6
-    * (We must use setter injection instead of field injection which makes things less clear)
-    */
-   @QueryParam("status")
-   @DefaultValue("unresolved")
-   public void setStatus(String status)
-   {
-      this.status = status;
-   }
+    /**
+     * Ugly workaround for https://jira.jboss.org/browse/CDI-6 (We must use setter injection instead of field injection which
+     * makes things less clear)
+     */
+    @QueryParam("status")
+    @DefaultValue("unresolved")
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-   public UriInfo getUriInfo()
-   {
-      return uriInfo;
-   }
+    public UriInfo getUriInfo() {
+        return uriInfo;
+    }
 
-   public int getStart()
-   {
-      return start;
-   }
+    public int getStart() {
+        return start;
+    }
 
-   public int getLimit()
-   {
-      return limit;
-   }
+    public int getLimit() {
+        return limit;
+    }
 }

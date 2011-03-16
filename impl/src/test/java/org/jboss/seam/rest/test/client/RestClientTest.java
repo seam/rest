@@ -21,61 +21,54 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class RestClientTest
-{
-   @Inject
-   private InjectedBean bean;
+public class RestClientTest {
+    @Inject
+    private InjectedBean bean;
 
-   @Deployment
-   public static WebArchive getDeployment()
-   {
-      WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-      war.addPackage(RestClientTest.class.getPackage()); // test classes
-      war.addPackage(Beans.class.getPackage());
-      war.addClass(DefaultLiteral.class);
-      war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
-      war.addWebResource("WEB-INF/web.xml", "web.xml");
-      war.addLibrary(getSeamRest());
-      war.addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
-      return war;
-   }
+    @Deployment
+    public static WebArchive getDeployment() {
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
+        war.addPackage(RestClientTest.class.getPackage()); // test classes
+        war.addPackage(Beans.class.getPackage());
+        war.addClass(DefaultLiteral.class);
+        war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+        war.addWebResource("WEB-INF/web.xml", "web.xml");
+        war.addLibrary(getSeamRest());
+        war.addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+        return war;
+    }
 
-   public static JavaArchive getSeamRest()
-   {
-      JavaArchive jar = SeamRestClientTest.createSeamRest();
-      jar.addServiceProvider(Extension.class, RestClientExtension.class);
-      return jar;
-   }
+    public static JavaArchive getSeamRest() {
+        JavaArchive jar = SeamRestClientTest.createSeamRest();
+        jar.addServiceProvider(Extension.class, RestClientExtension.class);
+        return jar;
+    }
 
-   @Test
-   public void testClientRequest() throws Exception
-   {
-      ClientRequest request = bean.getRequest();
-      request.accept(MediaType.TEXT_PLAIN_TYPE);
-      ClientResponse<String> response = request.get(String.class);
-      assertEquals("pong", response.getEntity());
-   }
-   
-   @Test
-   public void testRestClientPost()
-   {
-      assertEquals(200, bean.createTask());
-   }
-   
-   @Test
-   public void testRestClientGet()
-   {
-      Task task = bean.getTask();
-      
-      assertEquals(2, task.getId());
-      assertEquals("alpha", task.getName());
-      assertEquals("bravo", task.getDescription());
-      assertEquals("pong", bean.ping());
-   }
-   
-   @Test
-   public void testUriInterpolation() throws Exception
-   {
-      assertEquals("http://example.com:8080/service/ping", bean.getRequestWithEl().getUri());
-   }
+    @Test
+    public void testClientRequest() throws Exception {
+        ClientRequest request = bean.getRequest();
+        request.accept(MediaType.TEXT_PLAIN_TYPE);
+        ClientResponse<String> response = request.get(String.class);
+        assertEquals("pong", response.getEntity());
+    }
+
+    @Test
+    public void testRestClientPost() {
+        assertEquals(200, bean.createTask());
+    }
+
+    @Test
+    public void testRestClientGet() {
+        Task task = bean.getTask();
+
+        assertEquals(2, task.getId());
+        assertEquals("alpha", task.getName());
+        assertEquals("bravo", task.getDescription());
+        assertEquals("pong", bean.ping());
+    }
+
+    @Test
+    public void testUriInterpolation() throws Exception {
+        assertEquals("http://example.com:8080/service/ping", bean.getRequestWithEl().getUri());
+    }
 }

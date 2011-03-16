@@ -1,6 +1,4 @@
 package org.jboss.seam.rest.example.tasks.entity;
 
-public interface TaskValidationGroup
-{
-
+public interface TaskValidationGroup {
 }

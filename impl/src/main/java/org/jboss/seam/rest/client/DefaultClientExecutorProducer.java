@@ -18,34 +18,30 @@ import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 
 /**
- * Produces the default ClientExecutor.
- * The default ClientExecutor can be overriden by providing 
- * an alternative instance of ClientExecutor.
+ * Produces the default ClientExecutor. The default ClientExecutor can be overriden by providing an alternative instance of
+ * ClientExecutor.
  * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 @ApplicationScoped
-public class DefaultClientExecutorProducer
-{
-   @Produces
-   /*
-    * @DefaultBean use retracted due to GlassFish problem.
-    * https://issues.jboss.org/browse/SEAMREST-30
-    */
-//   @DefaultBean(value = ClientExecutor.class)
-   public ClientExecutor createExecutor()
-   {
-      HttpParams params = new BasicHttpParams();
-      ConnManagerParams.setMaxTotalConnections(params, 200);
+public class DefaultClientExecutorProducer {
+    @Produces
+    /*
+     * @DefaultBean use retracted due to GlassFish problem. https://issues.jboss.org/browse/SEAMREST-30
+     */
+    // @DefaultBean(value = ClientExecutor.class)
+    public ClientExecutor createExecutor() {
+        HttpParams params = new BasicHttpParams();
+        ConnManagerParams.setMaxTotalConnections(params, 200);
 
-      SchemeRegistry schemeRegistry = new SchemeRegistry();
-      schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-      schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+        SchemeRegistry schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
 
-      ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-      HttpClient httpClient = new DefaultHttpClient(cm, params);
+        ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+        HttpClient httpClient = new DefaultHttpClient(cm, params);
 
-      return new ApacheHttpClient4Executor(httpClient);
-   }
+        return new ApacheHttpClient4Executor(httpClient);
+    }
 }

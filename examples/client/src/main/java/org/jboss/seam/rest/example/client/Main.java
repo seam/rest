@@ -10,26 +10,19 @@ import org.jboss.seam.rest.example.client.ui.ApplicationFrame;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 @Singleton
-public class Main
-{
-   @Inject
-   private ApplicationFrame frame;
-   
-   public void init(@Observes ContainerInitialized event)
-   {
-      EventQueue.invokeLater(new Runnable()
-      {
-         public void run()
-         {
-            try
-            {
-               frame.setVisible(true);
+public class Main {
+    @Inject
+    private ApplicationFrame frame;
+
+    public void init(@Observes ContainerInitialized event) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            catch (Exception e)
-            {
-               e.printStackTrace();
-            }
-         }
-      });
-   }
+        });
+    }
 }

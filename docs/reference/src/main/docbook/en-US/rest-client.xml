@@ -2,33 +2,36 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 <chapter id="rest.client">
-	<title>RESTEasy Client Framework Integration</title>
+    <title>RESTEasy Client Framework Integration</title>
 
-	<para>
-		The RESTEasy Client Framework is a framework for writing clients
-		for
-		REST-based web services. It reuses JAX-RS metadata for creating
-		HTTP
-		requests. For more information about the framework, refer to the
-		<ulink
-			url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/RESTEasy_Client_Framework.html">project documentation</ulink>.
+    <para>
+        The RESTEasy Client Framework is a framework for writing clients
+        for
+        REST-based web services. It reuses JAX-RS metadata for creating
+        HTTP
+        requests. For more information about the framework, refer to the
+        <ulink url="http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/RESTEasy_Client_Framework.html">project documentation</ulink>
+        .
+    </para>
+
+    <para>
+        Integration with the RESTEasy Client Framework is optional in
+        Seam REST and only available when RESTEasy is available on classpath.
 	</para>
 
-	<para>
-		Integration with the RESTEasy Client Framework is optional in
-		Seam REST and only available when RESTEasy is available on classpath.
-	</para>
+    <sect1>
+        <title>Using RESTEasy Client Framework with Seam REST</title>
 
-	<sect1>
-		<title>Using RESTEasy Client Framework with Seam REST</title>
+        <para>
+            Let us assume as an example that a remote server exposes a web service for providing task details to the client
+            through the
+            <literal>TaskService</literal>
+            interface below.
+        </para>
 
-		<para>
-			Let us assume as an example that a remote server exposes a web service for providing task details to the client through the <literal>TaskService</literal> interface below.
-		</para>
-
-		<example>
-			<title>Sample JAX-RS annotated interface</title>
-			<programlisting role="JAVA"><![CDATA[@Path("/task")
+        <example>
+            <title>Sample JAX-RS annotated interface</title>
+            <programlisting role="JAVA"><![CDATA[@Path("/task")
 @Produces("application/xml")
 public interface TaskService
 {
@@ -36,71 +39,78 @@ public interface TaskService
 	@Path("/{id}")
 	Task getTask(@PathParam("id")long id);
 }]]></programlisting>
-		</example>
+        </example>
 
-		<para>
-			To access the remote web service, Seam REST builds and injects a client object of the web service.
+        <para>
+            To access the remote web service, Seam REST builds and injects a client object of the web service.
 		</para>
 
-		<example>
-			<title>Injecting REST Client</title>
-			<programlisting role="JAVA"><![CDATA[@Inject @RestClient("http://example.com")
+        <example>
+            <title>Injecting REST Client</title>
+            <programlisting role="JAVA"><![CDATA[@Inject @RestClient("http://example.com")
 private TaskService taskService;
 
 ...
 
 Task task = taskService.getTask(1);
 ]]></programlisting>
-		</example>
+        </example>
 
-		<para>
-			The Seam REST module injects a
-			proxied <literal>TaskService</literal> interface and the RESTEasy Client
-			Framework converts every method invocation on the <literal>TaskService</literal> to an
-			HTTP request and sends it over the wire to <literal>http://example.com</literal>. The
-			HTTP response is unmarshalled automatically and the response object
-			is returned by the method call.
-		</para>
-		
-		<para>
-			URI definition supports EL expressions. 
-		</para>
-		
-		<programlisting role="JAVA"><![CDATA[@Inject @RestClient("#{example.service.uri}")]]></programlisting>
-		
-	</sect1>
+        <para>
+            The Seam REST module injects a
+            proxied
+            <literal>TaskService</literal>
+            interface and the RESTEasy Client
+            Framework converts every method invocation on the
+            <literal>TaskService</literal>
+            to an
+            HTTP request and sends it over the wire to
+            <literal>http://example.com</literal>
+            . The
+            HTTP response is unmarshalled automatically and the response object
+            is returned by the method call.
+        </para>
 
-	<sect1>
-		<title>Manual ClientRequest API</title>
-		<para>
-			Besides proxying JAX-RS interfaces, the RESTEasy Client Framework
-			provides the ClientRequest API for manual building of HTTP requests. For more information on the ClientRequest API, refer to the
-			<ulink
-				url=" http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/RESTEasy_Client_Framework.html#ClientRequest">project documentation</ulink>.
+        <para>
+            URI definition supports EL expressions. 
 		</para>
 
-		<example>
-			<title>Injecting ClientRequest</title>
-			<programlisting role="JAVA"><![CDATA[@Inject @RestClient("http://localhost:8080/test/ping")
+        <programlisting role="JAVA"><![CDATA[@Inject @RestClient("#{example.service.uri}")]]></programlisting>
+
+    </sect1>
+
+    <sect1>
+        <title>Manual ClientRequest API</title>
+        <para>
+            Besides proxying JAX-RS interfaces, the RESTEasy Client Framework
+            provides the ClientRequest API for manual building of HTTP requests. For more information on the ClientRequest API, refer to the
+            <ulink url=" http://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/RESTEasy_Client_Framework.html#ClientRequest">project documentation</ulink>
+            .
+        </para>
+
+        <example>
+            <title>Injecting ClientRequest</title>
+            <programlisting role="JAVA"><![CDATA[@Inject @RestClient("http://localhost:8080/test/ping")
 private ClientRequest request;
 
 ...
 
 request.accept(MediaType.TEXT_PLAIN_TYPE);
 ClientResponse<String> response = request.get(String.class);]]></programlisting>
-		</example>
-	</sect1>
+        </example>
+    </sect1>
 
-	<sect1>
-		<title>ClientExecutor Configuration</title>
-		<para>
-			If not specified otherwise, every request is executed by the default Apache HTTP Client 4 configuration.
-			This can be altered by providing a ClientExecutor bean. <!-- IF YOU CAN, PLEASE, REPHRASE to something like: Provide a ClientExecutor bean to change the Apache HTTP Client 4 -->
-		</para>
-		
-				<example>
-			<title>Custom Apache HTTP Client 4 configuration</title>
-			<programlisting role="JAVA"><![CDATA[@Produces
+    <sect1>
+        <title>ClientExecutor Configuration</title>
+        <para>
+            If not specified otherwise, every request is executed by the default Apache HTTP Client 4 configuration.
+            This can be altered by providing a ClientExecutor bean. <!-- IF YOU CAN, PLEASE, REPHRASE to something like: Provide a ClientExecutor 
+                bean to change the Apache HTTP Client 4 -->
+        </para>
+
+        <example>
+            <title>Custom Apache HTTP Client 4 configuration</title>
+            <programlisting role="JAVA"><![CDATA[@Produces
 public ClientExecutor createExecutor()
 {
 	HttpParams params = new BasicHttpParams();
@@ -115,6 +125,6 @@ public ClientExecutor createExecutor()
 
     return new ApacheHttpClient4Executor(httpClient);
 }]]></programlisting>
-		</example>
-	</sect1>
+        </example>
+    </sect1>
 </chapter>

@@ -33,62 +33,56 @@ import static org.junit.Assert.assertEquals;
 
 @Run(RunModeType.AS_CLIENT)
 @RunWith(Arquillian.class)
-public abstract class SeamRestClientTest
-{
-   public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
-   public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
-   public static final File LIBRARY_SEAM_SOLDER = new File("target/lib/seam-solder.jar");
-   public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
-   public static final File LIBRARY_SLF4J_API = new File("target/lib/slf4j-api.jar");
-   public static final File LIBRARY_SLF4J_IMPL = new File("target/lib/slf4j-simple.jar");
-   public static final File LIBRARY_SEAM_SERVLET_API = new File("target/lib/seam-servlet-api.jar");
-   public static final File LIBRARY_SEAM_SERVLET_IMPL = new File("target/lib/seam-servlet-impl.jar");
-   public static final File LIBRARY_SEAM_CATCH = new File("target/lib/seam-catch.jar");
-   
-   protected HttpClient client = new HttpClient();
-   
-   protected void test(String url, int expectedStatus, String expectedBody, String accept) throws Exception
-   {
-      GetMethod get = new GetMethod(url);
-      get.setRequestHeader("Accept", accept);
-      assertEquals(expectedStatus, client.executeMethod(get));
-      if (expectedBody != null)
-      {
-         assertEquals(expectedBody, get.getResponseBodyAsString());
-      }
-   }
-   
-   protected void test(String url, int expectedStatus, String expectedBody) throws Exception
-   {
-      test(url, expectedStatus, expectedBody, "text/plain");
-   }
-   
-   public static JavaArchive getLoggingJar()
-   {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "logging.jar");
-      jar.addPackage(Logger.class.getPackage());
-      return jar;
-   }
-   
-   /**
-    * Simulates combined seam-rest.jar.
-    * No extensions are enabled.
-    * Templating support is not added.
-    * SeamExceptionMapper and CatchExceptionMapper is not added.
-    */
-   public static JavaArchive createSeamRest()
-   {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
-      jar.addClasses(SeamRestConfiguration.class, SeamRestExtension.class);
-      jar.addPackage(RestClient.class.getPackage()); // .client
-      jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions api
-      jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions impl
-      jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
-      jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
-      jar.addPackage(ValidateRequest.class.getPackage());
-      jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-      // mock SeamRestStartup
-      jar.addClass(MockStartup.class);
-      return jar;
-   }
+public abstract class SeamRestClientTest {
+    public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
+    public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
+    public static final File LIBRARY_SEAM_SOLDER = new File("target/lib/seam-solder.jar");
+    public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
+    public static final File LIBRARY_SLF4J_API = new File("target/lib/slf4j-api.jar");
+    public static final File LIBRARY_SLF4J_IMPL = new File("target/lib/slf4j-simple.jar");
+    public static final File LIBRARY_SEAM_SERVLET_API = new File("target/lib/seam-servlet-api.jar");
+    public static final File LIBRARY_SEAM_SERVLET_IMPL = new File("target/lib/seam-servlet-impl.jar");
+    public static final File LIBRARY_SEAM_CATCH = new File("target/lib/seam-catch.jar");
+
+    protected HttpClient client = new HttpClient();
+
+    protected void test(String url, int expectedStatus, String expectedBody, String accept) throws Exception {
+        GetMethod get = new GetMethod(url);
+        get.setRequestHeader("Accept", accept);
+        assertEquals(expectedStatus, client.executeMethod(get));
+        if (expectedBody != null) {
+            assertEquals(expectedBody, get.getResponseBodyAsString());
+        }
+    }
+
+    protected void test(String url, int expectedStatus, String expectedBody) throws Exception {
+        test(url, expectedStatus, expectedBody, "text/plain");
+    }
+
+    public static JavaArchive getLoggingJar() {
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "logging.jar");
+        jar.addPackage(Logger.class.getPackage());
+        return jar;
+    }
+
+    /**
+     * Simulates combined seam-rest.jar. No extensions are enabled. Templating support is not added. SeamExceptionMapper and
+     * CatchExceptionMapper is not added.
+     */
+    public static JavaArchive createSeamRest() {
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "seam-rest.jar");
+        jar.addClasses(SeamRestConfiguration.class, SeamRestExtension.class);
+        jar.addPackage(RestClient.class.getPackage()); // .client
+        jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions
+                                                                                                                                // api
+        jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions
+                                                                                                                   // impl
+        jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
+        jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
+        jar.addPackage(ValidateRequest.class.getPackage());
+        jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        // mock SeamRestStartup
+        jar.addClass(MockStartup.class);
+        return jar;
+    }
 }

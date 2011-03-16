@@ -9,13 +9,12 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 @ApplicationScoped
-public class DateProducer
-{  
-   private DateFormat format = SimpleDateFormat.getDateTimeInstance(); 
-   
-   @Produces @Named
-   public String getDate()
-   {
-      return format.format(new Date());
-   }
+public class DateProducer {
+    private DateFormat format = SimpleDateFormat.getDateTimeInstance();
+
+    @Produces
+    @Named
+    public String getDate() {
+        return format.format(new Date());
+    }
 }

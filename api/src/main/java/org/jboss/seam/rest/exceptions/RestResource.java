@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to qualify a resource used by Seam REST
- *
+ * 
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
@@ -22,6 +22,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 @Documented
-public @interface RestResource
-{
+public @interface RestResource {
 }

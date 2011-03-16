@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://caucho.com/ns/resin">
 
-	<context-param>
-		<param-name>javax.ws.rs.Application</param-name>
-		<param-value>org.jboss.seam.rest.example.tasks.TasksApplication</param-value>
-	</context-param>
+    <context-param>
+        <param-name>javax.ws.rs.Application</param-name>
+        <param-value>org.jboss.seam.rest.example.tasks.TasksApplication</param-value>
+    </context-param>
 
-	<filter>
-		<filter-name>Resteasy</filter-name>
-		<filter-class>org.jboss.resteasy.plugins.server.servlet.FilterDispatcher</filter-class>
-	</filter>
+    <filter>
+        <filter-name>Resteasy</filter-name>
+        <filter-class>org.jboss.resteasy.plugins.server.servlet.FilterDispatcher</filter-class>
+    </filter>
 
-	<filter-mapping>
-		<filter-name>Resteasy</filter-name>
-		<url-pattern>/api/*</url-pattern>
-	</filter-mapping>
-	
-	<context-param>
-		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/api</param-value>
-	</context-param>
-	
-	<database jndi-name='java:/tasksDatasource'>
-		<driver type="org.hsqldb.jdbcDriver">
-			<url>jdbc:hsqldb:.</url>
-			<user>sa</user>
-			<password></password>
-		</driver>
-	</database>
+    <filter-mapping>
+        <filter-name>Resteasy</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
 
-<!--	<database jndi-name='java:/tasksDatasource'>-->
-<!--		<driver type="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">-->
-<!--			<url>jdbc:mysql://localhost:3306/tasks</url>-->
-<!--			<user>seam</user>-->
-<!--			<password>seam</password>-->
-<!--		</driver>-->
-<!--	</database>-->
+    <context-param>
+        <param-name>resteasy.servlet.mapping.prefix</param-name>
+        <param-value>/api</param-value>
+    </context-param>
 
-	<!-- <database jndi-name="java:/tasksDatasource"> -->
-	<!-- <driver type="com.caucho.db.jca.ConnectionFactory"> -->
-	<!-- <url>resin:WEB-INF/db</url> -->
-	<!-- <remove-on-error /> -->
-	<!-- </driver> -->
-	<!-- </database> -->
+    <database jndi-name='java:/tasksDatasource'>
+        <driver type="org.hsqldb.jdbcDriver">
+            <url>jdbc:hsqldb:.</url>
+            <user>sa</user>
+            <password></password>
+        </driver>
+    </database>
+
+    <!-- <database jndi-name='java:/tasksDatasource'> -->
+    <!-- <driver type="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource"> -->
+    <!-- <url>jdbc:mysql://localhost:3306/tasks</url> -->
+    <!-- <user>seam</user> -->
+    <!-- <password>seam</password> -->
+    <!-- </driver> -->
+    <!-- </database> -->
+
+    <!-- <database jndi-name="java:/tasksDatasource"> -->
+    <!-- <driver type="com.caucho.db.jca.ConnectionFactory"> -->
+    <!-- <url>resin:WEB-INF/db</url> -->
+    <!-- <remove-on-error /> -->
+    <!-- </driver> -->
+    <!-- </database> -->
 
 </web-app>

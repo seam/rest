@@ -10,30 +10,27 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(TYPE)
-public @interface ExceptionMapping
-{
-   Class<? extends Throwable> exceptionType();
+public @interface ExceptionMapping {
+    Class<? extends Throwable> exceptionType();
 
-   int status();
+    int status();
 
-   String message() default "";
+    String message() default "";
 
-   boolean useExceptionMessage() default false;
+    boolean useExceptionMessage() default false;
 
-   boolean interpolateMessage() default true;
-   
-   boolean useJaxb() default true;
+    boolean interpolateMessage() default true;
 
-   /**
-    * Defines several <code>@DeclarativeExceptionMapping</code> annotations on
-    * the same element
-    * 
-    */
-   @Target(TYPE)
-   @Retention(RUNTIME)
-   @Documented
-   @interface List
-   {
-      ExceptionMapping[] value();
-   }
+    boolean useJaxb() default true;
+
+    /**
+     * Defines several <code>@DeclarativeExceptionMapping</code> annotations on the same element
+     * 
+     */
+    @Target(TYPE)
+    @Retention(RUNTIME)
+    @Documented
+    @interface List {
+        ExceptionMapping[] value();
+    }
 }

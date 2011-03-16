@@ -6,11 +6,9 @@ import javax.enterprise.inject.Specializes;
 import org.jboss.seam.rest.SeamRestConfiguration;
 
 @Specializes
-public class CustomSeamRestConfiguration extends SeamRestConfiguration
-{
-   @PostConstruct
-   public void init()
-   {
-      setPreferedTemplatingProvider(MockTemplatingProvider.class);
-   }
+public class CustomSeamRestConfiguration extends SeamRestConfiguration {
+    @PostConstruct
+    public void init() {
+        setPreferedTemplatingProvider(MockTemplatingProvider.class);
+    }
 }

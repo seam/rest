@@ -11,7 +11,6 @@ import org.jboss.seam.rest.client.RestClient;
 @Target({ ANNOTATION_TYPE, FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @RestClient("http://example.com")
-@interface Example
-{
+@interface Example {
 
 }

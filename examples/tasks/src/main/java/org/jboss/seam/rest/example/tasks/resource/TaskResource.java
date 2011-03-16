@@ -26,72 +26,64 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * CRUD resource for resources
+ * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 @Consumes({ "application/xml", "application/json" })
 @ValidateRequest(groups = TaskValidationGroup.class)
 @Stateless
-public class TaskResource extends AbstractEntityResource
-{
-   @PersistenceContext
-   private EntityManager em;
+public class TaskResource extends AbstractEntityResource {
+    @PersistenceContext
+    private EntityManager em;
 
-   @GET
-   @ResponseTemplate(value = "/freemarker/task.ftl", produces = "application/task+xml", responseName = "task")
-   @Produces({ "application/task+xml", "application/json" })
-   public Task getTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo)
-   {
-      return loadTask(taskId, uriInfo);
-   }
+    @GET
+    @ResponseTemplate(value = "/freemarker/task.ftl", produces = "application/task+xml", responseName = "task")
+    @Produces({ "application/task+xml", "application/json" })
+    public Task getTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo) {
+        return loadTask(taskId, uriInfo);
+    }
 
-   @POST
-   @Path("/move")
-   public void move(@PathParam("taskId") long taskId, @QueryParam("category") String newCategoryName, @Context UriInfo uriInfo)
-   {
-      Task task = loadTask(taskId, uriInfo);
-      Category newCategory = (Category) em.createNamedQuery("categoryByName").setParameter("category", newCategoryName).getSingleResult();
-      Category oldCategory = task.getCategory();
-      
-      oldCategory.getTasks().remove(task);
-      newCategory.getTasks().add(task);
-      task.setCategory(newCategory);
-      task.setUpdated(new Date());
-   }
-   
-   @PUT
-   public void updateTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo, JaxbTaskWrapper incommingTask)
-   {
-      Task task = loadTask(taskId, uriInfo);
-      if (incommingTask.getName() != null)
-      {
-         task.setName(incommingTask.getName());
-      }
-      if (incommingTask.isResolved() != null)
-      {
-         task.setResolved(incommingTask.isResolved());
-      }
-      task.setUpdated(new Date());
-   }
+    @POST
+    @Path("/move")
+    public void move(@PathParam("taskId") long taskId, @QueryParam("category") String newCategoryName, @Context UriInfo uriInfo) {
+        Task task = loadTask(taskId, uriInfo);
+        Category newCategory = (Category) em.createNamedQuery("categoryByName").setParameter("category", newCategoryName)
+                .getSingleResult();
+        Category oldCategory = task.getCategory();
 
-   @DELETE
-   public void deleteTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo)
-   {
-      Task task = loadTask(taskId, uriInfo);
-      task.getCategory().getTasks().remove(task);
-      em.remove(task);
-   }
+        oldCategory.getTasks().remove(task);
+        newCategory.getTasks().add(task);
+        task.setCategory(newCategory);
+        task.setUpdated(new Date());
+    }
 
-   protected Task loadTask(long taskId, UriInfo uriInfo)
-   {
-      String categoryName = uriInfo.getPathParameters().getFirst("category");
-      if (categoryName == null)
-      {
-         return (Task) em.createNamedQuery("taskById").setParameter("tid", taskId).getSingleResult();
-      }
-      else
-      {
-         return (Task) em.createNamedQuery("taskByCategoryAndId").setParameter("tid", taskId).setParameter("category", categoryName).getSingleResult();
-      }
-   }
+    @PUT
+    public void updateTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo, JaxbTaskWrapper incommingTask) {
+        Task task = loadTask(taskId, uriInfo);
+        if (incommingTask.getName() != null) {
+            task.setName(incommingTask.getName());
+        }
+        if (incommingTask.isResolved() != null) {
+            task.setResolved(incommingTask.isResolved());
+        }
+        task.setUpdated(new Date());
+    }
+
+    @DELETE
+    public void deleteTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo) {
+        Task task = loadTask(taskId, uriInfo);
+        task.getCategory().getTasks().remove(task);
+        em.remove(task);
+    }
+
+    protected Task loadTask(long taskId, UriInfo uriInfo) {
+        String categoryName = uriInfo.getPathParameters().getFirst("category");
+        if (categoryName == null) {
+            return (Task) em.createNamedQuery("taskById").setParameter("tid", taskId).getSingleResult();
+        } else {
+            return (Task) em.createNamedQuery("taskByCategoryAndId").setParameter("tid", taskId)
+                    .setParameter("category", categoryName).getSingleResult();
+        }
+    }
 }

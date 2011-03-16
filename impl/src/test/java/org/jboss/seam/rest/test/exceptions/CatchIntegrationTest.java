@@ -7,19 +7,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class CatchIntegrationTest extends BuiltinExceptionMappingTest
-{
-   @Deployment
-   public static WebArchive createDeploymentWithCatch()
-   {
-      WebArchive war = createDeployment();
-      war.addLibraries(LIBRARY_SEAM_CATCH);
-      return war;
-   }
-   
-   @Test
-   public void testSpecializedExceptionHandlerGetsCalled() throws Exception
-   {
-      test("http://localhost:8080/test/exceptions/ie", 415, null);
-   }
+public class CatchIntegrationTest extends BuiltinExceptionMappingTest {
+    @Deployment
+    public static WebArchive createDeploymentWithCatch() {
+        WebArchive war = createDeployment();
+        war.addLibraries(LIBRARY_SEAM_CATCH);
+        return war;
+    }
+
+    @Test
+    public void testSpecializedExceptionHandlerGetsCalled() throws Exception {
+        test("http://localhost:8080/test/exceptions/ie", 415, null);
+    }
 }

@@ -12,23 +12,22 @@ import org.jboss.seam.rest.exceptions.RestResource;
 
 /**
  * Same as {@link SeamRestStartup} but does not have external dependencies.
+ * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 @WebListener
-public class MockStartup implements ServletContextListener
-{
-   @Inject @RestResource
-   private Event<ServletContext> event;
-   
-   @Override
-   public void contextInitialized(ServletContextEvent sce)
-   {
-      event.fire(sce.getServletContext());
-   }
+public class MockStartup implements ServletContextListener {
+    @Inject
+    @RestResource
+    private Event<ServletContext> event;
 
-   @Override
-   public void contextDestroyed(ServletContextEvent sce)
-   {
-   }
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        event.fire(sce.getServletContext());
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+    }
 }

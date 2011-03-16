@@ -9,11 +9,11 @@ import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 
 @HandlesExceptions
-public class MoreSpecificExceptionHandler
-{
-   public void handleInstantiationException(@Handles(precedence = 0) @RestRequest CaughtException<InstantiationException> event, @RestResource ResponseBuilder builder)
-   {
-      builder.status(415);
-      event.handled();
-   }
+public class MoreSpecificExceptionHandler {
+    public void handleInstantiationException(
+            @Handles(precedence = 0) @RestRequest CaughtException<InstantiationException> event,
+            @RestResource ResponseBuilder builder) {
+        builder.status(415);
+        event.handled();
+    }
 }

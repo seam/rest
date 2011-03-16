@@ -21,60 +21,50 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  */
 @Entity
-@NamedQueries({ 
-   @NamedQuery(name = "categoryByName", query = "select category from Category category where category.name = :category"),
-   @NamedQuery(name = "categories", query = "select category from Category category order by category.id")
-})
-public class Category
-{
-   private Long id;
-   private String name;
-   private List<Task> tasks;
+@NamedQueries({
+        @NamedQuery(name = "categoryByName", query = "select category from Category category where category.name = :category"),
+        @NamedQuery(name = "categories", query = "select category from Category category order by category.id") })
+public class Category {
+    private Long id;
+    private String name;
+    private List<Task> tasks;
 
-   public Category()
-   {
-   }
+    public Category() {
+    }
 
-   public Category(String name)
-   {
-      this.name = name;
-   }
+    public Category(String name) {
+        this.name = name;
+    }
 
-   @Id
-   @GeneratedValue
-   @XmlTransient
-   public Long getId()
-   {
-      return id;
-   }
+    @Id
+    @GeneratedValue
+    @XmlTransient
+    public Long getId() {
+        return id;
+    }
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   @NotNull
-   @Column(unique = true)
-   @Size(min = 1, max = 100)
-   public String getName()
-   {
-      return name;
-   }
+    @NotNull
+    @Column(unique = true)
+    @Size(min = 1, max = 100)
+    public String getName() {
+        return name;
+    }
 
-   public void setName(String name)
-   {
-      this.name = name;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   @OneToMany(mappedBy = "category", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-   @XmlTransient
-   public List<Task> getTasks()
-   {
-      return tasks;
-   }
+    @OneToMany(mappedBy = "category", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @XmlTransient
+    public List<Task> getTasks() {
+        return tasks;
+    }
 
-   public void setTasks(List<Task> tasks)
-   {
-      this.tasks = tasks;
-   }
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

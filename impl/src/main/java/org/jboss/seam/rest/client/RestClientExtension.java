@@ -17,6 +17,7 @@ import javax.enterprise.inject.spi.ProcessManagedBean;
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
+
 /**
  * The Seam REST Client extension provides injection of
  * <ul>
@@ -26,85 +27,73 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
  * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public class RestClientExtension implements Extension
-{
-   private static final Logger log = Logger.getLogger(RestClientExtension.class);
-   private static final String RESTEASY_PROVIDER_FACTORY_NAME = "org.jboss.resteasy.spi.ResteasyProviderFactory";
-   private boolean enabled;
-   
-   private Set<Type> jaxrsInterfaces = new HashSet<Type>();
-   private Bean<RestClientProducer> restClientProducerBean;
-   
-   public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager)
-   {
-      enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
-   }
-   
-   /**
-    * Obtains the <code>Bean</code> instance for the <code>RestClientProducer</code> component.
-    * This instance is used later for registering {@link RestClientProducer#produceRestClient} as a producer method.
-    * @param event
-    */
-   public void getRestClientProducerDelegate(@Observes ProcessManagedBean<RestClientProducer> event)
-   {
-      this.restClientProducerBean = event.getBean();
-   }
-   
-   /**
-    * Scans a Bean for the following injection points
-    * 
-    * <code>
-    * @Inject @RestClient
-    * private T service;
-    * </code>
-    * 
-    * where T is a JAX-RS annotated interface and builds a collection of these types.
-    */
-   public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event, BeanManager manager)
-   {
-      if (!enabled)
-      {
-         return;
-      }
-      
-      for (InjectionPoint ip : event.getBean().getInjectionPoints())
-      {
-         RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
-         
-         if (qualifier != null)
-         {
-            if (ip.getType() instanceof Class<?>)
-            {
-               Class<?> clazz = (Class<?>) ip.getType();
-               
-               if (clazz.isInterface()) // we only support interfaces
-               {
-                  jaxrsInterfaces.add(clazz);
-               }
-            }
-         }
-      }
-   }
+public class RestClientExtension implements Extension {
+    private static final Logger log = Logger.getLogger(RestClientExtension.class);
+    private static final String RESTEASY_PROVIDER_FACTORY_NAME = "org.jboss.resteasy.spi.ResteasyProviderFactory";
+    private boolean enabled;
 
-   /**
-    * Registers the RestClientProducer if there is an injection point that requires it
-    */
-   public void afterBeanDiscovery(@Observes AfterBeanDiscovery event, BeanManager manager)
-   {
-      if (enabled && !jaxrsInterfaces.isEmpty())
-      {
-         if (restClientProducerBean == null)
-         {
-            log.warn("ProcessProducerMethod<RestClientProducer, Object> not fired. Client extension may not work properly.");
+    private Set<Type> jaxrsInterfaces = new HashSet<Type>();
+    private Bean<RestClientProducer> restClientProducerBean;
+
+    public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager) {
+        enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
+    }
+
+    /**
+     * Obtains the <code>Bean</code> instance for the <code>RestClientProducer</code> component. This instance is used later for
+     * registering {@link RestClientProducer#produceRestClient} as a producer method.
+     * 
+     * @param event
+     */
+    public void getRestClientProducerDelegate(@Observes ProcessManagedBean<RestClientProducer> event) {
+        this.restClientProducerBean = event.getBean();
+    }
+
+    /**
+     * Scans a Bean for the following injection points
+     * 
+     * <code>
+     * 
+     * @Inject @RestClient private T service; </code>
+     * 
+     *         where T is a JAX-RS annotated interface and builds a collection of these types.
+     */
+    public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event, BeanManager manager) {
+        if (!enabled) {
             return;
-         }
-         // register an additional RestClientProducer that supports all the interfaces
-         event.addBean(new RestClientProducerBean(restClientProducerBean, jaxrsInterfaces, manager));
-      }
-   }
+        }
 
-   public boolean isClientIntegrationEnabled()
-   {
-      return enabled;
-   }
+        for (InjectionPoint ip : event.getBean().getInjectionPoints()) {
+            RestClient qualifier = AnnotationInspector.getAnnotation(ip.getAnnotated(), RestClient.class, manager);
+
+            if (qualifier != null) {
+                if (ip.getType() instanceof Class<?>) {
+                    Class<?> clazz = (Class<?>) ip.getType();
+
+                    if (clazz.isInterface()) // we only support interfaces
+                    {
+                        jaxrsInterfaces.add(clazz);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Registers the RestClientProducer if there is an injection point that requires it
+     */
+    public void afterBeanDiscovery(@Observes AfterBeanDiscovery event, BeanManager manager) {
+        if (enabled && !jaxrsInterfaces.isEmpty()) {
+            if (restClientProducerBean == null) {
+                log.warn("ProcessProducerMethod<RestClientProducer, Object> not fired. Client extension may not work properly.");
+                return;
+            }
+            // register an additional RestClientProducer that supports all the interfaces
+            event.addBean(new RestClientProducerBean(restClientProducerBean, jaxrsInterfaces, manager));
+        }
+    }
+
+    public boolean isClientIntegrationEnabled() {
+        return enabled;
+    }
 }

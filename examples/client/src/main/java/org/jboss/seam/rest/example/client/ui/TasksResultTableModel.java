@@ -9,52 +9,45 @@ import javax.swing.table.AbstractTableModel;
 import org.jboss.seam.rest.example.client.tasks.SeamTasksAction;
 
 @Singleton
-public class TasksResultTableModel extends AbstractTableModel
-{
-   private static final long serialVersionUID = -7931492597081403214L;
-   
-   @Inject
-   private SeamTasksAction tasksAction;
-   
-   @Override
-   public int getRowCount()
-   {
-      return tasksAction.getResult().size();
-   }
+public class TasksResultTableModel extends AbstractTableModel {
+    private static final long serialVersionUID = -7931492597081403214L;
 
-   @Override
-   public int getColumnCount()
-   {
-      return 2;
-   }
+    @Inject
+    private SeamTasksAction tasksAction;
 
-   @Override
-   public Object getValueAt(int rowIndex, int columnIndex)
-   {
-      Map<String, String> result = tasksAction.getResult();
-      String[][] resultArray = new String[result.size()][2];
+    @Override
+    public int getRowCount() {
+        return tasksAction.getResult().size();
+    }
 
-      int i = 0;
-      for (Map.Entry<String, String> entry : result.entrySet())
-      {
-         resultArray[i] = new String[] { entry.getKey(), entry.getValue() };
-         i++;
-      }
+    @Override
+    public int getColumnCount() {
+        return 2;
+    }
 
-      return resultArray[rowIndex][columnIndex];
-   }
-   
-   @Override
-   public String getColumnName(int column)
-   {
-      switch (column)
-      {
-      case 0:
-         return "Key";
-      case 1:
-         return "Value";
-      default:
-         throw new IllegalArgumentException("columnIndex");
-      }
-   }
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Map<String, String> result = tasksAction.getResult();
+        String[][] resultArray = new String[result.size()][2];
+
+        int i = 0;
+        for (Map.Entry<String, String> entry : result.entrySet()) {
+            resultArray[i] = new String[] { entry.getKey(), entry.getValue() };
+            i++;
+        }
+
+        return resultArray[rowIndex][columnIndex];
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        switch (column) {
+            case 0:
+                return "Key";
+            case 1:
+                return "Value";
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
 }

@@ -4,99 +4,83 @@ package org.jboss.seam.rest.exceptions;
  * Represents a mapping of an exception to an HTTP status code and response body.
  * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
-public class Mapping
-{
-   private Class<? extends Throwable> exceptionType;
-   private int statusCode;
-   private String message;
-   private boolean interpolateMessageBody = true;
-   private boolean useExceptionMessage = false;
-   private boolean useJaxb = true;
+public class Mapping {
+    private Class<? extends Throwable> exceptionType;
+    private int statusCode;
+    private String message;
+    private boolean interpolateMessageBody = true;
+    private boolean useExceptionMessage = false;
+    private boolean useJaxb = true;
 
-   public Mapping()
-   {
-   }
-   
-   public Mapping(Class<? extends Throwable> exceptionType, int statusCode)
-   {
-      this.exceptionType = exceptionType;
-      this.statusCode = statusCode;
-   }
+    public Mapping() {
+    }
 
-   public Mapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean useExceptionMessage, boolean interpolateMessageBody, boolean useJaxb)
-   {
-      this(exceptionType, statusCode);
-      this.message = message;
-      this.useExceptionMessage = useExceptionMessage;
-      this.interpolateMessageBody = interpolateMessageBody;
-      this.useJaxb = useJaxb;
-   }
+    public Mapping(Class<? extends Throwable> exceptionType, int statusCode) {
+        this.exceptionType = exceptionType;
+        this.statusCode = statusCode;
+    }
 
-   public Class<? extends Throwable> getExceptionType()
-   {
-      return exceptionType;
-   }
+    public Mapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean useExceptionMessage,
+            boolean interpolateMessageBody, boolean useJaxb) {
+        this(exceptionType, statusCode);
+        this.message = message;
+        this.useExceptionMessage = useExceptionMessage;
+        this.interpolateMessageBody = interpolateMessageBody;
+        this.useJaxb = useJaxb;
+    }
 
-   public void setExceptionType(Class<? extends Throwable> exceptionType)
-   {
-      this.exceptionType = exceptionType;
-   }
+    public Class<? extends Throwable> getExceptionType() {
+        return exceptionType;
+    }
 
-   public int getStatusCode()
-   {
-      return statusCode;
-   }
+    public void setExceptionType(Class<? extends Throwable> exceptionType) {
+        this.exceptionType = exceptionType;
+    }
 
-   public void setStatusCode(int statusCode)
-   {
-      this.statusCode = statusCode;
-   }
+    public int getStatusCode() {
+        return statusCode;
+    }
 
-   public String getMessage()
-   {
-      return message;
-   }
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
 
-   public void setMessage(String message)
-   {
-      this.message = message;
-   }
+    public String getMessage() {
+        return message;
+    }
 
-   public boolean isInterpolateMessageBody()
-   {
-      return interpolateMessageBody;
-   }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-   public void setInterpolateMessageBody(boolean interpolateMessageBody)
-   {
-      this.interpolateMessageBody = interpolateMessageBody;
-   }
-   
-   public boolean isUseExceptionMessage()
-   {
-      return useExceptionMessage;
-   }
+    public boolean isInterpolateMessageBody() {
+        return interpolateMessageBody;
+    }
 
-   public void setUseExceptionMessage(boolean useExceptionMessage)
-   {
-      this.useExceptionMessage = useExceptionMessage;
-   }
-   
-   public boolean isUseJaxb()
-   {
-      return useJaxb;
-   }
+    public void setInterpolateMessageBody(boolean interpolateMessageBody) {
+        this.interpolateMessageBody = interpolateMessageBody;
+    }
 
-   public void setUseJaxb(boolean useJaxb)
-   {
-      this.useJaxb = useJaxb;
-   }
+    public boolean isUseExceptionMessage() {
+        return useExceptionMessage;
+    }
 
-   @Override
-   public String toString()
-   {
-      return "ExceptionMapping: " + exceptionType.getCanonicalName() + " --> (" + statusCode + ", " + message + ")";
-   }
+    public void setUseExceptionMessage(boolean useExceptionMessage) {
+        this.useExceptionMessage = useExceptionMessage;
+    }
+
+    public boolean isUseJaxb() {
+        return useJaxb;
+    }
+
+    public void setUseJaxb(boolean useJaxb) {
+        this.useJaxb = useJaxb;
+    }
+
+    @Override
+    public String toString() {
+        return "ExceptionMapping: " + exceptionType.getCanonicalName() + " --> (" + statusCode + ", " + message + ")";
+    }
 }

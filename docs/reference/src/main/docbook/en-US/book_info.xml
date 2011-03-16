@@ -3,10 +3,10 @@
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 
 <bookinfo xmlns:xi="http://www.w3.org/2001/XInclude">
-   <title>Seam REST Module</title>
-   <subtitle>Reference Guide</subtitle>
-   <xi:include href="version_info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <title>Seam REST Module</title>
+    <subtitle>Reference Guide</subtitle>
+    <xi:include href="version_info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
-   <xi:include href="author_group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="author_group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
 </bookinfo>

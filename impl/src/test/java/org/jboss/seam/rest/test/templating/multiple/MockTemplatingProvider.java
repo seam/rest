@@ -15,17 +15,15 @@ import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingProvider;
 
 @ApplicationScoped
-public class MockTemplatingProvider implements TemplatingProvider
-{
-   public void init(ServletContext servletContext)
-   {
-      // noop
-   }
+public class MockTemplatingProvider implements TemplatingProvider {
+    public void init(ServletContext servletContext) {
+        // noop
+    }
 
-   public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException
-   {
-      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-      writer.write("Hello world!");
-      writer.flush();
-   }
+    public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+        writer.write("Hello world!");
+        writer.flush();
+    }
 }

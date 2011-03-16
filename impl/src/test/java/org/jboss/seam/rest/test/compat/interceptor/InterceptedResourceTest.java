@@ -16,28 +16,21 @@ import org.junit.runner.RunWith;
 
 @Run(RunModeType.AS_CLIENT)
 @RunWith(Arquillian.class)
-public class InterceptedResourceTest extends SeamRestClientTest
-{
-   @Deployment
-   public static WebArchive getDeployment()
-   {
-      return ShrinkWrap.create(WebArchive.class, "test.war")
-         .addClasses(MyApplication.class, Resource.class)
-         .addWebResource("org/jboss/seam/rest/test/compat/interceptor/beans.xml", "beans.xml")
-         .setWebXML("WEB-INF/web.xml")
-         .addLibrary(getJar());
-   }
-   
-   public static JavaArchive getJar()
-   {
-      return ShrinkWrap.create(JavaArchive.class, "test.jar")
-         .addClasses(Valid.class, ValidationInterceptor.class)
-         .addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-   }
-   
-   @Test
-   public void testCdiResourceIsIntercepted() throws Exception
-   {
-      test("http://localhost:8080/test/api/test/ping", 200, "Validated pong");
-   }
+public class InterceptedResourceTest extends SeamRestClientTest {
+    @Deployment
+    public static WebArchive getDeployment() {
+        return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(MyApplication.class, Resource.class)
+                .addWebResource("org/jboss/seam/rest/test/compat/interceptor/beans.xml", "beans.xml")
+                .setWebXML("WEB-INF/web.xml").addLibrary(getJar());
+    }
+
+    public static JavaArchive getJar() {
+        return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(Valid.class, ValidationInterceptor.class)
+                .addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+
+    @Test
+    public void testCdiResourceIsIntercepted() throws Exception {
+        test("http://localhost:8080/test/api/test/ping", 200, "Validated pong");
+    }
 }

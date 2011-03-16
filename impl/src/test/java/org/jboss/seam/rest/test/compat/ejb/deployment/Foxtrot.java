@@ -5,10 +5,8 @@ import javax.enterprise.context.ApplicationScoped;
 
 @Singleton
 @ApplicationScoped
-public class Foxtrot
-{
-   public boolean ping()
-   {
-      return true;
-   }
+public class Foxtrot {
+    public boolean ping() {
+        return true;
+    }
 }

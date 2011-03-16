@@ -10,34 +10,30 @@ import javax.inject.Inject;
 import org.jboss.seam.solder.el.Expressions;
 
 @ApplicationScoped
-public class Interpolator
-{
-   public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
-   private Expressions el;
-   
-   /**
-    * Workaround for GlassFish
-    */
-   @Inject
-   public void init(Instance<Expressions> expressions)
-   {
-      el = expressions.get();
-   }
+public class Interpolator {
+    public static final Pattern elPattern = Pattern.compile("(#\\{.*?\\})");
+    private Expressions el;
 
-   /**
-    * Evaluates EL expressions contained in the input String.
-    */
-   public String interpolate(String input)
-   {
-      Matcher matcher = elPattern.matcher(input);
-      StringBuffer buffer = new StringBuffer();
+    /**
+     * Workaround for GlassFish
+     */
+    @Inject
+    public void init(Instance<Expressions> expressions) {
+        el = expressions.get();
+    }
 
-      while (matcher.find())
-      {
-         matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
-      }
-      matcher.appendTail(buffer);
+    /**
+     * Evaluates EL expressions contained in the input String.
+     */
+    public String interpolate(String input) {
+        Matcher matcher = elPattern.matcher(input);
+        StringBuffer buffer = new StringBuffer();
 
-      return buffer.toString();
-   }
+        while (matcher.find()) {
+            matcher.appendReplacement(buffer, String.valueOf(el.evaluateValueExpression(matcher.group())));
+        }
+        matcher.appendTail(buffer);
+
+        return buffer.toString();
+    }
 }

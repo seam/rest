@@ -15,24 +15,21 @@ import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
 
 @ApplicationPath("/api/*")
-public class TasksApplication extends Application
-{
-   @Override
-   public Set<Class<?>> getClasses()
-   {
-      Set<Class<?>> classes = new HashSet<Class<?>>();
-      classes.add(CategoryCollectionResource.class);
-      classes.add(CategoryResource.class);
-      classes.add(TaskCollectionResource.class);
-      classes.add(SeamExceptionMapper.class);
-      classes.add(TemplatingMessageBodyWriter.class);
-      classes.add(UriInfoProducer.class);
-      return classes;
-   }
+public class TasksApplication extends Application {
+    @Override
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> classes = new HashSet<Class<?>>();
+        classes.add(CategoryCollectionResource.class);
+        classes.add(CategoryResource.class);
+        classes.add(TaskCollectionResource.class);
+        classes.add(SeamExceptionMapper.class);
+        classes.add(TemplatingMessageBodyWriter.class);
+        classes.add(UriInfoProducer.class);
+        return classes;
+    }
 
-   @Override
-   public Set<Object> getSingletons()
-   {
-      return Collections.<Object>singleton(new JacksonJaxbJsonProvider());
-   }
+    @Override
+    public Set<Object> getSingletons() {
+        return Collections.<Object> singleton(new JacksonJaxbJsonProvider());
+    }
 }

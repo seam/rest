@@ -1,11 +1,11 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+    xsi:schemaLocation="
 	http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
-	<interceptors>
-		<class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
-	</interceptors>
-	<alternatives>
-		<class>org.jboss.seam.rest.example.tasks.noxml.CustomExceptionMappingConfiguration</class>
-	</alternatives>
+    <interceptors>
+        <class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
+    </interceptors>
+    <alternatives>
+        <class>org.jboss.seam.rest.example.tasks.noxml.CustomExceptionMappingConfiguration</class>
+    </alternatives>
 </beans>

@@ -16,34 +16,28 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class InterpolatorTest
-{
-   @Inject
-   private Interpolator interpolator;
-   
-   @Deployment
-   public static WebArchive getDeployment()
-   {
-      return ShrinkWrap.create(WebArchive.class, "test.war")
-         .addWebResource(EmptyAsset.INSTANCE, "beans.xml")
-         .addLibrary(getJar())
-         .addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
-   }
-   
-   public static JavaArchive getJar()
-   {
-      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-      jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-      jar.addClasses(Interpolator.class);
-      jar.addClass(Fox.class);
-      return jar;
-   }
-   
-   @Test
-   public void testStringInterpolation()
-   {
-      String template = "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog";
-      String expected = "The quick brown fox jumps over the lazy dog";
-      assertEquals(expected, interpolator.interpolate(template));
-   }
+public class InterpolatorTest {
+    @Inject
+    private Interpolator interpolator;
+
+    @Deployment
+    public static WebArchive getDeployment() {
+        return ShrinkWrap.create(WebArchive.class, "test.war").addWebResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addLibrary(getJar()).addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+    }
+
+    public static JavaArchive getJar() {
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
+        jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        jar.addClasses(Interpolator.class);
+        jar.addClass(Fox.class);
+        return jar;
+    }
+
+    @Test
+    public void testStringInterpolation() {
+        String template = "The quick #{fox.color} #{fox.count == 1 ? 'fox' : 'foxes'} jumps over the lazy dog";
+        String expected = "The quick brown fox jumps over the lazy dog";
+        assertEquals(expected, interpolator.interpolate(template));
+    }
 }

@@ -2,63 +2,63 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
 <chapter id="rest.exception.mapping">
-	<title>Exception Handling</title>
+    <title>Exception Handling</title>
 
-	<para>
-		The JAX-RS specification defines the mechanism for exception mapping providers as the
-		standard mechanism for Java exception handling.
-		The Seam REST module
-		comes with an alternative approach, which is more consistent with the
-		CDI programming model. It is also easier to use and still remains portable.
+    <para>
+        The JAX-RS specification defines the mechanism for exception mapping providers as the
+        standard mechanism for Java exception handling.
+        The Seam REST module
+        comes with an alternative approach, which is more consistent with the
+        CDI programming model. It is also easier to use and still remains portable.
 	</para>
 
-	<para>
-		The Seam REST module allows you to:
-		<itemizedlist>
-			<listitem>
-				<para>
-					integrate with Seam Catch and thus handle exceptions that occur in different parts of an application uniformly;
+    <para>
+        The Seam REST module allows you to:
+        <itemizedlist>
+            <listitem>
+                <para>
+                    integrate with Seam Catch and thus handle exceptions that occur in different parts of an application uniformly;
 				</para>
-			</listitem>
-		
-			<listitem>
-				<para>
-					define exception handling rules declaratively with annotations or XML.
-				</para>
-			</listitem>
-		</itemizedlist>
-	</para>
+            </listitem>
 
-	<sect1 id="rest.exception.mapping.catch">
-		<title>Seam Catch Integration</title>
-		<para>
-			Seam Catch handles exceptions within the Seam REST module:
-			as result, an exception that occurs during an
-			invocation
-			of a JAX-RS service is routed through the Catch
-			exception
-			handling
-			mechanism similar to the CDI event bus. This allows you to implement the exception
-			handling logic in a loosely-coupled
-			fashion.
+            <listitem>
+                <para>
+                    define exception handling rules declaratively with annotations or XML.
+				</para>
+            </listitem>
+        </itemizedlist>
+    </para>
+
+    <sect1 id="rest.exception.mapping.catch">
+        <title>Seam Catch Integration</title>
+        <para>
+            Seam Catch handles exceptions within the Seam REST module:
+            as result, an exception that occurs during an
+            invocation
+            of a JAX-RS service is routed through the Catch
+            exception
+            handling
+            mechanism similar to the CDI event bus. This allows you to implement the exception
+            handling logic in a loosely-coupled
+            fashion.
 		</para>
 
-		<para>
-			The following code sample demonstrates a simple exception handler
-			that converts the
-			<literal>NoResultException</literal>
-			exception to a 404 HTTP response.
-		</para>
+        <para>
+            The following code sample demonstrates a simple exception handler
+            that converts the
+            <literal>NoResultException</literal>
+            exception to a 404 HTTP response.
+        </para>
 
-		<example>
-			<title>Seam Catch Integration - NoResultException handler</title>
-			<programlistingco>
-				<areaspec>
-					<area id="handler-handlesexceptions" coords="1" />
-					<area id="handler-inject" coords="5" />
-					<area id="handler-method" coords="7" />
-				</areaspec>
-				<programlisting role="JAVA"><![CDATA[@HandlesExceptions
+        <example>
+            <title>Seam Catch Integration - NoResultException handler</title>
+            <programlistingco>
+                <areaspec>
+                    <area id="handler-handlesexceptions" coords="1" />
+                    <area id="handler-inject" coords="5" />
+                    <area id="handler-method" coords="7" />
+                </areaspec>
+                <programlisting role="JAVA"><![CDATA[@HandlesExceptions
 public class ExceptionHandler
 {
    @Inject @RestResource
@@ -69,202 +69,203 @@ public class ExceptionHandler
       builder.status(404).entity("The requested resource does not exist.");
    }
 }]]></programlisting>
-				<calloutlist>
-					<callout arearefs="handler-handlesexceptions">
-						<para>
-							The
-							<literal>@HandlesExceptions</literal>
-							annotation marks the
-							<literal>ExceptionHandler</literal>
-							bean
-							as capable of handling exceptions.
-						</para>
-					</callout>
-					<callout arearefs="handler-inject">
-						<para>
-							The
-							<literal>ResponseBuilder</literal>
-							for creating the HTTP response is injected.
-						</para>
-					</callout>
-					<callout arearefs="handler-method">
-						<para>
-							A method for handling
-							<literal>NoResultException</literal>
-							instances. Note that the
-							<literal>ExceptionHandler</literal>
-							can define multiple exception handling methods for various
-							exception types.
-						</para>
-					</callout>
-				</calloutlist>
-			</programlistingco>
-		</example>
+                <calloutlist>
+                    <callout arearefs="handler-handlesexceptions">
+                        <para>
+                            The
+                            <literal>@HandlesExceptions</literal>
+                            annotation marks the
+                            <literal>ExceptionHandler</literal>
+                            bean
+                            as capable of handling exceptions.
+                        </para>
+                    </callout>
+                    <callout arearefs="handler-inject">
+                        <para>
+                            The
+                            <literal>ResponseBuilder</literal>
+                            for creating the HTTP response is injected.
+                        </para>
+                    </callout>
+                    <callout arearefs="handler-method">
+                        <para>
+                            A method for handling
+                            <literal>NoResultException</literal>
+                            instances. Note that the
+                            <literal>ExceptionHandler</literal>
+                            can define multiple exception handling methods for various
+                            exception types.
+                        </para>
+                    </callout>
+                </calloutlist>
+            </programlistingco>
+        </example>
 
-		<para>
-			Similarly to the CDI event bus, exceptions handled by a handler
-			method can be filtered by qualifiers. The example above treats
-			only exceptions that occur in a JAX-RS service
-			invocation (as opposed to all exceptions of the given type that
-			occur in the application, for example in the view layer). Thus, the
-			<literal>@RestRequest</literal>
-			qualifier is used to enable the handler only for exceptions that occur
-			during JAX-RS service invocation.
+        <para>
+            Similarly to the CDI event bus, exceptions handled by a handler
+            method can be filtered by qualifiers. The example above treats
+            only exceptions that occur in a JAX-RS service
+            invocation (as opposed to all exceptions of the given type that
+            occur in the application, for example in the view layer). Thus, the
+            <literal>@RestRequest</literal>
+            qualifier is used to enable the handler only for exceptions that occur
+            during JAX-RS service invocation.
+        </para>
+
+        <para>
+            Catch integration is optional and only enabled when Catch libraries
+            are available on classpath.
+            For more information on Seam Catch, refer to
+            <ulink url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>
+            .
+        </para>
+    </sect1>
+
+    <sect1>
+        <title>Declarative Exception Mapping</title>
+        <para>
+            Exception-mapping rules are often fairly simple. Thus,
+            instead of being
+            implemented programatically, they can
+            be expressed declaratively through
+            metadata such as Java annotations or XML.
+            The Seam
+            REST module supports
+            both ways of declarative configurations.
 		</para>
 
-		<para>
-			Catch integration is optional and only enabled when Catch libraries
-			are available on classpath.
-			For more information on Seam Catch, refer to
-			<ulink
-				url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>
-			.
-		</para>
-	</sect1>
-
-	<sect1>
-		<title>Declarative Exception Mapping</title>
-		<para>
-			Exception-mapping rules are often fairly simple. Thus,
-			instead of being
-			implemented programatically, they can
-			be expressed declaratively through
-			metadata such as Java annotations or XML.
-			The Seam
-			REST module supports
-			both ways of declarative configurations.
+        <para>
+            For each exception type, you can specify a status
+            code and an error message of the HTTP response. 
 		</para>
 
-		<para>
-			For each exception type, you can specify a status
-			code and an error message of the HTTP response. 
-		</para>
+        <sect2>
+            <title>Annotation-based configuration</title>
+            <para>
+                You can configure Seam REST exception mapping directly in your Java code
+                with Java Annotations.
+                An exception mapping rule is defined as a
+                <literal>@ExceptionMapping</literal>
+                annotation. Use an
+                <literal>@ExceptionMapping.List</literal>
+                annotation to define multiple
+                exception mappings.
+            </para>
 
-		<sect2>
-			<title>Annotation-based configuration</title>
-			<para>
-				You can configure Seam REST exception mapping directly in your Java code
-				with Java Annotations.
-				An exception mapping rule is defined as a
-				<literal>@ExceptionMapping</literal>
-				annotation. Use an
-				<literal>@ExceptionMapping.List</literal>
-				annotation to define multiple
-				exception mappings.
-			</para>
-
-			<example>
-				<title>Annotation-based exception mapping configuration</title>
-				<programlisting role="JAVA"><![CDATA[@ExceptionMapping.List({
+            <example>
+                <title>Annotation-based exception mapping configuration</title>
+                <programlisting role="JAVA"><![CDATA[@ExceptionMapping.List({
    @ExceptionMapping(exceptionType = NoResultException.class, status = 404, message = "Requested resource does not exist."),
    @ExceptionMapping(exceptionType = IllegalArgumentException.class, status = 400, message = "Illegal argument value.")
 })
 @ApplicationPath("/api")
 public MyApplication extends Application {]]></programlisting>
-			</example>
+            </example>
 
-			<para>
-				The
-				<literal>@ExceptionMapping</literal>
-				annotation can be applied on any Java class in the deployment.
-				However, it
-				is recommended to keep all exception mapping
-				declarations in the same place, for example, in the
-				<literal>javax.ws.rs.core.Application</literal>
-				subclass.
-			</para>
+            <para>
+                The
+                <literal>@ExceptionMapping</literal>
+                annotation can be applied on any Java class in the deployment.
+                However, it
+                is recommended to keep all exception mapping
+                declarations in the same place, for example, in the
+                <literal>javax.ws.rs.core.Application</literal>
+                subclass.
+            </para>
 
-			<table>
-				<title>@ExceptionMapping properties</title>
-				<tgroup cols='4'>
-					<thead>
-						<row>
-							<entry>Name</entry>
-							<entry>Required</entry>
-							<entry>Default value</entry>
-							<entry>Description</entry>
-						</row>
-					</thead>
-					<tbody>
-						<row>
-							<entry>exceptionType</entry>
-							<entry>true</entry>
-							<entry>-</entry>
-							<entry>Fully-qualified class name of the exception class</entry>
-						</row>
-						<row>
-							<entry>status</entry>
-							<entry>true</entry>
-							<entry>-</entry>
-							<entry>HTTP status code</entry>
-						</row>
-						<row>
-							<entry>message</entry>
-							<entry>false</entry>
-							<entry>-</entry>
-							<entry>Error message sent within the HTTP response</entry>
-						</row>
-						<row>
-							<entry>useExceptionMessage</entry>
-							<entry>false</entry>
-							<entry>false</entry>
-							<entry>Exception error message</entry>
-						</row>
-						<row>
-							<entry>interpolateMessageBody</entry>
-							<entry>false</entry>
-							<entry>true</entry>
-							<entry>Enabling/disabling the EL interpolation of the error message</entry>
-						</row>
-						<row>
-							<entry>useJaxb</entry>
-							<entry>false</entry>
-							<entry>true</entry>
-							<entry>Enabling/disabling wrapping of the error message within a JAXB object. This allows marshalling to various media formats such as application/xml, application/json, etc.</entry>
-						</row>
-					</tbody>
-				</tgroup>
-			</table>
-		</sect2>
+            <table>
+                <title>@ExceptionMapping properties</title>
+                <tgroup cols='4'>
+                    <thead>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Required</entry>
+                            <entry>Default value</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>exceptionType</entry>
+                            <entry>true</entry>
+                            <entry>-</entry>
+                            <entry>Fully-qualified class name of the exception class</entry>
+                        </row>
+                        <row>
+                            <entry>status</entry>
+                            <entry>true</entry>
+                            <entry>-</entry>
+                            <entry>HTTP status code</entry>
+                        </row>
+                        <row>
+                            <entry>message</entry>
+                            <entry>false</entry>
+                            <entry>-</entry>
+                            <entry>Error message sent within the HTTP response</entry>
+                        </row>
+                        <row>
+                            <entry>useExceptionMessage</entry>
+                            <entry>false</entry>
+                            <entry>false</entry>
+                            <entry>Exception error message</entry>
+                        </row>
+                        <row>
+                            <entry>interpolateMessageBody</entry>
+                            <entry>false</entry>
+                            <entry>true</entry>
+                            <entry>Enabling/disabling the EL interpolation of the error message</entry>
+                        </row>
+                        <row>
+                            <entry>useJaxb</entry>
+                            <entry>false</entry>
+                            <entry>true</entry>
+                            <entry>Enabling/disabling wrapping of the error message within a JAXB object. This allows
+                                marshalling to various media formats such as application/xml, application/json, etc.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </sect2>
 
-		<sect2 id="rest.exception.mapping.xml">
-			<title>XML configuration</title>
-			<para>
-				As an alternative to the annotation-based configuration, you can use the Seam Config module to configure the <literal>SeamRestConfiguration</literal>
-				class in XML.
-			</para>
-			<para>
-				First, add the Seam Config module to the
-				application. If you are
-				using maven, you can do this by specifying the
-				following dependency:
+        <sect2 id="rest.exception.mapping.xml">
+            <title>XML configuration</title>
+            <para>
+                As an alternative to the annotation-based configuration, you can use the Seam Config module to configure the
+                <literal>SeamRestConfiguration</literal>
+                class in XML.
+            </para>
+            <para>
+                First, add the Seam Config module to the
+                application. If you are
+                using maven, you can do this by specifying the
+                following dependency:
 		</para>
 
-			<example>
-				<title>Seam XML dependency added to the pom.xml file.</title>
-				<programlisting role="XML"><![CDATA[<dependency> 
+            <example>
+                <title>Seam XML dependency added to the pom.xml file.</title>
+                <programlisting role="XML"><![CDATA[<dependency> 
 	<groupId>org.jboss.seam.config</groupId> 
 	<artifactId>seam-config-xml</artifactId> 
 	<version>${seam.config.version}</version> 
 </dependency>]]></programlisting>
-			</example>
+            </example>
 
-			<para>
-				For more information on the Seam Config module, refer to the
-				<ulink
-					url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>.
-				Once you have added the Seam XML module, specify the configuration in the
-				<literal>seam-beans.xml</literal>
-				file, located in the
-				<literal>WEB-INF</literal>
-				or
-				<literal>META-INF</literal>
-				folder of the web archive.
-			</para>
+            <para>
+                For more information on the Seam Config module, refer to the
+                <ulink url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>
+                .
+                Once you have added the Seam XML module, specify the configuration in the
+                <literal>seam-beans.xml</literal>
+                file, located in the
+                <literal>WEB-INF</literal>
+                or
+                <literal>META-INF</literal>
+                folder of the web archive.
+            </para>
 
-			<example>
-				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<rest:SeamRestConfiguration>
+            <example>
+                <title>Exception mapping configuration in seam-beans.xml</title>
+                <programlisting role="XML"><![CDATA[<rest:SeamRestConfiguration>
 	<rest:mappings>
 		<s:value>
 			<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
@@ -278,44 +279,44 @@ public MyApplication extends Application {]]></programlisting>
 		</s:value>
 	</rest:mappings>
 </rest:SeamRestConfiguration>]]></programlisting>
-			</example>
+            </example>
 
-			<para>
-				Furthermore, you can use EL expressions in message templates to
-				provide dynamic and more descriptive error messages.
+            <para>
+                Furthermore, you can use EL expressions in message templates to
+                provide dynamic and more descriptive error messages.
 		</para>
-			<example>
-				<title>Exception mapping configuration in seam-beans.xml</title>
-				<programlisting role="XML"><![CDATA[<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
+            <example>
+                <title>Exception mapping configuration in seam-beans.xml</title>
+                <programlisting role="XML"><![CDATA[<rest:Mapping exceptionType="javax.persistence.NoResultException" statusCode="404">
 	<rest:message>Requested resource (#{uriInfo.path}) does not exist.</rest:message>
 </rest:Mapping>]]></programlisting>
-			</example>
-		</sect2>
+            </example>
+        </sect2>
 
-		<sect2>
-			<title>Declarative exception mapping processing</title>
-			<para>
-				When an exception occurs at runtime, the
-				<literal>SeamExceptionMapper</literal>
-				first looks for a matching exception mapping rule.
-				If it finds one, it creates an HTTP response with the specified
-				status
-				code and error message.
-			</para>
-			<para>
-				The error message is marshalled within a JAXB object and is thus available in multiple media formats. The
-				most commonly used formats are XML and JSON. Most JAX-RS
-				implementations
-				provide media
-				providers for both of these formats. In
-				addition, the error message
-				is
-				also available in plain text.
+        <sect2>
+            <title>Declarative exception mapping processing</title>
+            <para>
+                When an exception occurs at runtime, the
+                <literal>SeamExceptionMapper</literal>
+                first looks for a matching exception mapping rule.
+                If it finds one, it creates an HTTP response with the specified
+                status
+                code and error message.
+            </para>
+            <para>
+                The error message is marshalled within a JAXB object and is thus available in multiple media formats. The
+                most commonly used formats are XML and JSON. Most JAX-RS
+                implementations
+                provide media
+                providers for both of these formats. In
+                addition, the error message
+                is
+                also available in plain text.
 		</para>
 
-			<example>
-				<title>Sample HTTP response</title>
-				<programlisting role="XML"><![CDATA[HTTP/1.1 404 Not Found
+            <example>
+                <title>Sample HTTP response</title>
+                <programlisting role="XML"><![CDATA[HTTP/1.1 404 Not Found
 Content-Type: application/xml
 Content-Length: 123
 		
@@ -323,8 +324,8 @@ Content-Length: 123
 <error>
 	<message>Requested resource does not exist.</message>
 </error>]]></programlisting>
-			</example>
-		</sect2>
-	</sect1>
+            </example>
+        </sect2>
+    </sect1>
 </chapter>
 

@@ -18,24 +18,20 @@ import org.junit.runner.RunWith;
  * https://issues.jboss.org/browse/RESTEASY-506
  * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- *
+ * 
  */
 
 @Run(RunModeType.AS_CLIENT)
 @RunWith(Arquillian.class)
-public class ApplicationInjectedIntoProviderTest extends SeamRestClientTest
-{
-   @Deployment
-   public static WebArchive getDeployment()
-   {
-      return ShrinkWrap.create(WebArchive.class, "test.war")
-         .addClasses(MyApplication.class, Resource.class, MyExceptionMapper.class)
-         .setWebXML("WEB-INF/web.xml");
-   }
-   
-   @Test
-   public void testProviderInjected() throws Exception
-   {
-      test("http://localhost:8080/test/api/test/exception", 200, "Application:true");
-   }
+public class ApplicationInjectedIntoProviderTest extends SeamRestClientTest {
+    @Deployment
+    public static WebArchive getDeployment() {
+        return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addClasses(MyApplication.class, Resource.class, MyExceptionMapper.class).setWebXML("WEB-INF/web.xml");
+    }
+
+    @Test
+    public void testProviderInjected() throws Exception {
+        test("http://localhost:8080/test/api/test/exception", 200, "Application:true");
+    }
 }

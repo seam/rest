@@ -11,19 +11,16 @@ import org.jboss.seam.rest.test.compat.interceptor.Valid;
 @Produces("text/plain")
 @RequestScoped
 @Valid
-public class Resource
-{
-   @GET
-   @Path("/ping")
-   public String ping()
-   {
-      return "pong";
-   }
-   
-   @GET
-   @Path("/exception")
-   public void exception()
-   {
-      throw new NullPointerException();
-   }
+public class Resource {
+    @GET
+    @Path("/ping")
+    public String ping() {
+        return "pong";
+    }
+
+    @GET
+    @Path("/exception")
+    public void exception() {
+        throw new NullPointerException();
+    }
 }

@@ -6,85 +6,72 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
-public class Person
-{
+public class Person {
 
-   @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
-   private String firstName;
-   @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
-   private String surname;
-   @Min(value = 18, groups = { PartialValidation.class, Default.class })
-   private int age;
-   @AssertFalse(groups = { PartialValidation.class, Default.class })
-   private boolean zombie;
-   @NotNull // not validated during partial validation
-   private String bio;
+    @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
+    private String firstName;
+    @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
+    private String surname;
+    @Min(value = 18, groups = { PartialValidation.class, Default.class })
+    private int age;
+    @AssertFalse(groups = { PartialValidation.class, Default.class })
+    private boolean zombie;
+    @NotNull
+    // not validated during partial validation
+    private String bio;
 
-   public Person(String firstName, String surname, int age, boolean zombie)
-   {
-      this.firstName = firstName;
-      this.surname = surname;
-      this.age = age;
-      this.zombie = zombie;
-   }
-   
-   public Person(String firstName, String surname, int age, boolean zombie, String bio)
-   {
-      this(firstName, surname, age, zombie);
-      this.bio = bio;
-   }
-   
-   public Person()
-   {
-   }
+    public Person(String firstName, String surname, int age, boolean zombie) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.age = age;
+        this.zombie = zombie;
+    }
 
-   public String getFirstName()
-   {
-      return firstName;
-   }
+    public Person(String firstName, String surname, int age, boolean zombie, String bio) {
+        this(firstName, surname, age, zombie);
+        this.bio = bio;
+    }
 
-   public void setFirstName(String firstName)
-   {
-      this.firstName = firstName;
-   }
+    public Person() {
+    }
 
-   public String getSurname()
-   {
-      return surname;
-   }
+    public String getFirstName() {
+        return firstName;
+    }
 
-   public void setSurname(String surname)
-   {
-      this.surname = surname;
-   }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-   public int getAge()
-   {
-      return age;
-   }
+    public String getSurname() {
+        return surname;
+    }
 
-   public void setAge(int age)
-   {
-      this.age = age;
-   }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-   public boolean isZombie()
-   {
-      return zombie;
-   }
+    public int getAge() {
+        return age;
+    }
 
-   public void setZombie(boolean zombie)
-   {
-      this.zombie = zombie;
-   }
-   
-   public String getBio()
-   {
-      return bio;
-   }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-   public void setBio(String bio)
-   {
-      this.bio = bio;
-   }
+    public boolean isZombie() {
+        return zombie;
+    }
+
+    public void setZombie(boolean zombie) {
+        this.zombie = zombie;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 }
