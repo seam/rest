@@ -24,8 +24,9 @@
     <dependencies>
         <!-- APIs -->
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>jsr311-api</artifactId>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
