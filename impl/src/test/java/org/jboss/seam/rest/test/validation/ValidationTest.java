@@ -1,6 +1,6 @@
 package org.jboss.seam.rest.test.validation;
 
-import java.util.Collections;
+import static org.junit.Assert.assertEquals;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -31,8 +31,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ValidationTest {
@@ -114,7 +112,7 @@ public class ValidationTest {
             throw new RuntimeException("Expected exception not thrown.");
         } catch (final ValidationException e) {
             // pass the exception to the handler
-            ExceptionStack stack = new ExceptionStack(Collections.<Throwable> singleton(e), 0);
+            ExceptionStack stack = new ExceptionStack(e);
             this.handler.get().handleValidationException(new CaughtException<ValidationException>(stack, false, false) {
                 @Override
                 public ValidationException getException() {
