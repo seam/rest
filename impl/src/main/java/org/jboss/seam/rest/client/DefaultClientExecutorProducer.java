@@ -16,6 +16,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
+import org.jboss.seam.solder.bean.defaultbean.DefaultBean;
 
 /**
  * Produces the default ClientExecutor. The default ClientExecutor can be overriden by providing an alternative instance of
@@ -27,10 +28,7 @@ import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 @ApplicationScoped
 public class DefaultClientExecutorProducer {
     @Produces
-    /*
-     * @DefaultBean use retracted due to GlassFish problem. https://issues.jboss.org/browse/SEAMREST-30
-     */
-    // @DefaultBean(value = ClientExecutor.class)
+    @DefaultBean(value = ClientExecutor.class)
     public ClientExecutor createExecutor() {
         HttpParams params = new BasicHttpParams();
         ConnManagerParams.setMaxTotalConnections(params, 200);
