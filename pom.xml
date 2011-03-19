@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seam.version>3.0.0.CR1</seam.version>
+        <seam.version>3.0.0.CR8</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
         <jackson.version>1.6.1</jackson.version>
