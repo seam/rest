@@ -10,6 +10,14 @@ between Java EE 6 environments.
 Release Notes
 =============
 
+3.0.0.CR2
+** Bug
+    * [SEAMREST-30] - Cannot use @DefaultBean for default ClientExecutor
+** Feature Request
+    * [SEAMREST-28] - Provide a Java SE example (JAX-RS client)
+** Task
+    * [SEAMREST-29] - Create an example demonstrating Apache velocity templating support
+    
 3.0.0.CR1
 ** Bug
     * [SEAMREST-13] - Removing of a task fails with an exception on JBoss AS
