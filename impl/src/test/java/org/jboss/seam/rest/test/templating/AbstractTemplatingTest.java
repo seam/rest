@@ -37,7 +37,7 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest {
         war.addResource("org/jboss/seam/rest/test/templating/formal.ftl", "formal.ftl");
         war.addResource("org/jboss/seam/rest/test/templating/informal.ftl", "informal.ftl");
         war.addLibrary(LIBRARY_SEAM_SOLDER);
-        war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+        //war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
         war.addClasses(FreeMarkerResource.class, VelocityResource.class, MyApplication.class);
         return war;
     }

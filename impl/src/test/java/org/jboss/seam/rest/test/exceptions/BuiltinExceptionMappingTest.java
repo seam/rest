@@ -25,7 +25,7 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest {
         war.addClasses(Exception1.class, Exception2.class);
         war.addLibrary(LIBRARY_SEAM_SOLDER);
         war.addLibraries(getSeamRest());
-        war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+        //war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
         return war;
     }
 
