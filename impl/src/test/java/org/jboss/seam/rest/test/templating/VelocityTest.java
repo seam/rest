@@ -5,11 +5,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
 public class VelocityTest extends AbstractTemplatingTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG, LIBRARY_COMMONS_COLLECTIONS);
-        war.addLibrary(getSeamRest());
+        war.addAsLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG, LIBRARY_COMMONS_COLLECTIONS);
+        war.addAsLibrary(getSeamRest());
         return war;
     }
 

@@ -28,16 +28,15 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest {
 
     public static WebArchive createTestApplication() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-        war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+        war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
-        war.addResource("org/jboss/seam/rest/test/templating/hello.ftl", "hello.ftl");
-        war.addResource("org/jboss/seam/rest/test/templating/hello.vm", "hello.vm");
-        war.addResource("org/jboss/seam/rest/test/templating/university.ftl", "university.ftl");
-        war.addResource("org/jboss/seam/rest/test/templating/university.vm", "university.vm");
-        war.addResource("org/jboss/seam/rest/test/templating/formal.ftl", "formal.ftl");
-        war.addResource("org/jboss/seam/rest/test/templating/informal.ftl", "informal.ftl");
-        war.addLibrary(LIBRARY_SEAM_SOLDER);
-        //war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/hello.ftl", "hello.ftl");
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/hello.vm", "hello.vm");
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/university.ftl", "university.ftl");
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/university.vm", "university.vm");
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/formal.ftl", "formal.ftl");
+        war.addAsWebResource("org/jboss/seam/rest/test/templating/informal.ftl", "informal.ftl");
+        war.addAsLibrary(LIBRARY_SEAM_SOLDER);
         war.addClasses(FreeMarkerResource.class, VelocityResource.class, MyApplication.class);
         return war;
     }

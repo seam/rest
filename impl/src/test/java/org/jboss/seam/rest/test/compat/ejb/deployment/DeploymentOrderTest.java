@@ -13,7 +13,7 @@ public class DeploymentOrderTest {
     @Deployment
     public static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(Filter.class, Foxtrot.class, Echo.class)
-                .addWebResource(EmptyAsset.INSTANCE, "beans.xml").addWebResource("WEB-INF/web.xml", "web.xml");
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").setWebXML("WEB-INF/web.xml");
     }
 
     @Test

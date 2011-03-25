@@ -31,16 +31,16 @@ public class RestClientTest {
         war.addPackage(RestClientTest.class.getPackage()); // test classes
         war.addPackage(Beans.class.getPackage());
         war.addClass(DefaultLiteral.class);
-        war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
-        war.addWebResource("WEB-INF/web.xml", "web.xml");
-        war.addLibrary(getSeamRest());
-        war.addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+        war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+        war.setWebXML("WEB-INF/web.xml");
+        war.addAsLibrary(getSeamRest());
+        war.addAsLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
         return war;
     }
 
     public static JavaArchive getSeamRest() {
         JavaArchive jar = SeamRestClientTest.createSeamRest();
-        jar.addServiceProvider(Extension.class, RestClientExtension.class);
+        jar.addAsServiceProvider(Extension.class, RestClientExtension.class);
         return jar;
     }
 

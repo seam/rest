@@ -1,8 +1,7 @@
 package org.jboss.seam.rest.test.compat.interceptor;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
+import org.jboss.arquillian.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.test.compat.MyApplication;
@@ -14,19 +13,19 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@Run(RunModeType.AS_CLIENT)
+@RunAsClient
 @RunWith(Arquillian.class)
 public class InterceptedResourceTest extends SeamRestClientTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(MyApplication.class, Resource.class)
-                .addWebResource("org/jboss/seam/rest/test/compat/interceptor/beans.xml", "beans.xml")
-                .setWebXML("WEB-INF/web.xml").addLibrary(getJar());
+                .addAsWebInfResource("org/jboss/seam/rest/test/compat/interceptor/beans.xml", "beans.xml")
+                .setWebXML("WEB-INF/web.xml").addAsLibrary(getJar());
     }
 
     public static JavaArchive getJar() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(Valid.class, ValidationInterceptor.class)
-                .addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test

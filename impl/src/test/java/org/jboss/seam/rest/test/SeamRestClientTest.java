@@ -1,11 +1,12 @@
 package org.jboss.seam.rest.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
+import org.jboss.arquillian.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
@@ -29,10 +30,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
-
-@Run(RunModeType.AS_CLIENT)
 @RunWith(Arquillian.class)
+@RunAsClient
 public abstract class SeamRestClientTest {
     public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
     public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
@@ -78,7 +77,7 @@ public abstract class SeamRestClientTest {
         jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
         jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
         jar.addPackage(ValidateRequest.class.getPackage());
-        jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        jar.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         // mock SeamRestStartup
         jar.addClass(MockStartup.class);
         return jar;

@@ -13,12 +13,12 @@ import org.junit.Test;
  * 
  */
 public class PreferedTemplatingProviderTest extends AbstractTemplatingTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addLibrary(LIBRARY_FREEMARKER);
-        war.addLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
-        war.addLibrary(getSeamRest());
+        war.addAsLibrary(LIBRARY_FREEMARKER);
+        war.addAsLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
+        war.addAsLibrary(getSeamRest());
         return war;
     }
 

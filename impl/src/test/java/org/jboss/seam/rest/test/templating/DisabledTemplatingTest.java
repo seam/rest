@@ -11,9 +11,9 @@ import org.junit.Test;
  * 
  */
 public class DisabledTemplatingTest extends AbstractTemplatingTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        return createTestApplication().addLibrary(getSeamRest());
+        return createTestApplication().addAsLibrary(getSeamRest());
     }
 
     @Test

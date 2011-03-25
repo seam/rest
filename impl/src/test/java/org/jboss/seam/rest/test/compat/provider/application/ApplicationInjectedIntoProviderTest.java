@@ -1,8 +1,7 @@
 package org.jboss.seam.rest.test.compat.provider.application;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
+import org.jboss.arquillian.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.test.compat.MyApplication;
@@ -21,10 +20,10 @@ import org.junit.runner.RunWith;
  * 
  */
 
-@Run(RunModeType.AS_CLIENT)
+@RunAsClient
 @RunWith(Arquillian.class)
 public class ApplicationInjectedIntoProviderTest extends SeamRestClientTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(MyApplication.class, Resource.class, MyExceptionMapper.class).setWebXML("WEB-INF/web.xml");

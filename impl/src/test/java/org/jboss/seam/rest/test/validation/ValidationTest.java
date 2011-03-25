@@ -9,26 +9,20 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.exception.control.CatchResource;
 import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionStack;
-import org.jboss.seam.exception.control.ExceptionStackItem;
-import org.jboss.seam.exception.control.Handles;
-import org.jboss.seam.exception.control.HandlesExceptions;
-import org.jboss.seam.exception.control.TraversalMode;
 import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
+import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.seam.rest.validation.ValidationException;
-import org.jboss.seam.solder.reflection.AnnotationInspector;
-import org.jboss.seam.solder.reflection.PrimitiveTypes;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -52,19 +46,15 @@ public class ValidationTest {
     private Instance<CatchValidationExceptionHandler> handler;
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-        jar.addManifestResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
-        jar.addPackage(ValidateRequest.class.getPackage());
-        jar.addClass(CatchValidationExceptionHandler.class);
-        jar.addClass(ExceptionStackItem.class);
-        jar.addPackage(ValidationTest.class.getPackage());
-        jar.addClass(RestResource.class);
-        jar.addClasses(CaughtException.class, CatchResource.class, Handles.class, HandlesExceptions.class, TraversalMode.class,
-                RestRequest.class, ResponseBuilderProducer.class, ExceptionStack.class);
-        jar.addClasses(Annotations.class, Utils.class);
-        jar.addClasses(PrimitiveTypes.class, AnnotationInspector.class);
-        return jar;
+    public static WebArchive createDeployment() {
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
+        war.addAsWebInfResource("org/jboss/seam/rest/test/validation/beans.xml", ArchivePaths.create("beans.xml"));
+        war.setWebXML("WEB-INF/web.xml");
+        war.addPackages(false, ValidateRequest.class.getPackage(), ValidationTest.class.getPackage());
+        war.addClasses(CatchValidationExceptionHandler.class, RestResource.class, RestRequest.class,
+                ResponseBuilderProducer.class, Annotations.class, Utils.class);
+        war.addAsLibraries(SeamRestClientTest.LIBRARY_SEAM_SOLDER, SeamRestClientTest.LIBRARY_SEAM_CATCH);
+        return war;
     }
 
     @Test

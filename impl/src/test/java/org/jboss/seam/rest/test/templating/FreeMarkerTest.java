@@ -5,11 +5,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
 public class FreeMarkerTest extends AbstractTemplatingTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addLibrary(LIBRARY_FREEMARKER);
-        war.addLibrary(getSeamRest());
+        war.addAsLibrary(LIBRARY_FREEMARKER);
+        war.addAsLibrary(getSeamRest());
         return war;
     }
 

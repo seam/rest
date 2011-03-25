@@ -8,10 +8,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class CatchIntegrationTest extends BuiltinExceptionMappingTest {
-    @Deployment
-    public static WebArchive createDeploymentWithCatch() {
-        WebArchive war = createDeployment();
-        war.addLibraries(LIBRARY_SEAM_CATCH);
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        WebArchive war = BuiltinExceptionMappingTest.createDeployment();
+        war.addAsLibraries(LIBRARY_SEAM_CATCH);
         return war;
     }
 

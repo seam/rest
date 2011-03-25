@@ -22,13 +22,13 @@ public class InterpolatorTest {
 
     @Deployment
     public static WebArchive getDeployment() {
-        return ShrinkWrap.create(WebArchive.class, "test.war").addWebResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addLibrary(getJar()).addLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+        return ShrinkWrap.create(WebArchive.class, "test.war").addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsLibrary(getJar()).addAsLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
     }
 
     public static JavaArchive getJar() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
-        jar.addManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        jar.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         jar.addClasses(Interpolator.class);
         jar.addClass(Fox.class);
         return jar;

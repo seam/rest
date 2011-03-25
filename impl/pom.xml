@@ -15,6 +15,10 @@
     <name>Seam REST Module Implementation</name>
     <url>http://seamframework.org/Seam3/RESTModule</url>
 
+    <properties>
+        <arquillian.version>1.0.0.Alpha5</arquillian.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <artifactId>seam-rest-api</artifactId>
@@ -71,6 +75,7 @@
         <dependency>
             <groupId>org.jboss.arquillian</groupId>
             <artifactId>arquillian-junit</artifactId>
+            <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -254,6 +259,7 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-jbossas-managed-6</artifactId>
+                    <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -276,6 +282,7 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-jbossas-remote-6</artifactId>
+                    <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -286,6 +293,7 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-glassfish-embedded-3</artifactId>
+                    <version>${arquillian.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.glassfish.extras</groupId>
@@ -333,7 +341,7 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-glassfish-remote-3.1</artifactId>
-                    <version>1.0.0.Alpha5</version>
+                    <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>

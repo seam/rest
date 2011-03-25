@@ -15,16 +15,16 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
 public class BuiltinExceptionMappingTest extends SeamRestClientTest {
-    @Deployment
+    @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
-        war.addWebResource(EmptyAsset.INSTANCE, "beans.xml");
+        war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         war.setWebXML("org/jboss/seam/rest/test/exceptions/web.xml");
         war.addClasses(Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class,
                 MyApplication.class);
         war.addClasses(Exception1.class, Exception2.class);
-        war.addLibrary(LIBRARY_SEAM_SOLDER);
-        war.addLibraries(getSeamRest());
+        war.addAsLibrary(LIBRARY_SEAM_SOLDER);
+        war.addAsLibraries(getSeamRest());
         //war.addLibraries(LIBRARY_SLF4J_API, LIBRARY_SLF4J_IMPL);
         return war;
     }
@@ -33,7 +33,7 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest {
         JavaArchive jar = SeamRestClientTest.createSeamRest();
         jar.addClass(CustomSeamRestConfiguration.class);
         jar.addClasses(SeamExceptionMapper.class, CatchExceptionMapper.class);
-        jar.addServiceProvider(Extension.class, ExceptionMappingExtension.class);
+        jar.addAsServiceProvider(Extension.class, ExceptionMappingExtension.class);
         return jar;
     }
 
