@@ -125,14 +125,7 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
                 </dependency>
-                <!-- Exclude catch from GF for now -->
-                <dependency>
-                    <groupId>org.jboss.seam.catch</groupId>
-                    <artifactId>seam-catch</artifactId>
-                    <scope>provided</scope>
-                </dependency>
             </dependencies>
-
         </profile>
         <profile>
             <id>distribution</id>
