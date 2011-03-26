@@ -134,10 +134,6 @@
                             <additionalClasspathElements>
                                 <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                             </additionalClasspathElements>
-                            <excludes>
-                                <!-- Do not run compatibility tests -->
-                                <exclude>**/compat/**/*.java</exclude>
-                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
@@ -328,36 +324,9 @@
                                         <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                                     </additionalClasspathElements>
                                     <excludes>
-                                        <!-- Do not run compatibility tests -->
-                                        <exclude>**/compat/**/*.java</exclude>
                                         <!-- Do not run rest client tests -->
                                         <exclude>**/client/**/*.java</exclude>
                                     </excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>compat</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>test-compat</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/compat/**/*Test.java</include>
-                                    </includes>
                                 </configuration>
                             </execution>
                         </executions>
