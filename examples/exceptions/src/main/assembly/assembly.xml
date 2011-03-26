@@ -12,6 +12,7 @@
                 <exclude>${project.build.directory}/**</exclude>
                 <exclude>.classpath</exclude>
                 <exclude>.project</exclude>
+                <exclude>.gitignore</exclude>
                 <exclude>.settings/**</exclude>
                 <exclude>test-output/**</exclude>
             </excludes>
