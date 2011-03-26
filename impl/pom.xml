@@ -82,6 +82,7 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
         </dependency>
+        <!-- slf4j required for HTTPClient -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -112,7 +113,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch,commons-collections,seam-solder</includeArtifactIds>
+                            <includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch,commons-collections,seam-solder</includeArtifactIds>
                             <outputDirectory>${basedir}/target/lib</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
@@ -133,10 +134,6 @@
                             <additionalClasspathElements>
                                 <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                             </additionalClasspathElements>
-                            <excludes>
-                                <!-- Do not run compatibility tests -->
-                                <exclude>**/compat/**/*.java</exclude>
-                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
@@ -327,36 +324,9 @@
                                         <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                                     </additionalClasspathElements>
                                     <excludes>
-                                        <!-- Do not run compatibility tests -->
-                                        <exclude>**/compat/**/*.java</exclude>
                                         <!-- Do not run rest client tests -->
                                         <exclude>**/client/**/*.java</exclude>
                                     </excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>compat</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>test-compat</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/compat/**/*Test.java</include>
-                                    </includes>
                                 </configuration>
                             </execution>
                         </executions>
