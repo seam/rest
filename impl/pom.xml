@@ -82,6 +82,7 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
         </dependency>
+        <!-- slf4j required for HTTPClient -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -112,7 +113,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,slf4j-simple,slf4j-api,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch,commons-collections,seam-solder</includeArtifactIds>
+                            <includeArtifactIds>freemarker,seam-solder-api,seam-solder-impl,jboss-logging,velocity,velocity-tools,commons-lang,seam-servlet-api,seam-servlet-impl,seam-catch,commons-collections,seam-solder</includeArtifactIds>
                             <outputDirectory>${basedir}/target/lib</outputDirectory>
                             <stripVersion>true</stripVersion>
                         </configuration>
