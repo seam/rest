@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.jboss.seam.rest</groupId>
         <artifactId>seam-rest-parent</artifactId>
-        <version>3.0.0.Final</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>org.jboss.seam.rest</groupId>
     <artifactId>seam-rest-example-exceptions</artifactId>
     <packaging>war</packaging>
-    <version>3.0.0.Final</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>Seam REST Exceptions Example</name>
     <url>http://seamframework.org/Seam3/RESTModule</url>
 
