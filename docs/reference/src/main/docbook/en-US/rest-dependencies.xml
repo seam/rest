@@ -4,34 +4,12 @@
 <chapter id="rest.dependencies">
     <title>Seam REST Dependencies</title>
 
-    <sect1>
+    <sect1 id="rest.dependencies.transitive">
         <title>Transitive Dependencies</title>
 
         <para>
-            The Seam REST module depends on the transitive
-            dependencies at runtime
-            listed in table
-            <xref linkend="rest.dependencies.table" />
-            .
+            The Seam REST module depends on the <ulink url="http://seamframework.org/Seam3/Solder">Seam Solder</ulink> module.
         </para>
-
-        <table id="rest.dependencies.table">
-            <title>Transitive dependencies</title>
-            <tgroup cols='2'>
-                <thead>
-                    <row>
-                        <entry>Name</entry>
-                        <entry>Version</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Seam Solder</entry>
-                        <entry>3.0.0.Beta2</entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
     </sect1>
 
     <sect1>

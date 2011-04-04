@@ -44,7 +44,7 @@
 
         <tip>
             <para>
-                Substitute the expression ${seam.rest.version} with the most recent or appropriate version of Seam Catch.
+                Substitute the expression ${seam.rest.version} with the most recent or appropriate version of Seam REST.
                 Alternatively, you can create a
                 <ulink
                     url="http://www.sonatype.com/books/mvnref-book/reference/resource-filtering-sect-properties.html#resource-filtering-sect-user-defined">Maven
@@ -59,7 +59,7 @@
         <para>
             Besides, Seam REST has several transitive dependencies (which are
             added automatically when using maven). Refer to
-            <xref linkend="rest.dependencies.table" />
+            <xref linkend="rest.dependencies.transitive" />
             for more details.
         </para>
     </sect1>
@@ -88,7 +88,7 @@ public class MyApplication extends Application {}]]></programlisting>
         <para>
             Otherwise, if the Application's
             <literal>getClasses()</literal>
-            method is overriden to select resources and providers explicitlyy
+            method is overriden to select resources and providers explicitly
             add
             <literal>SeamExceptionMapper</literal>
             and
