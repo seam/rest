@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @RequestScoped
 public class ResponseBuilderProducer {
     private ResponseBuilder responseBuilder;
+    private Response response;
 
     @Produces
     @RequestScoped
@@ -26,7 +27,13 @@ public class ResponseBuilderProducer {
     @Produces
     @RestResource
     public Response buildCatchResponse() {
-        return responseBuilder.build();
+        if (response == null)
+        {
+            // the builder is reset upon build()
+            // therefore, we cache the response
+            response = responseBuilder.build();
+        }
+        return response;
     }
 
     @PostConstruct
