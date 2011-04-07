@@ -6,6 +6,6 @@
         <class>org.jboss.seam.rest.validation.ValidationInterceptor</class>
     </interceptors>
     <alternatives>
-        <class>org.jboss.seam.rest.example.tasks.noxml.CustomExceptionMappingConfiguration</class>
+        <class>org.jboss.seam.rest.examples.tasks.noxml.CustomExceptionMappingConfiguration</class>
     </alternatives>
 </beans>

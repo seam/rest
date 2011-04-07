@@ -4,6 +4,6 @@
 
     <!-- This listener replaces the import.sql script - it feeds the database with sample data -->
     <listener>
-        <listener-class>org.jboss.seam.rest.example.tasks.db.ImportListener</listener-class>
+        <listener-class>org.jboss.seam.rest.examples.tasks.db.ImportListener</listener-class>
     </listener>
 </web-app>

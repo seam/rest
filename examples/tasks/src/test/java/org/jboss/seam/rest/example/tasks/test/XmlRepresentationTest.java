@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.example.tasks.test;
+package org.jboss.seam.rest.examples.tasks.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;

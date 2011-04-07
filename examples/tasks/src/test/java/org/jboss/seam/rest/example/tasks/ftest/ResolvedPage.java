@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.example.tasks.ftest;
+package org.jboss.seam.rest.examples.tasks.ftest;
 
 import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
 import static org.jboss.test.selenium.locator.LocatorFactory.jq;

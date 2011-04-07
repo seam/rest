@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.example.tasks.ftest;
+package org.jboss.seam.rest.examples.tasks.ftest;
 
 import java.net.URL;
 

@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
         <param-name>javax.ws.rs.Application</param-name>
-        <param-value>org.jboss.seam.rest.example.tasks.TasksApplication</param-value>
+        <param-value>org.jboss.seam.rest.examples.tasks.TasksApplication</param-value>
     </context-param>
 
     <context-param>

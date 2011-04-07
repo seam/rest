@@ -4,10 +4,10 @@
     <!-- We specify the classes explicitly since we need to execute XmlRepresentationTest before any other -->
     <test name="Seam Tasks" preserve-order="true">
         <classes>
-            <class name="org.jboss.seam.rest.example.tasks.test.XmlRepresentationTest" />
-            <class name="org.jboss.seam.rest.example.tasks.ftest.TaskPageTest" />
-            <class name="org.jboss.seam.rest.example.tasks.ftest.CategoryPageTest" />
-            <class name="org.jboss.seam.rest.example.tasks.ftest.ResolvedPageTest" />
+            <class name="org.jboss.seam.rest.examples.tasks.test.XmlRepresentationTest" />
+            <class name="org.jboss.seam.rest.examples.tasks.ftest.TaskPageTest" />
+            <class name="org.jboss.seam.rest.examples.tasks.ftest.CategoryPageTest" />
+            <class name="org.jboss.seam.rest.examples.tasks.ftest.ResolvedPageTest" />
         </classes>
     </test>
 </suite>
