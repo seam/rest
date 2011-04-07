@@ -4,7 +4,7 @@ Seam Tasks Example
 Deploying to JBoss AS 6
 ======================
 mvn clean package
-cp target/seam-tasks.war $JBOSS_HOME/server/default/deploy
+cp target/rest-tasks.war $JBOSS_HOME/server/default/deploy
 $JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
 
 Deploying to Glassfish
@@ -12,12 +12,12 @@ Deploying to Glassfish
 mvn clean package -Pglassfish
 $GF_HOME/bin/asadmin start-database
 $GF_HOME/bin/asadmin start-domain
-$GF_HOME/bin/asadmin deploy target/seam-tasks.war
+$GF_HOME/bin/asadmin deploy target/rest-tasks.war
 
 Deploying to Resin (not currently supported)
 ======================
 mvn clean package -Presin
-cp target/seam-tasks.war $RESIN_HOME/webapps
+cp target/rest-tasks.war $RESIN_HOME/webapps
 $RESIN_HOME/bin/resin.sh start
 
 Build options
@@ -43,6 +43,6 @@ It will fail at the first run. Modify the run configuration of the test
 TaskPageTest -> Run As -> Run Configurations and add the following VM 
 arguments in the arguments tab:
 
--Dmethod=* -Dbrowser=*firefoxproxy -Dcontext.root=http://localhost:8080/ -Dcontext.path=/seam-tasks/ -Dselenium.host=localhost -Dselenium.port=14444 -Dselenium.debug=false -Dselenium.maximize=false -Dselenium.timeout.default=30000 -Dselenium.timeout.gui=5000 -Dselenium.timeout.ajax=15000 -Dselenium.timeout.model=30000 -Dselenium.speed=0 -Dselenium.timeout=3000 -Dbasedir=.
+-Dmethod=* -Dbrowser=*firefoxproxy -Dcontext.root=http://localhost:8080/ -Dcontext.path=/rest-tasks/ -Dselenium.host=localhost -Dselenium.port=14444 -Dselenium.debug=false -Dselenium.maximize=false -Dselenium.timeout.default=30000 -Dselenium.timeout.gui=5000 -Dselenium.timeout.ajax=15000 -Dselenium.timeout.model=30000 -Dselenium.speed=0 -Dselenium.timeout=3000 -Dbasedir=.
 
 Note that you need to add the arguments for every test class.
