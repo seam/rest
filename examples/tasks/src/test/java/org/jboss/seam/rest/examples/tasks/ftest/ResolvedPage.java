@@ -1,18 +1,17 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-
 import java.net.URL;
 
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.JQueryLocator;
 
+import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
+import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+
 /**
  * Page object for the resolved tasks page (resolved.html)
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class ResolvedPage extends AbstractPage {
     public static final JQueryLocator NEXT_LINK = jq(".next");

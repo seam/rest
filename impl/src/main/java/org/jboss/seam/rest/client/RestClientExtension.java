@@ -24,7 +24,7 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
  * <li>org.jboss.resteasy.client.ClientRequest instances</li>
  * <li>REST clients - proxied JAX-RS interfaces capable of invoking client requests</li>
  * </ul>
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 public class RestClientExtension implements Extension {
@@ -42,7 +42,7 @@ public class RestClientExtension implements Extension {
     /**
      * Obtains the <code>Bean</code> instance for the <code>RestClientProducer</code> component. This instance is used later for
      * registering {@link RestClientProducer#produceRestClient} as a producer method.
-     * 
+     *
      * @param event
      */
     public void getRestClientProducerDelegate(@Observes ProcessManagedBean<RestClientProducer> event) {
@@ -51,12 +51,12 @@ public class RestClientExtension implements Extension {
 
     /**
      * Scans a Bean for the following injection points
-     * 
+     * <p/>
      * <code>
-     * 
+     *
      * @Inject @RestClient private T service; </code>
-     * 
-     *         where T is a JAX-RS annotated interface and builds a collection of these types.
+     * <p/>
+     * where T is a JAX-RS annotated interface and builds a collection of these types.
      */
     public <T> void scanInjectionPointsForJaxrsInterfaces(@Observes ProcessBean<T> event, BeanManager manager) {
         if (!enabled) {

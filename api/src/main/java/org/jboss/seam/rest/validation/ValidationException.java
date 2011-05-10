@@ -2,6 +2,7 @@ package org.jboss.seam.rest.validation;
 
 import java.util.Iterator;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 
 public class ValidationException extends RuntimeException {

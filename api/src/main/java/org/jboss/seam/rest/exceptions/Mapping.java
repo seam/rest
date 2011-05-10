@@ -2,9 +2,8 @@ package org.jboss.seam.rest.exceptions;
 
 /**
  * Represents a mapping of an exception to an HTTP status code and response body.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class Mapping {
     private Class<? extends Throwable> exceptionType;
@@ -23,7 +22,7 @@ public class Mapping {
     }
 
     public Mapping(Class<? extends Throwable> exceptionType, int statusCode, String message, boolean useExceptionMessage,
-            boolean interpolateMessageBody, boolean useJaxb) {
+                   boolean interpolateMessageBody, boolean useJaxb) {
         this(exceptionType, statusCode);
         this.message = message;
         this.useExceptionMessage = useExceptionMessage;

@@ -17,8 +17,6 @@ import javax.validation.Validator;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.validation.ValidateRequest;
-import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
 import org.jboss.seam.solder.reflection.PrimitiveTypes;
 
@@ -42,12 +40,11 @@ public class ValidationInterceptor implements Serializable {
      * On the first run, the method is scanned for message body parameters and parameter object parameters and the metadata is
      * stored within {@link ValidationMetadata}.
      * </p>
-     * <p>
+     * <p/>
      * On subsequent runs, method parameters and the declaring instance are validated using {@link Validator}.
      * {@link ValidationException} is thrown if validation fails.
-     * 
+     *
      * @throws ValidationException
-     * 
      */
     @AroundInvoke
     public Object intercept(InvocationContext ctx) throws Exception {

@@ -9,9 +9,8 @@ import javax.ws.rs.QueryParam;
 
 /**
  * Very simplified API of the Seam Tasks's API.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Path("/api")
 @Produces("application/json")

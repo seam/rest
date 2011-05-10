@@ -8,9 +8,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * JAXB class for Seam Task's task.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @XmlRootElement
 public class Task {

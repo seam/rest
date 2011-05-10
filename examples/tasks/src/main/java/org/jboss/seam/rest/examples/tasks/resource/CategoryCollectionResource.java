@@ -21,9 +21,8 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * Collection resource for categories
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Path("/category")
 @RequestScoped
@@ -45,9 +44,9 @@ public class CategoryCollectionResource {
 
     @GET
     @ValidateRequest
-    @Produces({ "application/json", "application/categories+xml", "application/categories-short+xml" })
-    @ResponseTemplate.List({ @ResponseTemplate(value = "/freemarker/categories.ftl", produces = "application/categories+xml"),
-            @ResponseTemplate(value = "/freemarker/categories-short.ftl", produces = "application/categories-short+xml") })
+    @Produces({"application/json", "application/categories+xml", "application/categories-short+xml"})
+    @ResponseTemplate.List({@ResponseTemplate(value = "/freemarker/categories.ftl", produces = "application/categories+xml"),
+            @ResponseTemplate(value = "/freemarker/categories-short.ftl", produces = "application/categories-short+xml")})
     public List<Category> getCategories() {
         return bean.getCategories(start, limit);
     }

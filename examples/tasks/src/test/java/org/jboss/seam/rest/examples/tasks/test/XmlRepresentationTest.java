@@ -1,17 +1,16 @@
 package org.jboss.seam.rest.examples.tasks.test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.testng.annotations.Test;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
 /**
  * This test verifies XML representations created by FreeMarker or Apache Velocity.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class XmlRepresentationTest {
     private HttpClient client = new HttpClient();

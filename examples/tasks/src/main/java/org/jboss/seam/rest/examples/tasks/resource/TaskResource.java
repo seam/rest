@@ -26,11 +26,10 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * CRUD resource for resources
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
-@Consumes({ "application/xml", "application/json" })
+@Consumes({"application/xml", "application/json"})
 @ValidateRequest(groups = TaskValidationGroup.class)
 @Stateless
 public class TaskResource extends AbstractEntityResource {
@@ -39,7 +38,7 @@ public class TaskResource extends AbstractEntityResource {
 
     @GET
     @ResponseTemplate(value = "/freemarker/task.ftl", produces = "application/task+xml", responseName = "task")
-    @Produces({ "application/task+xml", "application/json" })
+    @Produces({"application/task+xml", "application/json"})
     public Task getTask(@PathParam("taskId") long taskId, @Context UriInfo uriInfo) {
         return loadTask(taskId, uriInfo);
     }

@@ -7,9 +7,8 @@ import org.jboss.seam.rest.examples.tasks.entity.Category;
 
 /**
  * Common methods for entity resources
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public abstract class AbstractEntityResource {
     @PersistenceContext

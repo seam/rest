@@ -1,7 +1,5 @@
 package org.jboss.seam.rest.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -29,6 +27,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -71,9 +71,9 @@ public abstract class SeamRestClientTest {
         jar.addClasses(SeamRestConfiguration.class, SeamRestExtension.class);
         jar.addPackage(RestClient.class.getPackage()); // .client
         jar.addClasses(ExceptionMapping.class, Mapping.class, RestRequest.class, RestResource.class, UnhandledException.class); // .exceptions
-                                                                                                                                // api
+        // api
         jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions
-                                                                                                                   // impl
+        // impl
         jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
         jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
         jar.addPackage(ValidateRequest.class.getPackage());

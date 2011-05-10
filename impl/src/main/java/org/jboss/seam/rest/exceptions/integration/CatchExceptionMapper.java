@@ -29,7 +29,7 @@ import org.jboss.seam.rest.util.Interpolator;
  * contains the exception and the qualifier &#064;RestRequest. The qualifier allows handlers that deal specifically with REST
  * requests to be selected.
  * </p>
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */

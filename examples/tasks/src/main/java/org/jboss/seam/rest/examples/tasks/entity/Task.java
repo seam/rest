@@ -22,17 +22,15 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.jboss.seam.rest.examples.tasks.json.JsonDateSerializer;
 
 /**
- * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Entity
-@GroupSequence({ Task.class, TaskValidationGroup.class })
+@GroupSequence({Task.class, TaskValidationGroup.class})
 @NamedQueries({
         @NamedQuery(name = "taskById", query = "select task from Task task where task.id = :tid"),
         @NamedQuery(name = "taskByCategoryAndId", query = "select task from Task task where task.id = :tid and task.category.name = :category"),
         @NamedQuery(name = "tasks", query = "select task from Task task where task.resolved in (:r1, :r2) order by task.id"),
-        @NamedQuery(name = "tasksByCategory", query = "select task from Task task where task.category.name = :category and task.resolved in (:r1, :r2) order by task.id") })
+        @NamedQuery(name = "tasksByCategory", query = "select task from Task task where task.category.name = :category and task.resolved in (:r1, :r2) order by task.id")})
 public class Task {
     @Id
     @GeneratedValue

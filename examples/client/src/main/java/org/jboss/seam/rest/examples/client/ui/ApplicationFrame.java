@@ -1,17 +1,16 @@
 package org.jboss.seam.rest.examples.client.ui;
 
+import java.awt.*;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
 
 /**
  * The main application window, composed of {@link TasksPanel} and {@link ZipPanel}.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 
 @Singleton

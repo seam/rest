@@ -32,7 +32,7 @@ public class TasksResultTableModel extends AbstractTableModel {
 
         int i = 0;
         for (Map.Entry<String, String> entry : result.entrySet()) {
-            resultArray[i] = new String[] { entry.getKey(), entry.getValue() };
+            resultArray[i] = new String[]{entry.getKey(), entry.getValue()};
             i++;
         }
 

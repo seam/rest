@@ -1,16 +1,16 @@
 package org.jboss.seam.rest.templating;
 
-import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Indicates that the HTTP response is produced using a template.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Retention(RUNTIME)
 @Target(METHOD)
@@ -33,13 +33,13 @@ public @interface ResponseTemplate {
 
     /**
      * Defines several <code>@ResponseTemplate</code> annotations on the same element
-     * 
+     *
      * @see ResponseTemplate
      */
     @Target(METHOD)
     @Retention(RUNTIME)
     @Documented
-    @interface List {
+            @interface List {
         ResponseTemplate[] value();
     }
 }

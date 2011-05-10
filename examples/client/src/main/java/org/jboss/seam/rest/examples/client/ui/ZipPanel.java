@@ -1,26 +1,17 @@
 package org.jboss.seam.rest.examples.client.ui;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.JTable;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import org.jboss.seam.rest.examples.client.ConnectionException;
 import org.jboss.seam.rest.examples.client.StatusException;
 import org.jboss.seam.rest.examples.client.geo.SearchAction;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
 
 @Singleton
 public class ZipPanel extends JPanel {

@@ -30,6 +30,6 @@ public class TasksApplication extends Application {
 
     @Override
     public Set<Object> getSingletons() {
-        return Collections.<Object> singleton(new JacksonJaxbJsonProvider());
+        return Collections.<Object>singleton(new JacksonJaxbJsonProvider());
     }
 }

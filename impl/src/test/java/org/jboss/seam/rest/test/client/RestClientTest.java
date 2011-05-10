@@ -18,6 +18,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)

@@ -5,7 +5,7 @@ import org.jboss.seam.solder.reflection.Reflections;
 public class Utils {
     /**
      * Find out whether a given class is available on the classpath
-     * 
+     *
      * @param className
      * @return true if and only if the given class can be loaded
      */

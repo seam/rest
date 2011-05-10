@@ -13,9 +13,8 @@ import static org.jboss.test.selenium.locator.option.OptionLocatorFactory.option
 
 /**
  * Page object for the tasks page (tasks.html)
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class TaskPage extends AbstractPage {
     public static final JQueryLocator NEW_TASK_NAME_FIELD = jq("#editTaskName");

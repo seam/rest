@@ -12,21 +12,19 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.jboss.seam.rest.templating.ModelWrapper;
 import org.jboss.seam.rest.templating.ResponseTemplate;
 import org.jboss.seam.rest.templating.TemplatingModel;
 import org.jboss.seam.rest.templating.TemplatingProvider;
 
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
 /**
  * Converts the response object to a rendered FreeMarker template.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @ApplicationScoped
 public class FreeMarkerProvider implements TemplatingProvider {
@@ -43,7 +41,7 @@ public class FreeMarkerProvider implements TemplatingProvider {
     }
 
     public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType,
-            MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
+                        MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
         Template template = configuration.getTemplate(annotation.value());
 
         model.getData().put(annotation.responseName(), o);

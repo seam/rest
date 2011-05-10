@@ -6,9 +6,8 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
 /**
  * Currently just vetoes {@link SeamRestConfiguration}.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class SeamRestExtension implements Extension {
     /**

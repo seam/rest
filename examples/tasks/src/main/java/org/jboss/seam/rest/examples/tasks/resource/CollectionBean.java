@@ -12,9 +12,8 @@ import org.jboss.seam.rest.examples.tasks.entity.Task;
 
 /**
  * Loads collections of Tasks and Categories from database.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Stateless
 public class CollectionBean {
@@ -61,7 +60,7 @@ public class CollectionBean {
 
     /**
      * Sets paginatation parameters
-     * 
+     *
      * @param query JPA query
      * @param start the first item
      * @param limit how many items to return (use 0 for unlimited result)

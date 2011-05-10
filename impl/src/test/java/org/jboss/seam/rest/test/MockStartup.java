@@ -12,9 +12,8 @@ import org.jboss.seam.rest.exceptions.RestResource;
 
 /**
  * Same as {@link SeamRestStartup} but does not have external dependencies.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @WebListener
 public class MockStartup implements ServletContextListener {

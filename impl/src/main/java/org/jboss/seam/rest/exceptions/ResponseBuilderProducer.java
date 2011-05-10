@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * A request-scoped resource for customizing an REST error response from within a Seam Catch exception handler.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
@@ -27,8 +27,7 @@ public class ResponseBuilderProducer {
     @Produces
     @RestResource
     public Response buildCatchResponse() {
-        if (response == null)
-        {
+        if (response == null) {
             // the builder is reset upon build()
             // therefore, we cache the response
             response = responseBuilder.build();

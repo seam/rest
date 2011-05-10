@@ -1,7 +1,5 @@
 package org.jboss.seam.rest.test.validation;
 
-import static org.junit.Assert.assertEquals;
-
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
@@ -25,6 +23,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ValidationTest {

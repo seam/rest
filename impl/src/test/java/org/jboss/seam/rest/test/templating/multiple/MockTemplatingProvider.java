@@ -21,7 +21,7 @@ public class MockTemplatingProvider implements TemplatingProvider {
     }
 
     public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType,
-            MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
+                        MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
         writer.write("Hello world!");
         writer.flush();

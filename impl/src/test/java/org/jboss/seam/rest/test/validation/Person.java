@@ -8,13 +8,13 @@ import javax.validation.groups.Default;
 
 public class Person {
 
-    @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
+    @Size(min = 2, max = 20, groups = {PartialValidation.class, Default.class})
     private String firstName;
-    @Size(min = 2, max = 20, groups = { PartialValidation.class, Default.class })
+    @Size(min = 2, max = 20, groups = {PartialValidation.class, Default.class})
     private String surname;
-    @Min(value = 18, groups = { PartialValidation.class, Default.class })
+    @Min(value = 18, groups = {PartialValidation.class, Default.class})
     private int age;
-    @AssertFalse(groups = { PartialValidation.class, Default.class })
+    @AssertFalse(groups = {PartialValidation.class, Default.class})
     private boolean zombie;
     @NotNull
     // not validated during partial validation

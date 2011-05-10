@@ -22,15 +22,14 @@ import org.jboss.seam.rest.validation.ValidationExceptionHandler;
 
 /**
  * This {@link ExceptionMapper} implementation converts caught exceptions to HTTP responses based on exception mapping rules.
- * 
+ * <p/>
  * <p>
  * If there is no matching rule for an exception, the exception is rethrown wrapped within {@link UnhandledException}. Note that
  * this implementation is replaced by CatchExceptionMapper in environments where Seam Catch is available.
  * </p>
- * 
- * @see ExceptionMappingConfiguration
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
+ * @see ExceptionMappingConfiguration
  */
 @Provider
 @ApplicationScoped
@@ -122,7 +121,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable> {
     }
 
     protected String createMessage(String message, boolean interpolate, boolean useExceptionMessage, Throwable e,
-            Interpolator interpolator) {
+                                   Interpolator interpolator) {
         String msg = message;
         if (msg == null || msg.length() == 0) {
             if (useExceptionMessage) {

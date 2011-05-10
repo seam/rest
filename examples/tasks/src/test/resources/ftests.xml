@@ -6,7 +6,7 @@
             <package name="org.jboss.seam.rest.examples.tasks.test"/>
         </packages>
     </test>
-    
+
     <test name="Seam Tasks functional tests">
         <packages>
             <package name="org.jboss.seam.rest.examples.tasks.ftest"/>

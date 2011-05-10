@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Annotations {
     /**
      * Find an instance of the annotationClass in an annotation arrays including the first level of meta-annotation.
-     * 
+     *
      * @return the annotationClass instance if present, null otherwise
      */
     @SuppressWarnings("unchecked")
@@ -27,7 +27,7 @@ public class Annotations {
 
     /**
      * Find an instance of the annotationClass in an annotation arrays including the first level of meta-annotation.
-     * 
+     *
      * @return the annotationClass instance if present, null otherwise
      */
     public static <T extends Annotation> T getAnnotation(Annotation[] annotations, Class<T> annotationClass) {

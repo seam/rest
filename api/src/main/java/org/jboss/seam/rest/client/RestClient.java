@@ -8,19 +8,18 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
-import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Qualifier for injecting REST client and <code>ClientRequest</code> instances.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
-@Target({ FIELD, ANNOTATION_TYPE, METHOD, PARAMETER })
+@Target({FIELD, ANNOTATION_TYPE, METHOD, PARAMETER})
 @Retention(RUNTIME)
 @Documented
 @Qualifier
@@ -28,8 +27,7 @@ public @interface RestClient {
     /**
      * URL of the web service
      */
-    @Nonbinding
-    String value();
+    @Nonbinding String value();
 
     /**
      * Annotation literal for @{link RestClient} qualifier.

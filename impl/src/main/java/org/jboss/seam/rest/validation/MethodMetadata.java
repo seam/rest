@@ -5,9 +5,8 @@ import java.util.Set;
 
 /**
  * Caches method metadata needed to perform validation of JAX-RS requests.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class MethodMetadata {
     private final Method method;
@@ -16,7 +15,7 @@ public class MethodMetadata {
     private final ValidateRequest interceptorBinding;
 
     public MethodMetadata(Method method, Integer messageBody, Set<Integer> validatedParameters,
-            ValidateRequest interceptorBinding) {
+                          ValidateRequest interceptorBinding) {
         this.method = method;
         this.messageBody = messageBody;
         this.validatedParameters = validatedParameters;

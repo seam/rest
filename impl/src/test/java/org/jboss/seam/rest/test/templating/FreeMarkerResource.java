@@ -27,9 +27,9 @@ public class FreeMarkerResource {
 
     @Path("greeting")
     @GET
-    @Produces({ "text/greeting-informal", "text/greeting-formal" })
-    @ResponseTemplate.List({ @ResponseTemplate(value = "/informal.ftl", produces = "text/greeting-informal"),
-            @ResponseTemplate(value = "/formal.ftl", produces = "text/greeting-formal") })
+    @Produces({"text/greeting-informal", "text/greeting-formal"})
+    @ResponseTemplate.List({@ResponseTemplate(value = "/informal.ftl", produces = "text/greeting-informal"),
+            @ResponseTemplate(value = "/formal.ftl", produces = "text/greeting-formal")})
     public Student greeting() {
         return new Student("Jozef Hartinger");
     }

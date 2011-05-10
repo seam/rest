@@ -13,9 +13,8 @@ import static org.jboss.test.selenium.locator.LocatorFactory.jq;
 
 /**
  * This abstract page class contains common methods for all the pages.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public abstract class AbstractPage {
     public static final JQueryLocator TASK_NAME = jq("#{0} .name");

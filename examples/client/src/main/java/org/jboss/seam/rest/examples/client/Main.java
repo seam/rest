@@ -1,6 +1,6 @@
 package org.jboss.seam.rest.examples.client;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;

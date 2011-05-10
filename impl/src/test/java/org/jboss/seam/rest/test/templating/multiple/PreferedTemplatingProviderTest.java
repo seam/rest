@@ -8,9 +8,8 @@ import org.junit.Test;
 
 /**
  * This test verifies that a prefered TemplatingProvider can be selected.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class PreferedTemplatingProviderTest extends AbstractTemplatingTest {
     @Deployment(testable = false)

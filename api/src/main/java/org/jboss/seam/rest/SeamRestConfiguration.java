@@ -8,9 +8,8 @@ import org.jboss.seam.rest.templating.TemplatingProvider;
 
 /**
  * This class is used by the config module for alternative setup.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class SeamRestConfiguration {
 

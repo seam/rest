@@ -13,7 +13,7 @@ import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
         @ExceptionMapping(exceptionType = IllegalThreadStateException.class, status = 415),
         @ExceptionMapping(exceptionType = NoSuchFieldError.class, status = 416, message = "NoSuchField", useJaxb = false),
         @ExceptionMapping(exceptionType = NumberFormatException.class, status = 417, useExceptionMessage = true, useJaxb = false),
-        @ExceptionMapping(exceptionType = StringIndexOutOfBoundsException.class, status = 418, useExceptionMessage = true, useJaxb = false) })
+        @ExceptionMapping(exceptionType = StringIndexOutOfBoundsException.class, status = 418, useExceptionMessage = true, useJaxb = false)})
 @ApplicationPath("/*")
 public class MyApplication extends Application {
     // According to spec, this method does not need to be overridden - that would trigger scanning

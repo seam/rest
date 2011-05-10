@@ -10,9 +10,8 @@ import org.jboss.seam.rest.examples.client.StatusException;
 
 /**
  * Executes a zip code query using the geonames API. {@link http://www.geonames.org/export/ws-overview.html}
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Singleton
 public class SearchAction {

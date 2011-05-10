@@ -15,7 +15,6 @@ import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.ClientErrorInterceptor;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
 
@@ -25,14 +24,12 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
  * <li>proxied JAX-RS interface</li>
  * <li>ClientRequest</li>
  * </ul>
- * 
+ * <p/>
  * <code>
- * 
+ *
+ * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  * @Inject @RestClient private TaskService tasks;
  * @Inject @RestCLient private ClientRequest request; </code>
- * 
- * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @ApplicationScoped
 public class RestClientProducer {

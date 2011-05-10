@@ -11,9 +11,8 @@ import org.jboss.seam.rest.examples.client.tasks.spi.ReportResultEvent;
 
 /**
  * This analyzer identifies the oldest unresolved task.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Singleton
 public class HistoryAnalyzer {

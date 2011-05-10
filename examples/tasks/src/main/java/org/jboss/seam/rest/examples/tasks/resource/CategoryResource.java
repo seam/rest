@@ -24,13 +24,12 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * CRUD resource for categories
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Path("/category/{category}")
-@Produces({ "application/xml", "application/json" })
-@Consumes({ "application/xml", "application/json" })
+@Produces({"application/xml", "application/json"})
+@Consumes({"application/xml", "application/json"})
 @ValidateRequest(groups = TaskValidationGroup.class)
 @Stateless
 public class CategoryResource extends AbstractEntityResource {
@@ -56,13 +55,11 @@ public class CategoryResource extends AbstractEntityResource {
 
     /**
      * This method only makes sense at /category/{category}/task not /task
-     * 
-     * 
      */
     @POST
     @Path("/task")
     public Response createTask(JaxbTaskWrapper incommingTask, @PathParam("category") String categoryName,
-            @Context UriInfo uriInfo) {
+                               @Context UriInfo uriInfo) {
         Category category = loadCategory(categoryName);
 
         Task task = new Task();

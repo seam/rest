@@ -15,9 +15,8 @@ import org.jboss.seam.rest.examples.client.tasks.spi.ReportResultEvent;
 /**
  * Loads Seam Tasks's Categories and Tasks and fires an event for each of these objects for analyzers to be able to process
  * statistics.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 
 @Singleton
@@ -63,7 +62,7 @@ public class SeamTasksAction {
 
         int i = 0;
         for (Map.Entry<String, String> entry : result.entrySet()) {
-            resultArray[i] = new String[] { entry.getKey(), entry.getValue() };
+            resultArray[i] = new String[]{entry.getKey(), entry.getValue()};
         }
 
         return resultArray;

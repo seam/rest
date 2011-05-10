@@ -6,9 +6,8 @@ import javax.servlet.ServletContextListener;
 
 /**
  * This listener replaces the import.sql script - it feeds the database with sample data
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class ImportListener implements ServletContextListener {
     @Inject

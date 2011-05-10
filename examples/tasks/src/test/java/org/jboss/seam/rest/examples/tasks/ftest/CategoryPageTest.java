@@ -1,17 +1,16 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
-
 import org.jboss.test.selenium.AbstractTestCase;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 /**
  * Tests for the category page (categories.html)
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class CategoryPageTest extends AbstractTestCase {
     private CategoryPage page;

@@ -15,9 +15,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 /**
  * This test class contains common methods for creating testing artifacts.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public abstract class AbstractTemplatingTest extends SeamRestClientTest {
     public static final File LIBRARY_FREEMARKER = new File("target/lib/freemarker.jar");

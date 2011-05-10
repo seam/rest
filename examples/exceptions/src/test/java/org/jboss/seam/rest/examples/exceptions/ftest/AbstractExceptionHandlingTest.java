@@ -1,13 +1,13 @@
 package org.jboss.seam.rest.examples.exceptions.ftest;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 public abstract class AbstractExceptionHandlingTest {
     protected String contextPath = "http://localhost:8080/rest-exceptions/api";

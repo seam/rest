@@ -10,6 +10,7 @@ import java.util.Set;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.util.Annotations;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

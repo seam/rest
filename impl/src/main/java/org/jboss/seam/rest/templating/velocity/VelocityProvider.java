@@ -23,9 +23,8 @@ import org.jboss.seam.rest.templating.TemplatingProvider;
 
 /**
  * Renders response using Apache Velocity.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @ApplicationScoped
 public class VelocityProvider implements TemplatingProvider {
@@ -45,7 +44,7 @@ public class VelocityProvider implements TemplatingProvider {
     }
 
     public void writeTo(Object o, ResponseTemplate annotation, Annotation[] annotations, MediaType mediaType,
-            MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
+                        MultivaluedMap<String, Object> httpHeaders, OutputStream os) throws IOException {
         ModelWrapper model = new ModelWrapper(this.model.getData(), manager);
         model.put(annotation.responseName(), o);
 

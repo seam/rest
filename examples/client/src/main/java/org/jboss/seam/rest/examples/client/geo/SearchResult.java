@@ -9,9 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * JAXB class used for parsing http://geonames.org XML response.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @XmlRootElement(name = "geonames")
 public class SearchResult {

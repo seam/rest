@@ -22,9 +22,8 @@ import org.jboss.seam.rest.validation.ValidateRequest;
 
 /**
  * Collection resource for tasks
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Path("/task")
 @RequestScoped
@@ -50,7 +49,7 @@ public class TaskCollectionResource {
 
     @GET
     @ValidateRequest
-    @Produces({ "application/tasks+xml", "application/json" })
+    @Produces({"application/tasks+xml", "application/json"})
     @ResponseTemplate(value = "/freemarker/tasks.ftl", produces = "application/tasks+xml")
     public List<Task> getTasks() {
         return bean.getTasks(start, limit, status, uriInfo.getPathParameters().getFirst("category"));

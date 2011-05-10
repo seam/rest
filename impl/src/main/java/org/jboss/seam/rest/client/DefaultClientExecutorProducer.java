@@ -21,9 +21,8 @@ import org.jboss.seam.solder.bean.defaultbean.DefaultBean;
 /**
  * Produces the default ClientExecutor. The default ClientExecutor can be overriden by providing an alternative instance of
  * ClientExecutor.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @ApplicationScoped
 public class DefaultClientExecutorProducer {

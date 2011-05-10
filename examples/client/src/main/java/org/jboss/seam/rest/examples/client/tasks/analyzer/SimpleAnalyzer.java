@@ -9,9 +9,8 @@ import org.jboss.seam.rest.examples.client.tasks.spi.ReportResultEvent;
 
 /**
  * This analyzer generates simple statistics such as number of categories, tasks, etc.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 
 @Singleton

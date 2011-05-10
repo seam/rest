@@ -16,9 +16,8 @@ import org.jboss.seam.rest.examples.client.tasks.spi.ReportResultEvent;
 
 /**
  * This analyzer identifies the most often used word.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 
 @Singleton
@@ -44,9 +43,8 @@ public class LexicalAnalyzer {
 
     /**
      * Compares Map entries based on their values in ascending order.
-     * 
+     *
      * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
-     * 
      */
     public class MapEntryValueComparator<K, V extends Comparable<V>> implements Comparator<Entry<K, V>> {
         public int compare(Entry<K, V> o1, Entry<K, V> o2) {

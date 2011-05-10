@@ -5,10 +5,9 @@ body {
     padding: 0;
 }
 
-div.container
-{
+div.container {
     background: white url(img/tasks-logo.png) no-repeat left top;
-    background-position:20px 20px;
+    background-position: 20px 20px;
     width: 666px;
     margin: 0 auto;
     padding: 0;
@@ -28,30 +27,28 @@ div.header h1 {
 #menu {
     display: block;
     margin: 110px 0 0 100px;
-    float:left;
+    float: left;
 }
 
-#menu  li
-{
+#menu  li {
     margin-left: 10px;
     margin-right: 10px;
-    float:left;
+    float: left;
     display: inline;
     font-size: 14px;
 }
 
 #menu a {
     color: #899ea6;
-    text-decoration:none;
+    text-decoration: none;
     font-weight: bold;
 }
 
-#menu  a:hover   {
-    color:#99ccff;
-    text-decoration:none;
+#menu  a:hover {
+    color: #99ccff;
+    text-decoration: none;
     font-weight: bold;
 }
-
 
 /* content */
 
@@ -61,33 +58,31 @@ hr {
     border-bottom: none;
 }
 
-table
-{
+table {
     border: none;
     margin: 20px;
     width: 626px;
 }
 
-#login
-{
-	float: left;
+#login {
+    float: left;
     margin: 20px;
     width: 326px;
 }
 
 #login div {
-	margin: 10px;
+    margin: 10px;
 }
 
 #login label {
-	display: block;
+    display: block;
 }
 
 #rightPanel {
-	width: 270px;
-	margin: 30px 30px 0px 0px;
-	float: right;
-	text-align: justify;
+    width: 270px;
+    margin: 30px 30px 0px 0px;
+    float: right;
+    text-align: justify;
 }
 
 table td.name {
@@ -99,10 +94,9 @@ table td.updated {
     color: #99ccff;
 }
 
-h2
-{
+h2 {
     margin: 0;
-    padding:0;
+    padding: 0;
     color: #899ea6;
 }
 
@@ -111,10 +105,9 @@ h2
 }
 
 /* footer */
-#footer a
-{
+#footer a {
     color: #99ccff;
-    text-decoration:none;
+    text-decoration: none;
     font-weight: bold;
 }
 

@@ -4,14 +4,14 @@ import java.net.URL;
 
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.JQueryLocator;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+
 import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
+import static org.jboss.test.selenium.locator.LocatorFactory.jq;
 
 /**
  * Page object for the category page (categories.html)
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class CategoryPage extends AbstractPage {
     public static final JQueryLocator NEW_CATEGORY_NAME = jq("#editCategoryName");

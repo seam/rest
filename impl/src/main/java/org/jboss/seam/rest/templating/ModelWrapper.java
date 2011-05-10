@@ -10,9 +10,8 @@ import javax.enterprise.inject.spi.BeanManager;
 
 /**
  * Wraps TemplatingModel to allow objects to be referenced via EL in templates.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 public class ModelWrapper extends HashMap<String, Object> {
     private static final long serialVersionUID = -4511289530418970162L;

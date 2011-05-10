@@ -17,9 +17,8 @@ import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
 /**
  * TODO: This listener will be replaced with Seam Servlet. Do not observe the event fired by this listener as it will be removed
  * in future releases.
- * 
+ *
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
- * 
  */
 @WebListener
 public class SeamRestStartup implements ServletContextListener {

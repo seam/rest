@@ -25,9 +25,8 @@ import org.jboss.seam.rest.exceptions.RestResource;
 /**
  * TemplatingMessageBodyWriter is enabled for every JAX-RS method annotated with <code>@ResponseTemplate</code> annotation and
  * delegates response production to the {@link TemplatingProvider}.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Provider
 @ApplicationScoped
@@ -37,10 +36,10 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object> {
 
     /**
      * Initializes TemplatingMessageBodyWriter. <code>TemplatingProvider</code> is selected.
-     * 
+     *
      * @throws UnsatisfiedResolutionException if the preferred <code>TemplatingProvider</code> is selected but is not available
-     *         for injection.
-     * @throws AmbiguousResolutionException if there are multiple <code>TemplatingProviders<code> available.
+     *                                        for injection.
+     * @throws AmbiguousResolutionException   if there are multiple <code>TemplatingProviders<code> available.
      */
     @Inject
     public void init(Instance<TemplatingProvider> providerInstance, Instance<SeamRestConfiguration> configuration) {
@@ -104,7 +103,7 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object> {
     }
 
     public void writeTo(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-            MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+                        MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         ResponseTemplate annotation = findAnnotation(annotations, mediaType);
         provider.writeTo(t, annotation, annotations, mediaType, httpHeaders, entityStream);
     }
@@ -113,11 +112,11 @@ public class TemplatingMessageBodyWriter implements MessageBodyWriter<Object> {
         for (Annotation a : annotations) {
             /*
              * multiple @ResponseTemplate annotations
-             * 
+             *
              * @ResponseTemplate.List({
-             * 
+             *
              * @ResponseTemplate(...)
-             * 
+             *
              * @ResponseTemplate(...) })
              */
             if (ResponseTemplate.List.class.isAssignableFrom(a.annotationType())) {

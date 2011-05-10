@@ -13,9 +13,8 @@ import org.jboss.seam.rest.examples.tasks.entity.Task;
 
 /**
  * Database import
- * 
+ *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
- * 
  */
 @Stateless
 public class ImportBean {

@@ -12,8 +12,6 @@ import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.rest.exceptions.ExceptionMapping;
-import org.jboss.seam.rest.exceptions.Mapping;
 import org.jboss.seam.rest.util.Utils;
 
 public class ExceptionMappingExtension implements Extension {
