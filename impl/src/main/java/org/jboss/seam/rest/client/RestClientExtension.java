@@ -30,6 +30,7 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
 public class RestClientExtension implements Extension {
     private static final Logger log = Logger.getLogger(RestClientExtension.class);
     private static final String RESTEASY_PROVIDER_FACTORY_NAME = "org.jboss.resteasy.spi.ResteasyProviderFactory";
+    private static final String HTTP_CLIENT_NAME = "org.apache.http.client.HttpClient";
     private boolean enabled;
 
     private Set<Type> jaxrsInterfaces = new HashSet<Type>();
@@ -37,6 +38,7 @@ public class RestClientExtension implements Extension {
 
     public void registerExtension(@Observes BeforeBeanDiscovery event, BeanManager manager) {
         enabled = Utils.isClassAvailable(RESTEASY_PROVIDER_FACTORY_NAME);
+        enabled = enabled && Utils.isClassAvailable(HTTP_CLIENT_NAME);
     }
 
     /**
