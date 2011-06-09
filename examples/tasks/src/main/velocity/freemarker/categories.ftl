@@ -3,17 +3,14 @@ This file contains an Apache Velocity template. It uses FreeMarker's file extens
 since we need to switch between FreeMarker / Velocity without changing the Java code (annotations).
 *#
 <categories>
-    <link href="self"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start}&limit=${categoryCollectionResource.limit}"/>
+    <link href="self" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start}&limit=${categoryCollectionResource.limit}"/>
     #if ( $response.size() == $categoryCollectionResource.limit )
     #set( $next = $categoryCollectionResource.start + $categoryCollectionResource.limit )
-    <link href="next"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${next}&limit=${categoryCollectionResource.limit}"/>
+    <link href="next" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${next}&limit=${categoryCollectionResource.limit}"/>
     #end
     #if ( $categoryCollectionResource.start >= $categoryCollectionResource.limit )
     #set( $previous = $categoryCollectionResource.start - $categoryCollectionResource.limit)
-    <link href="previous"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${previous}&limit=${categoryCollectionResource.limit}"/>
+    <link href="previous" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${previous}&limit=${categoryCollectionResource.limit}"/>
     #end
     #foreach( ${category} in ${response} )
     <category>

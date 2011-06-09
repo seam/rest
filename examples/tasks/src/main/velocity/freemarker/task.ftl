@@ -5,8 +5,7 @@ since we need to switch between FreeMarker / Velocity without changing the Java 
 <task>
     <name>${task.name}</name>
     <link rel="self" href="${taskCollectionResource.uriInfo.baseUri}task/${task.id}"/>
-    <link rel="http://sfwk.org/rest/tasks/move"
-          href="${taskCollectionResource.uriInfo.baseUri}task/${task.id}/move?category={category-name}"/>
+    <link rel="http://sfwk.org/rest/tasks/move" href="${taskCollectionResource.uriInfo.baseUri}task/${task.id}/move?category={category-name}"/>
     <link rel="edit" href="${taskCollectionResource.uriInfo.baseUri}task/${task.id}"/>
     <resolved>${task.isResolved()}</resolved>
     <created>${task.created}</created>

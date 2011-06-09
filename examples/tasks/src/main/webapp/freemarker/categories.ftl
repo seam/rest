@@ -1,13 +1,10 @@
 <categories>
-    <link href="self"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start}&limit=${categoryCollectionResource.limit}"/>
+    <link href="self" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start}&limit=${categoryCollectionResource.limit}"/>
 <#if response?size == categoryCollectionResource.limit>
-    <link href="next"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start + categoryCollectionResource.limit}&limit=${categoryCollectionResource.limit}"/>
+    <link href="next" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start + categoryCollectionResource.limit}&limit=${categoryCollectionResource.limit}"/>
 </#if>
 <#if (categoryCollectionResource.start >= categoryCollectionResource.limit)>
-    <link href="previous"
-          href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start - categoryCollectionResource.limit}&limit=${categoryCollectionResource.limit}"/>
+    <link href="previous" href="${categoryCollectionResource.uriInfo.baseUri}category?start=${categoryCollectionResource.start - categoryCollectionResource.limit}&limit=${categoryCollectionResource.limit}"/>
 </#if>
 <#list response as category>
     <category>
