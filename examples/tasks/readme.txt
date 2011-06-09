@@ -7,6 +7,12 @@ mvn clean package
 cp target/rest-tasks.war $JBOSS_HOME/server/default/deploy
 $JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
 
+Deploying to JBoss AS 7
+======================
+mvn clean package -Pjboss7
+$JBOSS_HOME/bin/jboss-admin.sh --connect
+deploy target/rest-tasks.war
+
 Deploying to Glassfish
 ======================
 mvn clean package -Pglassfish

@@ -14,7 +14,7 @@ import org.jboss.seam.rest.examples.tasks.resource.TaskCollectionResource;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
 
-@ApplicationPath("/api/*")
+@ApplicationPath("/api")
 public class TasksApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
