@@ -168,6 +168,16 @@ public University getUniversity()
 
         </sect2>
 
+    <tip>
+        <para>
+            When using JAXB-annotated classes as a return type for JAX-RS methods, you may see the
+            following RESTEasy message: "Could not find JAXBContextFinder for media type: text/html". This is caused by the built-in JAXB
+            provider being too eager. You can prevent the built-in JAXB provider from being used for a method by adding the
+            <literal>@DoNotUseJAXBProvider</literal>
+            annotation on the method.
+        </para>
+    </tip>
+
     </sect1>
 
     <sect1>
