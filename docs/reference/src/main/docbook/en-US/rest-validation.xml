@@ -15,8 +15,9 @@
 
     <para>
         The Seam REST module follows the Bean Validation
-        specification and the incomming HTTP requests can be validated
-        with this
+        specification and the incoming HTTP requests can be validated
+        with
+        this
         standardized
         mechanism.
 	</para>
@@ -53,15 +54,18 @@ public void updateTask(Task incommingTask)
 }]]></programlisting>
 
         <para>
-            Now, the HTTP request's entity body (the incomingTask parameter) will be validated prior to invoking the method.
-		</para>
+            Now, the HTTP request's entity body (the
+            <literal>incomingTask</literal>
+            parameter) will be validated prior to invoking the method.
+        </para>
 
         <sect2>
             <title>Validating entity body</title>
 
             <para>
                 By default, the entity parameter (the parameter with no annotations
-                that represent the body of the HTTP request) is
+                that represent the body of the HTTP request)
+                is
                 validated. If the
                 object is valid, the web service method is
                 executed.
@@ -77,7 +81,8 @@ public void updateTask(Task incommingTask)
                 exception
                 is a simple carrier of constraint violations found by the
                 Bean
-                Validation provider. The exception can be handled by an
+                Validation provider. The exception can be
+                handled by an
                 <literal>ExceptionMapper</literal>
                 or Seam Catch handler.
 
@@ -89,7 +94,8 @@ public void updateTask(Task incommingTask)
                 which is registered by default. The exception handler converts the
                 <literal>ValidationException</literal>
                 to an HTTP response with the 400 (Bad request) status code. Furthermore,
-                it sends messages relevant to the violated constraints within the
+                it sends messages relevant to the
+                violated constraints within the
                 message body of the HTTP response.
             </para>
 
@@ -113,11 +119,13 @@ Content-Length:	129
             <para>
                 Besides the message body, the JAX-RS specification allows
                 various
-                parts of the HTTP request to be injected into the JAX-RS
+                parts of the HTTP request to be injected into
+                the JAX-RS
                 resource or passed as method parameters.
                 These
                 parameters are usually
-                HTTP form parameters, query parameters,
+                HTTP form parameters, query
+                parameters,
                 path
                 parameters, headers, etc.
 			</para>
@@ -152,7 +160,8 @@ Content-Length:	129
                     Since the JAX-RS injection occurs only at resource creation time,
                     do
                     not use the
-                    JAX-RS field injection for other than
+                    JAX-RS field injection for
+                    other than
                     <literal>@RequestScoped</literal>
                     resources.
                 </para>
@@ -164,7 +173,8 @@ Content-Length:	129
 
             <para>
                 The JAX-RS specification allows path parameters, query
-                parameters, matrix parameters, cookie parameters and headers to
+                parameters, matrix parameters, cookie parameters and
+                headers to
                 be
                 passed as parameters of a resource
                 method.
@@ -180,7 +190,7 @@ public List<Person>search(@QueryParam("search") String query,
 
             <note>
                 <para>
-                    Currently, Seam REST validates only JavaBean parameters (as oposed to primitive types, Strings and so on).
+                    Currently, Seam REST validates only JavaBean parameters (as opposed to primitive types, Strings and so on).
                     Therefore, to validate these types of parameters, either use resource field
                     validation described
                     in
@@ -192,7 +202,8 @@ public List<Person>search(@QueryParam("search") String query,
             <para>
                 In order to prevent an oversized method
                 signature when the number of
-                parameters is too large, JAX-RS implementations provide
+                parameters is too large, JAX-RS
+                implementations provide
                 implementations of the
                 <ulink url="http://sourcemaking.com/refactoring/introduce-parameter-object">Parameter Object pattern</ulink>
                 . These objects aggregate multiple parameters into a single
@@ -231,31 +242,45 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
     <sect1>
         <title>Validation configuration</title>
         <table>
-            <title>@ValidateRequest annotation properties</title>
+            <title>
+                <literal>@ValidateRequest</literal>
+                annotation properties
+            </title>
             <tgroup cols='3'>
                 <thead>
                     <row>
-                        <entry>@ValidateRequest attribute</entry>
+                        <entry>
+                            <literal>@ValidateRequest</literal>
+                            attribute
+                        </entry>
                         <entry>Description</entry>
                         <entry>Default value</entry>
                     </row>
                 </thead>
                 <tbody>
                     <row>
-                        <entry>validateMessageBody</entry>
+                        <entry>
+                            <literal>
+                                validateMessageBody
+                            </literal>
+                        </entry>
                         <entry>Enabling/disabling validation of message body parameters
 						</entry>
                         <entry>true</entry>
                     </row>
                     <row>
-                        <entry>validateResourceFields</entry>
+                        <entry>
+                            <literal>validateResourceFields</literal>
+                        </entry>
                         <entry>Enabling/disabling validation of fields of a JAX-RS
                             resource
 						</entry>
                         <entry>true</entry>
                     </row>
                     <row>
-                        <entry>groups</entry>
+                        <entry>
+                            <literal>groups</literal>
+                        </entry>
                         <entry>Validation groups to be used for validation</entry>
                         <entry>javax.validation.groups.Default</entry>
                     </row>
@@ -275,7 +300,7 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
             a domain model.
             Take partial
             updates as an example.
-		</para>
+        </para>
         <para>
             Consider the following example:
 		</para>
@@ -302,20 +327,23 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
             resource (including the
             department and related
             object graph) must be
-            sent to update the
+            sent to update
+            the
             resource.
 		</para>
         <para>
             When using partial updates, only values of modified fields
             are required to be
-            sent within the update request, while the non-null
+            sent within the update request, while
+            the non-null
             values of the
             received object are updated. Therefore, two groups of
             constraints are
-            needed: group for partial updates
+            needed: group for
+            partial updates
             (including
-            @Size and
-            @Email, excluding @NotNull) and the
+            <literal>@Size</literal> and
+            <literal>@Email</literal>, excluding <literal>@NotNull</literal>) and the
             default group
             (@NotNull).
 		</para>
@@ -324,7 +352,9 @@ public void post(@Valid @Form MyForm form) {...}]]></programlisting>
 		</para>
 
         <example>
-            <title>PartialUpdateGroup.java</title>
+            <title>
+                <literal>PartialUpdateGroup.java</literal>
+            </title>
             <programlisting role="JAVA"><![CDATA[public interface PartialUpdateGroup {}]]></programlisting>
         </example>
 
@@ -369,7 +399,8 @@ public class Employee {
                             The
                             <literal>@GroupsSequence</literal>
                             annotation indicates that both validation groups are used by
-                            default (for example, when persisting the entity).
+                            default (for example, when persisting
+                            the entity).
                         </para>
                     </callout>
                 </calloutlist>
@@ -386,7 +417,9 @@ public class Employee {
         </para>
 
         <example>
-            <title>EmployeeResource.java</title>
+            <title>
+                <literal>EmployeeResource.java</literal>
+            </title>
             <programlistingco>
                 <areaspec>
                     <area id="employee-group-definition" coords="4" />
@@ -418,7 +451,8 @@ public class Employee {
                     <callout arearefs="employee-partial-update">
                         <para>
                             Partial update — only the not-null fields of the transferred
-                            representation are used for update. The null fields are not
+                            representation are used for update.
+                            The null fields are not
                             updated.
             			</para>
                     </callout>

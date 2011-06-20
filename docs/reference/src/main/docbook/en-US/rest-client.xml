@@ -101,11 +101,10 @@ ClientResponse<String> response = request.get(String.class);]]></programlisting>
     </sect1>
 
     <sect1>
-        <title>ClientExecutor Configuration</title>
+        <title>Client Executor Configuration</title>
         <para>
             If not specified otherwise, every request is executed by the default Apache HTTP Client 4 configuration.
-            This can be altered by providing a ClientExecutor bean. <!-- IF YOU CAN, PLEASE, REPHRASE to something like: Provide a ClientExecutor 
-                bean to change the Apache HTTP Client 4 -->
+            Provide an alternative <literal>ClientExecutor</literal> implementation to change this.   
         </para>
 
         <example>

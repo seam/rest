@@ -6,17 +6,22 @@
 
     <para>
         Seam REST allows to create HTTP responses based on the defined templates. Instead of being bound
-        to a particlar templating engine, Seam REST comes with a support for multiple templating engines
-        and support for others can be plugged in. 
+        to a particular
+        templating engine, Seam REST comes with a support for multiple templating engines
+        and support for others can be plugged
+        in. 
 	</para>
 
     <sect1>
+        <sect1info>
         <title>Creating JAX-RS responses using templates</title>
+        </sect1info>
 
         <para>
             REST-based web services are often expected to return multiple representations of a resource. The templating
             support is useful for producing media formats such as XHTML and it can be also used instead of JAXB to produce
-            domain-specific XML representations of a resource. Besides, almost any other representation of a resource can be described
+            domain-specific XML representations of a resource. Besides, almost any other representation of a resource can be
+            described
             in a template.			
 		</para>
 
@@ -27,7 +32,10 @@
         </para>
 
         <example>
-            <title>@ResponseTemplate in action</title>
+            <title>
+                <literal>@ResponseTemplate</literal>
+                in action
+            </title>
             <programlisting role="JAVA"><![CDATA[@ResponseTemplate("/freemarker/task.ftl")
 public Task getTask(@PathParam("taskId") long taskId) {
 ...
@@ -38,7 +46,8 @@ public Task getTask(@PathParam("taskId") long taskId) {
             The
             <literal>@ResponseTemplate</literal>
             annotation offers several other options. For example, it is possible for a method
-            to offer multiple representations of a resource, each rendered with a different template.
+            to offer multiple representations
+            of a resource, each rendered with a different template.
             In the example below, the
             <literal>produces</literal>
             member of the
@@ -48,7 +57,11 @@ public Task getTask(@PathParam("taskId") long taskId) {
         </para>
 
         <example>
-            <title>Multiple @ResponseTemplates</title>
+            <title>
+                Multiple
+                <literal>@ResponseTemplate</literal>
+                s
+            </title>
             <programlisting role="JAVA"><![CDATA[@GET
 @Produces( { "application/json", "application/categories+xml", "application/categories-short+xml" })
 @ResponseTemplate.List({
@@ -59,7 +72,10 @@ public List<Category> getCategories()]]></programlisting>
         </example>
 
         <table>
-            <title>@ResponseTemplate options</title>
+            <title>
+                <literal>@ResponseTemplate</literal>
+                options
+            </title>
             <tgroup cols='4'>
                 <thead>
                     <row>
@@ -71,26 +87,37 @@ public List<Category> getCategories()]]></programlisting>
                 </thead>
                 <tbody>
                     <row>
-                        <entry>value</entry>
+                        <entry>
+                            <literal>value</literal>
+                        </entry>
                         <entry>true</entry>
                         <entry>-</entry>
-                        <entry>Path to the template (for example /freemarker/categories.ftl)
-						</entry>
+                        <entry>
+                            Path to the template (for example
+                            <literal>/freemarker/categories.ftl</literal>
+                            )
+                        </entry>
                     </row>
                     <row>
-                        <entry>produces</entry>
+                        <entry>
+                            <literal>produces</literal>
+                        </entry>
                         <entry>false</entry>
                         <entry>*/*</entry>
                         <entry>Restriction of media type produced by the template
-                            (useful in situations when a method produces multiple media types,
+                            (useful in situations when a method produces
+                            multiple media types,
                             with different templates)</entry>
                     </row>
                     <row>
-                        <entry>responseName</entry>
+                        <entry>
+                            <literal>responseName</literal>
+                        </entry>
                         <entry>false</entry>
                         <entry>response</entry>
                         <entry>Name under which the object returned by the JAX-RS method
-                            is available in the template (for example, Hello ${response.name})
+                            is available in the template (for
+                            example, Hello ${response.name})
 						</entry>
                     </row>
                 </tbody>
@@ -106,7 +133,8 @@ public List<Category> getCategories()]]></programlisting>
 
             <para>
                 Firstly, the object returned by the JAX-RS method is available under the "response" name by default.
-                The object can be made available under a different name using the
+                The object
+                can be made available under a different name using the
                 <literal>responseName</literal>
                 member of the
                 <literal>@ResponseTemplate</literal>
@@ -132,7 +160,8 @@ public List<Category> getCategories()]]></programlisting>
             <note>
                 <para>
                     Note that the syntax of the expression depends on the particular
-                    templating engine and mostly differs from the syntax of EL expressions. For example,
+                    templating engine and mostly differs from
+                    the syntax of EL expressions. For example,
                     <literal>${university.students}</literal>
                     must be used instead of
                     <literal>#{university.students}</literal>
@@ -141,7 +170,7 @@ public List<Category> getCategories()]]></programlisting>
             </note>
 
             <para>
-                Last but not least, the model can be populated programatically. In order to do that, inject the
+                Last but not least, the model can be populated programmatically. In order to do that, inject the
                 <literal>TemplatingModel</literal>
                 bean and put the desired objects into the underlying
                 <literal>data</literal>
@@ -149,7 +178,7 @@ public List<Category> getCategories()]]></programlisting>
             </para>
 
             <example>
-                <title>Defining model programatically</title>
+                <title>Defining model programmatically</title>
                 <programlisting role="JAVA"><![CDATA[@Inject
 private TemplatingModel model;
    
@@ -168,15 +197,17 @@ public University getUniversity()
 
         </sect2>
 
-    <tip>
-        <para>
-            When using JAXB-annotated classes as a return type for JAX-RS methods, you may see the
-            following RESTEasy message: "Could not find JAXBContextFinder for media type: text/html". This is caused by the built-in JAXB
-            provider being too eager. You can prevent the built-in JAXB provider from being used for a method by adding the
-            <literal>@DoNotUseJAXBProvider</literal>
-            annotation on the method.
-        </para>
-    </tip>
+        <tip>
+            <para>
+                When using JAXB-annotated classes as a return type for JAX-RS methods, you may see the
+                following RESTEasy message:
+                <quote>Could not find JAXBContextFinder for media type: text/html</quote>
+                . This is caused by the built-in JAXB
+                provider being too eager. You can prevent the built-in JAXB provider from being used for a method by adding the
+                <literal>@DoNotUseJAXBProvider</literal>
+                annotation on the method.
+            </para>
+        </tip>
 
     </sect1>
 
@@ -192,7 +223,8 @@ public University getUniversity()
             <title>FreeMarker</title>
             <para>
                 FreeMarker is one of the most popular templating engines. To
-                enable Seam REST FreeMarker support, bundle the FreeMarker jar with
+                enable Seam REST FreeMarker support, bundle the
+                FreeMarker jar with
                 the web application.
 			</para>
 
@@ -207,7 +239,8 @@ public University getUniversity()
             <title>Apache Velocity</title>
             <para>
                 Apache Velocity is another popular Java-based templating engine. Similarly to FreeMarker support,
-                Velocity support is enabled automatically if Velocity libraries are detected on the classpath. 
+                Velocity
+                support is enabled automatically if Velocity libraries are detected on the classpath. 
 			</para>
 
             <para>
@@ -229,25 +262,27 @@ public University getUniversity()
         </sect2>
 
         <sect2>
-            <title>Selecting prefered templating engine</title>
+            <title>Selecting preferred templating engine</title>
             <para>
                 In certain deployment scenarios it is not possible to control
-                the classpath completely and multiple template engines may be
+                the classpath completely and multiple template
+                engines may be
                 available at the same time. If that happens, Seam REST fails to
                 operate with the following message:
-			</para>
+            </para>
 
             <informalexample>
-                <programlisting>Multiple TemplatingProviders found on classpath. Select the prefered one.</programlisting>
+                <programlisting>Multiple TemplatingProviders found on classpath. Select the preferred one.</programlisting>
             </informalexample>
 
             <para>
-                In such case, define the prefered templating engine in the XML
-                configuration as demonstrated below to resolve the TemplatingProvider ambiguity.
+                In such case, define the preferred templating engine in the XML
+                configuration as demonstrated below to resolve
+                the <literal>TemplatingProvider</literal> ambiguity.
 			</para>
 
             <example>
-                <title>Prefered provider</title>
+                <title>Preferred provider</title>
                 <programlisting role="XML"><![CDATA[<beans xmlns:rest="urn:java:org.jboss.seam.rest:org.jboss.seam.rest.exceptions">
 	<rest:SeamRestConfiguration preferedTemplatingProvider="org.jboss.seam.rest.templating.freemarker.FreeMarkerProvider">
 </beans>]]></programlisting>

@@ -88,7 +88,7 @@ public class MyApplication extends Application {}]]></programlisting>
         <para>
             Otherwise, if the Application's
             <literal>getClasses()</literal>
-            method is overriden to select resources and providers explicitly
+            method is overridden to select resources and providers explicitly
             add
             <literal>SeamExceptionMapper</literal>
             and
