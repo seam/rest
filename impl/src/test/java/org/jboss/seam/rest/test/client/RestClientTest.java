@@ -13,6 +13,7 @@ import org.jboss.osgi.testing.ManifestBuilder;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.jboss.seam.rest.client.RestClientExtension;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.seam.solder.bean.Beans;
 import org.jboss.seam.solder.literal.DefaultLiteral;
@@ -38,10 +39,11 @@ public class RestClientTest {
         war.addPackage(RestClientTest.class.getPackage()); // test classes
         war.addPackage(Beans.class.getPackage());
         war.addClass(DefaultLiteral.class);
+        war.addClass(Dependencies.class);
         war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         war.setWebXML("WEB-INF/web.xml");
         war.addAsLibrary(getSeamRest());
-        war.addAsLibrary(SeamRestClientTest.LIBRARY_SEAM_SOLDER);
+        war.addAsLibraries(Dependencies.SEAM_SOLDER);
 
         // JBoss AS 7
         war.setManifest(new Asset() {

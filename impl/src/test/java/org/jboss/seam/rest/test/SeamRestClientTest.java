@@ -1,6 +1,6 @@
 package org.jboss.seam.rest.test;
 
-import java.io.File;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -28,18 +28,9 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
-
 @RunWith(Arquillian.class)
 @RunAsClient
 public abstract class SeamRestClientTest {
-    public static final File LIBRARY_SEAM_SOLDER_API = new File("target/lib/seam-solder-api.jar");
-    public static final File LIBRARY_SEAM_SOLDER_IMPL = new File("target/lib/seam-solder-impl.jar");
-    public static final File LIBRARY_SEAM_SOLDER = new File("target/lib/seam-solder.jar");
-    public static final File LIBRARY_JBOSS_LOGGING = new File("target/lib/jboss-logging.jar");
-    public static final File LIBRARY_SEAM_SERVLET_API = new File("target/lib/seam-servlet-api.jar");
-    public static final File LIBRARY_SEAM_SERVLET_IMPL = new File("target/lib/seam-servlet-impl.jar");
-    public static final File LIBRARY_SEAM_CATCH = new File("target/lib/seam-catch.jar");
 
     protected HttpClient client = new HttpClient();
 

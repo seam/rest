@@ -2,6 +2,7 @@ package org.jboss.seam.rest.test.exceptions;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,7 @@ public class CatchIntegrationTest extends BuiltinExceptionMappingTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = BuiltinExceptionMappingTest.createDeployment();
-        war.addAsLibraries(LIBRARY_SEAM_CATCH);
+        war.addAsLibraries(Dependencies.SEAM_CATCH);
         return war;
     }
 

@@ -1,6 +1,7 @@
 package org.jboss.seam.rest.test.templating.multiple;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.seam.rest.test.templating.AbstractTemplatingTest;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -15,8 +16,8 @@ public class PreferedTemplatingProviderTest extends AbstractTemplatingTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addAsLibrary(LIBRARY_FREEMARKER);
-        war.addAsLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG);
+        war.addAsLibraries(Dependencies.VELOCITY);
+        war.addAsLibraries(Dependencies.VELOCITY_TOOLS);
         war.addAsLibrary(getSeamRest());
         return war;
     }

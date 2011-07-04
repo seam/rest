@@ -1,5 +1,7 @@
 package org.jboss.seam.rest.test.validation;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
@@ -13,7 +15,7 @@ import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
-import org.jboss.seam.rest.test.SeamRestClientTest;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
@@ -23,8 +25,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ValidationTest {
@@ -53,7 +53,9 @@ public class ValidationTest {
         war.addPackages(false, ValidateRequest.class.getPackage(), ValidationTest.class.getPackage());
         war.addClasses(CatchValidationExceptionHandler.class, RestResource.class, RestRequest.class,
                 ResponseBuilderProducer.class, Annotations.class, Utils.class);
-        war.addAsLibraries(SeamRestClientTest.LIBRARY_SEAM_SOLDER, SeamRestClientTest.LIBRARY_SEAM_CATCH);
+        war.addClass(Dependencies.class);
+        war.addAsLibraries(Dependencies.SEAM_SOLDER);
+        war.addAsLibraries(Dependencies.SEAM_CATCH);
         return war;
     }
 

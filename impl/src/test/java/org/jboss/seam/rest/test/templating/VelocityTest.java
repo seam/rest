@@ -1,6 +1,7 @@
 package org.jboss.seam.rest.test.templating;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
@@ -8,7 +9,8 @@ public class VelocityTest extends AbstractTemplatingTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addAsLibraries(LIBRARY_VELOCITY, LIBRARY_VELOCITY_TOOLS, LIBRARY_COMMONS_LANG, LIBRARY_COMMONS_COLLECTIONS);
+        war.addAsLibraries(Dependencies.VELOCITY);
+        war.addAsLibraries(Dependencies.VELOCITY_TOOLS);
         war.addAsLibrary(getSeamRest());
         return war;
     }

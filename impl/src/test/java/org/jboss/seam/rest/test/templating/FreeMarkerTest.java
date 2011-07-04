@@ -1,6 +1,7 @@
 package org.jboss.seam.rest.test.templating;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
@@ -8,7 +9,7 @@ public class FreeMarkerTest extends AbstractTemplatingTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = createTestApplication();
-        war.addAsLibrary(LIBRARY_FREEMARKER);
+        war.addAsLibraries(Dependencies.FREEMARKER);
         war.addAsLibrary(getSeamRest());
         return war;
     }

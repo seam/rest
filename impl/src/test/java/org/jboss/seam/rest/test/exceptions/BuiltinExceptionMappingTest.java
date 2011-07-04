@@ -6,6 +6,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
+import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.seam.rest.test.Fox;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -23,7 +24,7 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest {
         war.addClasses(Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class,
                 MyApplication.class);
         war.addClasses(Exception1.class, Exception2.class);
-        war.addAsLibrary(LIBRARY_SEAM_SOLDER);
+        war.addAsLibraries(Dependencies.SEAM_SOLDER);
         war.addAsLibraries(getSeamRest());
         return war;
     }
