@@ -19,6 +19,14 @@
         Seam REST and only available when RESTEasy is available on classpath.
 	</para>
 
+    <tip>
+        <para>
+            Although RESTEasy is part of JBoss AS 7, not all of the required dependencies are exposed to the application
+            classpath automatically. To enable RESTEasy Client Framework on JBoss AS 7, add the following line to
+            <filename>META-INF/MANIFEST.MF</filename>: <literal>Dependencies: org.apache.httpcomponents</literal>
+        </para>
+    </tip>
+
     <sect1>
         <title>Using RESTEasy Client Framework with Seam REST</title>
 
