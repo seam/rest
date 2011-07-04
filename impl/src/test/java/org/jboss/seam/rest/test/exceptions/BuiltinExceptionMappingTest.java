@@ -2,7 +2,7 @@ package org.jboss.seam.rest.test.exceptions;
 
 import javax.enterprise.inject.spi.Extension;
 
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
 import org.jboss.seam.rest.exceptions.integration.CatchExceptionMapper;
@@ -19,7 +19,7 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest {
     public static WebArchive createDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
         war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        war.setWebXML("org/jboss/seam/rest/test/exceptions/web.xml");
+        war.setWebXML("WEB-INF/web.xml");
         war.addClasses(Resource.class, Fox.class, MoreSpecificExceptionMapper.class, MoreSpecificExceptionHandler.class,
                 MyApplication.class);
         war.addClasses(Exception1.class, Exception2.class);

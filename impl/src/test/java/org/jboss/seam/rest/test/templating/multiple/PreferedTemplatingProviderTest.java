@@ -1,6 +1,6 @@
 package org.jboss.seam.rest.test.templating.multiple;
 
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.seam.rest.test.templating.AbstractTemplatingTest;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

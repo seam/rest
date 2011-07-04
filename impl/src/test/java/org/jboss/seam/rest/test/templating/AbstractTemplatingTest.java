@@ -28,7 +28,7 @@ public abstract class AbstractTemplatingTest extends SeamRestClientTest {
     public static WebArchive createTestApplication() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
         war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        war.setWebXML("org/jboss/seam/rest/test/templating/web.xml");
+        war.setWebXML("WEB-INF/web.xml");
         war.addAsWebResource("org/jboss/seam/rest/test/templating/hello.ftl", "hello.ftl");
         war.addAsWebResource("org/jboss/seam/rest/test/templating/hello.vm", "hello.vm");
         war.addAsWebResource("org/jboss/seam/rest/test/templating/university.ftl", "university.ftl");

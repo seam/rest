@@ -1,4 +1,4 @@
-package org.jboss.seam.rest.test.templating;
+package org.jboss.seam.rest.test.client;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

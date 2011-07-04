@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -16,7 +17,10 @@
     <url>http://seamframework.org/Seam3/RESTModule</url>
 
     <properties>
-        <arquillian.version>1.0.0.Alpha5</arquillian.version>
+        <arquillian.version>1.0.0.CR1</arquillian.version>
+        <jbossas6.version>6.0.0.Final</jbossas6.version>
+        <jbossas7.version>7.0.0.CR1</jbossas7.version>
+        <jboss.osgi.version>1.0.27</jboss.osgi.version>
     </properties>
 
     <dependencies>
@@ -73,14 +77,21 @@
 
         <!-- Test dependencies -->
         <dependency>
-            <groupId>org.jboss.arquillian</groupId>
-            <artifactId>arquillian-junit</artifactId>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
             <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <!-- We need ManifestBuilder utility class from this package for AS7 testing -->
+        <dependency>
+            <groupId>org.jboss.osgi.spi</groupId>
+            <artifactId>jbosgi-spi</artifactId>
+            <version>${jboss.osgi.version}</version>
+            <scope>test</scope>
         </dependency>
         <!-- slf4j required for HTTPClient -->
         <dependency>
@@ -134,6 +145,12 @@
                             <additionalClasspathElements>
                                 <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                             </additionalClasspathElements>
+                            <systemProperties>
+                                <property>
+                                    <name>arquillian.launch</name>
+                                    <value>${arquillian.launch}</value>
+                                </property>
+                            </systemProperties>
                         </configuration>
                     </execution>
                 </executions>
@@ -236,6 +253,7 @@
         </profile>
 
         <profile>
+
             <activation>
                 <property>
                     <name>managed</name>
@@ -245,6 +263,7 @@
             <properties>
                 <bindAddress>localhost</bindAddress>
                 <httpPort>8080</httpPort>
+                <arquillian.launch>jbossas6</arquillian.launch>
             </properties>
             <dependencies>
                 <dependency>
@@ -269,11 +288,14 @@
 
         <profile>
             <id>jbossas-remote-6</id>
+            <properties>
+                <arquillian.launch>jbossas6</arquillian.launch>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.jbossas</groupId>
                     <artifactId>jboss-as-profileservice-client</artifactId>
-                    <version>${jbossas.client.version}</version>
+                    <version>${jbossas6.version}</version>
                     <type>pom</type>
                     <scope>test</scope>
                 </dependency>
@@ -282,6 +304,32 @@
                     <artifactId>arquillian-jbossas-remote-6</artifactId>
                     <version>${arquillian.version}</version>
                     <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jbossas-remote-7</id>
+            <properties>
+                <arquillian.launch>jbossas7</arquillian.launch>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <version>${jbossas7.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jbossas-managed-7</id>
+            <properties>
+                <arquillian.launch>jbossas7</arquillian.launch>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <version>${jbossas7.version}</version>
                 </dependency>
             </dependencies>
         </profile>
