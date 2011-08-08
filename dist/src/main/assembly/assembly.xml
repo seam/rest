@@ -28,6 +28,7 @@
             <useProjectArtifact>false</useProjectArtifact>
             <includes>
                 <include>org.jboss.seam.rest:seam-rest</include>
+                <include>org.jboss.seam.rest:seam-rest-api</include>
             </includes>
             <excludes>
                 <exclude>org.jboss.seam.rest:*:*:javadoc</exclude>
@@ -105,7 +106,7 @@
             <useProjectArtifact>false</useProjectArtifact>
             <includes>
                 <include>org.jboss.seam.rest:seam-rest-api:*:sources</include>
-                <include>org.jboss.seam.rest:seam-rest-impl:*:sources</include>
+                <include>org.jboss.seam.rest:seam-rest:*:sources</include>
             </includes>
             <unpackOptions>
                 <excludes>

@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>seam-rest-impl</artifactId>
+    <artifactId>seam-rest</artifactId>
     <version>3.0.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
