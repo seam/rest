@@ -15,7 +15,7 @@ import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.ClientErrorInterceptor;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.jboss.seam.rest.util.Interpolator;
+import org.jboss.seam.solder.el.Expressions;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
 
 /**
@@ -35,7 +35,7 @@ import org.jboss.seam.solder.reflection.AnnotationInspector;
 public class RestClientProducer {
     private static final Logger log = Logger.getLogger(RestClientProducer.class);
     @Inject
-    private Interpolator interpolator;
+    private Expressions expressions;
     @Inject
     private BeanManager manager;
 
@@ -65,7 +65,7 @@ public class RestClientProducer {
         }
 
         Class<?> clazz = (Class<?>) ip.getType();
-        String url = interpolator.interpolate(qualifier.value());
+        String url = expressions.evaluateValueExpression(qualifier.value(), String.class);
         return ProxyFactory.create(clazz, url, executor);
     }
 
@@ -82,10 +82,8 @@ public class RestClientProducer {
             throw new IllegalStateException("@RestClient injection point " + ip.getMember() + " is not valid.");
         }
 
-        String url = interpolator.interpolate(qualifier.value());
+        String url = expressions.evaluateValueExpression(qualifier.value(), String.class);
 
         return new ClientRequest(url, executor);
     }
-
-    // TODO disposer methods?
 }

@@ -21,6 +21,7 @@
         <jbossas6.version>6.0.0.Final</jbossas6.version>
         <jbossas7.version>7.0.0.CR1</jbossas7.version>
         <jboss.osgi.version>1.0.27</jboss.osgi.version>
+        <arquillian.launch>jbossas7</arquillian.launch>
     </properties>
 
     <dependencies>
@@ -291,9 +292,6 @@
         </profile>
         <profile>
             <id>jbossas-remote-7</id>
-            <properties>
-                <arquillian.launch>jbossas7</arquillian.launch>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
@@ -304,9 +302,6 @@
         </profile>
         <profile>
             <id>jbossas-managed-7</id>
-            <properties>
-                <arquillian.launch>jbossas7</arquillian.launch>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
