@@ -107,12 +107,6 @@
     </build>
     <profiles>
         <profile>
-            <id>glassfish</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
             <id>distribution</id>
             <activation>
                 <property>

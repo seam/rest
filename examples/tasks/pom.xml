@@ -227,10 +227,7 @@
         </profile>
 
         <profile>
-            <id>jboss6</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <id>jbossas6</id>
             <build>
                 <plugins>
                     <plugin>
@@ -255,7 +252,7 @@
         </profile>
 
         <profile>
-            <id>jboss7</id>
+            <id>jbossas7</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
