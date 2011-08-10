@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -118,6 +119,54 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>tomcat</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                    <version>1.1.2.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>jaxrs-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jaxrs</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-cdi</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jaxb-provider</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/tomcat</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

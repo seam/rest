@@ -19,6 +19,11 @@ mvn clean package
 $GF_HOME/bin/asadmin start-domain
 $GF_HOME/bin/asadmin deploy target/rest-exceptions.war
 
+Deploying to Tomcat 7
+======================
+mvn clean package -Ptomcat
+deploy the generated archive
+
 Running tests
 ======================
 Deploy the application
