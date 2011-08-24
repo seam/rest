@@ -18,7 +18,7 @@
 
     <properties>
         <arquillian.version>1.0.0.CR1</arquillian.version>
-        <jbossas6.version>6.0.0.Final</jbossas6.version>
+        <jbossas6.version>6.1.0.Final</jbossas6.version>
         <jbossas7.version>7.0.0.CR1</jbossas7.version>
         <jboss.osgi.version>1.0.27</jboss.osgi.version>
         <arquillian.launch>jbossas7</arquillian.launch>
@@ -253,6 +253,7 @@
                     <groupId>org.jboss.jbossas</groupId>
                     <artifactId>jboss-as-client</artifactId>
                     <type>pom</type>
+			<version>${jbossas6.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
