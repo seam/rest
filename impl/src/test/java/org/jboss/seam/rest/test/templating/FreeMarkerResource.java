@@ -33,5 +33,14 @@ public class FreeMarkerResource {
     public Student greeting() {
         return new Student("Jozef Hartinger");
     }
+    
+    @Path("string")
+    @GET
+    @Produces("text/plain")
+    @ResponseTemplate("/string.ftl")
+    public String string()
+    {
+        return "Jozef";
+    }
 
 }

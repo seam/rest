@@ -15,7 +15,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.util.Annotations;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
 import org.jboss.seam.solder.reflection.PrimitiveTypes;

@@ -20,7 +20,6 @@ import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.UnhandledException;
 import org.jboss.seam.rest.exceptions.integration.CatchValidationExceptionHandler;
 import org.jboss.seam.rest.util.Annotations;
-import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.rest.validation.ValidateRequest;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -66,7 +65,7 @@ public abstract class SeamRestClientTest {
         jar.addClasses(ErrorMessageWrapper.class, ExceptionMappingExtension.class, ResponseBuilderProducer.class); // .exceptions
         // impl
         jar.addClass(CatchValidationExceptionHandler.class); // .exceptions.integration
-        jar.addClasses(Annotations.class, Interpolator.class, Utils.class); // .utils
+        jar.addClasses(Annotations.class, Utils.class); // .utils
         jar.addPackage(ValidateRequest.class.getPackage());
         jar.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         // mock SeamRestStartup

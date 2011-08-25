@@ -1,5 +1,6 @@
 package org.jboss.seam.rest.test.validation;
 
+import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
 import static org.junit.Assert.assertEquals;
 
 import javax.enterprise.inject.Instance;
@@ -56,6 +57,7 @@ public class ValidationTest {
         war.addClass(Dependencies.class);
         war.addAsLibraries(Dependencies.SEAM_SOLDER);
         war.addAsLibraries(Dependencies.SEAM_CATCH);
+        addJBossLoggingDependencyToManifest(war);
         return war;
     }
 

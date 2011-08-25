@@ -1,5 +1,7 @@
 package org.jboss.seam.rest.test.exceptions;
 
+import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.rest.test.Dependencies;
@@ -13,6 +15,7 @@ public class CatchIntegrationTest extends BuiltinExceptionMappingTest {
     public static WebArchive createDeployment() {
         WebArchive war = BuiltinExceptionMappingTest.createDeployment();
         war.addAsLibraries(Dependencies.SEAM_CATCH);
+        addJBossLoggingDependencyToManifest(war); // SOLDER-119
         return war;
     }
 

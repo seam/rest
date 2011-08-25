@@ -30,15 +30,9 @@
         <example>
             <title>Dependency added to pom.xml</title>
             <programlisting role="XML"><![CDATA[<dependency> 
-		<groupId>org.jboss.seam.rest</groupId> 
-		<artifactId>seam-rest-api</artifactId> 
-		<version>${seam.rest.version}</version> 
-	</dependency>
-
-<dependency> 
-		<groupId>org.jboss.seam.rest</groupId> 
-		<artifactId>seam-rest-impl</artifactId> 
-		<version>${seam.rest.version}</version> 
+	<groupId>org.jboss.seam.rest</groupId> 
+	<artifactId>seam-rest</artifactId> 
+	<version>${seam.rest.version}</version> 
 </dependency>]]></programlisting>
         </example>
 
@@ -111,5 +105,31 @@ public class MyApplication extends Application
       return classes;
    }
 }]]></programlisting>
+    </sect1>
+
+    <sect1>
+        <title>Servlet container support</title>
+
+        <para>
+            Seam REST can be used with plain Servlet containers such as Apache Tomcat 7. Firstly, we need to enhance the
+            Servlet container
+            capabilities. This is done by bundling Weld and RESTEasy within the application and configuring
+            them. See the
+            jaxrs-exceptions example and its <literal>tomcat</literal> build profile for more details.
+        </para>
+
+        <para>
+            In a EE6-compliant environment, Seam REST would be bootstrapped by a Servlet listener. However,
+            <literal>weld-servlet</literal>
+            does not support CDI injection into Servlet listeners. Therefore, add the following line to your application's
+            <filename>web.xml</filename>
+            file to bootstrap Seam REST using Servlet.
+        </para>
+
+        <programlisting role="XML"><![CDATA[<servlet>
+        <display-name>Servlet REST Listener Startup</display-name>
+        <servlet-class>org.jboss.seam.rest.SeamRestStartupListener</servlet-class>
+        <load-on-startup>1</load-on-startup>
+</servlet>]]></programlisting>
     </sect1>
 </chapter>

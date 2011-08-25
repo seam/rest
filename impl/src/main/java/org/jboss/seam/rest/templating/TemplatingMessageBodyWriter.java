@@ -18,7 +18,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.exceptions.RestResource;
 

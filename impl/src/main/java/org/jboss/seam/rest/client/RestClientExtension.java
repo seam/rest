@@ -14,7 +14,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.ProcessBean;
 import javax.enterprise.inject.spi.ProcessManagedBean;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.util.Utils;
 import org.jboss.seam.solder.reflection.AnnotationInspector;
 

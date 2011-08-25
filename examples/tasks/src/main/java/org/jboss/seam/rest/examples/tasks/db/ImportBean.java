@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.examples.tasks.entity.Category;
 import org.jboss.seam.rest.examples.tasks.entity.Task;
 

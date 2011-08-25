@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.jboss.seam</groupId>
         <artifactId>seam-parent</artifactId>
-        <version>10</version>
+        <version>14</version>
     </parent>
 
     <groupId>org.jboss.seam.rest</groupId>
     <artifactId>seam-rest-parent</artifactId>
     <name>Seam REST Parent</name>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seam.version>3.0.0.Final</seam.version>
+        <seam.version>3.1.0.Beta2</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
         <jackson.version>1.6.1</jackson.version>
@@ -44,7 +44,6 @@
     <modules>
         <module>api</module>
         <module>impl</module>
-        <module>combined</module>
     </modules>
 
     <dependencyManagement>
@@ -60,12 +59,6 @@
             <dependency>
                 <groupId>org.jboss.seam.rest</groupId>
                 <artifactId>seam-rest-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.seam.rest</groupId>
-                <artifactId>seam-rest-impl</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

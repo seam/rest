@@ -24,4 +24,13 @@ public class VelocityResource {
     public Student students() {
         return new Student("Jozef Hartinger");
     }
+    
+    @Path("string")
+    @GET
+    @Produces("text/plain")
+    @ResponseTemplate("/string.vm")
+    public String string()
+    {
+        return "Jozef";
+    }
 }

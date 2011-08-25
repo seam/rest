@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.ExceptionToCatch;
 import org.jboss.seam.exception.control.Handles;
@@ -19,7 +19,6 @@ import org.jboss.seam.exception.control.TraversalMode;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 import org.jboss.seam.rest.exceptions.SeamExceptionMapper;
-import org.jboss.seam.rest.util.Interpolator;
 
 /**
  * A JAX-RS ExceptionMapper implementation that maps all exceptions (i.e., Throwable) raised during a JAX-RS request to the Seam
@@ -42,8 +41,6 @@ public class CatchExceptionMapper extends SeamExceptionMapper implements Excepti
     private Instance<Response> response;
     @Inject
     private Event<ExceptionToCatch> bridgeEvent;
-    @Inject
-    private Interpolator interpolator;
 
     private static final Logger log = Logger.getLogger(CatchExceptionMapper.class);
 
@@ -64,7 +61,7 @@ public class CatchExceptionMapper extends SeamExceptionMapper implements Excepti
         log.debugv("Handling {0}", exceptionType);
 
         if (getMappings().containsKey(exceptionType)) {
-            produceResponse(event.getException(), builder, interpolator);
+            produceResponse(event.getException(), builder);
             event.handled();
         } else {
             event.rethrow();

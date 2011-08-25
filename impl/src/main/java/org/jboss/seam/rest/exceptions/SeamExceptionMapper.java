@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
-import org.jboss.seam.rest.util.Interpolator;
 import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
+import org.jboss.seam.solder.el.Expressions;
 
 /**
  * This {@link ExceptionMapper} implementation converts caught exceptions to HTTP responses based on exception mapping rules.
@@ -41,7 +41,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable> {
     @RestResource
     private Instance<Response> response;
     @Inject
-    private Interpolator interpolator;
+    private Expressions expressions;
     @Inject
     private ValidationExceptionHandler validationExceptionHandler;
 
@@ -90,7 +90,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable> {
             Class<? extends Throwable> exceptionType = exception.getClass();
 
             if (mappings.containsKey(exceptionType)) {
-                produceResponse(exception, responseBuilder, interpolator);
+                produceResponse(exception, responseBuilder);
                 return response.get();
             }
 
@@ -107,21 +107,21 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable> {
         throw new UnhandledException(e);
     }
 
-    protected void produceResponse(Throwable exception, ResponseBuilder builder, Interpolator interpolator) {
+    protected void produceResponse(Throwable exception, ResponseBuilder builder) {
         Mapping mapping = mappings.get(exception.getClass());
         log.debugv("Found exception mapping {0} for {1}", mapping, exception.getClass());
 
         builder.status(mapping.getStatusCode());
 
         String message = createMessage(mapping.getMessage(), mapping.isInterpolateMessageBody(),
-                mapping.isUseExceptionMessage(), exception, interpolator);
+                mapping.isUseExceptionMessage(), exception, expressions);
         if (message != null) {
             builder.entity(createEntityBody(mapping, message));
         }
     }
 
     protected String createMessage(String message, boolean interpolate, boolean useExceptionMessage, Throwable e,
-                                   Interpolator interpolator) {
+                                   Expressions expressions) {
         String msg = message;
         if (msg == null || msg.length() == 0) {
             if (useExceptionMessage) {
@@ -132,7 +132,7 @@ public class SeamExceptionMapper implements ExceptionMapper<Throwable> {
         }
 
         if (interpolate && msg != null) {
-            return interpolator.interpolate(msg);
+            return expressions.evaluateValueExpression(msg, String.class);
         }
         return msg;
     }

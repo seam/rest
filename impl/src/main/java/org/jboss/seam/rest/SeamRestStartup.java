@@ -1,13 +1,11 @@
 package org.jboss.seam.rest;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.RestResource;
@@ -20,9 +18,11 @@ import org.jboss.seam.rest.templating.TemplatingMessageBodyWriter;
  *
  * @author <a href="mailto:jharting@redhat.com">Jozef Hartinger</a>
  */
-@WebListener
-public class SeamRestStartup implements ServletContextListener {
+@ApplicationScoped
+public class SeamRestStartup {
+    
     private static final Logger log = Logger.getLogger(SeamRestStartup.class);
+    
     @Inject
     private RestClientExtension restClientExtension;
     @Inject
@@ -35,10 +35,17 @@ public class SeamRestStartup implements ServletContextListener {
     @Inject
     @RestResource
     private Event<ServletContext> event;
+    
+    private boolean initialized = false;
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        event.fire(sce.getServletContext());
+    public synchronized void init(ServletContext sc)
+    {
+        if (initialized)
+        {
+            return;
+        }
+        
+        event.fire(sc);
 
         log.infov(
                 "Seam REST {0} (Client integration: {1}, Catch integration: {2}, {3} exception mapping rules, Templating provider: {4})",
@@ -46,9 +53,6 @@ public class SeamRestStartup implements ServletContextListener {
                 restClientExtension.isClientIntegrationEnabled() ? "enabled" : "disabled", exceptionMappingExtension
                         .isCatchIntegrationEnabled() ? "enabled" : "disabled", exceptionMapper.getMappings().size(), templating
                         .getProvider() == null ? "null" : templating.getProvider().toString());
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+        initialized = true;
     }
 }
