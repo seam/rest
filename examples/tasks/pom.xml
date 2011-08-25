@@ -51,17 +51,6 @@
         <dependency>
             <groupId>org.jboss.seam.config</groupId>
             <artifactId>seam-config-xml</artifactId>
-            <!-- Because we use the combined jar -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.seam.solder</groupId>
-                    <artifactId>seam-solder-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.seam.solder</groupId>
-                    <artifactId>seam-solder-impl</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -271,6 +260,12 @@
                                 <configuration>
                                     <useCache>false</useCache>
                                     <warSourceDirectory>src/main/jboss7</warSourceDirectory>
+                                    <!-- Workaround for SOLDER-119 -->
+                                    <archive>
+                                        <manifestEntries>
+                                            <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
+                                        </manifestEntries>
+                                    </archive>
                                 </configuration>
                             </execution>
                         </executions>
@@ -296,6 +291,12 @@
                                 <configuration>
                                     <useCache>false</useCache>
                                     <warSourceDirectory>src/main/velocity</warSourceDirectory>
+                                    <!-- Workaround for SOLDER-119 -->
+                                    <archive>
+                                        <manifestEntries>
+                                            <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
+                                        </manifestEntries>
+                                    </archive>
                                 </configuration>
                             </execution>
                         </executions>

@@ -29,7 +29,7 @@ $RESIN_HOME/bin/resin.sh start
 Build options
 ======================
 To turn on Seam Catch integration, use -Pcatch (e.g. mvn clean package -Pcatch)
-To use Apache Velocity instead of FreeMarker, use -Pvelociry (e.g. mvn clean package -Pvelocity)
+To use Apache Velocity instead of FreeMarker, use -Pvelocity (e.g. mvn clean package -Pvelocity)
 Build options can be combined and used during functional testsuite execution.
 
 Running functional test from command line

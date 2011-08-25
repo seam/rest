@@ -29,17 +29,6 @@
         <dependency>
             <groupId>org.jboss.seam.config</groupId>
             <artifactId>seam-config-xml</artifactId>
-            <!-- Because we use the combined jar -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.seam.solder</groupId>
-                    <artifactId>seam-solder-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.seam.solder</groupId>
-                    <artifactId>seam-solder-impl</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -70,6 +59,19 @@
     <build>
         <finalName>rest-exceptions</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!-- Workaround for SOLDER-119 -->
+                    <archive>
+                        <manifestEntries>
+                            <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <!-- no unit tests, surefire would instead run functional tests in incorrect phase -->
                 <groupId>org.apache.maven.plugins</groupId>
