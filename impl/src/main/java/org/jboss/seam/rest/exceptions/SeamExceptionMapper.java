@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;

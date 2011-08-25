@@ -17,11 +17,10 @@
     <url>http://seamframework.org/Seam3/RESTModule</url>
 
     <properties>
-        <arquillian.version>1.0.0.CR1</arquillian.version>
+        <jbossas7.version>7.0.1.Final</jbossas7.version>
         <jbossas6.version>6.1.0.Final</jbossas6.version>
-        <jbossas7.version>7.0.0.CR1</jbossas7.version>
         <jboss.osgi.version>1.0.27</jboss.osgi.version>
-        <arquillian.launch>jbossas7</arquillian.launch>
+        <arquillian.version>1.0.0.CR3</arquillian.version>
     </properties>
 
     <dependencies>
@@ -80,9 +79,15 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>${arquillian.version}</version>
             <scope>test</scope>
+            <version>${arquillian.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -128,12 +133,6 @@
                             <additionalClasspathElements>
                                 <additionalClasspathElement>${basedir}/target/lib</additionalClasspathElement>
                             </additionalClasspathElements>
-                            <systemProperties>
-                                <property>
-                                    <name>arquillian.launch</name>
-                                    <value>${arquillian.launch}</value>
-                                </property>
-                            </systemProperties>
                         </configuration>
                     </execution>
                 </executions>
@@ -246,20 +245,18 @@
             <properties>
                 <bindAddress>localhost</bindAddress>
                 <httpPort>8080</httpPort>
-                <arquillian.launch>jbossas6</arquillian.launch>
             </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.jbossas</groupId>
                     <artifactId>jboss-as-client</artifactId>
                     <type>pom</type>
-			<version>${jbossas6.version}</version>
+                    <version>${jbossas6.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-jbossas-managed-6</artifactId>
-                    <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -272,9 +269,6 @@
 
         <profile>
             <id>jbossas-remote-6</id>
-            <properties>
-                <arquillian.launch>jbossas6</arquillian.launch>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.jbossas</groupId>
@@ -286,7 +280,6 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-jbossas-remote-6</artifactId>
-                    <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -317,8 +310,13 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-glassfish-remote-3.1</artifactId>
-                    <version>${arquillian.version}</version>
                     <scope>test</scope>
+                </dependency>
+                <!-- Workaround for ARQ-543 -->
+                <dependency>
+                    <groupId>org.jboss.arquillian.testenricher</groupId>
+                    <artifactId>arquillian-testenricher-initialcontext</artifactId>
+                    <version>1.0.0.CR4</version>
                 </dependency>
                 <dependency>
                     <groupId>com.sun.jersey</groupId>

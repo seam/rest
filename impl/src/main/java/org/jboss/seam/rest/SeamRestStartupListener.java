@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServlet;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 
 /**
  * We also extend HttpServlet so that Seam REST can be bootstrapped by eagerly-loaded Servlet on Tomcat 7, where 

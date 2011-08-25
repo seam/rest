@@ -1,5 +1,7 @@
 package org.jboss.seam.rest.test.templating;
 
+import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -12,7 +14,9 @@ import org.junit.Test;
 public class DisabledTemplatingTest extends AbstractTemplatingTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        return createTestApplication().addAsLibrary(getSeamRest());
+        WebArchive war = createTestApplication().addAsLibrary(getSeamRest());
+        addJBossLoggingDependencyToManifest(war); // SOLDER-119
+        return war;
     }
 
     @Test
