@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -15,13 +16,17 @@
     <version>3.1.0-SNAPSHOT</version>
     <name>Seam REST Client Example</name>
     <url>http://seamframework.org/Seam3/RESTModule</url>
+    
+    <properties>
+        <weld.se.version>1.1.2.Final</weld.se.version>
+        <el.impl.version>1.0</el.impl.version>
+    </properties>
 
     <dependencies>
         <!-- APIs -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -29,11 +34,17 @@
             <artifactId>seam-rest</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>el-impl</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>${el.impl.version}</version>
+        </dependency>
+
         <!-- Runtime dependencies -->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se</artifactId>
-            <version>1.1.0.Final</version>
+            <version>${weld.se.version}</version>
         </dependency>
 
         <dependency>
