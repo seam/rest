@@ -2,17 +2,21 @@ package org.jboss.seam.rest.examples.tasks.test;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.rest.examples.tasks.ftest.AbstractPageTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test verifies XML representations created by FreeMarker or Apache Velocity.
  *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public class XmlRepresentationTest {
+@RunWith(Arquillian.class)
+public class XmlRepresentationTest extends AbstractPageTest {
     private HttpClient client = new HttpClient();
 
     private String getRepresentation(String url, String accept) throws Exception {

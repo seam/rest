@@ -1,12 +1,12 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+
 import java.net.URL;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
-
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 
 /**
  * Page object for the category page (categories.html)
@@ -30,10 +30,10 @@ public class CategoryPage extends AbstractPage {
 
     public void newCategory(String name) {
         selenium.type(NEW_CATEGORY_NAME, name);
-        waitXhr(selenium).click(NEW_CATEGORY_SUBMIT);
+        waitForXhr(selenium).click(NEW_CATEGORY_SUBMIT);
     }
 
     public void deleteCategory(String name) {
-        waitXhr(selenium).click(CATEGORY_DELETE_BUTTON.format(name));
+        waitForXhr(selenium).click(CATEGORY_DELETE_BUTTON.format(name));
     }
 }
