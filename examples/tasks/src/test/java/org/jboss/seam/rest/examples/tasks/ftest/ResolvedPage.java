@@ -2,11 +2,11 @@ package org.jboss.seam.rest.examples.tasks.ftest;
 
 import java.net.URL;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
 
 /**
  * Page object for the resolved tasks page (resolved.html)
@@ -29,16 +29,16 @@ public class ResolvedPage extends AbstractPage {
     }
 
     public void undoTask(int id) {
-        waitXhr(selenium).click(TASK_UNDO.format(id));
+        waitForXhr(selenium).click(TASK_UNDO.format(id));
     }
 
     public void next() {
-        waitXhr(selenium).click(NEXT_LINK);
+        waitForXhr(selenium).click(NEXT_LINK);
         waitForJQuery();
     }
 
     public void previous() {
-        waitXhr(selenium).click(PREVIOUS_LINK);
+        waitForXhr(selenium).click(PREVIOUS_LINK);
         waitForJQuery();
     }
 

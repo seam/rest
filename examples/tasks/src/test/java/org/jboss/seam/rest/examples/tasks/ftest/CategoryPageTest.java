@@ -1,21 +1,35 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import java.net.URL;
+
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the category page (categories.html)
  *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public class CategoryPageTest extends AbstractTestCase {
+@RunWith(Arquillian.class)
+public class CategoryPageTest extends AbstractPageTest {
     private CategoryPage page;
+    
+    @Drone
+    AjaxSelenium selenium;
 
-    @BeforeMethod
+    @ArquillianResource
+    URL contextPath;
+
+    @Before
     public void openCategoryPage() {
         if (page == null) {
             page = new CategoryPage(selenium, contextPath);

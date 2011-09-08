@@ -1,21 +1,32 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import java.net.URL;
+
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the resolved tasks page (resolved.html)
  *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public class ResolvedPageTest extends AbstractTestCase {
+public class ResolvedPageTest extends AbstractPageTest {
     private ResolvedPage page;
 
-    @BeforeMethod
+    @Drone
+    AjaxSelenium selenium;
+
+    @ArquillianResource
+    URL contextPath;
+    
+    @Before
     public void openResolvedPage() {
         if (page == null) {
             page = new ResolvedPage(selenium, contextPath);

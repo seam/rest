@@ -10,10 +10,11 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.logging.Logger;
 import org.jboss.seam.rest.examples.tasks.entity.Category;
 import org.jboss.seam.rest.examples.tasks.entity.Task;
+import org.jboss.seam.rest.util.Utils;
 
 /**
  * Database import
- *
+ * 
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 @Stateless
@@ -24,6 +25,14 @@ public class ImportBean {
     private EntityManager em;
 
     public void clearDatabase() {
+        // an ugly hack that resets db sequence on GlassFish so that our functional tests can depend on generated ids
+        if (Utils.isClassAvailable("org.eclipse.persistence.Version")) {
+            try {
+                em.createNativeQuery("update SEQUENCE set SEQ_COUNT = 0").executeUpdate();
+            } catch (Throwable e) {
+                log.debug("Unable to reset sequence", e);
+            }
+        }
         em.createQuery("delete from Task").executeUpdate();
         em.createQuery("delete from Category").executeUpdate();
     }

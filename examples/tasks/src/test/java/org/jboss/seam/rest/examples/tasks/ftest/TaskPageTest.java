@@ -1,22 +1,33 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import java.net.URL;
+
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the tasks page (tasks.html)
  *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public class TaskPageTest extends AbstractTestCase {
+public class TaskPageTest extends AbstractPageTest {
     private TaskPage page;
 
-    @BeforeMethod
+    @Drone
+    AjaxSelenium selenium;
+
+    @ArquillianResource
+    URL contextPath;
+    
+    @Before
     public void openTaskPage() {
         if (page == null) {
             page = new TaskPage(selenium, contextPath);
@@ -66,7 +77,7 @@ public class TaskPageTest extends AbstractTestCase {
         assertTrue(page.isTaskPresent(newCategory, id, name));
     }
 
-    @Test(enabled = false)
+    @Test
     // SEAMREST-13
     public void testRemovingTask() {
         assertTrue(page.isTaskPresent(4, "Learn new vocab for English conversations"));
@@ -80,6 +91,7 @@ public class TaskPageTest extends AbstractTestCase {
     public void testContent() {
         assertTrue(page.isCategoryPresent("School"));
         assertTrue(page.isCategoryPresent("Buy"));
+        assertTrue(page.isTaskPresent("School", 5));
         assertTrue(page.isTaskPresent("School", 5, "Prepare a presentation for webdesign seminar"));
         assertTrue(page.isTaskPresent("School", 3, "Finish the RESTEasy-Seam integration example"));
         assertTrue(page.isTaskPresent("School", 2, "Build the Turing machine"));

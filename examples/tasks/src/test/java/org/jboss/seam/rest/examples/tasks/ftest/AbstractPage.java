@@ -1,15 +1,18 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
-import java.net.MalformedURLException;
+import static org.jboss.arquillian.ajocado.Ajocado.attributePresent;
+import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+
 import java.net.URL;
 
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.waiting.Wait;
-import org.jboss.test.selenium.waiting.conditions.ElementPresent;
-
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import org.jboss.arquillian.ajocado.dom.Attribute;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.option.OptionLocatorFactory;
+import org.jboss.arquillian.ajocado.locator.option.OptionValueLocator;
+import org.jboss.arquillian.ajocado.utils.URLUtils;
 
 /**
  * This abstract page class contains common methods for all the pages.
@@ -21,7 +24,7 @@ public abstract class AbstractPage {
     public static final JQueryLocator CATEGORY_NAME = jq("#{0} .name");
     public static final JavaScript JQUERY_IDLE_CONNECTION = new JavaScript(
             "selenium.browserbot.getCurrentWindow().jQuery.active===0");
-    public static final JQueryLocator PAGE_INITIALIZED = jq("body[initialized=true]");
+    public static final JQueryLocator PAGE_INITIALIZED = jq("body");
 
     protected AjaxSelenium selenium;
     protected URL contextPath;
@@ -38,19 +41,15 @@ public abstract class AbstractPage {
     public abstract String getPageSuffix();
 
     public void reload() {
-        URL url;
-        try {
-            url = new URL(contextPath.toString() + getPageSuffix());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        
+        URL url =  URLUtils.buildUrl(contextPath, getPageSuffix());
 
         // firefox sometimes freezes, if that happens, let's give it two more tries
         for (int i = 0; i < 3; i++) {
             try {
                 selenium.open(url);
                 selenium.waitForPageToLoad();
-                Wait.waitSelenium().interval(1000).until(ElementPresent.getInstance().locator(PAGE_INITIALIZED));
+                waitAjax.interval(1000).until(attributePresent.locator(PAGE_INITIALIZED.getAttribute(new Attribute("initialized"))));
                 break;
             } catch (Exception e) {
                 continue;
@@ -88,5 +87,10 @@ public abstract class AbstractPage {
 
     public boolean isCategoryPresent(String name) {
         return selenium.isElementPresent(CATEGORY_NAME.format(name));
+    }
+    
+    protected OptionValueLocator createOptionValueLocator(String value)
+    {
+        return (OptionValueLocator) OptionLocatorFactory.optionValue(value);
     }
 }
