@@ -35,11 +35,12 @@ Build options can be combined and used during functional testsuite execution.
 Running functional tests
 ======================
 The following configurations are supported:
+mvn clean verify -Darquillian=jbossas-managed-6
+mvn clean verify -Darquillian=jbossas-managed-7
+mvn clean verify -Darquillian=glassfish-remote-3.1
+
 mvn clean verify -Pjbossas6 -Darquillian=jbossas-remote-6
-mvn clean verify -Pjbossas6 -Darquillian=jbossas-managed-6
 mvn clean verify -Pjbossas7 -Darquillian=jbossas-remote-7
-mvn clean verify -Pjbossas7 -Darquillian=jbossas-managed-7
-mvn clean verify -Pglassfish -Darquillian=glassfish-remote-3.1
 
 Note that you need to set the JBOSS_HOME environment variable properly for the managed configurations.
 Make sure that the application is not deployed before running the functional test.
