@@ -3,17 +3,17 @@ Seam Tasks Example
 
 Deploying to JBoss AS 7
 ======================
-mvn arquillian:run -Darquillian=jbossas-managed-7
+mvn clean package arquillian:run -Darquillian=jbossas-managed-7
 
 Deploying to JBoss AS 6
 ======================
-mvn arquillian:run -Darquillian=jbossas-managed-6
+mvn clean package arquillian:run -Darquillian=jbossas-managed-6
 
 Deploying to Glassfish
 ======================
 $GF_HOME/bin/asadmin start-domain
 $GF_HOME/bin/asadmin start-database
-mvn arquillian:run -Darquillian=glassfish-remote-3.1
+mvn clean package arquillian:run -Darquillian=glassfish-remote-3.1
 
 Deploying to Resin (not currently supported)
 ======================
