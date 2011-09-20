@@ -138,10 +138,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.jboss.arquillian.maven</groupId>
-                <artifactId>arquillian-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 
