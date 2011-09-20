@@ -1,24 +1,19 @@
 Seam Tasks Example
 ==============================================================
 
-Deploying to JBoss AS 6
-======================
-mvn clean package -Pjbossas6
-cp target/rest-tasks.war $JBOSS_HOME/server/default/deploy
-$JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
-
 Deploying to JBoss AS 7
 ======================
-mvn clean package
-$JBOSS_HOME/bin/jboss-admin.sh --connect
-deploy target/rest-tasks.war
+mvn arquillian:run -Darquillian=jbossas-managed-7
+
+Deploying to JBoss AS 6
+======================
+mvn arquillian:run -Darquillian=jbossas-managed-6
 
 Deploying to Glassfish
 ======================
-mvn clean package -Pglassfish
-$GF_HOME/bin/asadmin start-database
 $GF_HOME/bin/asadmin start-domain
-$GF_HOME/bin/asadmin deploy target/rest-tasks.war
+$GF_HOME/bin/asadmin start-database
+mvn arquillian:run -Darquillian=glassfish-remote-3.1
 
 Deploying to Resin (not currently supported)
 ======================
