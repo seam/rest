@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.jboss.seam</groupId>
         <artifactId>seam-parent</artifactId>
-        <version>14</version>
+        <version>15</version>
     </parent>
 
     <groupId>org.jboss.seam.rest</groupId>
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seam.version>3.1.0.Beta2</seam.version>
+        <seam.version>3.1.0.Beta3</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
         <jackson.version>1.6.1</jackson.version>
@@ -81,6 +81,13 @@
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
             </dependency>
+            
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>jaxrs-api</artifactId>
+                <version>2.3-beta-1</version>
+                <scope>provided</scope>
+            </dependency>            
 
             <dependency>
                 <groupId>org.apache.velocity</groupId>
@@ -232,53 +239,10 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>jboss-public-repository</id>
-            <!-- Repository is active unless explicitly disabled e.g. -P!jboss-public-repository -->
-            <activation>
-                <property>
-                    <name>jboss-public-repository</name>
-                    <value>!false</value>
-                </property>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>jboss-public-repository-group</id>
-                    <name>JBoss Public Maven Repository Group</name>
-                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>jboss-public-repository-group</id>
-                    <name>JBoss Public Maven Repository Group</name>
-                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
         <profile>
             <id>distribution</id>
             <activation>

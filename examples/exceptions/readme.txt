@@ -1,23 +1,18 @@
 Seam REST Exceptions Example
 ==============================================================
 
-Deploying to JBoss AS 6
-======================
-mvn clean package
-cp target/rest-exceptions.war $JBOSS_HOME/server/default/deploy
-$JBOSS_HOME/bin/run.sh -Djboss.i18n.generate-proxies=true
-
 Deploying to JBoss AS 7
 ======================
-mvn clean package
-$JBOSS_HOME/bin/jboss-admin.sh --connect
-deploy target/rest-exceptions.war
+mvn clean package arquillian:run -Darquillian=jbossas-managed-7
+
+Deploying to JBoss AS 6
+======================
+mvn clean package arquillian:run -Darquillian=jbossas-managed-6
 
 Deploying to Glassfish
 ======================
-mvn clean package
 $GF_HOME/bin/asadmin start-domain
-$GF_HOME/bin/asadmin deploy target/rest-exceptions.war
+mvn clean package arquillian:run -Darquillian=glassfish-remote-3.1
 
 Deploying to Tomcat 7
 ======================
@@ -26,5 +21,13 @@ deploy the generated archive
 
 Running tests
 ======================
-Deploy the application
-Run mvn clean verify (DO NOT run the ftest profile!)
+The following configurations are supported:
+mvn clean verify -Darquillian=jbossas-managed-6
+mvn clean verify -Darquillian=jbossas-managed-7
+mvn clean verify -Darquillian=glassfish-remote-3.1
+
+mvn clean verify -Pjbossas6 -Darquillian=jbossas-remote-6
+mvn clean verify -Pjbossas7 -Darquillian=jbossas-remote-7
+
+Note that you need to set the JBOSS_HOME environment variable properly for the managed configurations.
+Make sure that the application is not deployed before running the functional test.

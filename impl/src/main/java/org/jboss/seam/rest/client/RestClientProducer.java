@@ -9,14 +9,14 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.ClientErrorInterceptor;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.jboss.seam.solder.el.Expressions;
-import org.jboss.seam.solder.reflection.AnnotationInspector;
+import org.jboss.solder.el.Expressions;
+import org.jboss.solder.reflection.AnnotationInspector;
 
 /**
  * Produces REST Clients

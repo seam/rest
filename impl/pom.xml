@@ -29,8 +29,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.seam.solder</groupId>
-            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.solder</groupId>
+            <artifactId>solder-impl</artifactId>
             <scope>compile</scope>
         </dependency>
 
@@ -38,13 +38,6 @@
             <groupId>org.jboss.spec.javax.el</groupId>
             <artifactId>jboss-el-api_2.2_spec</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- Optional dependencies -->
-        <dependency>
-            <groupId>org.jboss.seam.catch</groupId>
-            <artifactId>seam-catch</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

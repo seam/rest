@@ -5,7 +5,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.exceptions.ExceptionMappingExtension;
 import org.jboss.seam.rest.exceptions.RestResource;

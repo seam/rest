@@ -10,8 +10,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.exception.control.CaughtException;
-import org.jboss.seam.exception.control.ExceptionStack;
+import org.jboss.solder.exception.control.CaughtException;
+import org.jboss.solder.exception.control.ExceptionStack;
 import org.jboss.seam.rest.exceptions.ResponseBuilderProducer;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;

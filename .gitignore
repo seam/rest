@@ -9,3 +9,6 @@ impl/test-output/
 examples/tasks/test-output/
 examples/tasks/temp-testng-customsuite.xml
 impl/coverage.ec
+transaction.log
+gitflow
+

@@ -1,15 +1,14 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
+import static org.jboss.arquillian.ajocado.Ajocado.elementPresent;
+import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+
 import java.net.URL;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.option.OptionLocator;
-import org.jboss.test.selenium.locator.option.OptionValueLocator;
-
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.jboss.test.selenium.locator.option.OptionLocatorFactory.optionValue;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 
 /**
  * Page object for the tasks page (tasks.html)
@@ -21,7 +20,8 @@ public class TaskPage extends AbstractPage {
     public static final JQueryLocator NEW_TASK_CATEGORY_SELECT = jq("#editTaskCategory");
     public static final JQueryLocator NEW_TASK_SUBMIT = jq("#editTaskSubmit");
     public static final JQueryLocator TASK_BY_NAME = jq(".name:contains('{0}')");
-    public static final JQueryLocator TASK_BY_ID_AND_CATEGORY = jq("#{0} ~ #{1}:first .name");
+//    public static final JQueryLocator TASK_BY_ID_AND_CATEGORY = jq("#{0} ~ #{1}:first .name");
+    public static final JQueryLocator TASK_BY_ID_AND_CATEGORY = jq("#{0} ~ #{1}");
 
     public static final JQueryLocator TASK_DONE_BUTTON = jq("#{0} img:first");
     public static final JQueryLocator TASK_DELETE_BUTTON = jq("#{0} img:last");
@@ -29,7 +29,6 @@ public class TaskPage extends AbstractPage {
     public static final JQueryLocator TASK_EDIT_FORM = jq("#{0} .updateTask");
     public static final JQueryLocator TASK_EDIT_NAME_FIELD = jq("#{0} .nameField");
     public static final JQueryLocator TASK_EDIT_CATEGORY_SELECT = jq("#{0} #editTaskCategory");
-    public static final OptionLocator<OptionValueLocator> TASK_CATEGORY_OPTION = optionValue("{0}");
 
     public static final JQueryLocator TASK_EDIT_UPDATE_BUTTON = jq("#{0} #update");
 
@@ -45,8 +44,9 @@ public class TaskPage extends AbstractPage {
 
     public void newTask(String name, String category) {
         selenium.type(NEW_TASK_NAME_FIELD, name);
-        selenium.select(NEW_TASK_CATEGORY_SELECT, TASK_CATEGORY_OPTION.format(category));
-        waitXhr(selenium).click(NEW_TASK_SUBMIT);
+        selenium.select(NEW_TASK_CATEGORY_SELECT, createOptionValueLocator(category));
+        waitForXhr(selenium).click(NEW_TASK_SUBMIT);
+        waitAjax.interval(1000).until(elementPresent.locator(TASK_BY_NAME.format(name)));
     }
 
     public boolean isTaskPresent(String taskName) {
@@ -63,7 +63,7 @@ public class TaskPage extends AbstractPage {
     }
 
     public void resolveTask(int id) {
-        waitXhr(selenium).click(TASK_DONE_BUTTON.format(id));
+        waitForXhr(selenium).click(TASK_DONE_BUTTON.format(id));
     }
 
     public void editTask(int id, String taskName, String categoryName) {
@@ -72,12 +72,12 @@ public class TaskPage extends AbstractPage {
         selenium.type(TASK_EDIT_NAME_FIELD.format(id), taskName);
         // for some reason we need to hit the select first
         selenium.isElementPresent(TASK_EDIT_CATEGORY_SELECT.format(id));
-        selenium.select(TASK_EDIT_CATEGORY_SELECT.format(id), TASK_CATEGORY_OPTION.format(categoryName));
-        waitXhr(selenium).click(TASK_EDIT_UPDATE_BUTTON.format(id));
+        selenium.select(TASK_EDIT_CATEGORY_SELECT.format(id), createOptionValueLocator(categoryName));
+        waitForXhr(selenium).click(TASK_EDIT_UPDATE_BUTTON.format(id));
     }
 
     public void removeTask(int id) {
-        waitXhr(selenium).click(TASK_DELETE_BUTTON.format(id));
+        waitForXhr(selenium).click(TASK_DELETE_BUTTON.format(id));
     }
 
     public boolean isEditFormPresent(int id) {

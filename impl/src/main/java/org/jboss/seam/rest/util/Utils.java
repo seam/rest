@@ -1,6 +1,6 @@
 package org.jboss.seam.rest.util;
 
-import org.jboss.seam.solder.reflection.Reflections;
+import org.jboss.solder.reflection.Reflections;
 
 public class Utils {
     /**
