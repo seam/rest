@@ -3,7 +3,7 @@ package org.jboss.seam.rest.examples.client.geo;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.examples.client.ConnectionException;
 import org.jboss.seam.rest.examples.client.StatusException;

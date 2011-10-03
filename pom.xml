@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.jboss.seam</groupId>
         <artifactId>seam-parent</artifactId>
-        <version>15-SNAPSHOT</version>
+        <version>15</version>
     </parent>
 
     <groupId>org.jboss.seam.rest</groupId>
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seam.version>3.1.0.Beta2</seam.version>
+        <seam.version>3.1.0.Beta3</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
         <jackson.version>1.6.1</jackson.version>
@@ -81,6 +81,13 @@
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
             </dependency>
+            
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>jaxrs-api</artifactId>
+                <version>2.3-beta-1</version>
+                <scope>provided</scope>
+            </dependency>            
 
             <dependency>
                 <groupId>org.apache.velocity</groupId>
@@ -232,7 +239,6 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

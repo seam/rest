@@ -2,9 +2,9 @@ package org.jboss.seam.rest.test.exceptions;
 
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.jboss.seam.exception.control.CaughtException;
-import org.jboss.seam.exception.control.Handles;
-import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.solder.exception.control.CaughtException;
+import org.jboss.solder.exception.control.Handles;
+import org.jboss.solder.exception.control.HandlesExceptions;
 import org.jboss.seam.rest.exceptions.RestRequest;
 import org.jboss.seam.rest.exceptions.RestResource;
 

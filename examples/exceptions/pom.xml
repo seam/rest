@@ -26,19 +26,10 @@
         </dependency>
 
         <!-- Runtime dependencies -->
-        <dependency>
-            <groupId>org.jboss.seam.config</groupId>
-            <artifactId>seam-config-xml</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.jboss.seam.rest</groupId>
             <artifactId>seam-rest</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.seam.catch</groupId>
-            <artifactId>seam-catch</artifactId>
         </dependency>
 
         <!-- Test dependencies -->

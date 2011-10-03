@@ -7,7 +7,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.seam.rest.client.RestClient;
 import org.jboss.seam.rest.examples.client.ConnectionException;
 import org.jboss.seam.rest.examples.client.tasks.spi.ReportResultEvent;

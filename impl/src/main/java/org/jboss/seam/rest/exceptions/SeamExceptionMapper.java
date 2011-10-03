@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.seam.rest.SeamRestConfiguration;
 import org.jboss.seam.rest.validation.ValidationException;
 import org.jboss.seam.rest.validation.ValidationExceptionHandler;
-import org.jboss.seam.solder.el.Expressions;
+import org.jboss.solder.el.Expressions;
 
 /**
  * This {@link ExceptionMapper} implementation converts caught exceptions to HTTP responses based on exception mapping rules.
