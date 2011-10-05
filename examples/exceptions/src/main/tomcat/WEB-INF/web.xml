@@ -37,7 +37,7 @@
     <!-- Seam Servlet Bootstrap -->
     <!-- We need to Bootstrap using Servlet since weld-servlet does not support injection into Servlet Listeners -->
     <servlet>
-        <display-name>Servlet REST Listener Startup</display-name>
+    	<servlet-name>rest-startup</servlet-name>
         <servlet-class>org.jboss.seam.rest.SeamRestStartupListener</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>

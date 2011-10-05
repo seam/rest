@@ -1,7 +1,5 @@
 package org.jboss.seam.rest.test.templating;
 
-import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -15,7 +13,6 @@ public class VelocityTest extends AbstractTemplatingTest {
         war.addAsLibraries(Dependencies.VELOCITY);
         war.addAsLibraries(Dependencies.VELOCITY_TOOLS);
         war.addAsLibrary(getSeamRest());
-        addJBossLoggingDependencyToManifest(war); // SOLDER-119
         return war;
     }
 

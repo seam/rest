@@ -1,7 +1,5 @@
 package org.jboss.seam.rest.test.templating;
 
-import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -14,7 +12,6 @@ public class FreeMarkerTest extends AbstractTemplatingTest {
         WebArchive war = createTestApplication();
         war.addAsLibraries(Dependencies.FREEMARKER);
         war.addAsLibrary(getSeamRest());
-        addJBossLoggingDependencyToManifest(war); // SOLDER-119
         return war;
     }
     @Test
