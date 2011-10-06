@@ -25,6 +25,7 @@ public abstract class AbstractPage {
     public static final JavaScript JQUERY_IDLE_CONNECTION = new JavaScript(
             "selenium.browserbot.getCurrentWindow().jQuery.active===0");
     public static final JQueryLocator PAGE_INITIALIZED = jq("body");
+    private static final String APP_NAME = "/rest-tasks/";
 
     protected AjaxSelenium selenium;
     protected URL contextPath;
@@ -42,7 +43,7 @@ public abstract class AbstractPage {
 
     public void reload() {
         
-        URL url =  URLUtils.buildUrl(contextPath, getPageSuffix());
+        URL url =  URLUtils.buildUrl(contextPath, APP_NAME + getPageSuffix());
 
         // firefox sometimes freezes, if that happens, let's give it two more tries
         for (int i = 0; i < 3; i++) {

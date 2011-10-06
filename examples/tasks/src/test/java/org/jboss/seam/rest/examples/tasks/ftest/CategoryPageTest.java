@@ -1,6 +1,9 @@
 package org.jboss.seam.rest.examples.tasks.ftest;
 
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -10,9 +13,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the category page (categories.html)
