@@ -36,5 +36,13 @@ public class SimpleAnalyzer {
         result.addResult("Number of unresolved tasks", String.valueOf(unresolvedTasks));
         result.addResult("Number of categories", String.valueOf(categories));
         result.addResult("Tasks per category", String.valueOf(((double) unresolvedTasks) / categories));
+        clear();
+    }
+    
+    private void clear()
+    {
+        resolvedTasks = 0;
+        unresolvedTasks = 0;
+        categories = 0;
     }
 }
