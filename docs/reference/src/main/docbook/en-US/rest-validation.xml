@@ -84,7 +84,7 @@ public void updateTask(Task incommingTask)
                 Validation provider. The exception can be
                 handled by an
                 <literal>ExceptionMapper</literal>
-                or Seam Catch handler.
+                or Solder exception handler.
 
             </para>
             <para>

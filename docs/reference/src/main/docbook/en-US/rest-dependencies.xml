@@ -67,7 +67,7 @@
 
             <note>
                 <para>
-                    Note that RESTEasy is provided on JBoss Application Server 6 and thus you
+                    Note that RESTEasy is provided on JBoss Application Server 6 and 7 and thus you
                     do not need to bundle it with the web application.
 				</para>
             </note>
