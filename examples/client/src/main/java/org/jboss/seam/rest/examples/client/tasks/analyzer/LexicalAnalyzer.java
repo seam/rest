@@ -38,7 +38,15 @@ public class LexicalAnalyzer {
     public void reportResult(@Observes ReportResultEvent result) {
         List<Map.Entry<String, Long>> wordChart = new ArrayList<Map.Entry<String, Long>>(words.entrySet());
         Collections.sort(wordChart, new MapEntryValueComparator<String, Long>());
-        result.addResult("Most often used word:", wordChart.get(0).getKey());
+        if (wordChart.isEmpty())
+        {
+            result.addResult("Most often used word:", "there are not tasks");
+        }
+        else
+        {
+            result.addResult("Most often used word:", wordChart.get(0).getKey());
+        }
+        words.clear();
     }
 
     /**

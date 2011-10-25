@@ -10,8 +10,8 @@ Firstly, a client for the postal code search service is implemented.
 
 Secondly, the application is able to gather usage statistics from a running
 instance of the Seam REST Tasks example. To use this part, deploy the Tasks
-application to an application server to the default location (http://localhost:8080/seam-tasks)
+application to an application server to the default location (http://localhost:8080/rest-tasks)
 
 Running the example
 ===========================================
-Run the example by executing "mvn -Drun"
+Run the example by executing "mvn package -Drun"

@@ -1,7 +1,5 @@
 package org.jboss.seam.rest.test.exceptions;
 
-import static org.jboss.seam.rest.test.Dependencies.addJBossLoggingDependencyToManifest;
-
 import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -28,7 +26,6 @@ public class BuiltinExceptionMappingTest extends SeamRestClientTest {
         war.addClasses(Exception1.class, Exception2.class);
         war.addAsLibraries(Dependencies.SEAM_SOLDER);
         war.addAsLibraries(getSeamRest());
-        addJBossLoggingDependencyToManifest(war); // SOLDER-119
         return war;
     }
 

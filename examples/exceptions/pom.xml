@@ -9,10 +9,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.seam.rest</groupId>
     <artifactId>seam-rest-example-exceptions</artifactId>
     <packaging>war</packaging>
-    <version>3.1.0-SNAPSHOT</version>
     <name>Seam REST Exceptions Example</name>
     <url>http://seamframework.org/Seam3/RESTModule</url>
 
@@ -55,19 +53,6 @@
     <build>
         <finalName>rest-exceptions</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <!-- Workaround for SOLDER-119 -->
-                    <archive>
-                        <manifestEntries>
-                            <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <!-- no unit tests, surefire would instead run functional tests in incorrect phase -->
                 <groupId>org.apache.maven.plugins</groupId>
@@ -249,6 +234,23 @@
                 <dependency>
                     <groupId>org.jboss.seam.test</groupId>
                     <artifactId>glassfish-remote-3.1</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>openshift-express</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>openshift-express</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>openshift-express</artifactId>
                     <type>pom</type>
                     <scope>test</scope>
                 </dependency>

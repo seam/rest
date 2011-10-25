@@ -6,9 +6,6 @@
         <jta-data-source>jdbc/__default</jta-data-source>
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
-            <property name="eclipselink.create-ddl-jdbc-file-name" value="ddl-create.jdbc" />
-            <property name="eclipselink.drop-ddl-jdbc-file-name" value="ddl-drop.jdbc" />
-            <property name="eclipselink.ddl-generation.output-mode" value="both" />
         </properties>
     </persistence-unit>
 </persistence>

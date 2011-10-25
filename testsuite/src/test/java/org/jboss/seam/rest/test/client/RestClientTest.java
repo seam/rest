@@ -15,6 +15,7 @@ import org.jboss.seam.rest.client.RestClientExtension;
 import org.jboss.seam.rest.test.Dependencies;
 import org.jboss.seam.rest.test.SeamRestClientTest;
 import org.jboss.solder.bean.Beans;
+import org.jboss.solder.el.Expressions;
 import org.jboss.solder.literal.DefaultLiteral;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -39,7 +40,7 @@ public class RestClientTest {
         war.setWebXML("WEB-INF/web.xml");
         war.addAsLibrary(getSeamRest());
         war.addAsLibraries(Dependencies.SEAM_SOLDER);
-        addDependencyToManifest(war, "org.jboss.logging,org.jboss.logmanager,org.apache.httpcomponents"); // JBoss AS 7, SOLDER-119
+        addDependencyToManifest(war, "org.apache.httpcomponents"); // JBoss AS 7
         return war;
     }
 

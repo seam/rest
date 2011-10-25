@@ -16,41 +16,6 @@
         <title>Optional dependencies</title>
 
         <sect2>
-            <title>Seam Catch</title>
-
-            <para>
-                Seam Catch can be used for handling Java exceptions. For more information on using
-                Seam Catch with Seam REST, refer to
-                <xref linkend="rest.exception.mapping.catch" />
-            </para>
-
-            <programlisting role="XML"><![CDATA[<dependency>
-	<groupId>org.jboss.seam.catch</groupId>
-	<artifactId>seam-catch-api</artifactId>
-	<version>${seam.catch.version}</version>
-</dependency>
-<dependency>
-	<groupId>org.jboss.seam.catch</groupId>
-	<artifactId>seam-catch-impl</artifactId>
-	<version>${seam.catch.version}</version>
-</dependency>]]></programlisting>
-        </sect2>
-        <sect2>
-            <title>Seam Config</title>
-
-            <para>
-                Seam Config can be used to configure Seam REST using XML. For more information on using
-                Seam Config with Seam REST, refer to
-                <xref linkend="rest.exception.mapping.xml" />
-            </para>
-
-            <programlisting role="XML"><![CDATA[<dependency>
-	<groupId>org.jboss.seam.config</groupId>
-	<artifactId>seam-config-xml</artifactId>
-	<version>${seam.config.version}</version>
-</dependency>]]></programlisting>
-        </sect2>
-        <sect2>
             <title>FreeMarker</title>
 
             <para>
@@ -102,7 +67,7 @@
 
             <note>
                 <para>
-                    Note that RESTEasy is provided on JBoss Application Server 6 and thus you
+                    Note that RESTEasy is provided on JBoss Application Server 6 and 7 and thus you
                     do not need to bundle it with the web application.
 				</para>
             </note>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.jboss.seam</groupId>
         <artifactId>seam-parent</artifactId>
-        <version>15</version>
+        <version>16</version>
     </parent>
 
     <groupId>org.jboss.seam.rest</groupId>
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seam.version>3.1.0.Beta3</seam.version>
+        <seam.version>3.1.0.Beta4</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
         <jackson.version>1.6.1</jackson.version>
@@ -44,6 +44,7 @@
     <modules>
         <module>api</module>
         <module>impl</module>
+        <module>testsuite</module>
     </modules>
 
     <dependencyManagement>

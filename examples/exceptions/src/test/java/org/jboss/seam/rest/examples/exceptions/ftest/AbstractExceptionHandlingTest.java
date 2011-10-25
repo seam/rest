@@ -1,5 +1,8 @@
 package org.jboss.seam.rest.examples.exceptions.ftest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.net.URL;
 
@@ -13,9 +16,6 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 @RunWith(Arquillian.class)
 public abstract class AbstractExceptionHandlingTest {
     private HttpClient client = new HttpClient();
@@ -24,6 +24,7 @@ public abstract class AbstractExceptionHandlingTest {
     URL contextPath;
     
     public static final String ARCHIVE_NAME = "rest-exceptions.war";
+    public static final String CONTEXT_PATH = "/rest-exceptions/";
     public static final String BUILD_DIRECTORY = "target";
     
     @Deployment(testable = false)
@@ -37,7 +38,7 @@ public abstract class AbstractExceptionHandlingTest {
     }
 
     protected void checkResponse(String urlSuffix, String accept, int expectedStatus, String expectedBody) throws Exception {
-        String url = contextPath + urlSuffix;
+        String url = new URL(contextPath, CONTEXT_PATH  + urlSuffix).toString();
         GetMethod get = new GetMethod(url);
         get.setRequestHeader("Accept", accept);
         assertEquals(expectedStatus, client.executeMethod(get));

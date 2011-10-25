@@ -19,7 +19,7 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    integrate with Seam Catch and thus handle exceptions that occur in different parts of an application
+                    integrate with Solder exception handling framework and thus handle exceptions that occur in different parts of an application
                     uniformly;
 				</para>
             </listitem>
@@ -33,12 +33,12 @@
     </para>
 
     <sect1 id="rest.exception.mapping.catch">
-        <title>Seam Catch Integration</title>
+        <title>Solder Exception Handling Integration</title>
         <para>
-            Seam Catch handles exceptions within the Seam REST module:
+            Solder exception handling framework handles exceptions within the Seam REST module:
             as result, an exception that occurs during an
             invocation
-            of a JAX-RS service is routed through the Catch
+            of a JAX-RS service is routed through the Solder
             exception
             handling
             mechanism similar to the CDI event bus. This allows
@@ -56,7 +56,7 @@
 
         <example>
             <title>
-                Seam Catch Integration -
+                Solder Integration -
                 <literal>NoResultException</literal>
                 handler
             </title>
@@ -123,11 +123,9 @@ public class ExceptionHandler
         </para>
 
         <para>
-            Catch integration is optional and only enabled when Catch libraries
-            are available on classpath.
             For more information
-            on Seam Catch, refer to
-            <ulink url="http://docs.jboss.org/seam/3/catch/latest/reference/en-US/html/">Seam Catch reference documentation</ulink>
+            on Solder exception handling, refer to
+            <ulink url="http://docs.jboss.org/seam/3/solder/snapshot/reference/en-US/html/part5.html">Solder reference documentation</ulink>
             .
         </para>
     </sect1>
@@ -260,36 +258,18 @@ public MyApplication extends Application {]]></programlisting>
         <sect2 id="rest.exception.mapping.xml">
             <title>XML configuration</title>
             <para>
-                As an alternative to the annotation-based configuration, you can use the Seam Config module to configure the
+                As an alternative to the annotation-based configuration, you can use the configuration facilities provided by Solder to configure the
                 <literal>SeamRestConfiguration</literal>
                 class in XML.
             </para>
             <para>
-                First, add the Seam Config module to the
-                application. If you are
-                using maven, you can do this by specifying the
-                following dependency:
-		</para>
-
-            <example>
-                <title>Seam XML dependency added to the pom.xml file.</title>
-                <programlisting role="XML"><![CDATA[<dependency> 
-	<groupId>org.jboss.seam.config</groupId> 
-	<artifactId>seam-config-xml</artifactId> 
-	<version>${seam.config.version}</version> 
-</dependency>]]></programlisting>
-            </example>
-
-            <para>
-                For more information on the Seam Config module, refer to the
-                <ulink url="http://docs.jboss.org/seam/3/config/latest/reference/en-US/html_single/">Seam Config reference documentation</ulink>
+                For more information on how to use Solder for configuring beans, refer to the
+                <ulink url="http://docs.jboss.org/seam/3/solder/snapshot/reference/en-US/html/part4.html">Solder reference documentation</ulink>
                 .
                 Once you have added the Seam XML module, specify the configuration in the
                 <literal>seam-beans.xml</literal>
                 file, located in the
                 <literal>WEB-INF</literal>
-                or
-                <literal>META-INF</literal>
                 folder of the web archive.
             </para>
 
