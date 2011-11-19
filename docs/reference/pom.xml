@@ -4,7 +4,7 @@
 
     <groupId>org.jboss.seam.rest</groupId>
     <artifactId>seam-rest-reference-guide</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0.Beta5</version>
     <packaging>jdocbook</packaging>
     <name>Seam REST Reference Guide</name>
     <url>http://seamframework.org/Seam3/RESTModule</url>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.jboss.seam.rest</groupId>
         <artifactId>seam-rest-parent</artifactId>
-        <version>3.1.0-SNAPSHOT</version>
+        <version>3.1.0.Beta5</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
