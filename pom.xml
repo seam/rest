@@ -18,7 +18,7 @@
         <seam.version>3.1.0.Final</seam.version>
         <httpclient.version>3.1</httpclient.version>
         <testng.version>5.14.2</testng.version>
-        <jackson.version>1.6.1</jackson.version>
+        <jackson.version>1.9.0</jackson.version>
         <resteasy.version>2.1.0.GA</resteasy.version>
         <freemarker.version>2.3.16</freemarker.version>
         <velocity.version>1.7</velocity.version>
