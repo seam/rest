@@ -58,6 +58,12 @@
             <artifactId>jbosgi-spi</artifactId>
             <version>${jboss.osgi.version}</version>
             <scope>test</scope>
+            <exclusions>
+            	<exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
