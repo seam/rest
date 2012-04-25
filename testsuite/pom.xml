@@ -14,7 +14,7 @@
     <name>Seam REST Module Test Suite</name>
 
     <properties>
-        <jboss.osgi.version>1.0.27</jboss.osgi.version>
+        <jboss.osgi.version>3.0.1.Final</jboss.osgi.version>
     </properties>
 
     <dependencies>
