@@ -2,7 +2,7 @@ package org.jboss.seam.rest.test;
 
 import java.io.InputStream;
 
-import org.jboss.osgi.testing.ManifestBuilder;
+import org.jboss.osgi.spi.ManifestBuilder;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.asset.Asset;
